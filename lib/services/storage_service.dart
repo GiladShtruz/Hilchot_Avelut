@@ -12,8 +12,11 @@ class StorageService {
   late Box<Favorite> _favoritesBox;
   late Box<ReadingPosition> _readingPositionBox;
   late Box _settingsBox;
+  late Box<double> _chapterPositionsBox;
 
   bool _isInitialized = false;
+
+  static const String _chapterPositionsBoxName = 'chapter_positions';
 
   /// Initialize Hive and open boxes
   Future<void> init() async {
@@ -22,14 +25,19 @@ class StorageService {
     await Hive.initFlutter();
 
     // Register adapters
-    Hive.registerAdapter(FavoriteAdapter());
-    Hive.registerAdapter(ReadingPositionAdapter());
+    if (!Hive.isAdapterRegistered(0)) {
+      Hive.registerAdapter(FavoriteAdapter());
+    }
+    if (!Hive.isAdapterRegistered(1)) {
+      Hive.registerAdapter(ReadingPositionAdapter());
+    }
 
     // Open boxes
     _favoritesBox = await Hive.openBox<Favorite>(AppConstants.favoritesBox);
     _readingPositionBox =
         await Hive.openBox<ReadingPosition>(AppConstants.readingPositionBox);
     _settingsBox = await Hive.openBox(AppConstants.settingsBox);
+    _chapterPositionsBox = await Hive.openBox<double>(_chapterPositionsBoxName);
 
     _isInitialized = true;
   }
@@ -74,9 +82,30 @@ class StorageService {
     );
   }
 
+  // ============ Chapter Position Methods ============
+
+  /// Save scroll position for a specific chapter
+  Future<void> saveChapterPosition(String chapterId, double scrollPosition) async {
+    await _chapterPositionsBox.put(chapterId, scrollPosition);
+  }
+
+  /// Get scroll position for a specific chapter
+  double getChapterPosition(String chapterId) {
+    return _chapterPositionsBox.get(chapterId) ?? 0.0;
+  }
+
+  /// Get all saved chapter positions
+  Map<String, double> getAllChapterPositions() {
+    final positions = <String, double>{};
+    for (final key in _chapterPositionsBox.keys) {
+      positions[key as String] = _chapterPositionsBox.get(key) ?? 0.0;
+    }
+    return positions;
+  }
+
   // ============ Reading Position Methods ============
 
-  /// Save current reading position
+  /// Save current reading position (last opened chapter)
   Future<void> saveReadingPosition(String chapterId, double scrollPosition) async {
     final position = ReadingPosition(
       chapterId: chapterId,
@@ -115,6 +144,7 @@ class StorageService {
     await _favoritesBox.clear();
     await _readingPositionBox.clear();
     await _settingsBox.clear();
+    await _chapterPositionsBox.clear();
   }
 
   /// Close all boxes
@@ -122,5 +152,6 @@ class StorageService {
     await _favoritesBox.close();
     await _readingPositionBox.close();
     await _settingsBox.close();
+    await _chapterPositionsBox.close();
   }
 }

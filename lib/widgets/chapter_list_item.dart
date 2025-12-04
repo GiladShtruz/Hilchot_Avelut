@@ -7,12 +7,14 @@ class ChapterListItem extends StatelessWidget {
   final Chapter chapter;
   final VoidCallback onTap;
   final bool showDivider;
+  final bool hasProgress;
 
   const ChapterListItem({
     super.key,
     required this.chapter,
     required this.onTap,
     this.showDivider = true,
+    this.hasProgress = false,
   });
 
   @override
@@ -32,18 +34,26 @@ class ChapterListItem extends StatelessWidget {
                     width: 44,
                     height: 44,
                     decoration: BoxDecoration(
-                      color: AppTheme.primaryColor.withOpacity(0.1),
+                      color: hasProgress 
+                          ? AppTheme.accentColor.withOpacity(0.15)
+                          : AppTheme.primaryColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Center(
-                      child: Text(
-                        _getHebrewNumber(chapter.order),
-                        style: const TextStyle(
-                          color: AppTheme.primaryColor,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
+                      child: hasProgress
+                          ? const Icon(
+                              Icons.bookmark,
+                              color: AppTheme.accentColor,
+                              size: 22,
+                            )
+                          : Text(
+                              _getHebrewNumber(chapter.order),
+                              style: const TextStyle(
+                                color: AppTheme.primaryColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -52,9 +62,34 @@ class ChapterListItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          chapter.title,
-                          style: Theme.of(context).textTheme.titleMedium,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                chapter.title,
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ),
+                            if (hasProgress)
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.accentColor.withOpacity(0.15),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Text(
+                                  'בקריאה',
+                                  style: TextStyle(
+                                    color: AppTheme.accentColor,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                         if (chapter.description != null) ...[
                           const SizedBox(height: 4),
@@ -68,6 +103,7 @@ class ChapterListItem extends StatelessWidget {
                       ],
                     ),
                   ),
+                  const SizedBox(width: 8),
                   // Arrow icon
                   const Icon(
                     Icons.arrow_back_ios,

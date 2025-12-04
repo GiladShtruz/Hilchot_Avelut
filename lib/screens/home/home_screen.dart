@@ -54,7 +54,7 @@ class HomeScreen extends StatelessWidget {
               }
 
               return SliverToBoxAdapter(
-                child: _buildResumeCard(context, chapter, savedPosition),
+                child: _buildResumeCard(context, chapter, savedPosition.scrollPosition),
               );
             },
           ),
@@ -73,10 +73,16 @@ class HomeScreen extends StatelessWidget {
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 final chapter = chapters[index];
-                return ChapterListItem(
-                  chapter: chapter,
-                  showDivider: index < chapters.length - 1,
-                  onTap: () => _openChapter(context, chapter),
+                return Consumer<ReadingProvider>(
+                  builder: (context, readingProvider, child) {
+                    final hasProgress = readingProvider.hasChapterPosition(chapter.id);
+                    return ChapterListItem(
+                      chapter: chapter,
+                      showDivider: index < chapters.length - 1,
+                      hasProgress: hasProgress,
+                      onTap: () => _openChapter(context, chapter),
+                    );
+                  },
                 );
               },
               childCount: chapters.length,
@@ -94,7 +100,7 @@ class HomeScreen extends StatelessWidget {
   Widget _buildResumeCard(
     BuildContext context,
     Chapter chapter,
-    ReadingPosition position,
+    double scrollPosition,
   ) {
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -117,7 +123,7 @@ class HomeScreen extends StatelessWidget {
           onTap: () => _openChapter(
             context,
             chapter,
-            scrollPosition: position.scrollPosition,
+            scrollPosition: scrollPosition,
           ),
           borderRadius: BorderRadius.circular(16),
           child: Padding(
@@ -179,17 +185,22 @@ class HomeScreen extends StatelessWidget {
   void _openChapter(
     BuildContext context,
     Chapter chapter, {
-    double scrollPosition = 0,
+    double? scrollPosition,
   }) {
     final readingProvider = context.read<ReadingProvider>();
-    readingProvider.openChapter(chapter, scrollPosition: scrollPosition);
+    
+    // Get saved position for this chapter if no specific position provided
+    final savedPosition = scrollPosition ?? 
+        readingProvider.getChapterPosition(chapter.id);
+    
+    readingProvider.openChapter(chapter, scrollPosition: savedPosition);
 
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ReaderScreen(
           chapter: chapter,
-          initialScrollPosition: scrollPosition,
+          initialScrollPosition: savedPosition,
         ),
       ),
     );

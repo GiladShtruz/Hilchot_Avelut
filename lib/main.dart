@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'app.dart';
 import 'services/storage_service.dart';
+import 'services/search_service.dart';
 
 void main() async {
   // Ensure Flutter is initialized
@@ -25,6 +26,9 @@ void main() async {
 
   // Initialize storage service
   await StorageService.instance.init();
+
+  // Preload search content in background
+  SearchService.instance.preloadContent();
 
   // Run the app
   runApp(const AvelutHalachaApp());

@@ -24,17 +24,54 @@ class ReaderScreen extends StatefulWidget {
   State<ReaderScreen> createState() => _ReaderScreenState();
 }
 
-class _ReaderScreenState extends State<ReaderScreen> {
+class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver {
   late WebViewController _webViewController;
   bool _isLoading = true;
   double _currentScrollPosition = 0;
-  String? _selectedText;
+  bool _hasScrolledToInitial = false;
+
+  // Save reference to provider to use in dispose
+  late ReadingProvider _readingProvider;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _currentScrollPosition = widget.initialScrollPosition;
     _initWebView();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Save reference to provider here (safe to use in dispose)
+    _readingProvider = context.read<ReadingProvider>();
+  }
+
+  @override
+  void dispose() {
+    // Use saved reference instead of context.read
+    _readingProvider.saveChapterPosition(
+      widget.chapter.id,
+      _currentScrollPosition,
+    );
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {
+      _saveCurrentPosition();
+    }
+  }
+
+  void _saveCurrentPosition() {
+    _readingProvider.saveChapterPosition(
+      widget.chapter.id,
+      _currentScrollPosition,
+    );
   }
 
   void _initWebView() {
@@ -45,7 +82,6 @@ class _ReaderScreenState extends State<ReaderScreen> {
         NavigationDelegate(
           onPageFinished: (_) => _onPageLoaded(),
           onNavigationRequest: (request) {
-            // Prevent external navigation
             if (request.url.startsWith('http')) {
               return NavigationDecision.prevent;
             }
@@ -65,15 +101,14 @@ class _ReaderScreenState extends State<ReaderScreen> {
 
   Future<void> _loadHtmlContent() async {
     try {
-      final htmlContent = await rootBundle.loadString(
+      var htmlContent = await rootBundle.loadString(
         'assets/html/${widget.chapter.htmlFileName}',
       );
 
-      // Inject scroll tracking and communication scripts
-      final modifiedHtml = _injectScripts(htmlContent);
-      
+      htmlContent = _injectScripts(htmlContent);
+
       await _webViewController.loadHtmlString(
-        modifiedHtml,
+        htmlContent,
         baseUrl: 'about:blank',
       );
     } catch (e) {
@@ -87,9 +122,13 @@ class _ReaderScreenState extends State<ReaderScreen> {
   }
 
   String _injectScripts(String html) {
+    // Add padding at the bottom for FAB and extra space
+    const bottomPadding = '''
+    <div style="height: 120px;"></div>
+    ''';
+
     final scripts = '''
     <script>
-      // Track scroll position
       let scrollTimeout;
       window.addEventListener('scroll', function() {
         clearTimeout(scrollTimeout);
@@ -101,102 +140,49 @@ class _ReaderScreenState extends State<ReaderScreen> {
         }, 100);
       });
 
-      // Track text selection
-      document.addEventListener('selectionchange', function() {
-        const selection = window.getSelection();
-        if (selection && selection.toString().trim()) {
-          FlutterChannel.postMessage(JSON.stringify({
-            type: 'selection',
-            text: selection.toString().trim()
-          }));
-        }
-      });
-
-      // Function to scroll to position
       function scrollToPosition(position) {
-        window.scrollTo({
-          top: position,
-          behavior: 'instant'
-        });
+        window.scrollTo({ top: position, behavior: 'instant' });
       }
 
-      // Function to highlight search query
       function highlightText(query) {
         if (!query) return;
-        
-        const walker = document.createTreeWalker(
-          document.body,
-          NodeFilter.SHOW_TEXT,
-          null,
-          false
-        );
-
+        const escapedQuery = query.replace(/[.*+?^&{}()|[\\]\\\\]/g, '\\\\&');
+        const regex = new RegExp('(' + escapedQuery + ')', 'gi');
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
         const textNodes = [];
         while (walker.nextNode()) textNodes.push(walker.currentNode);
-
+        
         textNodes.forEach(node => {
-          const text = node.textContent;
-          const index = text.toLowerCase().indexOf(query.toLowerCase());
-          if (index >= 0) {
+          if (regex.test(node.textContent)) {
             const span = document.createElement('span');
-            span.innerHTML = 
-              text.substring(0, index) +
-              '<mark style="background-color: #FFF9C4; padding: 2px;">' +
-              text.substring(index, index + query.length) +
-              '</mark>' +
-              text.substring(index + query.length);
+            span.innerHTML = node.textContent.replace(regex, '<mark style="background:#FFF9C4;padding:2px;">''' + r'$1' + '''</mark>');
             node.parentNode.replaceChild(span, node);
           }
         });
 
-        // Scroll to first highlight
         const firstMark = document.querySelector('mark');
-        if (firstMark) {
-          firstMark.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }
-
-      // Get text around current scroll position for preview
-      function getTextAtPosition() {
-        const elements = document.elementsFromPoint(
-          window.innerWidth / 2,
-          window.innerHeight / 3
-        );
-        
-        for (const el of elements) {
-          if (el.textContent && el.textContent.trim().length > 10) {
-            const text = el.textContent.trim().substring(0, 100);
-            FlutterChannel.postMessage(JSON.stringify({
-              type: 'textPreview',
-              text: text
-            }));
-            return;
-          }
-        }
+        if (firstMark) firstMark.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     </script>
     ''';
 
-    // Insert scripts before closing body tag
     if (html.contains('</body>')) {
-      return html.replaceFirst('</body>', '$scripts</body>');
-    } else {
-      return '$html$scripts';
+      return html.replaceFirst('</body>', '$bottomPadding$scripts</body>');
     }
+    return '$html$bottomPadding$scripts';
   }
 
   void _onPageLoaded() async {
     setState(() => _isLoading = false);
 
-    // Scroll to initial position
-    if (widget.initialScrollPosition > 0) {
+    if (!_hasScrolledToInitial && widget.initialScrollPosition > 0) {
+      _hasScrolledToInitial = true;
       await Future.delayed(const Duration(milliseconds: 100));
       await _webViewController.runJavaScript(
         'scrollToPosition(${widget.initialScrollPosition})',
       );
     }
 
-    // Highlight search query if present
     if (widget.searchQuery != null && widget.searchQuery!.isNotEmpty) {
       await _webViewController.runJavaScript(
         'highlightText("${widget.searchQuery}")',
@@ -206,44 +192,15 @@ class _ReaderScreenState extends State<ReaderScreen> {
 
   void _handleJsMessage(String message) {
     try {
-      final data = _parseJson(message);
-      
-      switch (data['type']) {
-        case 'scroll':
-          _currentScrollPosition = (data['position'] as num).toDouble();
-          context.read<ReadingProvider>().updateScrollPosition(_currentScrollPosition);
-          break;
-        case 'selection':
-          _selectedText = data['text'] as String;
-          break;
-        case 'textPreview':
-          // Used when adding to favorites
-          break;
+      if (message.contains('"type":"scroll"')) {
+        final match = RegExp(r'"position":(\d+\.?\d*)').firstMatch(message);
+        if (match != null) {
+          _currentScrollPosition = double.parse(match.group(1)!);
+        }
       }
     } catch (e) {
       // Ignore parsing errors
     }
-  }
-
-  Map<String, dynamic> _parseJson(String json) {
-    // Simple JSON parser for our use case
-    final result = <String, dynamic>{};
-    final cleaned = json.replaceAll('{', '').replaceAll('}', '');
-    final pairs = cleaned.split(',');
-    
-    for (final pair in pairs) {
-      final keyValue = pair.split(':');
-      if (keyValue.length == 2) {
-        final key = keyValue[0].trim().replaceAll('"', '');
-        var value = keyValue[1].trim().replaceAll('"', '');
-        
-        // Try to parse as number
-        final numValue = num.tryParse(value);
-        result[key] = numValue ?? value;
-      }
-    }
-    
-    return result;
   }
 
   @override
@@ -256,7 +213,10 @@ class _ReaderScreenState extends State<ReaderScreen> {
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_forward),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            _saveCurrentPosition();
+            Navigator.pop(context);
+          },
         ),
         actions: [
           IconButton(
@@ -266,20 +226,24 @@ class _ReaderScreenState extends State<ReaderScreen> {
           ),
         ],
       ),
-      body: Stack(
-        children: [
-          WebViewWidget(controller: _webViewController),
-          if (_isLoading)
-            Container(
-              color: AppTheme.backgroundColor,
-              child: const Center(
-                child: CircularProgressIndicator(
-                  color: AppTheme.primaryColor,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            WebViewWidget(controller: _webViewController),
+            if (_isLoading)
+              Container(
+                color: AppTheme.backgroundColor,
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    color: AppTheme.primaryColor,
+                  ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
+      // FAB on the right side (start in RTL)
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: _buildFab(),
     );
   }
@@ -287,49 +251,29 @@ class _ReaderScreenState extends State<ReaderScreen> {
   Widget? _buildFab() {
     if (_isLoading) return null;
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // Scroll to top
-        FloatingActionButton.small(
-          heroTag: 'scrollTop',
-          backgroundColor: Colors.white,
-          onPressed: () {
-            _webViewController.runJavaScript('window.scrollTo({top: 0, behavior: "smooth"})');
-          },
-          child: const Icon(
-            Icons.keyboard_arrow_up,
-            color: AppTheme.primaryColor,
-          ),
-        ),
-        const SizedBox(height: 8),
-        // Add to favorites
-        FloatingActionButton(
-          heroTag: 'addFavorite',
-          onPressed: _addToFavorites,
-          child: const Icon(Icons.bookmark_add),
-        ),
-      ],
+    return FloatingActionButton.small(
+      heroTag: 'scrollTop',
+      backgroundColor: Colors.white,
+      elevation: 4,
+      onPressed: () {
+        _webViewController.runJavaScript(
+          'window.scrollTo({top: 0, behavior: "smooth"})',
+        );
+      },
+      child: const Icon(
+        Icons.keyboard_arrow_up,
+        color: AppTheme.primaryColor,
+      ),
     );
   }
 
   Future<void> _addToFavorites() async {
-    // Get text preview
-    await _webViewController.runJavaScript('getTextAtPosition()');
-    
-    // Small delay to receive the text preview
-    await Future.delayed(const Duration(milliseconds: 200));
-
-    if (!mounted) return;
-
     final favoritesProvider = context.read<FavoritesProvider>();
-    
-    // Show dialog to confirm or add custom name
+
     final result = await showDialog<Map<String, dynamic>>(
       context: context,
       builder: (context) => _AddFavoriteDialog(
         chapterTitle: widget.chapter.title,
-        textPreview: _selectedText,
       ),
     );
 
@@ -338,7 +282,6 @@ class _ReaderScreenState extends State<ReaderScreen> {
         chapterId: widget.chapter.id,
         chapterTitle: widget.chapter.title,
         scrollPosition: _currentScrollPosition,
-        textPreview: _selectedText,
         customTitle: result['customTitle'] as String?,
       );
 
@@ -352,15 +295,10 @@ class _ReaderScreenState extends State<ReaderScreen> {
   }
 }
 
-/// Dialog for adding a favorite with optional custom title
 class _AddFavoriteDialog extends StatefulWidget {
   final String chapterTitle;
-  final String? textPreview;
 
-  const _AddFavoriteDialog({
-    required this.chapterTitle,
-    this.textPreview,
-  });
+  const _AddFavoriteDialog({required this.chapterTitle});
 
   @override
   State<_AddFavoriteDialog> createState() => _AddFavoriteDialogState();
@@ -386,8 +324,8 @@ class _AddFavoriteDialogState extends State<_AddFavoriteDialog> {
           Text(
             widget.chapterTitle,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppTheme.primaryColor,
-                ),
+              color: AppTheme.primaryColor,
+            ),
           ),
           const SizedBox(height: 16),
           TextField(
@@ -398,27 +336,6 @@ class _AddFavoriteDialogState extends State<_AddFavoriteDialog> {
             ),
             textDirection: TextDirection.rtl,
           ),
-          if (widget.textPreview != null) ...[
-            const SizedBox(height: 12),
-            Text(
-              'טקסט נבחר:',
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-            const SizedBox(height: 4),
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: AppTheme.backgroundColor,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Text(
-                widget.textPreview!,
-                style: Theme.of(context).textTheme.bodySmall,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ],
         ],
       ),
       actions: [

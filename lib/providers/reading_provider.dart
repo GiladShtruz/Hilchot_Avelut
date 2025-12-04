@@ -11,6 +11,9 @@ class ReadingProvider extends ChangeNotifier {
   double _currentScrollPosition = 0;
   bool _isLoading = false;
 
+  // Cache of scroll positions for each chapter
+  final Map<String, double> _chapterPositions = {};
+
   /// Currently open chapter
   Chapter? get currentChapter => _currentChapter;
 
@@ -25,6 +28,11 @@ class ReadingProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
+    // Load all saved chapter positions
+    final allPositions = _storage.getAllChapterPositions();
+    _chapterPositions.addAll(allPositions);
+
+    // Load last reading position
     final lastPosition = _storage.getLastReadingPosition();
     if (lastPosition != null) {
       _currentChapter = ChaptersData.getChapterById(lastPosition.chapterId);
@@ -35,10 +43,35 @@ class ReadingProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Open a chapter
-  void openChapter(Chapter chapter, {double scrollPosition = 0}) {
-    _currentChapter = chapter;
+  /// Get saved scroll position for a specific chapter
+  double getChapterPosition(String chapterId) {
+    return _chapterPositions[chapterId] ?? 0.0;
+  }
+
+  /// Save scroll position for a specific chapter
+  Future<void> saveChapterPosition(String chapterId, double scrollPosition) async {
+    _chapterPositions[chapterId] = scrollPosition;
+    await _storage.saveChapterPosition(chapterId, scrollPosition);
+
+    // Always update global last position for this chapter
     _currentScrollPosition = scrollPosition;
+    _currentChapter = ChaptersData.getChapterById(chapterId);
+    await _storage.saveReadingPosition(chapterId, scrollPosition);
+
+    notifyListeners();
+  }
+
+  /// Open a chapter - retrieves saved position if available
+  void openChapter(Chapter chapter, {double? scrollPosition}) {
+    _currentChapter = chapter;
+
+    // Use provided position, or saved position, or 0
+    if (scrollPosition != null && scrollPosition > 0) {
+      _currentScrollPosition = scrollPosition;
+    } else {
+      _currentScrollPosition = _chapterPositions[chapter.id] ?? 0.0;
+    }
+
     _saveCurrentPosition();
     notifyListeners();
   }
@@ -46,7 +79,6 @@ class ReadingProvider extends ChangeNotifier {
   /// Update scroll position
   void updateScrollPosition(double position) {
     _currentScrollPosition = position;
-    _saveCurrentPosition();
     // Don't notify listeners for every scroll update to avoid performance issues
   }
 
@@ -99,5 +131,11 @@ class ReadingProvider extends ChangeNotifier {
   /// Get saved reading position info
   ReadingPosition? get savedPosition {
     return _storage.getLastReadingPosition();
+  }
+
+  /// Check if a chapter has a saved position
+  bool hasChapterPosition(String chapterId) {
+    return _chapterPositions.containsKey(chapterId) &&
+        _chapterPositions[chapterId]! > 0;
   }
 }
