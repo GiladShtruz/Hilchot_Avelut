@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<h1 class="chapter-title">חלק ראשון – התארגנות</h1>
+<h2 class="section-title">בן משפחה נפטר – מה עושים?</h2>
+<p>ההודעה על פטירת קרוב משפחה גורמת כאב וצער רב. ההרגשה הטבעית היא של זעזוע, סערת רגשות ומבוכה, הגורמים לעתים צורך בהתכנסות פנימה. ואולם מאידך, על בני המשפחה לדאוג מייד לסידורי הלוויה והקבורה. ההלכה היהודית ראתה בטיפול בנפטר צורך מיידי וחיוני, עד כדי הגדרה הלכתית של מצב "אנינות", הפוטר למעשה את הקרובים האוננים מכל המצוות שבתורה, כדי שיוכלו להתמסר ולטפל בנפטר ובצרכיו באופן מוחלט.</p>
+<p>בשורות הבאות ננסה לתת הדרכה מעשית לכך.</p>
+<h3 class="subsection-title">רישוי מנהלי<span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span></h3>
+<p>לצורך הרישוי המנהלי יש לדאוג לפרטים הבאים:</p>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">הודעת פטירה חתומה על ידי רופא.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">תעודת זהות של הנפטר</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">אישור המשטרה <span style="font-size: 0.75rem">(רק בפטירה מחוץ לבית החולים)</span></span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">רשיון קבורה</span></div>
+<h4 class="sub-subsection-title">הודעת פטירה</h4>
+<p>במקרה של פטירה בבית יש להזמין רופא לשם קביעת המוות והכנת הודעת פטירה. הודעת הפטירה החתומה בידי רופא, היא מסמך רשמי של מדינת ישראל. כאשר שהה הנפטר בבית החולים בעת הפטירה, תינתן ההודעה על ידי בית החולים. מחוץ לבית החולים תינתן ההודעה בדרך כלל על ידי רופא מגן דוד אדום שקבע את הפטירה או על ידי רופא המשפחה. </p>
+<p>כדי לקבל רשיון קבורה יש צורך ב<strong>הודעת הפטירה - בשלושה העתקים</strong>, וכן ב<strong>תעודת הזהות </strong>של הנפטר. <span style="font-size: 0.75rem">אם תעודת הזהות אינה זמינה, אפשר לנסות לקבל </span><span style="font-size: 0.75rem">רשיון</span><span style="font-size: 0.75rem"> קבורה גם בלעדיה. </span></p>
+<p>אין לקבור ללא רשיון קבורה. </p>
+<h4 class="sub-subsection-title">אישור המשטרה</h4>
+<p>במקרים של תאונה או של חשד למוות לא טבעי, יש לקבל גם את <strong>אישור המשטרה</strong>. הנוהל הוא נוהל קבוע על פי חוק. תפקיד המשטרה הוא לוודא כיצד נפטר האדם. לאחר בירור קצר יחסית אמור להנתן אישור המשטרה לקבורה.</p>
+<p>עותק אחד מהודעת הפטירה יימסר למשטרה, ושניים ישארו אצל המשפחה.</p>
+<h4 class="sub-subsection-title">רשיון קבורה</h4>
+<p>רשיון קבורה מקבלים<strong> במשרד הבריאות המחוזי</strong>. מחוץ לשעות הקבלה יש לפנות ל<strong>רופא התורן </strong>של משרד הבריאות. אפשר וכדאי להיעזר בחברה קדישא. <strong>בבתי החולים הממשלתיים</strong> אמור רשיון הקבורה להימסר למשפחה <strong>במשרד לקבלת חולים </strong>כיון שבית חולים ממשלתי שייך למשרד הבריאות. במקרה של פטירה מחוץ לבית החולים, תצטרך המשפחה להוציא את רשיון הקבורה בעצמה. יש מקומות שבהם ה<strong>חברה קדישא </strong>מטפלת גם בהוצאת רשיון הקבורה.</p>
+<p style="font-size: 0.85rem">לעתים מועבר הנפטר למכון לרפואה משפטית. לאחר שחרור גופת הנפטר, יתן המכון רשיון קבורה. ככלל, יש למשפחה זכות להתנגד לנתיחה אם אין צו של בית משפט הדורש נתיחה זו<span class="footnote-ref" onclick="showFootnote('2', '2', event)">2</span>.</p>
+<h4 class="sub-subsection-title">תעודת פטירה</h4>
+<p style="font-size: 0.85rem">אם כבר הגעתם למשרד הבריאות, יתכן שיש בידם טופס בקשה ל<strong>תעודת פטירה ממשרד הפנים. </strong>אם הטופס בידכם – מלאו אותו במקום, ותעודת הפטירה תגיע לביתכם בדואר. בדרך כלל יש לפנות למשרד הפנים כדי לקבל תעודה זו. שימו לב - תעודת הפטירה הרשמית של משרד הפנים מיועדת לצרכי ירושה ועיזבון, אין בה צורך לשם הקבורה.</p>
+<p><strong>רשימת מדורי </strong><strong>רשיונות</strong><strong> קבורה של משרד הבריאות מובאת בהמשך הספר בעמוד @</strong></p>
+<h3 class="subsection-title">התיאום עם החברה קדישא</h3>
+<h4 class="sub-subsection-title">מיקום הקבר ושעת הלוויה</h4>
+<p>יש להתקשר אל אחת מחברות הקדישא ולתאם את <strong>מיקום הקבר</strong>. צריך לדעת שישנן חלקות שונות, לפי העדות השונות, לכהנים וכו'. אף על פי שהקבורה אינה כרוכה בתשלום (כמו שיפורט לקמן), ישנן חלקות מיוחדות שצריך לשלם בעבורן, וישנם גם תעריפים שונים. יש לקבל מידע מדויק על סוג הקבר (רגיל, קומות, כוכים, זוגי), מחירו, ואפשרות הגישה אליו. כדאי לברר מראש את האפשרויות השונות והמחירים השונים כדי להימנע מאי הבנות.</p>
+<p>גם קביעת <strong>שעת הלוויה</strong> צריכה להיות בתיאום מדוקדק עם החברה קדישא. השיקול המרכזי בקביעת זמן הלוויה הוא <strong>כבוד הנפטר</strong>. מחד גיסא, כבודו הוא להשתדל לקברו סמוך ככל האפשר לזמן הפטירה; מאידך גיסא, כבודו הוא שרבים ילווהו בדרכו האחרונה, ובמיוחד בני משפחתו הקרובים. </p>
+<p>יש לקחת בחשבון זמן סביר להודעה על הפטירה והלוויה, להתארגנות ולהגעת המלווים. במיוחד יש להתחשב במשפחת הנפטר, לכן אם יש בן משפחה בדרגה קרובה בחוץ לארץ, לעתים ממתינים לו וקובעים את זמן הלוויה בהתאם לכך<span class="footnote-ref" onclick="showFootnote('3', '3', event)">3</span>.</p>
+<p>עיקרון הלכתי שמשתדלים להקפיד עליו במיוחד בירושלים הוא <strong>שלא להלין את המת</strong>, כלומר שלא יעבור עליו לילה ללא קבורה<span class="footnote-ref" onclick="showFootnote('4', '4', event)">4</span>. לעתים קשה לקיים עיקרון זה, במיוחד אם הפטירה היתה בשעות אחר הצהרים או הערב, בכל אופן יש משפחות וחברות קדישא המעדיפות להקפיד על עיקרון זה גם אז. </p>
+<p>בקביעת שעת הלוויה יש להביא בחשבון שאם הקבורה תהיה לפני השקיעה, זה נחשב ליום שלם מבחינת השבעה<span class="footnote-ref" onclick="showFootnote('5', '5', event)">5</span>. זו סיבה נוספת להקדים את הלוויה כך שתסתיים לפני השקיעה ולא לאחריה<span class="footnote-ref" onclick="showFootnote('6', '6', event)">6</span>. </p>
+<p>יש לזכור שגם החברה קדישא צריכה זמן להכנות ללוויה ולקבורה. טהרת הנפטר לוקחת זמן, וכן חפירת הקבר, והסעת הנפטר. בערים הגדולות יש כמה קבורות בו ביום. כדי שגם החברה קדישא תוכל להתארגן בהתאם, אין להחליט ולפרסם שעת קבורה ללא תיאום עם החברה קדישא.</p>
+<p><strong>רשימה ארצית של כל חברות קדישא מובאת בסוף הספר בעמוד @</strong></p>
+<h4 class="sub-subsection-title">תשלום עבור קבורה</h4>
+<p>ככלל משולמים דמי הקבורה על ידי הביטוח הלאומי.</p>
+<p>על פי הוראות המוסד לביטוח לאומי, הקבורה בישראל במקרים הבאים היא ללא תשלום<span class="footnote-ref" onclick="showFootnote('7', '7', event)">7</span>:</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">1.</span><span class="list-content">תושב ישראל שנפטר בישראל, ונקבר במקום מגוריו.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">2.</span><span class="list-content">תושב ישראל שנפטר בחוץ לארץ, ונקבר במקום מגוריו בישראל.</span></div>
+<p>מימון הוצאות יום הקבורה מועבר לחברה קדישא על ידי המוסד לביטוח לאומי.</p>
+<p>על פי החוק יכולה חברה קדישא לגבות תשלום במקרים הבאים:</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">1.</span><span class="list-content">רכישת חלקת קבורה מחיים (על פי התעריפים הקבועים בחוק. יש לציין שהתעריף שונה ממקום למקום).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">2.</span><span class="list-content">קבורה בחלקה חריגה (חלקה שאושרה מראש על ידי המוסד לביטוח לאומי כחריגה).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">3.</span><span class="list-content">קבורה בבית עלמין סגור (בית עלמין שהוכרז כסגור בשל מיעוט חלקות לקבורה).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">4.</span><span class="list-content">תושב ישראל שנפטר, ומשפחתו מעוניינת לקברו שלא במקום מגוריו. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">5.</span><span class="list-content">יהודי תושב חוץ לארץ שנקבר בארץ.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">6.</span><span class="list-content">סטייה ממסלול הנסיעה הרגיל.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">7.</span><span class="list-content">תכריכים מהודרים.</span></div>
+<p>הביטוח הלאומי מכסה רק הסדרי קבורה סטנדרטיים: קבורה בתכריכים מקובלים, ומסלול קצר בין בית הלוויות לחלקת הקבר. אך הסדרי קבורה מיוחדים, וכן מצבה, מודעות אבל והסעות – כל אלו מוטלים על משפחת הנפטר. הסעת הנפטר על ידי חברה קדישא ביום הפטירה תהיה בדרך כלל ללא תשלום; אולם הסעה לאחר שעות העבודה המקובלות, הסעה חריגה או על ידי אמבולנס פרטי, תיעשה בדרך כלל בתשלום.</p>
+<h4 class="sub-subsection-title">נפטר בחוץ לארץ</h4>
+<p>אם מדובר באזרח ישראלי שחל עליו חוק ביטוח לאומי, זכאי הנפטר לקבורה ללא תשלום בעיר מגוריו, על פי הרשום בתעודת הזהות שלו. האחריות על הטסת הארון ארצה היא על משפחת הנפטר, וכן הבאתו משדה התעופה עד לבית הלויות במקום שייקבר. <span style="font-size: 0.75rem">ביטוח נסיעות לחוץ לארץ כולל על פי רוב הוצאות אלו של העברה לארץ, אך יש לברר כל מקרה לגופו. </span></p>
+<p style="font-size: 0.85rem">בארצות הברית ניתן לפנות לבית לוויות יהודי ( "CHAPLE ") ושם יטפלו בדרך כלל בטהרת הנפטר ובהלבשתו, בהסעה ובתיאום עם הקונסוליה. <span style="font-size: 0.75rem">החוק הבינלאומי ברוב המקומות מחייב את רחיצת הנפטר בהעברה מארץ לארץ, כך שברוב המקרים תתבצע הטהרה כבר בחוץ לארץ, ומוטב כך. </span>באירופה יש לפנות לקונסוליה לסידור העניינים המנהליים, ולקהילה היהודית הקרובה לטיפול בנפטר עצמו. </p>
+<p><span style="font-size: 0.85rem">במקרה של אדם שאינו זכאי לקבורה במסגרת חוק ביטוח לאומי (אינו אזרח ישראלי או מי שירד מהארץ). נציג המשפחה צריך לרכוש תחילה אחוזת קבר בארץ, לקבל את אישור החברה קדישא על כך, ולהציג אישור זה בפני הגופים המטפלים בנפטר בחוץ לארץ, כדי לאפשר את התהליך של הבאת הנפטר ארצה.</span></p>
+<p><u>תייר שנפטר  בארץ</u></p>
+<p>תייר יהודי שאין לו אזרחות ישראלית ונפטר בארץ, זכאי להיקבר בעיר בה נפטר. מבחינה הלכתית הוא יכול להיות מוגדר לצורך העניין כמת מצוה<span class="footnote-ref" onclick="showFootnote('8', '8', event)">8</span>, ובעניין זה מקבל הביטוח הלאומי את עמדת ההלכה, ומממן את קבורתו.</p>
+<p>מענק פטירה</p>
+<p>במקרים שהנפטר קיבל אחת מהגמלאות הבאות: זקנה, שאירים, נכות כללית, הבטחת הכנסה, נפגעי עבודה, ישולם מענק חד פעמי למי שהיה בן זוגו בשעת פטירתו, ובאין בן זוג - לילדו (כפי שמוגדר בחוק הביטוח הלאומי). תביעה למענק פטירה יש להגיש בסניף הביטוח הלאומי הקרוב למקום המגורים</p>
+<h3 class="subsection-title">ההתארגנות המשפחתית ללוויה</h3>
+<h4 class="sub-subsection-title">תיאומים מיוחדים עם החברה קדישא</h4>
+<p>מלבד התיאום של <strong>מקום וזמן</strong> עם החברה קדישא כפי שפורט לעיל, יש לעתים צורך בתיאומים נוספים: המקפידים <strong>לשמור את המת</strong><span class="footnote-ref" onclick="showFootnote('9', '9', event)">9</span> ולומר תהלים לידו, צריכים לדאוג לכך. בדרך כלל נעזרים בחברים.</p>
+<p>כאשר בני המשפחה מעוניינים לומר קדיש, אבל אינם יודעים אם יהיה <strong>מניין</strong> גברים בקבורה, אפשר לברר אם החברה קדישא תוכל לסייע בעניין.</p>
+<p><strong>משפחת כהנים</strong> צריכה להודיע זאת לחברה קדישא. <span style="font-size: 0.85rem">בדרך כלל כהנים נקברים בסמוך לשבילים, כדי שבני משפחתם יוכלו לבקר את קבריהם מבלי להיטמא</span>. גם תכריכי הכהנים שונים במקצת, ע"ע <strong>תכריכים</strong>, באוצר המושגים דלקמן.</p>
+<p>לעתים יש צורך ב<strong>מערכת הגברה </strong>להספדים. כדאי לברר אם ישנה כזו בבית הלוויות. אם אין, אפשר להשיג מערכת ניידת. יש לבדוק היטב שהמערכת פועלת ושיש מי שיודע לטפל בה. </p>
+<p>כאשר ציבור המלווים כולל אנשים מבוגרים מאוד או חולים, כדאי לברר עם החברה קדישא אם ניתן <strong>להגיע למקום הקבורה ברכב.</strong></p>
+<h4 class="sub-subsection-title">הודעה לציבור</h4>
+<p>לאחר שנקבע מקום הלוויה והקבורה וזמן הלוויה, בתיאום עם החברה קדישא, יש להודיע על כך בהקדם לקרובי הנפטר ולחבריו. </p>
+<p>יש לקחת בחשבון שחברות קדישא עובדות לעתים בלוח זמנים צפוף ועמוס, ובדרך כלל לא יוכלו לחרוג מהשעה שסוכמה איתם מראש. אפשר לומר מראש למלווים לקחת <strong>מקדם זמן</strong> ולהגיע מעט מוקדם, כדי למנוע לחץ של המתנה למאחרים.</p>
+<p>אין צורך שהאבלים עצמם יעמדו שעות ארוכות ליד הטלפון כדי להודיע. אפשר <strong>להודיע לאדם אחראי מכל מעגל היכרות</strong> (משפחה של כל אחד מהצדדים, שכנים, מקום עבודה וכו'), ולהטיל עליהם להעביר את ההודעה הלאה. </p>
+<p>ככלל, <strong>עדיף להיעזר בחברים וידידים</strong>. האבלים על פי רוב נסערים מאוד, ועקב עצמת הרגשות הגואה בקרבם קשה להם לקבל החלטות. היעזרות בחברים, שמטבע הדברים יכולים לסייע לקרובים בקבלת ההחלטות באופן שקול ורגוע יחסית, מתוך כבוד והתחשבות ומתוך זיהוי הצרכים של הקרובים, יכולה להקל מאוד על הלחץ הנפשי שקרובי הנפטר נתונים בו. ההזדהות והצער של החברה והקהילה שסביב האבלים, גורמת בדרך כלל לנכונות ולעתים גם לרצון עז לעזור לאבלים. מלבד עצם העזרה, שלעתים רבות היא חשובה ומשמעותית, האפשרות לסייע לאבלים, מעניקה רגשות חיוביים לא רק לאבלים, אלא גם למסייעים. </p>
+<h4 class="sub-subsection-title">מודעות אבל</h4>
+<p>משפחת אבלים שברצונה לפרסם מודעות אבל, תפנה לבית דפוס שעוסק בעניין. ניתן לקבל שירות של הדבקת המודעות, תמורת תוספת תשלום. לחילופין, ניתן להסתפק בהדפסת מודעות במחשב ביתי ובהדבקתן בעזרת ידידים. </p>
+<p>בדרך כלל מנסחים במודעה את <strong>שם הנפטר, הכתובת שבה יושבים שבעה, רשימת האבלים</strong>. אם המודעות מתפרסמות לפני הלוויה, אפשר להוסיף את <strong>מיקום הלוויה ומועדה</strong>. אפשר לכלול גם <strong>זמני תפילה </strong>בבית האבלים אם כבר הוחלט על כך. בדרך כלל יש בבתי הדפוס נוסחים מקובלים שניתן להיעזר בהם. </p>
+<p>כדאי שהמשפחה תשאיר בידה <strong>כמה מודעות כדי לתלות בפתח בתי האבלים</strong>, ובמקום שבו יושבים שבעה.</p>
+<h4 class="sub-subsection-title">הכנת הספדים</h4>
+<p>יש לתכנן מראש <strong>מי מהמשפחה יאמר</strong> את ההספדים או את דברי הפרידה. מי שעליו מוטלת משימה זו, צריך להקדיש לכך זמן ומחשבה, לכן כדאי לתאם זאת מוקדם ככל שניתן. אמנם אפשר לבקש מרבנים ומאישי ציבור לומר דברים גם תוך כדי הלוויה, ביחוד מפני שלא תמיד יודעים מי יגיע. אך אם אפשר - מוטב לתכנן מראש. אם הרב המספיד לא הכיר את הנפטר, כדאי לספר לו אודות הנפטר ותכונותיו מבלי להגזים בהן. בכל  מקרה כדאי לבחור <strong>אדם קרוב שירכז</strong> <strong>את נושא ההספדים</strong> ויעמוד בקשר עם החברה קדישא בעניין זה. לעתים מבקשים ידידים בשעת הלוויה להוסיף גם הם כמה מילים. זה יכול להיות מכובד ומרגש אך עלול גם להיות למורת רוח המשפחה, ויש להיערך גם לכך.</p>
+<p>יש לקחת בחשבון שהקהל עומד על רגליו, לעתים בצפיפות ובתנאי מזג אויר מכבידים. לעתים מדובר באנשים מבוגרים או זקנים שקשה להם עוד יותר, וגם הצער מכביד. לכן כדאי <strong>לקצר</strong> <strong>בדברים</strong> כדי לא להטריח על הציבור. אפשר לומר זאת לפני כן בנימוס למספידים.</p>
+<h4 class="sub-subsection-title">מה לקחת ללוויה</h4>
+<p>הלוויה והקבורה לוקחים זמן. אם נוסיף לכך את המאמץ הרגשי והעומס הנפשי, הרי שיש צורך להיערך לכך מראש, נפשית וגם מעשית.</p>
+<p>כדאי לקחת מראש <strong>בקבוקי מים, כיסוי ראש, ביגוד מתאים, ממחטות נייר (טישיו), משקפי שמש</strong>, <strong>כיפות לגברים וכיסויי ראש לנשים</strong>. אם יש זקנים או חולים – <strong>כסאות מתקפלים</strong>. בסיום הלוויה מתחילה האבלות, הבאה לידי ביטוי בהחלפת הנעליים הרגילות לנעלי בד, או לחילופין חליצת המנעלים ונעילתם עם מעט עפר בתוכם, כדי להביע באופן סמלי את תחילת האבלות. אם מחליטים לעבור ל<strong>נעלי בד או גומי </strong>יש להביאם ללוויה. <strong>מותר להחליף בגדים </strong>לפני הלוויה או לקראתה<span style="font-size: 0.85rem">. יש להביא בחשבון שעל פי ההלכה, בני המשפחה הקרובים ביותר (הורים, אחים ואחיות, בנים ובנות, בני זוג) יעברו במהלך הלוויה קריעה בבגד. האבלים אמורים להישאר עם אותו הבגד הקרוע</span><span class="footnote-ref" onclick="showFootnote('10', '10', event)">10</span><span style="font-size: 0.85rem"> במשך כל השבעה. זה הבגד שבו ישבו על הרצפה </span><span style="font-size: 0.85rem">או על מצע נמוך במשך השבעה. לכן כדאי להקדיש רגע מחשבה אלו בגדים יתאימו לשבוע מורכב זה, גם מבחינת נוחות וצניעות בעת הישיבה. </span>נשים העוברות את קריעת הבגד צריכות לאחות את המקום מיד לאחר הקריעה מפני צניעותן. לצורך כך יש להביא ללוויה <strong>סיכות ביטחון</strong>.</p>
+<p>אבלים המתכוונים לומר קדיש בלוויה ואינם בקיאים באמירת קדיש, מומלץ שינסו להגות נכונה את הקדיש עוד בטרם הלוויה. כדאי להביא ללוויה את <strong>נוסח הקדיש באותיות ברורות, רצוי מנוקד</strong>. אבל שאינו בקי באמירת הקדיש, עדיף לשנן מראש כדי שלא להישמע עילג.</p>
+<p>המנהג הרווח במערב ללבוש בגדים שחורים, אינו נהוג בקהילות ישראל. </p>
+<h4 class="sub-subsection-title">הכנת הבית לשבעה</h4>
+<p>האבלים חוזרים מהלוויה והקבורה אל המקום שבו החליטו לשבת שבעה. יש לחשוב מראש היכן לשבת. העדיפות ההלכתית הראשונית היא לשבת בבית הנפטר, אך אם יש צורך אפשר לשבת גם במקום אחר, בו תהיה אפשרות נוחה יותר לאבלים. </p>
+<p>אל המקום שנבחר יש להביא: <strong>נרות נשמה, ספסלים וכסאות </strong>לאבלים ולמנחמים<strong>, סידורים וכיפות</strong> לתפילות בבית האבל.<strong> משניות לחלוקה, תהלים </strong>לבית האבל ולבית העלמין. אם יש אפשרות - גם <strong>ספר תורה</strong> לצורך קריאת התורה. אם יתפללו באותו מקום גם בשבת, יש להביא גם <strong>חומשים. </strong>אפשר גם <strong>עמוד </strong>לחזן. יש קהילות המחזיקות ערכה לבית האבל "גמ"ח ניחומים" עם פריטים אלו להשאלה.</p>
+<p>יש להכין מראש את המקום בו ישבו האבלים עצמם. האבלים יושבים בדרך כלל על גבי <strong>מזרונים או כסאות נמוכים</strong>. כדאי לחשוב מראש איך לתכנן את הישיבה בבית. כאשר צפויים מנחמים רבים יש המכינים מחוץ לבית <strong>סוכת אבלים,</strong> כדי שיהיה מקום לכולם. במקרה כזה צריך להכין גם <strong>תאורה</strong> מתאימה.</p>
+<p>הסעודה הראשונה שאוכלים האבלים לאחר הלוויה נקראת <strong>סעודת הבראה</strong> ותפורט לקמן בחלק ההלכתי. סעודה זו מכינים בדרך כלל המקורבים לאבלים, ואוכלים אותה בבית האבלים.</p>
+<p>בדרך כלל מקובל להגיש שתייה וכיבוד קל לאורחים<span class="footnote-ref" onclick="showFootnote('11', '11', event)">11</span>. <span style="font-size: 0.75rem">יש מושג של "ברכות לעילוי נשמה" בו המבקרים מברכים לעילוי נשמת הנפטר, כמבואר באוצר המושגים לקמן.</span> הנוהגים כך צריכים לדאוג <strong>לשתייה ולכיבוד</strong> ולעתים יעדיפו להיעזר ב<strong>כלים וכוסות חד פעמיים</strong>. רצוי גם <strong>מיחם</strong>.</p>
+<p>בחלק מהמקומות מעמידים <strong>קופת צדקה</strong> לעילוי נשמת הנפטר.</p>
+<p style="font-size: 0.85rem">משפחה שעוזבת את ביתה כדי לשבת שבעה, מומלץ לבקש משכנים <strong>לשמור על הבית</strong>. למרבה הצער היו מקרים שגנבים ניצלו את היעדרות האבלים כדי לפרוץ לביתם בזמן הלוויה או השבעה. </p>
+<h4 class="sub-subsection-title">סיכום שלב ההתארגנות</h4>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">הודעת פטירה ורשיון קבורה</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">תיאום עם החברה קדישא - מקום וזמן הלוויה</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">העברת הנפטר (לא תמיד יש צורך בכך, בדרך כלל יתבצע על ידי החברה קדישא)</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">הודעה לציבור ומודעות אבל</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">הכנת הספדים ודברי פרידה</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">ציוד ללוויה</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">קביעת הבית שבו ישבו שבעה והכנתו</span></div>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " אלו הכללים הנהוגים במדינת ישראל כיום. לגבי חוץ לארץ יש לברר את הכללים בכל מקום ומקום. ", "2": " הערת הרב נבנצל שליט\"א – יש להשתדל להתנגד לנתיחה, או במקרי רצח לצמצמה ככל האפשר, אף אם מאיימים (במקרי תאונות דרכים)  שבהעדר ניתוח לא יתנו פיצויים למשפחה. לקבלת אפשרות מעשית ליעוץ בנושא זה, ראה באוצר המושגים ערך ניתוחי מתים.", "3": " הערת הרב נבנצל שליט\"א – אדמו\"ר זללה\"ה (הגרש\"ז אויערבך זצ\"ל), לא נטה לדחות קבורה ליום אחר עקב כך.", "4": " המינוח ההלכתי הלנת המת מבואר באוצר המושגים", "5": " המינוח ההלכתי מקצת היום ככולו מבואר באוצר המושגים.", "6": " הערת הרב נבנצל שליט\"א – די בכך שסתימת הגולל וחליצת הנעליים היו לפני השקיעה.", "7": "האמור בפרק זה הינו לפי מידת הידיעה של מחבר הספר נכון ליום כתיבתו. בכל מקרה יש לפנות למוסד לביטוח הלאומי לצורך בדיקת הזכויות באופן מחייב. הפניה למוסד לביטוח לאומי הינה באמצעות אתר האינטרנט של המוסד לביטוח לאומי או בסניף הקרוב למקום מגוריכם או במשרד הראשי: שד' וייצמן 13 ירושלים", "8": " הערת הרב נבנצל שליט\"א – אם אין לו קרובים ואין מי שמוכן לטפל בו. לאור קיומן של חברות קדישא, אין כמעט מת מצוה מבחינה הלכתית.", "9": " התייחסות הלכתית לכך מובאת לקמן עמוד @.", "10": " הערת הרב נבנצל שליט\"א – זו חובה רק לבני הנפטר ולבנותיו.", "11": " הערת הרב נבנצל שליט\"א – אין זה מקובל אצל האשכנזים."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>
