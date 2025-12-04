@@ -27,7 +27,7 @@ class SearchResultItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Chapter title
+              // Sub-chapter title
               Row(
                 children: [
                   const Icon(
@@ -38,7 +38,7 @@ class SearchResultItem extends StatelessWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      result.chapter.title,
+                      result.subChapter.title,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             color: AppTheme.primaryColor,
                           ),

@@ -67,17 +67,17 @@ class FavoritesScreen extends StatelessWidget {
   }
 
   void _openFavorite(BuildContext context, Favorite favorite) {
-    final chapter = ChaptersData.getChapterById(favorite.chapterId);
-    if (chapter == null) return;
+    final subChapter = ChaptersData.getSubChapterById(favorite.chapterId);
+    if (subChapter == null) return;
 
     final readingProvider = context.read<ReadingProvider>();
-    readingProvider.openChapter(chapter, scrollPosition: favorite.scrollPosition);
+    readingProvider.openSubChapter(subChapter, scrollPosition: favorite.scrollPosition);
 
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ReaderScreen(
-          chapter: chapter,
+          subChapter: subChapter,
           initialScrollPosition: favorite.scrollPosition,
         ),
       ),

@@ -48,13 +48,20 @@ class HomeScreen extends StatelessWidget {
               }
 
               final savedPosition = readingProvider.savedPosition!;
-              final chapter = ChaptersData.getChapterById(savedPosition.chapterId);
-              if (chapter == null) {
+              final subChapter = ChaptersData.getSubChapterById(savedPosition.chapterId);
+              if (subChapter == null) {
                 return const SliverToBoxAdapter(child: SizedBox.shrink());
               }
 
+              final parentChapter = ChaptersData.getParentChapter(savedPosition.chapterId);
+
               return SliverToBoxAdapter(
-                child: _buildResumeCard(context, chapter, savedPosition.scrollPosition),
+                child: _buildResumeCard(
+                  context, 
+                  subChapter, 
+                  parentChapter,
+                  savedPosition.scrollPosition,
+                ),
               );
             },
           ),
@@ -75,12 +82,12 @@ class HomeScreen extends StatelessWidget {
                 final chapter = chapters[index];
                 return Consumer<ReadingProvider>(
                   builder: (context, readingProvider, child) {
-                    final hasProgress = readingProvider.hasChapterPosition(chapter.id);
                     return ChapterListItem(
                       chapter: chapter,
-                      showDivider: index < chapters.length - 1,
-                      hasProgress: hasProgress,
-                      onTap: () => _openChapter(context, chapter),
+                      hasProgress: (subChapterId) => 
+                          readingProvider.hasChapterPosition(subChapterId),
+                      onSubChapterTap: (subChapter) => 
+                          _openSubChapter(context, subChapter),
                     );
                   },
                 );
@@ -99,7 +106,8 @@ class HomeScreen extends StatelessWidget {
 
   Widget _buildResumeCard(
     BuildContext context,
-    Chapter chapter,
+    SubChapter subChapter,
+    Chapter? parentChapter,
     double scrollPosition,
   ) {
     return Container(
@@ -120,9 +128,9 @@ class HomeScreen extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () => _openChapter(
+          onTap: () => _openSubChapter(
             context,
-            chapter,
+            subChapter,
             scrollPosition: scrollPosition,
           ),
           borderRadius: BorderRadius.circular(16),
@@ -157,7 +165,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        chapter.title,
+                        subChapter.title,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
@@ -166,6 +174,18 @@ class HomeScreen extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
+                      if (parentChapter != null) ...[
+                        const SizedBox(height: 2),
+                        Text(
+                          parentChapter.title,
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.7),
+                            fontSize: 12,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ],
                   ),
                 ),
@@ -182,24 +202,24 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  void _openChapter(
+  void _openSubChapter(
     BuildContext context,
-    Chapter chapter, {
+    SubChapter subChapter, {
     double? scrollPosition,
   }) {
     final readingProvider = context.read<ReadingProvider>();
     
-    // Get saved position for this chapter if no specific position provided
+    // Get saved position for this sub-chapter if no specific position provided
     final savedPosition = scrollPosition ?? 
-        readingProvider.getChapterPosition(chapter.id);
+        readingProvider.getChapterPosition(subChapter.id);
     
-    readingProvider.openChapter(chapter, scrollPosition: savedPosition);
+    readingProvider.openSubChapter(subChapter, scrollPosition: savedPosition);
 
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ReaderScreen(
-          chapter: chapter,
+          subChapter: subChapter,
           initialScrollPosition: savedPosition,
         ),
       ),

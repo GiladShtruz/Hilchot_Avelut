@@ -5,14 +5,14 @@ import '../data/chapters_data.dart';
 
 /// Result of a search operation
 class SearchResult {
-  final Chapter chapter;
+  final SubChapter subChapter;
   final String matchedText;
   final String contextBefore;
   final String contextAfter;
   final int matchIndex;
 
   const SearchResult({
-    required this.chapter,
+    required this.subChapter,
     required this.matchedText,
     required this.contextBefore,
     required this.contextAfter,
@@ -23,13 +23,13 @@ class SearchResult {
   String get fullContext => '$contextBefore$matchedText$contextAfter';
 }
 
-/// Cached chapter data for fast searching
-class _ChapterSearchData {
-  final Chapter chapter;
+/// Cached sub-chapter data for fast searching
+class _SubChapterSearchData {
+  final SubChapter subChapter;
   final String plainText;
 
-  _ChapterSearchData({
-    required this.chapter,
+  _SubChapterSearchData({
+    required this.subChapter,
     required this.plainText,
   });
 }
@@ -41,35 +41,35 @@ class SearchService {
 
   SearchService._();
 
-  // Cache for processed chapter content (plain text)
-  List<_ChapterSearchData>? _cachedChapterData;
+  // Cache for processed sub-chapter content (plain text)
+  List<_SubChapterSearchData>? _cachedData;
   bool _isPreloading = false;
 
   /// Preload and process all HTML content for instant searching
   Future<void> preloadContent() async {
-    if (_cachedChapterData != null || _isPreloading) return;
+    if (_cachedData != null || _isPreloading) return;
     _isPreloading = true;
 
     try {
-      final chapters = ChaptersData.chapters;
-      final dataList = <_ChapterSearchData>[];
+      final subChapters = ChaptersData.allSubChapters;
+      final dataList = <_SubChapterSearchData>[];
 
-      for (final chapter in chapters) {
+      for (final subChapter in subChapters) {
         try {
           final htmlContent = await rootBundle.loadString(
-            'assets/html/${chapter.htmlFileName}',
+            'assets/html/${subChapter.htmlFileName}',
           );
           final plainText = _extractTextFromHtml(htmlContent);
-          dataList.add(_ChapterSearchData(
-            chapter: chapter,
+          dataList.add(_SubChapterSearchData(
+            subChapter: subChapter,
             plainText: plainText,
           ));
         } catch (e) {
-          // Skip chapters that fail to load
+          // Skip sub-chapters that fail to load
         }
       }
 
-      _cachedChapterData = dataList;
+      _cachedData = dataList;
     } finally {
       _isPreloading = false;
     }
@@ -77,16 +77,9 @@ class SearchService {
 
   /// Extract plain text from HTML content (optimized)
   String _extractTextFromHtml(String html) {
-    // Remove script tags and their content
     var text = html.replaceAll(RegExp(r'<script[^>]*>[\s\S]*?</script>'), '');
-    
-    // Remove style tags and their content
     text = text.replaceAll(RegExp(r'<style[^>]*>[\s\S]*?</style>'), '');
-    
-    // Remove all HTML tags
     text = text.replaceAll(RegExp(r'<[^>]+>'), ' ');
-    
-    // Decode common HTML entities
     text = text
         .replaceAll('&nbsp;', ' ')
         .replaceAll('&quot;', '"')
@@ -96,34 +89,29 @@ class SearchService {
         .replaceAll('&#39;', "'")
         .replaceAll('&ldquo;', '"')
         .replaceAll('&rdquo;', '"');
-    
-    // Normalize whitespace (single pass)
     text = text.replaceAll(RegExp(r'\s+'), ' ').trim();
-    
     return text;
   }
 
-  /// Search for a query in all chapters (fast, uses cached data)
+  /// Search for a query in all sub-chapters (fast, uses cached data)
   Future<List<SearchResult>> search(String query) async {
     if (query.trim().isEmpty) {
       return [];
     }
 
-    // Ensure content is preloaded
-    if (_cachedChapterData == null) {
+    if (_cachedData == null) {
       await preloadContent();
     }
 
-    if (_cachedChapterData == null || _cachedChapterData!.isEmpty) {
+    if (_cachedData == null || _cachedData!.isEmpty) {
       return [];
     }
 
-    // Run search in isolate for large content
     final results = await compute(
       _performSearch,
       _SearchParams(
         query: query.trim(),
-        chapterData: _cachedChapterData!,
+        data: _cachedData!,
       ),
     );
 
@@ -132,18 +120,18 @@ class SearchService {
 
   /// Clear the cache
   void clearCache() {
-    _cachedChapterData = null;
+    _cachedData = null;
   }
 }
 
 /// Parameters for isolate search
 class _SearchParams {
   final String query;
-  final List<_ChapterSearchData> chapterData;
+  final List<_SubChapterSearchData> data;
 
   _SearchParams({
     required this.query,
-    required this.chapterData,
+    required this.data,
   });
 }
 
@@ -152,21 +140,20 @@ List<SearchResult> _performSearch(_SearchParams params) {
   final results = <SearchResult>[];
   final normalizedQuery = params.query.toLowerCase();
   const contextLength = 50;
-  const maxResultsPerChapter = 5;
+  const maxResultsPerSubChapter = 5;
   const maxTotalResults = 50;
 
-  for (final data in params.chapterData) {
+  for (final data in params.data) {
     final normalizedText = data.plainText.toLowerCase();
     final text = data.plainText;
-    int chapterResultCount = 0;
+    int subChapterResultCount = 0;
 
     int startIndex = 0;
-    while (chapterResultCount < maxResultsPerChapter && 
+    while (subChapterResultCount < maxResultsPerSubChapter && 
            results.length < maxTotalResults) {
       final matchIndex = normalizedText.indexOf(normalizedQuery, startIndex);
       if (matchIndex == -1) break;
 
-      // Extract context around the match
       final contextStart = (matchIndex - contextLength).clamp(0, text.length);
       final contextEnd =
           (matchIndex + params.query.length + contextLength).clamp(0, text.length);
@@ -177,7 +164,7 @@ List<SearchResult> _performSearch(_SearchParams params) {
           text.substring(matchIndex + params.query.length, contextEnd);
 
       results.add(SearchResult(
-        chapter: data.chapter,
+        subChapter: data.subChapter,
         matchedText: matchedText,
         contextBefore: contextStart > 0 ? '...$contextBefore' : contextBefore,
         contextAfter: contextEnd < text.length ? '$contextAfter...' : contextAfter,
@@ -185,7 +172,7 @@ List<SearchResult> _performSearch(_SearchParams params) {
       ));
 
       startIndex = matchIndex + params.query.length;
-      chapterResultCount++;
+      subChapterResultCount++;
     }
 
     if (results.length >= maxTotalResults) break;

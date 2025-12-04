@@ -184,13 +184,13 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void _openResult(SearchResult result) {
     final readingProvider = context.read<ReadingProvider>();
-    readingProvider.openChapter(result.chapter);
+    readingProvider.openSubChapter(result.subChapter);
 
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ReaderScreen(
-          chapter: result.chapter,
+          subChapter: result.subChapter,
           searchQuery: _searchController.text,
         ),
       ),

@@ -1,39 +1,56 @@
-/// Represents a chapter/section in the book
-class Chapter {
+/// Represents a sub-chapter (actual HTML content)
+class SubChapter {
   final String id;
   final String title;
   final String htmlFileName;
+  final int order;
+
+  const SubChapter({
+    required this.id,
+    required this.title,
+    required this.htmlFileName,
+    required this.order,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is SubChapter && other.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
+
+  @override
+  String toString() => 'SubChapter(id: $id, title: $title)';
+}
+
+/// Represents a main chapter (folder) containing sub-chapters
+class Chapter {
+  final String id;
+  final String title;
   final String? description;
   final int order;
+  final List<SubChapter> subChapters;
 
   const Chapter({
     required this.id,
     required this.title,
-    required this.htmlFileName,
     this.description,
     required this.order,
+    required this.subChapters,
   });
 
-  /// Creates a Chapter from a map (for JSON parsing)
-  factory Chapter.fromMap(Map<String, dynamic> map) {
-    return Chapter(
-      id: map['id'] as String,
-      title: map['title'] as String,
-      htmlFileName: map['htmlFileName'] as String,
-      description: map['description'] as String?,
-      order: map['order'] as int,
-    );
-  }
+  /// Check if chapter has sub-chapters
+  bool get hasSubChapters => subChapters.isNotEmpty;
 
-  /// Converts the Chapter to a map
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'title': title,
-      'htmlFileName': htmlFileName,
-      'description': description,
-      'order': order,
-    };
+  /// Get sub-chapter by ID
+  SubChapter? getSubChapterById(String subId) {
+    try {
+      return subChapters.firstWhere((s) => s.id == subId);
+    } catch (_) {
+      return null;
+    }
   }
 
   @override
@@ -46,5 +63,5 @@ class Chapter {
   int get hashCode => id.hashCode;
 
   @override
-  String toString() => 'Chapter(id: $id, title: $title)';
+  String toString() => 'Chapter(id: $id, title: $title, subChapters: ${subChapters.length})';
 }

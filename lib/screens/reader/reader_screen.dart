@@ -9,13 +9,13 @@ import '../../providers/reading_provider.dart';
 
 /// Reader screen for displaying HTML content
 class ReaderScreen extends StatefulWidget {
-  final Chapter chapter;
+  final SubChapter subChapter;
   final double initialScrollPosition;
   final String? searchQuery;
 
   const ReaderScreen({
     super.key,
-    required this.chapter,
+    required this.subChapter,
     this.initialScrollPosition = 0,
     this.searchQuery,
   });
@@ -29,7 +29,7 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
   bool _isLoading = true;
   double _currentScrollPosition = 0;
   bool _hasScrolledToInitial = false;
-
+  
   // Save reference to provider to use in dispose
   late ReadingProvider _readingProvider;
 
@@ -44,15 +44,13 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Save reference to provider here (safe to use in dispose)
     _readingProvider = context.read<ReadingProvider>();
   }
 
   @override
   void dispose() {
-    // Use saved reference instead of context.read
     _readingProvider.saveChapterPosition(
-      widget.chapter.id,
+      widget.subChapter.id,
       _currentScrollPosition,
     );
     WidgetsBinding.instance.removeObserver(this);
@@ -69,7 +67,7 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
 
   void _saveCurrentPosition() {
     _readingProvider.saveChapterPosition(
-      widget.chapter.id,
+      widget.subChapter.id,
       _currentScrollPosition,
     );
   }
@@ -101,8 +99,9 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
 
   Future<void> _loadHtmlContent() async {
     try {
+      print('assets/html/${widget.subChapter.htmlFileName}');
       var htmlContent = await rootBundle.loadString(
-        'assets/html/${widget.chapter.htmlFileName}',
+        'assets/html/${widget.subChapter.htmlFileName}',
       );
 
       htmlContent = _injectScripts(htmlContent);
@@ -122,11 +121,10 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
   }
 
   String _injectScripts(String html) {
-    // Add padding at the bottom for FAB and extra space
     const bottomPadding = '''
     <div style="height: 120px;"></div>
     ''';
-
+    
     final scripts = '''
     <script>
       let scrollTimeout;
@@ -208,7 +206,7 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.chapter.title,
+          widget.subChapter.title,
           style: const TextStyle(fontSize: 16),
         ),
         leading: IconButton(
@@ -242,7 +240,6 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
           ],
         ),
       ),
-      // FAB on the right side (start in RTL)
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: _buildFab(),
     );
@@ -273,14 +270,14 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
     final result = await showDialog<Map<String, dynamic>>(
       context: context,
       builder: (context) => _AddFavoriteDialog(
-        chapterTitle: widget.chapter.title,
+        chapterTitle: widget.subChapter.title,
       ),
     );
 
     if (result != null && mounted) {
       await favoritesProvider.addFavorite(
-        chapterId: widget.chapter.id,
-        chapterTitle: widget.chapter.title,
+        chapterId: widget.subChapter.id,
+        chapterTitle: widget.subChapter.title,
         scrollPosition: _currentScrollPosition,
         customTitle: result['customTitle'] as String?,
       );
@@ -324,8 +321,8 @@ class _AddFavoriteDialogState extends State<_AddFavoriteDialog> {
           Text(
             widget.chapterTitle,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppTheme.primaryColor,
-            ),
+                  color: AppTheme.primaryColor,
+                ),
           ),
           const SizedBox(height: 16),
           TextField(

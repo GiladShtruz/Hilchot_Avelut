@@ -72,6 +72,14 @@ flutter:
   uses-material-design: true
   assets:
     - assets/html/
+    - assets/html/chapter_1/
+    - assets/html/chapter_2/
+    - assets/html/chapter_3/
+    - assets/html/chapter_4/
+    - assets/html/chapter_5/
+    - assets/html/chapter_7/
+    - assets/html/chapter_8/
+    - assets/html/chapter_9/
 
   fonts:
     - family: David
