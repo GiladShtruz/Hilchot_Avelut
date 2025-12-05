@@ -245,7 +245,7 @@ class _ChapterListItemState extends State<ChapterListItem>
                 ),
               const SizedBox(width: 8),
               const Icon(
-                Icons.arrow_back_ios,
+                Icons.arrow_forward_ios,
                 size: 14,
                 color: AppTheme.secondaryTextColor,
               ),

@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
             floating: false,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              title: const Text('אבלות הלכה'),
+              title: const Text('הלכות אבלות', style: TextStyle(color: Colors.white)),
               centerTitle: true,
               background: Container(
                 decoration: const BoxDecoration(

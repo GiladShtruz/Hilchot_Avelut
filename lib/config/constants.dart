@@ -3,7 +3,7 @@ class AppConstants {
   AppConstants._();
 
   // App Info
-  static const String appName = 'אבלות הלכה';
+  static const String appName = 'הלכות אבלות';
   static const String appVersion = '1.0.0';
 
   // Hive Box Names

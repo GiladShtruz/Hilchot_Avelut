@@ -209,7 +209,7 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
           style: const TextStyle(fontSize: 16),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_forward),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             _saveCurrentPosition();
             Navigator.pop(context);

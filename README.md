@@ -1,6 +1,6 @@
 <div align="center">
 
-# 📖 אבלות הלכה
+# 📖 הלכות אבלות
 
 **אפליקציית Flutter להצגת ספר הלכות אבלות**
 

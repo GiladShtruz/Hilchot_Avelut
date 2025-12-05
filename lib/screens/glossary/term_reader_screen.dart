@@ -87,7 +87,7 @@ class _TermReaderScreenState extends State<TermReaderScreen> {
           style: const TextStyle(fontSize: 18),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_forward),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
         actions: [
