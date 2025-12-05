@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p><strong>תכריכים</strong></p>
+<p>בגדים שעושים לגוף המת ובהם <u>כורכים</u> וקוברים את המת. בארמית נקראים התכריכים בלשון מליצה "זוודתא" (מועד קטן כז, ב) המקבילה למלה העברית "זיווד", כלומר צידה לדרך למתים (רש"י מסכת עבודה זרה, יז, א).</p>
+<p>מתחילה היו נוהגים לעשות התכריכים מבגדים יקרים לכבוד המת, מנהג שעורר קושי רב:  </p>
+<p>בראשונה היתה הוצאת המת קשה לקרוביו יותר ממיתתו, עד שהיו מניחים אותו ובורחים. עד שבא רבן גמליאל ונהג קלות ראש בעצמו וציוה להוציאו בכלי פשתן, ונהגו כל העם אחריו להוציא בכלי פשתן (מועד קטן שם; כתובות י, ב). </p>
+<p>ובאמת מצינו שעני אחד נאלץ לקבור את בתו במחצלת של קנים (ברכות יח, ב). מאז רבן גמליאל המנהג לקבור בבגדי פשתן לבנים וגם החוטים הם של פשתן לבן, וכך פסק הרמב"ם "ומלבישין אותו תכריכין תפורין בחוט של פשתן לבנים, ולא יהיו דמיהן יקרים" (הלכות אבל ד, א). בגדי לבן מסמלים פשטות, ישרות וטוהר. המקובלים השוו את עניין בגדי הפשתן הלבנים לבגדי הכהנים, ולבגדי כהן גדול ביום הכיפורים. על פי הקבלה יש עניין גדול בלבישת בגדי פשתן בלבד ללא בד אחר, גם כדי להגן על הנפטר מכוחות הטומאה (מעבר יַבֹּק מאמר שפת אמת פרק כג. הקונטרס היחיאלי בית עולמים פרק ב). </p>
+<p>דע שיש סוד גדול בלבישת בגד פשתן, שכל הנפטר שנתלבש בבגדי פשתן אפילו נפטר בחוץ לארץ, כל קטיגור נעשה סניגור... (ילקוט הראובני פרשת מקץ מובא בפתחי תשובה סימן שנב, ב).</p>
+<p>וישמע העם וצדיק יכין לו בחיים תכריכים של פשתן דווקא בלי תערובת מין אחר. ויהיו המעות שקונה בהן התכריכים מיגיע כפו ולא יתערב בהן ערוב מעושק חס ושלום, כלל וכלל לא (מנחם אבלים אות ת' ערך תכריכים, בשם רבי משה קורדובירו). </p>
+<p>הרב קורדובירו מדגיש תחילה הקפדה על עניין טכני: שלא יתערבב בפשתן מין אחר. לאחר מכן משוה הרב ומתייחס לעניין עקרוני – שלא יתערבב כסף "לא כשר" בקניית התכריכים. הטוהר בבגד, בא לידי ביטוי גם בטוהר המידות.</p>
+<p>במקום שאין בד פשתן או שהוא יקר, מלבישים בבד לבן פשוט וזול, (וכך המנהג היום ברוב המקומות, זולתי מי שמבקשים בשבילו תכריכי פשתן במיוחד). עשיר שציוה להלבישו בבגדים יקרים אין שומעים לו:</p>
+<p>ואסור לקבור בתכריכין של משי ובגדים המוזהבין הרקומין אפילו לנשיא בישראל, שזהו גסות הרוח והשחתה ומעשה עובדי כוכבים (רמב"ם הלכות אבל פרק ד, ב). </p>
+<p>כך גם פסק השלחן ערוך להלכה: "אין קוברים המת בתכריכים יקרים אפילו לנשיא שבישראל" (יורה דעה סימן שנב, א).</p>
+<p style="font-size: 0.85rem"><span style="font-size: 0.75rem">תניא ר' נתן אומר כסות היורדת עם האדם לשאול היא עולה עמו לעתיד לבא, שנאמר (איוב לח, יד) "</span>תִּתְהַפֵּךְ כְּחֹמֶר חוֹתָם וְיִתְיַצְּבוּ כְּמוֹ לְבוּשׁ<span style="font-size: 0.75rem">" (מסכת שמחות סוף פרק ט).  </span></p>
+<p>אמר רבי ינאי לבניו: בני, אל תקברוני לא בכלים (בגדים) לבנים ולא בכלים שחורים. בלבנים לא, שמא לא אזכה (לגן עדן) ואהיה כחתן בין אבלים. בשחורים לא, שמא אזכה ואהיה כאבל בין חתנים. אלא בבגדים האולירין (צבועים קצת) (שבת קיד, א). </p>
+<p>הרמב"ן (תורת האדם, עניין ההוצאה עמוד צה) צטט את דברי רבי ינאי וכתב שנהגו העם בתכריכים לבנים וכן ראוי לעשות. כך גם פסקו בטור ובשלחן ערוך (שם סימן שנב, ב).</p>
+<p style="font-size: 0.85rem">המקובלים הסבירו שהתכריכים צריכים להיות לבנים כיון שהלבן מורה על הרחמים העליונים, וגם על כפרת העוון, כמו שנאמר "אִם יִהְיוּ חֲטָאֵיכֶם כַּשָּׁנִים כַּשֶּׁלֶג יַלְבִּינוּ". וכיון שגם המיתה מכפרת, מרמזים התכריכים הלבנים על הכפרה. (ע"ע בקונטרס היחיאלי שם פרק ג שהביא שבעה טעמים ללבנים דווקא, ובפרק יב האריך מדוע יש לאסור שחור כיון שמלמד על מידת הדין).</p>
+<p>המנהג לתפור את התכריכים בידיים, ותופרות אותם נשים (מפני שהאשה הביאה מיתה לעולם). ומדקדקים שהנשים התופרות תהיינה זקנות וטהורות שכבר לא צריכות טבילה.</p>
+<p>התכריכים צריכם להיות נקיים מכל כתם ולכלוך. לא עושים בהם שפה לבגד ולא כיס (כדי להראות שהנפטר אינו יכול לשאת עמו דבר לקברו). אין עושים בהם קשר אלא עניבה, להראות שזהו בגד ארעי עד התחיה. תכריכי הגברים והנשים זהים. לילדים קטנים אין מלבישים תכריכים אלא כורכים אותם בסדין לבן (גשר החיים פרק יב, ו, ב).</p>
+<p style="font-size: 0.85rem">שמונה לבושים הם (ובכהן עוד אחד). וסדר הלבשתם: 1.מצנפת. 2.חגור הנקרא "טלית קטן".  3. מכנסיים.  4.כתונת. 5.מעיל.  6.סובב שהוא סדין ארוך ורחב שנכרך סביב הנפטר ונקשר בשלושה קשרים זמניים עד הקבורה. בשלב זה שמים מעט עפר על העיניים על ידי הבנים, ואומרים "וְיוֹסֵף יָשִׁית יָדוֹ עַל עֵינֶיךָ". אם אין בנים, שמים אנשי החברה קדישא עצמם ואומרים "כִּי עָפָר אַתָּה וְאֶל עָפָר תָּשׁוּב". 7.מסוה על הפנים. 8. מטלית מרובעת על הראש והעיניים הנקראת "טלית גדול".<strong> </strong>לכהן מוסיפים גם<strong> </strong>כפפות על הידיים, ובזמן הלבשתם אומרים את פסוקי ברכת כהנים. </p>
+<p>והנה כל בגדי הלבשתו הם כבגדי כהונה, ורק אבנט לא עושים שבאבנט צריך חגירה וקשר, ובתכריכי המת אין עושים שום קשר וחגירה. והטעם שבחיותו כל נפש רוח ונשמה שלו קשורים ומחוברים... אשר לא כן בפטירתו מהעולם הזה נפרדו נפש רוח ונשמה וכל אחת הלכה למקומה... (הקונטרס היחיאלי בית עולמים פרק ה. עיין שם באריכות שמביא טעם לכל בגד מהתכריכים ומשמעותו).</p>
+<p style="font-size: 0.85rem">בשעת ההלבשה אומרים פסוקים: "נֵרְדְּ וְכַרְכֹּם קָנֶה וְקִנָּמוֹן עִם כָּל עֲצֵי לְבוֹנָה מֹר וַאֲהָלוֹת עִם כָּל רָאשֵׁי בְשָׂמִים" (שיר השירים ד, יד). בשעת הלבשת המכסה הנקרא "טלית גדול" אומרים: "שׂוֹשׂ אָשִׂישׂ בַּה' תָּגֵל נַפְשִׁי בֵּאלֹהַי כִּי הִלְבִּישַׁנִי בִּגְדֵי יֶשַׁע מְעִיל צְדָקָה יְעָטָנִי כֶּחָתָן יְכַהֵן פְּאֵר וְכַכַּלָּה תַּעְדֶּה כֵלֶיהָ" (ישעיהו סא, י). "וָאֹמַר יָשִׂימוּ צָנִיף טָהוֹר עַל רֹאשׁוֹ וַיָּשִׂימוּ הַצָּנִיף הַטָּהוֹר עַל רֹאשׁוֹ וַיַּלְבִּשֻׁהוּ בְּגָדִים וּמַלְאַךְ ה' עֹמֵד" (זכריה ג, ה). "כִּי כָאָרֶץ תּוֹצִיא צִמְחָהּ וּכְגַנָּה זֵרוּעֶיהָ תַצְמִיחַ כֵּן אֲדֹנָי ה' יַצְמִיחַ צְדָקָה וּתְהִלָּה נֶגֶד כָּל הַגּוֹיִם" (ישעיהו סא, יא). "וְנָחֲךָ ה' תָּמִיד וְהִשְׂבִּיעַ בְּצַחְצָחוֹת נַפְשֶׁךָ וְעַצְמֹתֶיךָ יַחֲלִיץ וְהָיִיתָ כְּגַן רָוֶה וּכְמוֹצָא מַיִם אֲשֶׁר לֹא יְכַזְּבוּ מֵימָיו" (ישעיהו נח, יא). הכוונות שיש לכוון על פי הקבלה מפורטות בספר מעבר יַבֹּק (מאמר שפתי רננות פרקים יב – יד. גשר החיים פרק י פיסקה ד).</p>
+<p>יש שמצוים לתת בין התכריכים שלושה בדי הדס ויש השמים אזוב בין התכריכים או ברחיצה (הקונטרס היחיאלי בית עולמים פרק טו; טו, יט).</p>
+<p>לאחר ההלבשה בתכריכים, מכסים נפטר גבר בטלית מצויצת עד קברו, ושם מסירים אותה ממנו. יש אומרים שהטעם שמניחים טלית על המת כשמוליכין אותו לקברו הוא משום שהטלית היא בחינת אור מקיף הדוחה את הקליפה (חזון למועד פרק י, ב). אין קוברים את הנפטר בטלית. אשה כורכים בסדין לבן.</p>
+<p>מי שנהרג והדם בלוע בבגדיו, קוברים הבגדים עמו. ומי שנהרג על ידי רוצחים, קוברים אותו כמו שהוא לבוש, ומכסים התכריכים על בגדיו כדי לעורר נקמת ה' לנקום נקמתו. </p>
+<p>מנהג בני תימן  שמלבישים את הנפטר בבגדיו החשובים שהיה לובשם בשבת ויום טוב, לסימן אמונה בתחיית המתים, ולא יהיו יקרים יותר מדי. ומעל בגדים אלו עוטפים אותו בתכריכים של בד לבן (באר לחי רואי סימן סג, על פי ספר ענף עץ אבות עמוד תרצז). </p>
+<p style="font-size: 0.85rem">יש שמכינים התכריכים בעודם בחיים כדי שיזכרו יום המיתה ויחזרו בתשובה, כפסוק בקהלת (ט, ח) "בְּכָל עֵת יִהְיוּ בְגָדֶיךָ לְבָנִים", ועל דרך מה שאמרו חכמים במסכת אבות "שוב יום אחד לפני מיתתך". </p>
+<p>כנראה שהיה מנהג בישראל להנעיל נעלים למתים. ביבמות (קד, א) מוזכר מנעל של זקן העשוי לכבודו, ופירש רש"י: לתכריכי מיתה. בירושלמי כלאים (פרק ט, ג) מוזכר שרבי ירמיה ציוה לקברו במנעליו (אף על פי שקשה להביא ראייה מרבי ירמיה שגם ציוה לקברו על צדו, בניגוד לקבורה המקובלת בישראל על הגב. וכן ציוה לתת מקלו בידו, ואין נוהגים כך כיום). אמנם בשו"ת חתם סופר (יורה דעה סימן קעה) למד מכאן מקור שנותנים ביד הנפטר שרביטים (געפליך) אך כאמור אין נוהגים כך כיום). יש מי שרצה ללמוד מכאן על מקור המנהג שלא להשתמש במנעלים של מת, שמא הוקצו לתכריכים והם אסורים בהנאה (כל בו על אבלות עמוד 91 בהערה). </p>
+<p>ע"ע <strong>חפצי הנפטר. טהרה. ציצית בתכריכי המת.</strong></p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

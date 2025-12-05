@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p><u>נוסחים לאזכרה</u></p>
+<p>"הזכרת נשמות" בשבת אחרי קריאת התורה לפני "אב הרחמים" לפי נוסח אשכנזי</p>
+<p>לאיש</p>
+<p>אל מלא רחמים שוכן במרומים. המצא מנוחה נכונה על כנפי השכינה. במעלות קדושים וטהורים כזהר הרקיע מזהירים, לנשמת (פלוני בן פלוני) שהלך לעולמו. בעבור שמשפחתו נודבת בעד הזכרת נשמתו בגן עדן תהא מנוחתו. לכן בעל הרחמים יסתירהו בסתר כנפיו לעולמים, ויצרור בצרור החיים את נשמתו, ה' הוא נחלתו, וינוח בשלום על משכבו, ונאמר אמן"</p>
+<p>לאשה</p>
+<p>אל מלא רחמים שוכן במרומים. המצא מנוחה נכונה על כנפי השכינה. במעלות קדושים וטהורים כזהר הרקיע מזהירים, לנשמת (פלונית בת פלונית) שהלכה לעולמה. בעבור שמשפחתה נודבת בעד הזכרת נשמתה, בגן עדן תהא מנוחתה. לכן בעל הרחמים יסתירה בסתר כנפיו לעולמים, ויצרור בצרור החיים את נשמתה, ה' הוא נחלתה, ותנוח בשלום על משכבה, ונאמר אמן"</p>
+<p>תפילת "יזכור" הנאמרת ביום הכפורים, בשמיני עצרת, בשביעי של פסח ובחג השבועות.</p>
+<p>בעבור נשמת האב</p>
+<p>יזכור אלהים את נשמת אבי מורי (פלוני בן פלוני) שהלך לעולמו, בעבור שאני נודב צדקה בעדו. בשכר זה תהא נפשו צרורה בצרור החיים עם נשמת אברהם יצחק ויעקב, שרה רבקה רחל ולאה, ועם שאר צדיקים וצדקניות שבגן עדן, ונאמר אמן.</p>
+<p>בעבור נשמת האם</p>
+<p>יזכור אלהים את נשמת אמי מורתי (פלונית בת פלונית) שהלכה לעולמה. בעבור שאני נודב צדקה בעדה. בשכר זה תהא נפשה צרורה בצרור החיים עם נשמת אברהם יצחק ויעקב, שרה רבקה רחל ולאה, ועם שאר צדיקים וצדקניות שבגן עדן, ונאמר אמן.</p>
+<p>בעבור נשמות סבא וסבתא ושאר קרובים</p>
+<p>יזכור אלהים את נשמת סבי וסבתי, זקני וזקנותי דודי ודודותי, אחי ואחיותי, בין מצד אבי בין מצד אמי שהלכו לעולמם, בעבור שאני נודב צדקה בעדם. בשכר זה תהיינה נפשותם צרורות בצרור החיים עם נשמת אברהם יצחק ויעקב, שרה רבקה רחל ולאה, ועם שאר צדיקים וצדקניות שבגן עדן, ונאמר אמן.</p>
+<p>בעבור נשמות המומתים על קידוש השם</p>
+<p>יזכור אלהים את נשמת (פלוני בן פלוני) (פלונית בת פלונית) ונשמת כל קרובי וקרובותי בין מצד אבי בין מצד אמי, שהומתו ושנהרגו ושנשחטו ושנשרפו ושנטבעו ושנחנקו על קידוש השם. בעבור שאני נודב צדקה בעד הזכרת נשמתם. בשכר זה תהיינה נפשותם צרורות בצרור החיים עם נשמת אברהם יצחק ויעקב, שרה רבקה רחל ולאה, ועם שאר צדיקים וצדקניות שבגן עדן, ונאמר אמן.</p>
+<p>"יזכור" לקדושי השואה</p>
+<p>אבינו מלכנו אל אלהי הרוחות לכל בשר, המצא מנוחה נכונה על כנפי השכינה, במעלות קדושים וטהורים כזוהר הרקיע מזהירים, את נשמותיהם של שש מאות רבבות אלפי ישראל, אנשים נשים ילדים וילדות, שנהרגו ושנטבחו ושנחנקו ושנקברו חיים בידי מפלצות הצוררים בגלות אירופה ובשאר מקומות. כלם קדושים וטהורים, בהם גאונים וצדיקים ארזי הלבנון ואדירי התורה, בגן עדן תהא מנוחתם. לכן בעל הרחמים יצרור בצרור החיים את נשמותיהם, ה' הוא נחלתם, וזכור לנו עקדתם, ותעמוד לכל ישראל זכותם. ארץ אל תכסי דמם, ואל יהיה מקום לזעקתם. בזכותם נדחי ישראל ישובו לאחוזתם, והקדושים לזיכרון תמיד נגד עיניך צדקתם. יבאו שלום ינוחו על משכבותם, ונאמר אמן.</p>
+<p>"אל מלא רחמים" לחיילי צה"ל</p>
+<p>אל מלא רחמים שוכן במרומים, המצא מנוחה נכונה על כנפי השכינה, במעלות קדושים טהורים וגבורים, כזוהר הרקיע מזהירים, לנשמות הקדושים שנלחמו בכל מערכות ישראל, במחתרת ובצבא ההגנה לישראל, ושנפלו במלחמתם ובעת מילוי תפקידם, ומסרו נפשם על קדושת השם, בהגנת העם והארץ; בעבור שאנו מתפללים לעילוי נשמותיהם. לכן בעל הרחמים יסתירם בסתר כנפיו לעולמים, ויצרור בצרור החיים את נשמותיהם, ה' הוא נחלתם, בגן עדן תהא מנוחתם, וינוחו בשלום על משכבותם, ותעמוד לכל ישראל זכותם, ויעמדו לגורלם לקץ הימין, ונאמר אמן.</p>
+<p>"יזכור" לחיילי צה"ל</p>
+<p>יזכור א-להים את בניו ובנותיו הנאמנים והאמיצים, חיילי צבא ההגנה לישראל, וכל לוחמי המחתרות וחטיבות הלוחמים במערכות העם, אשר חרפו נפשם במלחמה על תקומת ישראל, וכל אלו שנרצחו בארץ ומחוצה לה בידי המרצחים מארגוני הטרור.</p>
+<p>יזכור ישראל ויתברך בזרעו ויאבל על זיו העלומים וחמדת הגבורה וקדושת הרצון ומסירות הנפש אשר נספו במערכה הכבדה.</p>
+<p>יהיו גבורי מלחמות ישראל עטורי הנצחון, חתומים בלב ישראל לדור דור.</p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

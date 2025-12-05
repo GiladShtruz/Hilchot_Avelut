@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content"><strong>ניהול עיזבון</strong> <strong>על ידי צוואה או צו ירושה</strong> <strong>מבחינה משפטית </strong>– השופט צבי טל</span></div>
+<p>צו ירושה או צו קיום צוואה</p>
+<p>בני המשפחה קמים מאבלם, ולפעמים בתוך ימי ה"שבעה" הם שואלים את עצמם מה עושים בעניין הרכוש שהשאיר המנוח, היינו העיזבון. (לשם הקיצור נקטנו לשון זכר, "המנוח", והוא הדין כמובן ל"מנוחה").</p>
+<p>כדי שיהיה אפשר יהיה לחלק את העיזבון בין הזכאים לכך, או לעשות בו כל פעולה שהיא, צריך לקבל מבית המשפט המוסמך "<strong>צו ירושה</strong>" או אם המנוח השאיר צוואה – "<strong>צו קיום צוואה</strong>".</p>
+<p>תהליך זה עשוי להימשך זמן מה, במקרה הטוב כמה שבועות, ולפעמים צריך לעשות פעולות דחופות בעיזבון, כגון להציל רכוש שעלול להתבזבז או לרדת לטמיון; לגבות חובות המגיעים לעיזבון; לעמוד בהתחייבויות של המנוח; להוציא כסף מחשבון הבנק של המנוח למחיה; למנוע השתלטות על הרכוש וכיוצא בזה. במקרים כאלו אין פנאי להמתין עד להוצאת צו ירושה או צו קיום צוואה ויש לפנות בדחיפות בבקשה למינוי <strong>מנהל עיזבון זמני</strong> שיכול להיות גם אחד מבני המשפחה. המנהל הזמני יקבל סמכויות לכנס ולשמר את נכסי העיזבון, לשלם חובות דחופים ולמנוע השתלטות על הרכוש.</p>
+<p>בית המשפט המוסמך הוא בית המשפט לענייני משפחה הקרוב למקום מושבו של המנוח (או למקום הימצא הרכוש, אם לא היה המנוח תושב המקום). הפנייה נעשית בהגשת בקשה אל רשם בית משפט זה, במשרד האפוטרופוס הכללי הקרוב.</p>
+<p>בין אם מבקשים מינוי מנהל עיזבון זמני ובין אם לאו, יש לבדוק אם המנוח השאיר צוואה. גם אם אין איש מבני המשפחה יודע על כך, אין זאת אומרת שלא קיימת צוואה. יש לבדוק היטב בבית, אצל עורך הדין שהמנוח היה רגיל להיוועץ בו וכן במשרד האפוטרופוס הכללי, שבו קיים מירשם להפקדת צוואות מחיים. נמצאה צוואה, יש לפנות אל בית המשפט הנ"ל בבקשת צו קיום הצוואה. לא נמצאה צוואה, יש לפנות לשם בבקשה ל"צו ירושה".</p>
+<p>בית דין דתי </p>
+<p>גם בתי דין דתיים מוסמכים לאשר צוואות ולהוציא צווי-ירושה (בית דין דתי – בית דין רבני, בית דין שרעי, בית דין של עדה נוצרית ובית דין דרוזי). ואולם, סמכותם מותנית בכך שכל הנוגעים בדבר יסכימו לכך בכתב. (קטין יכול להסכים באמצעות אפוטרופוסו). בית דין דתי מוסמך לדון לפי הדין הדתי. בהיעדר צוואה, בית דין רבני , למשל, יכול להחליט כדין תורה (חלק כפול לבכור, בת אינה יורשת במקום שיש בנים ואשה אינה יורשת את בעלה (יש לה כתובה ומזונות). בזמננו נוהג בית הדין "לקבל קניין" מן הבנים על הסכמתם שאחיותיהם יקבלו את חלקם כמו הבנים, וכן האלמנה את זכויותיה.</p>
+<p style="font-size: 0.85rem">חוק הירושה</p>
+<p>בהיעדר צוואה, נקבעו בחוק הירושה (משנת התשכ"ה - 1965) הכללים הבאים (בלשון עממית):</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">1.</span><span class="list-content">השאיר המנוח בן-זוג בלבד – בן זוגו נוטל הכל. (הוא הדין לבת-זוג).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">2.</span><span class="list-content">השאיר המנוח ילדים בלבד – הם נוטלים הכל, ומתחלקים ביניהם שווה בשווה, בנים כבנות.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">3.</span><span class="list-content">השאיר המנוח בן-זוג וילדים, בן-הזוג נוטל את כל המטלטלים (כולל מכונית נוסעים) השייכים לפי המקובל ולפי הנסיבות למשק הבית המשותף, וכן נוטל הוא משאר כל העיזבון – מחצית, ואילו המחצית השנייה מתחלקת בשווה בין כל הילדים.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">4.</span><span class="list-content">לא השאיר המנוח ילדים (או צאצאיהם) אבל השאיר בן זוג והורה (או הורים), נוטל בן-הזוג מחצית והמחצית האחרת להורה (או להורים בשווה).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">5.</span><span class="list-content">השאיר המנוח רק בן זוג והורי–הורים (סבים וסבתות או מי מהם) או צאצאיהם נוטל בן הזוג שני שלישים (2/3) והשליש הנותר להורי ההורים או לצאצאיהם.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">6.</span><span class="list-content">לא השאיר המנוח שום קרוב מן האמורים או צאצאיהם – נוטלת מדינת ישראל את העיזבון למטרות חינוך, מדע, בריאות וסעד.</span></div>
+<p>בנוסף לכללים הנ"ל יש לציין :</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א')</span><span class="list-content">ילד מאומץ כדין, דינו כילד טבעי.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב')</span><span class="list-content">מי שבמותו היה נשוי ליותר מאשה אחת, שתיהן כאחת נוטלות את חלק בן הזוג.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג')</span><span class="list-content">כאשר בן הזוג נוטל שני שלישים בעיזבון (מקרה 5 לעיל), הוא נוטל את <strong>כל </strong>חלקו של המוריש בדירת המגורים שלהם (ובלבד שהם היו נשואים שלוש שנים או יותר ודרו יחד באותה דירה).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד')</span><span class="list-content">איש ואשה החיים חיי משפחה במשק בית משותף וידועים בציבור ורואים את הנשאר בחיים כאילו ציווה לו המוריש אותו חלק המגיע לבן הזוג (אלא אם כן הורה אחרת בצוואתו).</span></div>
+<p style="font-size: 0.85rem">הסתלקות יורש מחלקו </p>
+<p>יורש יכול להסתלק מחלקו בעיזבון, כולו או מקצתו, על ידי הודעה בכתב לבית המשפט, ודוק: <strong>אין </strong>הוא יכול להסתלק <strong>מנכס מסוים</strong>, אלא מחלקו בכלל העיזבון (או מחלק מחלקו). הסתלק יורש הסתלקות סתם – ולא ציין לטובת מי הוא מסתלק – החלק שממנו הסתלק מתחלק בין שאר כל היורשים ורואים אותו כאילו לא היה יורש לכתחילה. אבל ניתן להסתלק גם לטובת בן זוגו, ילדו או אחיו של המוריש, ואז החלק שממנו הסתלק היורש, מתוסף על חלקו של המוטב. שים לב  - ההסתלקות היא בלתי הפיכה, ואי אפשר להתחרט ולחזור ממנה.</p>
+<p>עניין זה חשוב כאשר אלמנה למשל, יורשת יחד עם הילדים את דירת המגורים. כאשר דירת המגורים רשומה על שם שני בני הזוג, יש לכל אחד רק מחצית מן הדירה. נפטר הבעל, עוברת מחצית מאותה מחצית אל האשה, והרי היא מעתה בעלת ¾ מן הדירה. הרבע הנותר עובר אל הילדים. נניח שהיו 3 ילדים, מקבל כל אחד מהם 1/12 מן הדירה. פיצול זה איננו נוח. כל פעולה שתעשה האלמנה בדירה, טעונה חתימתם של כל הילדים (או של מיופה כוח. גם האם יכולה להיות מיופת כוח). גם אם היחסים במשפחה טובים, והילדים יעשו רצון האלמנה, הדבר מסורבל והאלמנה מרגישה עצמה נפגעת מכך שבכל דבר היא תלויה בהסכמת הילדים. במקרה כזה טוב יעשו הילדים אם יסתלקו מחלקם בעיזבון לטובת האלמנה, ונמצאת היא בעלת הדירה כולה.</p>
+<p style="font-size: 0.85rem">לצוות או לא לצוות !!</p>
+<p>אם סדר הירושה הקבוע בחוק (ראה לעיל "חוק הירושה") נראה לך טוב ויפה – אינך צריך להשאיר צוואה. עזבונך יחולק בהתאם לחוק, ותחסוך מן היורשים התדיינויות מיותרות. אבל גם אז אין העניין פשוט. מי ינהל את העיזבון עד לחלוקתו וידאג שכל אחד יקבל את חלקו? מי יודע אם הילדים יוותרו לטובת האלמנה באשר לבעלות על דירת המגורים? כל שכן אם רצונך שחפצים מסוימים ילכו לאנשים מסוימים ושגם אישים או מוסדות שמחוץ ליורשים ייטלו חלק בעיזבון. שיקולים אלה וכאלה מביאים את האדם להחלטה לצוות מה ייעשה ברכושו. ויש שלא הרכוש בראש דאגותיו של האדם, אלא הוא מבקש להדריך את ילדיו ולהנחותם בדרך הנראית בעיניו, ואת משאלותיו האחרונות, הוא כותב בצוואתו.</p>
+<p>פרק גדול ונפלא  על צוואות, כתב השופט ש"ז חשין ז"ל בספרו דמויות מבית המשפט (הוצאת מסדה תשי"ג) בין היתר הוא כותב:</p>
+<div class="sage-quote"><p>ואין לך אמת גדולה מזו המובעת בצוואה. זוהי אמיתו הפנימית של האדם, ללא כיסוי וללא הערמה. הוא כותב את אשר הוא כותב ומצווה את אשר הוא מצווה, ללא פניה וללא חנופה. אין הוא אומר למצוא חן בעיני מישהו, או לרכוש לו ידיד ורע. אף שום סיכוי לטובת הנאה אין הוא משווה לנגד עיניו, שהרי גלוי וידוע לפניו, כי לכשתיפתח צוואתו ותפורסם ברבים, יהא הוא עצמו מצוי מאחורי הפרגוד, והבלי העולם הזה לא ישעשעו את נפשו עוד. מבחינה זו נושאת הצוואה אופי של וידוי, וידויו הגדול והאחרון של אדם לעצמו ובפני עצמו. ללא כחל ולא סרק. אין הוא מצפה לחסדו של מישהו ואין הוא מתיירא מפני מישהו. משום כך אף אינו חושש לכתוב ככל אשר עם לבבו, אהבתו לבני אדם, רגשי ידידותו, שמחתו, כעסו, זעפו ושנאתו - כל אלה ניתן להם ביטוי קולע וחודר בצוואתו. אתה מכיר אדם זמן רב, ונדמה לך כי תהית על קנקנו ואתה יודע אותו תוכו כברו, לימים אתה קורא את צוואתו, ומיד קם לפניך אדם אחר, מופלא, מלא הוד ומלא קסם, ואתה תמה: כלום זה הוא האיש שהכרת? אפילו נוכלים וצבועים נגלים באור אחר בצוואה אשר הם עורכים, ואולי אורם זה, האור הגנוז, הוא אורם הנכון והאמיתי. </p>
+<p>הצוואה אינה נייר משפטי מת. אין היא גם יצור חנוט ומאובן. היא מדברת, היא מספרת. יש לה צורה ותוכן חיים. היא מגלה את נבכי נפשו העמוקים ביותר של אדם. לפעמים יש בה קצת היסטוריה משפחתית, התהדרות והתפארות בשלשלת היוחסין, בגדולי התורה אשר דמם זורם בעורקיהם של המצווה ושל בניו. לפעמים יש בה עצה טובה והדרכה מועילה, כינויי החיבה, שבהם מכנה המצווה את קרוביו וידידיו, ואותות ההערצה אשר הוא מראה להם ולאחרים, מורים על יחסו למשפחתו ולעולם הסובב אותו.</p>
+</div><p>במסורת שלנו מצאנו צוואות. כבר במקרא יעקב מצווה לבניו (בראשית מט), דוד - לשלמה בנו (מלכים – א' ב'). שטר צוואה נקרא במשנה "<strong>דייתיקי</strong>", וההלכה עוסקת הרבה בצוואות לסוגיהן. בתלמוד מובאת צוואתו של רבנו הקדוש, רבי יהודה הנשיא: "תנו רבנן בשעת פטירתו של רבי אמר: לבניי אני צריך. נכנסו בניו אצלו. אמר להם היזהרו בכבוד אמכם…" (שהיתה אמם החורגת). נוגעת מאוד ללב היא צוואתו של הגאון רבי נפתלי כץ, בעל "סמיכת חכמים" במאה ה- 17 שנפטר גולה ואביון, ובצוואתו הוא מפציר באשתו, בשם אהבתם, שתמחול לו על שאין בעזבונו כדי סילוק כתובתה. </p>
+<p>ואולם יש שהצוואה משמשת מכשיר של נקמה ונטירה, שבה המצווה משלח את חיציו האחרונים בקרוביו שנואי נפשו. יש שהוא מדיר אותם מנכסיו או נותן להם פחות משווה פרוטה למען הרעימם, או שהוא מתנה את ירושתם בתנאים מוזרים ומשפילים. ויש שכוונתו לטובה והוא מתנה את ירושתם בהליכתם בדרך טובה, כגון בעלייתם לארץ, או בנשיאת אשה או איש מבני עמנו. צוואות כאלה ודומיהן, שימשו עילות להתדיינויות אין - קץ וכר נרחב לבתי המשפט, בארץ ובעולם, לבטא את השקפותיהם על תקנת הציבור. </p>
+<p>עריכת צוואה </p>
+<p>כשמחליטים לכתוב צוואה, אפשר לעשות זאת באחת משלוש דרכים:</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content"><u>צוואה בכתב יד,</u> שנכתבה כולה בכתב יד המצווה, והיא נושאת תאריך וחתומה על ידי המצווה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content"><u>צוואה חתומה על ידי המצווה בפני שני עדים.</u> מצוינת בתאריך, והמצווה מצהיר בפני העדים שזו צוואתו. הצוואה תיחתם על ידי שני העדים, שמאשרים באותו מעמד בחתימת ידם שהמצווה הצהיר וחתם.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content"><u>צוואה בפני רשות</u>, היינו אמירת דברי הצוואה בעל-פה בפני שופט או רשם או נוטריון, הרושמים את דברי המצווה. איש הרשות יחזור ויקרא לפניו את מה שרשם מפיו או מה שהעתיק מכתב היד, המצווה מצהיר שזו צוואתו ואיש הרשות יאשר כל זאת על פני הצוואה. במקום קריאת הצוואה על ידי איש הרשות, יכול המצווה לקרוא לפניו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content"><u>צוואה בעל-פה,</u> אפשרות נוספת היא צוואה בעל-פה של "שכיב-מרע" (חולה) או מי שרואה עצמו בנסיבות מוצדקות, מול פני המוות. הוא יכול לצוות בפני שני עדים השומעים לשונו. דברי המצווה בציון היום והנסיבות לעשיית הצוואה יירשמו בזיכרון דברים שייחתם בידי שני העדים סמוך ככל האפשר לשמיעה, ויופקדו בבית המשפט. אם המצווה יאריך ימים חודש לאחר שחלפו הנסיבות שהצדיקו את עשיית הצוואה, הרי הצוואה הזאת בטלה מאליה.</span></div>
+<p>תוקף גם לפי ההלכה</p>
+<p>כל צורות הצוואה דלעיל תקפות על-פי החוק. שומרי תורה ומצוות מקפידים שיהיה לצוואתם תוקף גם לפי דין תורה. דיני הנחלות בתורה נקראו "חוקת משפט", ואי אפשר להתנות עליהם. לכן מי שאומר על מי שאינו ראוי לרשת אותו לפי דין תורה, כי הוא יירש אותו, לא אמר כלום. אבל ההלכה מאפשרת לאדם לתת מתנות כרצונו. לכן, הלשון בצוואה המתאימה לירושת הבת או האשה היא לשון<strong> מתנה</strong> ולא לשון <strong>ירושה</strong>. </p>
+<p>המבנה של "צוואת בריא" (צוואה שאדם עושה כשהוא איננו "שכיב מרע" או "מצווה מחמת מיתה") הוא כזה שהמצווה מקנה את גוף נכסיו מהיום במתנה לזוכים, ואילו "הפירות" כלומר השימוש בנכסים הללו הוא שומר לעצמו עד שעה אחת לפני מותו, בעיה הלכתית נוספת היא, שצוואת בריא כזאת, אינה תופסת לגבי נכסים שהמצווה יקנה לאחר מכן. כדי להחיל את הצוואה גם על נכסים כאלה, הריהו מצהיר בצוואתו כי התחייב והשתעבד לכל זוכה לפי שווים של הנכסים הללו שעה אחת קודם פטירתו. בעיה נוספת שיש להתגבר עליה היא שכדי שלמתנה יהיה תוקף, היא צריכה להיות גלויה. ואילו צוואה פעמים הרבה אין אדם מבקש לפרסמה עד לאחר מותו. </p>
+<p>כדי להתגבר על כל הבעיות הללו, חיברו משפטנים יודעי דת ודין נוסחאות של צוואות שיש להן תוקף גם לפי החוק וגם לפי ההלכה<span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span>.</p>
+<p>שינוי או ביטול צוואה</p>
+<p>כל צוואה ניתנת לשינוי או לביטול על ידי המצווה בכל עת. ביטול יכול להיעשות על ידו בהשמדה פיזית או באותו אופן שבו נערכה הצוואה. גם תוספת או שינוי יכולים להיעשות באחד האופנים לעריכת הצוואה. כשיש סתירה בין הוראות בצוואות שונות, האחרונה בזמן מבטלת את קודמתה.</p>
+<p>כמה עצות טובות</p>
+<p>אף על פי שכל אדם יכול לעשות בעצמו צוואה באחת מן הצורות המנויות לעיל, טוב יעשה אם יוועץ במשפטן הבקי בתחום זה. כמה קולמוסים נשתברו וכמה דיו נשפך וכמה אלפי משפטים נערכו בענייני צוואות, ובוודאי אין אדם רוצה שיורשיו יפלו ברשת זו. המשפטן הבקי ינקוט כמה וכמה אמצעי זהירות מראש, כדי למנוע ממי שיחשוב שקופח בצוואה מלתקוף אותה בבית-המשפט. הוא ידאג שהעדים יהיו כשרים ולא תהא להם שום טובת הנאה מן הצוואה. הוא יבקש לשמוע מראש טענות שהמצווה לא היה כשיר או צלול או שפעל מתוך לחץ או השפעה לא הוגנת (למשל, על ידי צילום בסרט וידאו של כל התהליך). אם המצווה היה מאושפז בעת עריכת הצוואה הוא ידאג לתיעוד רפואי מתאים בדבר כשירות המצווה וצלילות דעתו. הוא יציע למצווה למנות אדם שינהל את העיזבון ויוציא לפועל את הצוואה ויחשוב על כל מיני אפשרויות שלא עולות על הדעת בדרך כלל. משפטן בקי גם יוכל  להשיב על שאלות, למשל: </p>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">האם אפשר לצוות לפלוני ואחריו לפלוני אחר? (אפשר, פלוני הראשון יכול לעשות הכל ברכוש, גם לאוכלו או למכרו, ורק מה שיישאר אחריו ילך לפלוני השני, אבל הראשון אינו יכול לנשל את השני וצוואתו ממה שיישאר מן העיזבון שקיבל).</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">האם אפשר להתחייב כלפי פלוני לכלול הוראה זו או אחרת בצוואה? (אי אפשר!).</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">האם אני יכול להשאיר למנהל עזבוני את שיקול הדעת למי לחלק (אי אפשר!).</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">האם מה שהאשה זכאית לקבל בתוקף כתובתה מנוכה מחלקה בעיזבון? (כן). </span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">האם האשה והילדים זכאים למזונות מן העיזבון מול זכאים שזכו בצוואה ? (כן, בנסיבות מסוימות). </span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">האם ילד שנולד למוריש לאחר פטירתו, יורש? (כן, אם הוא נולד תוך שלוש מאות ימים מפטירת המוריש. אם נולד מאוחר יותר, אין הוא מתייחס למוריש. אבל כיום, כאשר יש אפשרות שאשה תיכנס להיריון מזרעו המוקפא של המוריש זמן רב לאחר מותו, יצטרכו בתי המשפט לתת דעתם אם הילד שיוולד ייחשב ליורש למרות שנולד לאחר שלוש-מאות יום מפטירת המוריש. ודאי שהכנסת כגוף מחוקק צריכה לתת דעתה על כך).</span></div>
+<p>ועוד כהנה וכהנה.</p>
+<p>ועוד עצה טובה. חכמינו לא ראו בעין יפה נישול יורש מחלקו. וכך אמר האמורא שמואל לתלמידו הגדול רב יהודה: תלמידי השנון, אל תהא מעורב בהעברת נחלה! ואפילו מבן רע לבן טוב!</p>
+<p>הצוואה אינה צריכה לשמש מכשיר להתחשבנות, ולא להפליה שאינה ראויה בין הילדים.</p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " נוסח לדוגמא מובא בפרק הקודם, עמוד @."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="sage-quote"><p><strong>ד</strong><strong>יני אמירת הקדיש</strong></p>
+</div><p>תרגום הקדיש, הסברו, הקשר של הקדיש לאבלות, סוגי הקדישים השונים ומתי הם נאמרים – מובא לקמן בפרקי עיון והגות בעמוד @. דיני הקדיש מפורטים בשלחן ערוך בעיקר בחלק אורח חיים סימנים נה – נו, כאן יובאו בעיקר ההלכות הקשורות לקדיש הנאמר על ידי האבלים. </p>
+<p>אמנם הקדיש אינו תפילה על המת ולא בא להנציח את זכרו, אלא בא לשבח לפאר לרומם ולנשא את שמו הגדול של הבורא בעולם, ושייך לסדרי התפילה הקבועים. אולם אמירת הקדיש על ידי האבלים עושה נחת רוח גדולה לנפש הנפטר, ומלמדת עליו זכות, לכן מזכים את האבלים, ובעיקר יתומים, לומר את ה"קדיש דרבנן" הבא כחתימה ללימוד תורה, כדי שילמדו זכות על הנפטר (כמבואר בפרקי העיון דלקמן). </p>
+<p>כמה קדישים אומרים והיכן</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">כל ציבור וכל יחיד צריך לשמוע בכל יום לפחות שבעה קדישים<span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span>. ובשם המקובלים והאר"י הביאו שצריך שנים עשר, וכיום נוהגים לומר שלושה עשר קדישים בכל יום<span class="footnote-ref" onclick="showFootnote('2', '2', event)">2</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">אין להרבות בקדישים מעבר למה שמוזכר בהלכה<span class="footnote-ref" onclick="showFootnote('3', '3', event)">3</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">האבלים נהגו לומר קדיש דרבנן בשחרית בתחילת התפילה לאחר "רבי ישמעאל אומר: בשלֹש עשרה מידות...". בנוסח אשכנז מוסיפים קדיש לאחר "מזמור שיר חנוכת הבית לדוד". לקראת סיום תפילת שחרית אומרים קדיש לאחר "שיר של יום", וקדיש דרבנן לאחר "אין כאלוהינו" ו"פיטום הקטרת". האשכנזים מוסיפים קדיש גם אחרי "עלינו לשבח". </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">במנחה ובמעריב עדות המזרח אומרים קדיש לפני "עלינו לשבח", והאשכנזים אומרים אחרי "עלינו לשבח". האשכנזים המתפללים בנוסח ספרד מוסיפים קדיש במעריב גם לפני "עלינו לשבח". חלק מעדות המזרח מוסיפים חצי קדיש לאחר "עלינו לשבח". </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">במקומות שאומרים שיר השירים בכניסת השבת, האבלים אומרים לאחריו קדיש.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">האבלים אומרים קדיש אחרי קבלת שבת. עדות המזרח ונוסח אשכנז מוסיפים קדיש דרבנן אחרי "במה מדליקין". </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">בראש חודש אומרים קדיש אחרי "ברכי נפשי", ובשבת ובחג אחרי "אנעים זמירות". אומרים קדיש יתום אחרי קידוש לבנה.</span></div>
+<div class="sage-quote"><p>במועדי השנה לא יפורט כאן עקב ריבוי הנוסחים והמנהגים, וינהג כל אדם לפי מנהג עדתו כפי שמופיע בסידורים ובמחזורים, ובהתאם לבית הכנסת שהוא מתפלל בו. </p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">אם האבל עלה אחרון לתורה, אומר חצי קדיש אחרי קריאת התורה בשחרית (אבל אחר קריאת התורה במנחה אין אומרים קדיש), ומצד עיקר הדין יכול לומר קדיש גם אם לא עלה לתורה<span class="footnote-ref" onclick="showFootnote('4', '4', event)">4</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">מותר לאבל לומר קדיש באמצע פסוקי דזמרה אם לא ימצא אחר כך מניין לומר קדיש<span class="footnote-ref" onclick="showFootnote('5', '5', event)">5</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">אם האבל אינו שליח ציבור לכל התפילה, יכול לעבור לפני התיבה רק מ"אשרי ובא לציון" ואז יכול לומר קדיש תתקבל. במקרה כזה עליו להקפיד לומר בקול רם "וקרא זה אל זה ואמר" כדי שהציבור יענו יחד "קדוש קדוש קדוש". וכן יאמר בקול "ואשמע אחרי קול רעש גדול", כדי שהציבור יענו יחד "ברוך כבוד ה' ממקומו"<span class="footnote-ref" onclick="showFootnote('6', '6', event)">6</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">אם האבל אחר לבית הכנסת ואין לו שהות להתפלל קודם שיגיע הציבור ל"קדושא דסידרא" ("ובא לציון גואל"), יכול לעבור לפני התיבה ולומר "קדושא דסידרא" עם הציבור ולאחריו קדיש תתקבל<span class="footnote-ref" onclick="showFootnote('7', '7', event)">7</span> באופן שפורט בהלכה הקודמת.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">אבל הבא לבית הכנסת ומצא מניין ראשון בסוף התפילה, יוכל לומר קדיש גם במניין זה אף על פי שאינו מתפלל עמהם, וגם במניין השני שמתפלל בו<span class="footnote-ref" onclick="showFootnote('8', '8', event)">8</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">האבל אומר קדיש דרבנן לאחר לימוד אגדה. לכן נהגו לומר אחרי לימוד תורה את המשנה "רבי חנניא בן עקשיא אומר", שהיא מענייני אגדה, ולאחריה קדיש דרבנן הנקרא גם "יהא שמיה רבה דאגדתא"<span class="footnote-ref" onclick="showFootnote('9', '9', event)">9</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">לכתחילה צריך שכל העשרה ישתתפו בלימוד<span class="footnote-ref" onclick="showFootnote('10', '10', event)">10</span>, אך בדיעבד ניתן לומר קדיש דרבנן גם אם לא היו עשרה בלימוד אלא רק בקדיש<span class="footnote-ref" onclick="showFootnote('11', '11', event)">11</span>.</span></div>
+<p>מקצת דיני הקדיש</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">אומרים קדיש רק במניין עשרה. התחילו לומר בעשרה ויצאו מקצתם, אם נשארו שישה (רוב מניין) גומרים את הקדיש שהתחילו בו. מכל מקום עבירה היא לצאת ועליהם נאמר "ועוזבי ה' יכלו", אבל אם נשארו עשרה מותר לצאת<span class="footnote-ref" onclick="showFootnote('12', '12', event)">12</span>. אם אחד מהעשרה מתפלל ולא יכול לענות, בכל זאת מצטרף להשלים את המניין<span class="footnote-ref" onclick="showFootnote('13', '13', event)">13</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">אבל המאריך בתפילתו בדרך כלל, צריך להזדרז בתפילה כדי שיוכל לומר קדיש<span class="footnote-ref" onclick="showFootnote('14', '14', event)">14</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ז.</span><span class="list-content">יש לומר את הקדיש בקול רם. אולם אדם צרוד שקשה עליו הדבר, יכול לומר את הקדיש בלחש ולהצטרף לאחרים האומרים את הקדיש בקול רם<span class="footnote-ref" onclick="showFootnote('15', '15', event)">15</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ח.</span><span class="list-content">אומר קדיש מעומד, ויכוון רגליו כמו שמתפלל שמונה עשרה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ט.</span><span class="list-content">בסוף הקדיש פוסע האומר שלוש פסיעות לאחריו, לאחר מכן אומר "עושה שלום במרומיו" (ולא תוך כדי הפסיעות)<span class="footnote-ref" onclick="showFootnote('16', '16', event)">16</span>. הטעם לפסיעות בסוף הקדיש מפני שהוא כתלמיד הנפטר מרבו דרך כבוד, ורק לאחר כמה פסיעות עם פניו כלפי רבו, נפנה והולך לו. זה הטעם גם לפסיעות בסוף תפילת שמונה עשרה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ'.</span><span class="list-content">האבלים יכולים להתאמן בבית על אמירת הקדיש, כדי שיוכלו לאמרו כראוי, <span style="font-size: 0.75rem">ובפרט קדיש דרבנן שבו עלולים לטעות יותר</span><span class="footnote-ref" onclick="showFootnote('17', '17', event)">17</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"א.</span><span class="list-content">עשרה יהודים לועזים, ואין מי שיודע לומר בלשון הקודש, להוציא אותם ידי חובתם, אחד מהם יכול להיות שליח ציבור ולומר קדיש וקדושה בלשון לע"ז<span class="footnote-ref" onclick="showFootnote('18', '18', event)">18</span>. למעשה נוהגים גם מי שאינם יודעים עברית לומר את הקדיש כלשונו, כשמילותיו כתובות בלועזית אך ההגייה היא כלשון הקדיש המקורית.</span></div>
+<p>מי אומר ועל מי אומרים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ב.</span><span class="list-content">עיקר תועלת הקדיש היא על ידי בני הנפטר<span class="footnote-ref" onclick="showFootnote('19', '19', event)">19</span>. ואם אין לו בנים, יכולים לומר חתניו או בני הבנים לאחר שיקבלו רשות מהוריהם. ואם אין לו, יאמר אביו. ואם אין לו אב, יאמר אחיו או קרוב אחר. אם אין קרוב שיאמר, יכול לומר גם אדם אחר. רצוי שהאחר יאמר בשכר<span class="footnote-ref" onclick="showFootnote('20', '20', event)">20</span>, גם משום שבשכר ישנה יותר מחויבות מצד אומר הקדיש, גם משום שזו זכות יתרה לנפטר וגם למשפחתו שמשקיעה מאמץ ומשאבים עבורו. כאשר ממנים אדם עני שיאמר בשכר, יש בזה גם מצות צדקה. <span style="font-size: 0.75rem">בכל אופן, </span>אם ישנם בנים, מצוה עליהם להתאמץ ולומר את הקדיש בעצמם ולא לפטור עצמם על ידי תשלום.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ג.</span><span class="list-content">אותו אדם שאומר בשכר, יאמר בבוקר קודם התפילה שכל הקדישים שיאמר במשך היום יהיו לעילוי נשמת פלוני בן פלוני. <span style="font-size: 0.85rem">הכוונה היא שהקדישים הם לכבוד ה' יתברך, אלא שזכותם תהיה לפלוני בן פלוני.</span></span></div>
+<div class="sage-quote"><p style="font-size: 0.85rem">יש מי שכתב<span class="footnote-ref" onclick="showFootnote('21', '21', event)">21</span> שיאמר נוסח זה:</p>
+<p style="font-size: 0.85rem">יהי רצון מלפניך ה' אלוהי ואלוהי אבותי, שתחוס ותמחל ותרחם ברוב חסדיך על נפש רוח ונשמה של (פלוני בן פלוני), ולמען הקדישים שאמרתי אני עבדך היום הזה, תבטל כל המקטרגים והמשטינים ויעמדו מליצי יושר להמליץ טוב על נפשו רוחו ונשמתו, וילוה אליהם השלום וישבו במנוחת שלום השקט ובטח, ותגביר חסדך על מידת הדין וימתקו הגבורות הקשות על ידי פלא העליון שהוא חסדים גדולים ורחמים גמורים. </p>
+<p style="font-size: 0.85rem">יהיו לרצון לפניך אמרי פי והגיון לבי לפניך ה' צורי וגואלי.</p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ד.</span><span class="list-content">בהרבה מקומות נהגו שמי שיש לו אב ואם אינו אומר קדיש יתום. אבל אם ההורים לא מקפידים על כך אפשר לומר, וצריך לבקש מהם רשות. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ה.</span><span class="list-content">מי שנפטר בנו או בתו, מעיקר הדין אינו צריך לומר קדיש. אבל אם מרגיש צורך לומר קדיש, ובפרט אם נפטרו צעירים או שלא השאירו אחריהם בנים שיאמרו קדיש, יכול לומר עליהם קדיש במשך שנים עשר חודש. וכן הדין על אחיו שיכול לומר עליו קדיש, אם אביהם אינו מקפיד על כך<span class="footnote-ref" onclick="showFootnote('22', '22', event)">22</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ו.</span><span class="list-content">אחי הנפטר יכולים לומר קדיש יחד עם בניו של הנפטר. אביו ואחיו של הנפטר יכולים לומר קדיש יחד, אם האב אינו מקפיד<span class="footnote-ref" onclick="showFootnote('23', '23', event)">23</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ז.</span><span class="list-content">כיון שמצוה על הבן לומר קדיש לעילוי נשמת אמו, אין לאב למחות בבנו מלומר קדיש לעילוי נשמת האם. אם בכל זאת האב מקפיד, לא יאמר הבן קדיש יתום, ויוכל להיות שליח ציבור ולומר את הקדישים של שליח הציבור<span class="footnote-ref" onclick="showFootnote('24', '24', event)">24</span>. וירבה בלימוד תורה לעילוי נשמת אמו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ח.</span><span class="list-content">מי שנפטרה אשתו אינו מחויב אך רשאי לומר עליה קדיש. ואם מתה בלא בנים שיאמרו עליה קדיש, נכון שיאמר הבעל קדיש על אשתו במשך שנים עשר חודש<span class="footnote-ref" onclick="showFootnote('25', '25', event)">25</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ט.</span><span class="list-content">נפטר אדם שהיו לו רק בנות, יכולים חתניו או נכדיו לומר עליו קדיש, אם הוריהם לא מקפידים על כך. אך יש לדאוג שמישהו יקבל על עצמו את אמירת הקדיש באופן מסודר<span class="footnote-ref" onclick="showFootnote('26', '26', event)">26</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל'.</span><span class="list-content">יתום קטן והוא בן יותר משש שנים, שהגיע לחינוך ויודע למי מברכים וגופו נקי<span class="footnote-ref" onclick="showFootnote('27', '27', event)">27</span>, נכון לחנכו ולהרגילו לומר קדיש יתום על אביו ואמו. וכשיש ספק אם יודע למי מברכים, ימתינו עד שיגיע לגיל תשע. בקדישים שבתפילה נכון שהחזן יאמר עמו את הקדיש מלה במלה, אבל בקדיש של רשות יכול האבל הקטן לומר לבד<span class="footnote-ref" onclick="showFootnote('28', '28', event)">28</span>. פשוט שקטן לא יכול להיות שליח ציבור ולא יכול לומר קדישים של שליח הציבור. קטן שגדל מפורט דינו לקמן פרק נה@. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"א.</span><span class="list-content">אפשר לומר קדיש לעילוי נשמת כמה נפטרים<span class="footnote-ref" onclick="showFootnote('29', '29', event)">29</span>. לכן, במקום שאין מי שיאמר קדיש, אפשר לבקש ממי שכבר אומר קדיש, שיאמר ויתכוון גם לעילוי נשמת אדם נוסף. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ב.</span><span class="list-content">כיון שאפשר לומר קדיש לעילוי נשמת כמה נפטרים, מי שהתחיל לומר קדיש בשכר לעילוי נשמת אדם שנפטר, ולאחר מכן נפטר קרובו, יכול להמשיך ולומר קדיש אחד על שניהם<span class="footnote-ref" onclick="showFootnote('30', '30', event)">30</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ג.</span><span class="list-content">יש מי שכתב שהאומר קדיש בשכר עבור כמה נפטרים, יכול לומר באופן שלכל נפטר יהיה לפחות קדיש אחד בכל יום. וטוב שיאמר מראש לקרובי הנפטר שהתחייבותו היא על קדיש אחד ליום, משום שיותר לא צריך. שהרי במקומות שנהגו לחלק את הקדישים בין האבלים, היו מצבים בהם האבל היה אומר רק קדיש אחד ליום<span class="footnote-ref" onclick="showFootnote('31', '31', event)">31</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ד.</span><span class="list-content">אדם שיוצא למילואים או ישהה במקום שלא יוכל לומר קדיש. אם יש לו אחים נוספים שאומרים קדיש די בכך. אם הוא היחיד שאומר, ישכור אדם אחר שיאמר עבורו<span class="footnote-ref" onclick="showFootnote('32', '32', event)">32</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ה.</span><span class="list-content">אומרים קדיש גם על קטן שהיה בר דעת, ואפשר לומר קדיש גם על תינוק. אך אין אומרים קדיש על תינוק שנפטר בתוך שלושים יום וגם אין מתאבלים עליו. והטעם כיון שבתוך שלושים יום ללידתו לא נחשב התינוק כבר קיימא. כמובא לעיל בעמוד 128.@</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ו.</span><span class="list-content">בן מאומץ יכול וראוי שיאמר קדיש על הוריו המאמצים<span class="footnote-ref" onclick="showFootnote('33', '33', event)">33</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ז.</span><span class="list-content">גר צדק יכול לומר קדיש לזכר אביו או אמו הגויים, ונכון שינהג כך. למרות שחובת הקדיש היא רק על ישראל שנפטר, הרי כיון שהקדיש הוא שבח וקילוס לה', אין איסור לאמרו גם לזכר נשמת גוי. כמו כן יש בכך גם הכרת תודה מצד הבן הגר לאביו ולאמו שהביאוהו לחיי העולם הזה. וכן מותר לומר קדיש לנשמת גוי שהציל יהודים בשואה.<span class="footnote-ref" onclick="showFootnote('34', '34', event)">34</span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ח.</span><span class="list-content">אומרים קדיש גם על אדם רשע וגם על מי שאיבד עצמו לדעת<span class="footnote-ref" onclick="showFootnote('35', '35', event)">35</span>. <span style="font-size: 0.85rem">כיון שגם באב רשע שייך הדין של "ברא מזכה אבא" – הבן מזכה את האב. ובן חייב בכבוד אביו הרשע, כמו שמובא ברמב"ם (הלכות ממרים פרק ו, יא).</span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ט.</span><span class="list-content">אין אומרים קדיש על מומר, אולם אם נהרג המומר על ידי גויים, בניו אומרים עליו קדיש<span class="footnote-ref" onclick="showFootnote('36', '36', event)">36</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ'.</span><span class="list-content">ממזר רשאי לומר קדיש על אביו ועל אמו, ויאמר גם בחודש השנים עשר<span class="footnote-ref" onclick="showFootnote('37', '37', event)">37</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"א.</span><span class="list-content">מי שציוה שלא לאמר עליו קדיש אחר פטירתו, בכל זאת יש לומר עליו קדיש<span class="footnote-ref" onclick="showFootnote('38', '38', event)">38</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ב.</span><span class="list-content">אפשר לומר קדיש גם על מי שספק אם נפטר. אך אם הוא אדם נשוי אין אומרים עליו קדיש יתום כל זמן שבית דין לא התיר את אשתו להינשא. העיקרון הוא שאין נוהגים אבלות ולא אומרים קדיש במקרים של ספק, מחשש שמא על ידי האבלות או הקדיש יצא קול שאדם זה נפטר בוודאות, ועל ידי כך אשתו תינשא בטעות. וע"ע לקמן בפרק על שבויים ונעדרים. עמוד @</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ג.</span><span class="list-content">אם הנפטר לא השאיר בן אלא בת, והיא קטנה מתחת לגיל שתים עשרה, היו קהילות שהתירו לה לומר קדיש יתום בבית הכנסת, והיו קהילות שלא התירו בבית הכנסת אלא רק במניין בבית פרטי<span class="footnote-ref" onclick="showFootnote('39', '39', event)">39</span>, ויש שאסרו בכל מקרה<span class="footnote-ref" onclick="showFootnote('40', '40', event)">40</span>. ומנהג זה, שבנות יאמרו קדיש, לא נתפשט כלל בארץ ישראל<span class="footnote-ref" onclick="showFootnote('41', '41', event)">41</span>.</span></div>
+<p>אמירת קדיש על ידי כמה אבלים יחד</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ד.</span><span class="list-content">במצב שיש כמה אומרי קדיש יתום, יש שלושה מנהגים: אחד מעולה, אחד טוב ואחד גרוע.</span></div>
+<div class="sage-quote"><p>המנהג המעולה הוא לחלק את הקדישים בין האבלים, כך שבכל פעם אומר אבל אחד בלבד קדיש, וזה מועיל על כלל מתי ישראל. יש כללי קדימה המבוארים בפוסקים כיצד מחלקים את הקדישים בין האבלים<span class="footnote-ref" onclick="showFootnote('42', '42', event)">42</span>. גם על פי כללים אלו אי אפשר "לחטוף" קדיש מאדם אחר, כי כבר כתבו הפוסקים שמי שאמר קדיש המגיע לחברו, לא הועיל למי שהוא אמר בשבילו אלא למי שהיה באמת מגיע לו. מלבד זאת צריך לדעת שקדיש אחד עולה לכמה מתים, ואם כן אין מקום לתחרות או למחלוקת מי יאמר את הקדיש<span class="footnote-ref" onclick="showFootnote('43', '43', event)">43</span>.</p>
+<p>המנהג הטוב הוא, שכל האבלים אומרים יחד את הקדיש מילה במילה, באופן שכל הציבור יוכל לענות יחד "אמן" ו"אמן יהא שמיה רבא מבורך"<span class="footnote-ref" onclick="showFootnote('44', '44', event)">44</span>.</p>
+<p>המנהג הגרוע הוא שכולם אומרים יחד, כל אחד בקצב שלו, מבלבלים את הציבור, ואת אומרי הקדיש האחרים. על ידי כך מחטיאים את מטרת הקדיש – לשבח את שמו של הקדוש ברוך הוא בעולם.</p>
+<p>לכן יש לחלק את הקדישים בין האבלים, או לאומרם יחד מילה במילה בקול רם ובמתינות. וישנם בתי כנסיות שכל האבלים עומדים יחד במקום אחד כדי שיוכלו לומר את הקדיש במתואם<span class="footnote-ref" onclick="showFootnote('45', '45', event)">45</span>.</p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ה.</span><span class="list-content">בן עדות המזרח המתפלל במניין אשכנזי, או להיפך, לא ישנה מהנוסח שרגיל בו אם הוא היחיד האומר קדיש. אולם מותר לבן עדות המזרח המתפלל במניין אשכנזי, לקצר את נוסח "יהא שלמא" כפי האשכנזים, אם הוא אומר את הקדיש יחד עם מתפללים אשכנזים, כדי שיסיימו כולם ביחד<span class="footnote-ref" onclick="showFootnote('46', '46', event)">46</span>. </span></div>
+<div class="sage-quote"><p style="font-size: 1.15rem">למעשה נהגו לומר כל אדם בנוסח שלו ולהמתין למי שאומר נוסח ארוך יותר. על מנת להתאים את קצב הקדישים בין הנוסחים השונים של העדות, נציין שני מקומות עיקריים שיש להמתין בהם: בתחילת הקדיש יש להמתין לנוסח ספרד ולנוסח עדות המזרח האומרים "ויצמח פורקניה ויקרב משיחיה". ולקראת סיום הקדיש ב"יהא שלמא רבא" להמתין לנוסח עדות המזרח ששם הנוסח ארוך יותר.</p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ו.</span><span class="list-content">כשכמה אבלים אומרים קדיש יחד, והאחד מקדים את חברו, אם השומע ענה אמן לאחד תוך כדי דיבור של חברו, עולה האמן לשניהם. ואם ההפסק ביניהם יותר מתוך כדי דיבור, עונה על כל קדיש בנפרד<span class="footnote-ref" onclick="showFootnote('47', '47', event)">47</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ז.</span><span class="list-content">כשאומרים קדיש בבית האבל, מותר למנחמים לומר קדיש יחד עם האבלים.</span></div>
+<p>כמה זמן נאמר</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ח.</span><span class="list-content">האשכנזים אומרים קדיש לעילוי נשמת אב ואם במשך אחד עשר חודש<span class="footnote-ref" onclick="showFootnote('48', '48', event)">48</span>, גם בשנה מעוברת, ויש יחידים שנהגו שנים עשר חודש פחות שבוע<span class="footnote-ref" onclick="showFootnote('49', '49', event)">49</span>. עדות המזרח אומרים קדיש אחד עשר חודש, מפסיקים מלומר במשך שבוע, וחוזרים לומר קדיש עד סיום שנים עשר חודש<span class="footnote-ref" onclick="showFootnote('50', '50', event)">50</span>. הטעם שנהגו לומר פחות משנים עשר חודשים מלאים, לפי שאמרו חז"ל "משפט רשעי ישראל בגיהנום שנים עשר חודש", וכשאומר קדיש הוא זכות לנפטר לעילוי נשמתו ולהצילו מדין גיהנום. כיון שאין זה מכבוד אביו ואמו להחזיקם כרשעים, חלילה, זו הסיבה שאין אומרים קדיש שנים עשר חודשים שלמים. לכן, על מאבד עצמו לדעת יש לומר שנים עשר חודש שלמים. (ע"ע לקמן בפרק על מאבד עצמו לדעת).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ט.</span><span class="list-content">אם ההורים ציוו לומר במשך שנים עשר חודש, פשוט שיעשה כדבריהם<span class="footnote-ref" onclick="showFootnote('51', '51', event)">51</span>. שהרי כל הסיבה לומר פחות משנים עשר חודש היא כדי לא לפגוע בכבודם. ואם צוו לומר שנים עשר חודש, לעשות כדבריהם זהו כבודם.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ'.</span><span class="list-content">לאחר שנת האבל יכול הבן להמשיך לומר קדיש, אך רצוי לומר רק פעם בשבוע, ויגיד מראש "בלי נדר" כדי שלא יתחייב באמירת קדיש כנדר<span class="footnote-ref" onclick="showFootnote('52', '52', event)">52</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"א.</span><span class="list-content">את חשבון אחד עשר חודש ושנים עשר חודש מחשבים מיום הקבורה, כמו שאר מנהגי האבלות. את יום השנה מחשבים מיום הפטירה<span class="footnote-ref" onclick="showFootnote('53', '53', event)">53</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"ב.</span><span class="list-content">קדיש דרבנן אומרים במשך שנים עשר חודש. קדיש זה יכול להאמר גם על ידי מי שיש לו אב ואם<span class="footnote-ref" onclick="showFootnote('54', '54', event)">54</span>. הטעם הוא שאמירת קדיש לאחר לימוד מדרש או אגדה היא מעיקר הדין<span class="footnote-ref" onclick="showFootnote('55', '55', event)">55</span>, ולכן יש לאמרו גם אם אין יתום.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"ג.</span><span class="list-content">קרובי הנפטר שאינם בניו אומרים עליו קדיש במשך שלושים יום<span class="footnote-ref" onclick="showFootnote('56', '56', event)">56</span>. אך אם נפטר ללא בנים, קרוביו אומרים עליו קדיש במשך שנים עשר חודש, למרות שמתאבלים רק שלושים יום<span class="footnote-ref" onclick="showFootnote('57', '57', event)">57</span>. במקרה כזה אפשר לומר שנים עשר חודש ממש ולא אחד עשר חודש כמו אצל אב ואם. שכל הטעם לומר אחד עשר חודש הוא משום כבוד אב ואם. ובשאר קרובים לא שייך טעם זה. בכל זאת יש שנהגו גם על שאר קרובים לומר רק אחד עשר חודש<span class="footnote-ref" onclick="showFootnote('58', '58', event)">58</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"ד.</span><span class="list-content">אבל האומר קדיש על אב או אם, ובתוך השנה החל לומר קדיש גם על קרוב אחר, לפי מנהג עדות המזרח יפסיק למשך שבוע בתחילת החודש השנים עשר, וימשיך לאחר מכן<span class="footnote-ref" onclick="showFootnote('59', '59', event)">59</span>. ויש אומרים שלא יפסיק לעבור לפני התיבה ולומר קדיש לאחר אחד עשר חודש אפילו ליום אחד, אלא ימשיך לומר קדיש ללא הפסקה, כיון שזו גם תקופת האבלות למת הנוסף<span class="footnote-ref" onclick="showFootnote('60', '60', event)">60</span>. לפי האשכנזים, יש אומרים שיפסיק רק ביום הראשון והאחרון של החודש השנים עשר, ויש אומרים שיבקש או ישכור אדם אחר שיאמר במקומו חודש זה<span class="footnote-ref" onclick="showFootnote('61', '61', event)">61</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"ה.</span><span class="list-content">אם שמע שנפטרו הוריו זמן רב אחר פטירתם, בכל זאת יאמר קדיש רק עד אחד עשר חודש מפטירתם. אם שמע בחודש השנים עשר יאמר כל החודש חוץ מיום אחרון. אם שמע לאחר שנים עשר חודש, לא יאמר יותר<span class="footnote-ref" onclick="showFootnote('62', '62', event)">62</span>.</span></div>
+<p>הכוונה בקדיש</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"ו.</span><span class="list-content">יש לזכור שמטרת הקדיש הראשונה היא לשבח ולרומם את שמו הגדול של  ה' יתברך בעולם, ולא לשום תכלית אחרת. אלא שיש בשבח שנאמר לכבוד ריבונו של עולם, זכות לנפטר שלמענו נאמר הקדיש.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"ז.</span><span class="list-content">יש להשתדל לומר את הקדיש  בדקדוק ובכוונה. מן הראוי לאמרו מן הכתוב כדי לא להשמיט תיבות וכדי להגות היטב את המילים.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"ח.</span><span class="list-content">עיקר נחת רוח שאדם עושה להוריו אחר פטירתם הוא בלימוד התורה. לכן יש לאבלים להתחזק בלימוד תורה, ולהשתדל להשתתף בשיעורי תורה מדי יום, ובכל עת פנוי יעסקו בתורה לפי מדרגתם<span class="footnote-ref" onclick="showFootnote('63', '63', event)">63</span>.</span></div>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " בית יוסף ריש סימן נה, בשם האגור ושבלי הלקט.", "2": " גשר החיים פרק ל, ז, א. וראה פירוט על כך לקמן בפרקי עיון והגות עמוד @.", "3": " בערוך השלחן (אורח חיים סימן נה, ג) כתב: \"יש מהמון בני ישראל שסוברים שמצוה להרבות בקדישים, וכמה טועים הם, וקורא אני עליהם \"תשתפכנה אבני קדש בראש כל חוצות\", ואין משתמשים בשרביטו של מלך מלכי המלכים הקב\"ה רק כפי מה שהרשה אותנו, והמרבה בהם מזלזל בהדרת קדש...\".", "4": " גשר החיים פרק ל, ח, ב. בצרור החיים (פיסקה רעו) כתב שהוא מנהג עדות המזרח, אך כאמור מופיע מנהג זה גם בגשר החיים. ", "5": " פני ברוך סימן לד, יט, בשם אביו שהביא מהאורחות חיים.", "6": " גשר החיים פרק ל, ח, ג. ", "7": " פני ברוך שם בשם פחד יצחק.", "8": " במראה הבזק חלק ד סימן קיז, בשם חלקת יעקב.", "9": " סוטה מט, א.", "10": " מגן אברהם על שלחן ערוך אורח חיים, תחילת סימן רלד.", "11": " טורי זהב על שלחן ערוך אורח חיים סימן נה, סעיף קטן ג. גשר החיים פרק ל, ח, יא.", "12": " שלחן ערוך ורמ\"א, אורח חיים סימן נה, א – ב.", "13": " שלחן ערוך אורח חיים סימן נה, ו.", "14": " צרור החיים פיסקה רעח.", "15": " ילקוט יוסף  סימן ל, יד.", "16": " שלחן ערוך אורח חיים סימן נו, ה.", "17": " באגרות משה (אורח חיים חלק ב, נו) כתב שגם גדול הצריך להתלמד מותר לומר ברכות בשם ומלכות, כדי שלא יטעה. ומסתבר שהוא הדין בקדיש. ", "18": " משנה ברורה סימן נה, א, בשם תשובת דבר שמואל. ", "19": " רמ\"א על שלחן ערוך יורה דעה סימן שעו, ד.", "20": " בית יוסף סוף סימן תג. גשר החיים פרק ל, ח, ז. ילקוט יוסף סימן ל, יט, כב.", "21": "כך מובא בספר הקדיש עמוד קסו, בשם כף החיים (אורח חיים סימן נה, ב), אך בכף החיים לא מצאתי נוסח זה, אלא כתוב שיאמר שהוא לעילוי נפש רוח ונשמה של פלוני, ויהי נועם  וכו' (שם, סעיף ל).", "22": " ילקוט יוסף סימן ל, לה, לז.", "23": " צרור החיים פיסקה ערב - רעג.", "24": " רמ\"א יורה דעה סימן שעו, ד. ובילקוט יוסף (סימן מא, א) כתב שישמע לאביו רק אם האב חושש לסכנת חייו, אך אם בגלל כעס על האם ציוהו שלא לומר קדיש, לא ישמע לו, שהרי זה כאומר לבנו לעבור על דברי תורה שאין שומעים לו ועיין עוד שם פרטי הלכות.", "25": " ילקוט יוסף סימן ל, לו.", "26": " צרור החיים פיסקה ער.", "27": " ילקוט יוסף סימן ל, יח.", "28": " כף החיים סימן נה, כא.", "29": " הגהות הרמ\"א על שלחן ערוך יורה דעה שעו, ד. גשר החיים פרק ל, ח, ח.", "30": " ילקוט יוסף סימן ל, כג. והוסיף שם שיכול להמשיך ולקבל שכר עבור הקדיש לנפטר הראשון. ", "31": " אגרות משה, יורה דעה חלק א, רנד.", "32": " צרור החיים פיסקה רעז.", "33": " ילקוט יוסף סימן ל, כד.", "34": " ילקוט יוסף סימן ל, כה – כו.", "35": " גשר החיים פרק ל, ח, י. בספר במראה הבזק (חלק ה, צב) כתבו לומר קדיש גם על מי שציוה לשרוף את גופתו לאחר מותו, על אף חומרת מעשהו. ", "36": " רמ\"א יורה דעה סוף סימן שע\"ו. והטעם כתב בדרכי משה שם שהריגתו מכפרת עליו. ובנטעי גבריאל (חלק ב, פרק מ, ד) כתב לומר קדיש גם על מומר כדי לכפר על עוונו ולהצילו מרדת שחת.", "37": " נטעי גבריאל חלק ב, פרק מ, יא, בשם שו\"ת דברי סופרים. הטעם כיון שיש עליו מצות כיבוד אב ואם, וכיון שנולד באיסור יאמר גם בחודש שנים עשר לכפר על הוריו. ", "38": " ילקוט יוסף סימן מא, ג. אמנם בפתחי תשובה (יורה דעה סימן שמד, סעיף קטן א) הביא דעה שיש לציית לציווי האב. אולם כיון שעיקר הטעם לאמירת הקדיש הוא לקדש את שם ה' בעולם, אין סמכות לשום אדם לצוות להימנע מכך, ולכן יש לומר קדיש (ע\"ע בפני ברוך סימן לד הערה ו).", "39": " גשר החיים פרק ל, ח, ה. (מביא שם מקורות מבאר היטב אורח חיים סימן קלב, ומשו\"ת חוות יאיר המובא בפתחי תשובה ליורה דעה סימן שעו, ג; ומשדי חמד אבלות סימן קס. ובספר אור לאבל (עמוד 148) הביא ממשפטי עוזיאל אורח חיים מהדורה תניינא סימן יב, ומהרב הענקין בהפרדס לח חוברת ו סימן מה). ", "40": " ילקוט יוסף סימן ל, כא.", "41": " \"לאחרונה הנושא מועלה על הפרק. בנות להורים שלא השאירו אחריהם בן זכר מעוררות את השאלה בדבר אמירת קדיש על ידן. אישה דתית מודרנית פעילה יותר בחיים הדתיים הקהילתיים והיא מרגישה גם מחויבות רבה יותר למורשתה הרוחנית של משפחתה. יש לכך שני היבטים. האחד – רצון כן ואמיתי להנציח את זכר האב או האם על ידי אמירת קדיש. השני – אינו נוגע כלל לזכר ההורים, אלא הוא נובע מעימותים חברתיים כלליים, והקדיש אינו אלא הזדמנות להשתמש בו ככלי לנגח באמצעותו את סדרי בית הכנסת. כידוע, קיימת בבית הכנסת הפרדה (גם ווקאלית) בין גברים לנשים, כדי שכל אחד יוכל להתייחד עם קונו, ללא נוכחותו של מין אחר. יש להבחין בין המניעים השונים. המניע הראשון ראוי להתחשבות, אך במסגרת ההלכה. דהיינו, אישה יכולה לומר קדיש בעזרת נשים, כאשר בו זמנית גברים אומרים קדיש בעזרת גברים. אולם המניע השני ראוי לו שיידחה למחוזות אחרים. אין לנצל את הנפטר למאבקים חברתיים שלא כאן מקומם\". תשובת הרב יעקב אריאל שליט\"א, בתוך \"דרכה של היהדות במוות ובאבלות\", עמוד 358. ", "42": " כמפורט לעיל לגבי שליח ציבור (עמוד @), וביתר פירוט בהגהות הרמ\"א יורה דעה סימן שעו, ד; בביאור הלכה לאורח חיים סימן קלב; בקיצור שלחן ערוך סימן כו; בגשר החיים פרק ל פיסקה י.", "43": " גשר החיים פרק ל, י, טו.", "44": " בגשר החיים (שם יב), ובילקוט יוסף (סימן ל, יג) כתבו שכן הוא מנהג הספרדים ועדות המזרח.", "45": " גשר החיים פרק ל, י, יב; שאילת שלמה חלק ה, עה. ", "46": " ילקוט יוסף סימן ל, נז.", "47": " גשר החיים שם יד. ילקוט יוסף סימן ל, טו.", "48": " רמ\"א יורה דעה סימן שעו, ד. יום ההפסקה הוא יום אחד קודם יום השנה בחודש הקודם. כגון, אם נפטר ביום ח' בחשון, יום ההפסק הוא ז' בתשרי, ובשנה מעוברת מפסיק בז' באלול. גשר החיים פרק לב, יג.", "49": " גשר החיים פרק ל, ט, ג.", "50": " ילקוט יוסף סימן ל, ה. צרור החיים פיסקה רסג.  ", "51": " גשר החיים פרק ל, ט, ו.", "52": " צרור החיים פיסקה רסז. ילקוט יוסף סימן לט, ד.", "53": " גשר החיים פרק ל, ט, י.", "54": " שם, ג. צרור החיים פיסקה רסג. ", "55": " רמב\"ם  סדר תפילות כל השנה, בסוף ספר אהבה: \"קדיש דרבנן, כל עשרה מישראל או יתר שעוסקין בתלמוד תורה שעל פה, ואפילו במדרשות או בהגדות, כשהן מסיימין אומר אחד מהם קדיש ... הנקרא קדיש דרבנן\". אמנם נוסח הקדיש דרבנן לפי הרמב\"ם שונה מנוסחנו, והוא הנקרא בפינו \"קדיש הגדול\", וכמו שיפורט לקמן בפרק @.", "56": " הערת הרב נבנצל שליט\"א – שאר הקרובים אינם אומרים קדיש, ולעניין זה הרי הם כשאר ישראל. אם רצונם לומר קדיש יכולים לעבור לפני התיבה או יאמרו קדיש דרבנן. ", "57": " צרור החיים פיסקה רסה ופיסקה רעג. ", "58": " גשר החיים פרק ל, ט, ד.", "59": " צרור החיים פיסקה רסד.", "60": " ילקוט יוסף סימן ל, ח. וכתב שכן הובא בספר הליכות שלמה (הלכות תפילה עמוד רכה) בשם הגרש\"ז אויערבך.", "61": " גשר החיים פרק ל, ט, ח. צרור החיים שם. ", "62": " גשר החיים פרק ל, ט, ה. פני ברוך סימן לד, ד – ה. אמנם בכל בו על אבלות (עמוד 378) כתב שיאמר קדיש.", "63": " ילקוט יוסף סימן ל, יא."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

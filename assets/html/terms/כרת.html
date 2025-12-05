@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p><strong>כרת</strong></p>
+<p style="font-size: 0.85rem">עונש בידי שמים המוזכר בתורה פעמים רבות "וְנִכְרְתָה הַנֶּפֶשׁ הַהִוא". המשנה מונה שלושים ושש עברות שחייבים עליהן כרת (מסכת כריתות א, א). </p>
+<p>מהו עונש כרת? רש"י פירש (שבת כה, ב) שימיו נכרתים – מת לפני זמנו, ערירי בלא צאצאים. בגמרא (מועד קטן כח, א) מובאת ברייתא "מת בחמישים שנה זו היא מיתת כרת". ורבה אמר: "מחמישים שנה ועד שישים שנה זו היא מיתת כרת". רב יוסף כשנעשה בן שישים שנה עשה יום טוב לחכמים, אמר: יצאתי מידי כרת.</p>
+<p>אבן עזרא בפירושו לתורה (בראשית יז, יד) מביא דעה כי כרת היינו שיכרת שמו במות זרעו. כי מי שיש לו בנים כאילו הוא חי ושמו לא נכרת. וכן מובא בגמרא (יבמות נה, א) יש לו בנים – קוברם, אין לו בנים – הולך ערירי.</p>
+<p style="font-size: 0.85rem">הרמב"ם כותב (הלכות תשובה ח, ה) כי בעונש כרת תיכרת הנפש ותאבד ולא תזכה לחיי העולם הבא. הרמב"ן (בפירושו לספר ויקרא יח, כט) משיג על הרמב"ם ומבדיל בין שלושה מיני כרת: האחד, שנאמר בו "וְנִכְרַת הָאִישׁ" שאם הוא צדיק ורובו זכויות, אבל גברה עליו תאוותו ונכשל בעבירה של כרת, יכרתו ימיו וימות בנעורים קודם שיגיע לימי הזקנה, והם שישים שנה; אבל יהיה לו חלק לעולם הבא והוא העולם שאחרי התחיה. השני, שנאמר בו "וְנִכְרְתָה הַנֶּפֶשׁ", שאם מלבד החטא של כרת עוונותיו מרובים מזכויותיו, עונש הכרת מגיע לנפש החוטאת לאחר שתפרד מן הגוף, והיא נכרתת מעולם הנשמות; וזה אין לו כרת בגופו, אלא פעמים יחיה ויגיע לימים רבים. אבל נשמתו נכרתת מחיי גן עדן. והשלישי, שנאמר בעובד עבודה זרה ומגדף "הִכָּרֵת תִּכָּרֵת הַנֶּפֶשׁ הַהִוא", ודרשו: "הִכָּרֵת" – בעולם הזה, "תִּכָּרֵת" – לעולם הבא, לומר שגופו נכרת מחיי העולם הזה, ונפשו נכרתת מחיי גן עדן ומהעולם הבא, שמת בדמי ימיו ואין לו חלק לעולם הבא. (דברי הרמב"ם מצוטטים לעיל בעמוד @. הרמב"ן מביא הערה נוספת על דברי הרמב"ם בספרו תורת האדם, שער הגמול. דבריו מובאים גם בהגהות מימוניות על הרמב"ם בהלכות תשובה, עיין שם. ע"ע בספר מעבר יַבֹּק מאמר שפתי רננות פרק כה) </p>
+<p>(<strong>תיקון כרת</strong> הוא מושג קבלי. תיקון כרת עושים לעילוי נשמת הנפטר בסיום השבעה, בשלושים וביום השנה. עיין בספר הקונטרס היחיאלי סימן נא).</p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

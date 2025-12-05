@@ -8,12 +8,55 @@ import '../../widgets/chapter_list_item.dart';
 import '../reader/reader_screen.dart';
 
 /// Home screen displaying the list of chapters
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool _isSearching = false;
+  String _searchQuery = '';
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  List<_SearchableItem> _getFilteredItems() {
     final chapters = ChaptersData.chapters;
+    final items = <_SearchableItem>[];
+
+    for (final chapter in chapters) {
+      // Check if chapter title matches
+      final chapterMatches = _searchQuery.isEmpty ||
+          chapter.title.contains(_searchQuery) ||
+          (chapter.description?.contains(_searchQuery) ?? false);
+
+      // Check sub-chapters
+      final matchingSubChapters = chapter.subChapters.where((sub) {
+        return _searchQuery.isEmpty || sub.title.contains(_searchQuery);
+      }).toList();
+
+      if (chapterMatches || matchingSubChapters.isNotEmpty) {
+        items.add(_SearchableItem(
+          chapter: chapter,
+          matchingSubChapters: _searchQuery.isEmpty
+              ? chapter.subChapters
+              : matchingSubChapters,
+        ));
+      }
+    }
+
+    return items;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final filteredItems = _getFilteredItems();
 
     return Scaffold(
       body: CustomScrollView(
@@ -40,61 +83,156 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-          // Resume reading banner
-          Consumer<ReadingProvider>(
-            builder: (context, readingProvider, child) {
-              if (!readingProvider.hasSavedPosition) {
-                return const SliverToBoxAdapter(child: SizedBox.shrink());
-              }
+          // Resume reading banner (only when not searching)
+          if (!_isSearching)
+            Consumer<ReadingProvider>(
+              builder: (context, readingProvider, child) {
+                if (!readingProvider.hasSavedPosition) {
+                  return const SliverToBoxAdapter(child: SizedBox.shrink());
+                }
 
-              final savedPosition = readingProvider.savedPosition!;
-              final subChapter = ChaptersData.getSubChapterById(savedPosition.chapterId);
-              if (subChapter == null) {
-                return const SliverToBoxAdapter(child: SizedBox.shrink());
-              }
+                final savedPosition = readingProvider.savedPosition!;
+                final subChapter =
+                    ChaptersData.getSubChapterById(savedPosition.chapterId);
+                if (subChapter == null) {
+                  return const SliverToBoxAdapter(child: SizedBox.shrink());
+                }
 
-              final parentChapter = ChaptersData.getParentChapter(savedPosition.chapterId);
+                final parentChapter =
+                    ChaptersData.getParentChapter(savedPosition.chapterId);
 
-              return SliverToBoxAdapter(
-                child: _buildResumeCard(
-                  context, 
-                  subChapter, 
-                  parentChapter,
-                  savedPosition.scrollPosition,
-                ),
-              );
-            },
-          ),
-          // Section header
+                return SliverToBoxAdapter(
+                  child: _buildResumeCard(
+                    context,
+                    subChapter,
+                    parentChapter,
+                    savedPosition.scrollPosition,
+                  ),
+                );
+              },
+            ),
+          // Section header with search icon
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
-              child: Text(
-                'תוכן הספר',
-                style: Theme.of(context).textTheme.titleLarge,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: _isSearching
+                        ? TextField(
+                            controller: _searchController,
+                            autofocus: true,
+                            textDirection: TextDirection.rtl,
+                            decoration: InputDecoration(
+                              hintText: 'חפש בתוכן העניינים...',
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 8,
+                              ),
+                              suffixIcon: IconButton(
+                                icon: const Icon(Icons.close, size: 20),
+                                onPressed: () {
+                                  setState(() {
+                                    _isSearching = false;
+                                    _searchQuery = '';
+                                    _searchController.clear();
+                                  });
+                                },
+                              ),
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                _searchQuery = value;
+                              });
+                            },
+                          )
+                        : Text(
+                            'תוכן הספר',
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                  ),
+                  if (!_isSearching)
+                    IconButton(
+                      icon: const Icon(
+                        Icons.search,
+                        color: AppTheme.primaryColor,
+                      ),
+                      tooltip: 'חפש בתוכן הספר',
+                      onPressed: () {
+                        setState(() {
+                          _isSearching = true;
+                        });
+                      },
+                    ),
+                ],
               ),
             ),
           ),
-          // Chapters list
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                final chapter = chapters[index];
-                return Consumer<ReadingProvider>(
-                  builder: (context, readingProvider, child) {
-                    return ChapterListItem(
-                      chapter: chapter,
-                      hasProgress: (subChapterId) => 
-                          readingProvider.hasChapterPosition(subChapterId),
-                      onSubChapterTap: (subChapter) => 
-                          _openSubChapter(context, subChapter),
-                    );
-                  },
-                );
-              },
-              childCount: chapters.length,
+          // Search results info
+          if (_isSearching && _searchQuery.isNotEmpty)
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  'נמצאו ${filteredItems.length} פרקים',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AppTheme.secondaryTextColor,
+                      ),
+                ),
+              ),
             ),
-          ),
+          // Empty state for search
+          if (_isSearching &&
+              _searchQuery.isNotEmpty &&
+              filteredItems.isEmpty)
+            const SliverFillRemaining(
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.search_off,
+                      size: 64,
+                      color: AppTheme.secondaryTextColor,
+                    ),
+                    SizedBox(height: 16),
+                    Text(
+                      'לא נמצאו תוצאות',
+                      style: TextStyle(
+                        color: AppTheme.secondaryTextColor,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          // Chapters list
+          if (filteredItems.isNotEmpty)
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  final item = filteredItems[index];
+                  return Consumer<ReadingProvider>(
+                    builder: (context, readingProvider, child) {
+                      return ChapterListItem(
+                        chapter: item.chapter,
+                        filteredSubChapters: _searchQuery.isNotEmpty
+                            ? item.matchingSubChapters
+                            : null,
+                        hasProgress: (subChapterId) =>
+                            readingProvider.hasChapterPosition(subChapterId),
+                        onSubChapterTap: (subChapter) =>
+                            _openSubChapter(context, subChapter),
+                        initiallyExpanded: _searchQuery.isNotEmpty,
+                      );
+                    },
+                  );
+                },
+                childCount: filteredItems.length,
+              ),
+            ),
           // Bottom padding
           const SliverToBoxAdapter(
             child: SizedBox(height: 100),
@@ -208,11 +346,10 @@ class HomeScreen extends StatelessWidget {
     double? scrollPosition,
   }) {
     final readingProvider = context.read<ReadingProvider>();
-    
-    // Get saved position for this sub-chapter if no specific position provided
-    final savedPosition = scrollPosition ?? 
-        readingProvider.getChapterPosition(subChapter.id);
-    
+
+    final savedPosition =
+        scrollPosition ?? readingProvider.getChapterPosition(subChapter.id);
+
     readingProvider.openSubChapter(subChapter, scrollPosition: savedPosition);
 
     Navigator.push(
@@ -225,4 +362,15 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Helper class for search results
+class _SearchableItem {
+  final Chapter chapter;
+  final List<SubChapter> matchingSubChapters;
+
+  _SearchableItem({
+    required this.chapter,
+    required this.matchingSubChapters,
+  });
 }

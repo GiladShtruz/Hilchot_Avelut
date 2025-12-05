@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../config/theme.dart';
 import '../../data/chapters_data.dart';
+import '../../data/terms_data.dart';
 import '../../models/models.dart';
 import '../../providers/favorites_provider.dart';
 import '../../providers/reading_provider.dart';
+import '../../providers/terms_provider.dart';
 import '../../widgets/common/empty_state.dart';
 import '../../widgets/common/loading_indicator.dart';
 import '../../widgets/favorite_list_item.dart';
 import '../reader/reader_screen.dart';
+import '../glossary/term_reader_screen.dart';
 
 /// Favorites screen displaying saved bookmarks
 class FavoritesScreen extends StatelessWidget {
@@ -67,6 +70,24 @@ class FavoritesScreen extends StatelessWidget {
   }
 
   void _openFavorite(BuildContext context, Favorite favorite) {
+    // Check if it's a term (ID starts with "term_")
+    if (favorite.chapterId.startsWith('term_')) {
+      final term = TermsData.getTermById(favorite.chapterId);
+      if (term == null) return;
+
+      // Record access
+      context.read<TermsProvider>().accessTerm(term);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TermReaderScreen(term: term),
+        ),
+      );
+      return;
+    }
+
+    // Otherwise it's a sub-chapter
     final subChapter = ChaptersData.getSubChapterById(favorite.chapterId);
     if (subChapter == null) return;
 

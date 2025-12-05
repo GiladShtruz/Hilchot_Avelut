@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p><strong>תחיית המתים</strong></p>
+<div class="sage-quote"><p style="font-size: 0.85rem">לָכֵן הִנָּבֵא וְאָמַרְתָּ אֲלֵיהֶם כֹּה אָמַר אֲדֹנָי ה' הִנֵּה אֲנִי פֹתֵחַ אֶת קִבְרוֹתֵיכֶם וְהַעֲלֵיתִי אֶתְכֶם מִקִּבְרוֹתֵיכֶם עַמִּי וְהֵבֵאתִי אֶתְכֶם אֶל אַדְמַת יִשְׂרָאֵל: וִידַעְתֶּם כִּי אֲנִי ה' בְּפִתְחִי אֶת קִבְרוֹתֵיכֶם וּבְהַעֲלוֹתִי אֶתְכֶם מִקִּבְרוֹתֵיכֶם עַמִּי: וְנָתַתִּי רוּחִי בָכֶם וִחְיִיתֶם וְהִנַּחְתִּי אֶתְכֶם עַל אַדְמַתְכֶם וִידַעְתֶּם כִּי אֲנִי ה' דִּבַּרְתִּי וְעָשִׂיתִי נְאֻם ה'</p>
+<p style="font-size: 0.85rem">יחזקאל לז, יב – יד</p>
+<p style="font-size: 0.85rem">מכלכל חיים בחסד, מחיה מתים ברחמים רבים..., ומקיים אמונתו לישני עפר. מי כמוך בעל גבורות ומי דומה לך, מלך ממית ומחיה ומצמיח ישועה. ונאמן אתה להחיות מתים, ברוך אתה ה' מחיה המתים.</p>
+<p style="font-size: 0.85rem">תפילת שמונה עשרה</p>
+</div><p>אחד משלושה עשר עקרי האמונה שיסד הרמב"ם, שנתקבלו בכל ישראל. והוא להאמין שתהיה תחיית המתים בעת שיעלה רצון מאת הבורא, ואז יקומו המתים מקברם לחיים (סוף ההקדמה לפרק חלק). </p>
+<p style="font-size: 0.85rem">הרמב"ם ייחד אגרת מיוחדת לעניין זה הנקראת אגרת תחיית המתים, וציין בה שהתורה לא הזכירה במפורש את תחיית המתים, אולם יש במקרא רמזים לתחיית המתים: בשירת חנה (שמואל א', ב, ו) "ה' מֵמִית וּמְחַיֶּה מוֹרִיד שְׁאוֹל וַיָּעַל". בחזון העצמות היבשות של יחזקאל המצוטט לעיל. בישעיהו (כו, יט) "יִחְיוּ מֵתֶיךָ נְבֵלָתִי יְקוּמוּן הָקִיצוּ וְרַנְּנוּ שֹׁכְנֵי עָפָר כִּי טַל אוֹרֹת טַלֶּךָ וָאָרֶץ רְפָאִים תַּפִּיל". ובמיוחד בספר דניאל (יב, ב) "וְרַבִּים מִיְּשֵׁנֵי אַדְמַת עָפָר יָקִיצוּ אֵלֶּה לְחַיֵּי עוֹלָם וְאֵלֶּה לַחֲרָפוֹת לְדִרְאוֹן עוֹלָם" וכן בפסוק החותם את הספר "וְאַתָּה לֵךְ לַקֵּץ וְתָנוּחַ וְתַעֲמֹד לְגֹרָלְךָ לְקֵץ הַיָּמִין".</p>
+<p>עיקרון יסודי זה נאמר בכל הנוסחים של תפילת שמונה עשרה, כשיא גבורותיו של רבונו של עולם. </p>
+<p style="font-size: 0.85rem">רק הצדיקים יחיו בתחיית המתים, ולא הרשעים. לכן נאמר לדניאל "וְרַבִּים מִיְּשֵׁנֵי אַדְמַת עָפָר יָקִיצוּ" ולא כולם. גם מאלו שיקומו, "אֵלֶּה לְחַיֵּי עוֹלָם וְאֵלֶּה לַחֲרָפוֹת לְדִרְאוֹן עוֹלָם". גם ישעיהו אמר (כו, יד) "מֵתִים בַּל יִחְיוּ רְפָאִים בַּל יָקֻמוּ לָכֵן פָּקַדְתָּ וַתַּשְׁמִידֵם וַתְּאַבֵּד כָּל זֵכֶר לָמוֹ".</p>
+<p>מצינו במקרא תופעות של החיאת המת על ידי נביאים: אליהו החיה את בנה של האשה האלמנה (מלכים א', יז, יז – כד); אלישע החיה את בן האשה השונמית (מלכים ב', ד, לב – לז); כשהשליכו איש שמת לקבר אלישע, ועצמותיו נגעו בעצמות אלישע, חיה האיש וקם על רגליו (שם יג, כא).</p>
+<p>איוב אמר ביטויים שעליהם אמרו חכמים שאיוב כפר בתחיית המתים: </p>
+<div class="sage-quote"><p><span style="font-size: 0.85rem">כָּלָה עָנָן וַיֵּלַךְ כֵּן יוֹרֵד שְׁאוֹל לֹא יַעֲלֶה</span> (ז, ט). </p>
+<p style="font-size: 0.85rem">כִּי יֵשׁ לָעֵץ תִּקְוָה אִם יִכָּרֵת וְעוֹד יַחֲלִיף וְיֹנַקְתּוֹ לֹא תֶחְדָּל:</p>
+<p style="font-size: 0.85rem">אִם יַזְקִין בָּאָרֶץ שָׁרְשׁוֹ וּבֶעָפָר יָמוּת גִּזְעוֹ:</p>
+<p style="font-size: 0.85rem">מֵרֵיחַ מַיִם יַפְרִחַ וְעָשָׂה קָצִיר כְּמוֹ נָטַע:</p>
+<p style="font-size: 0.85rem">וְגֶבֶר יָמוּת וַיֶּחֱלָשׁ וַיִּגְוַע אָדָם וְאַיּוֹ: ...</p>
+<p style="font-size: 0.85rem">וְאִישׁ שָׁכַב וְלֹא יָקוּם עַד בִּלְתִּי שָׁמַיִם לֹא יָקִיצוּ וְלֹא יֵעֹרוּ מִשְּׁנָתָם: ...</p>
+<p style="font-size: 0.85rem">אִם יָמוּת גֶּבֶר הֲיִחְיֶה כָּל יְמֵי צְבָאִי אֲיַחֵל עַד בּוֹא חֲלִיפָתִי: (יד, ז – יד), (בבא בתרא טז, א).</p>
+</div><p>הגמרא (סנהדרין צ, ב – צא, א) מביאה הוכחות נוספות לעניין תחיית המתים מן המקראות, וכן דיונים וויכוחים שהיו לחכמי ישראל בעניין זה עם אומות העולם.</p>
+<p>יש מחלוקת עקרונית לגבי השלמות הנצחית באחרית הימים. לפי הרמב"ם המתים יחיו, וימותו שוב לאחר תחיית המתים. בהתאם לשיטתו העקרונית, שאין אפשרות לנצחיות בגוף, כיון שהגוף חומרי ואין לחומריות ממד נצחי. השלמות הנצחית תהיה לנשמה בלי הגוף. לעומת זאת, גישת רבי סעדיה גאון, גישת הרמב"ן והרמח"ל המיצגים את שיטת חכמי הקבלה היא, שלאחר המיתה הגוף אמנם נרקב ומתכלה. אבל לעתיד לבוא בתחיית המתים הגוף יזדכך ויוכל לזכות לחיי נצח. כלומר שהנצחיות תהיה לגוף ולנשמה גם יחד. הרמב"ן מתייחס לדעת הרמב"ם בהרחבה ובכבוד (בסוף חיבורו תורת האדם), למרות מחלוקתם בעניין. הרמב"ן מסכם: "והכל מודים בתחיית המתים ... זולתי דעת הרב רבי משה (הרמב"ם) שנותנת קצבה לזמן התחיה, ומחזיר הכל לעולם הנשמות. ואנו מקיימים אנשי התחיה לעדי עד, מימות תחיית המתים עד לעולם הבא שהוא עולם שכולו ארוך".  (ע"ע בספרי הרמח"ל "דרך ה' " חלק ראשון פרק שלישי, "דעת תבונות" סימן סו – עה). גם הראב"ד משיג על הרמב"ם, ומביא הוכחות מהגמרא שתחיית המתים היא גם לגוף ולא רק לנשמה (הלכות תשובה פרק ח, ב).</p>
+<p>אמנם היתה דעה שתחיית המתים המוזכרת במקרא אינה כפשוטה אלא היא משל וסמל להחיאת השלטון ולתחיית האומה. רבי סעדיה גאון מבאר באריכות מדוע יש להבין את הפסוקים במשמעותם הפשוטה של תחיית המתים ממש, בעולם הזה, ומוכיח זאת מפסוקי יחזקאל ודניאל. רבי סעדיה גאון דן שם בהרחבה על נושאים רבים הקשורים לתחיית המתים: מי יקומו וכיצד יקומו, האם יאכלו ישתו ויתחתנו, אם לא ימותו לאחר התחייה כיצד יעברו לעולם הבא, האם יכירו זה את זה, כיצד תכיל הארץ את כולם, האם יוכלו לחטוא ואם יקבלו גמול על מעשיהם. ותשובת כל אלו העניינים הנכבדים חורגת ממסגרת זו, ומבקשי הדעת יוכלו לראות את הדברים במקורם (הנבחר באמונות ודעות, רבי סעדיה גאון, המאמר השביעי כולו). </p>
+<p>אחד מטעמי הקבורה, הוא לחיזוק האמונה בתחיית המתים:</p>
+<p style="font-size: 0.85rem"><span style="font-size: 0.75rem">שחיבוב קבורת המת הוא לשני טעמים... והטעם השני והוא החזק והצריך לאמונתנו בתחיית המתים כי אילו היו משליכין גוף האדם המת כאחת הנבלות, היו בני אדם אומרים </span>"נִמְשַׁל כַּבְּהֵמוֹת נִדְמוּ<span style="font-size: 0.75rem">", ולא היו מקבלין אמונת התחייה כמו שהן מקבלין עם קבורתו, בראותם כי יבנו לו בית וילבישנו וכל שכן בראותם כי יקברוהו אצל אבותיו ובני משפחתו להיות עתידים לעמוד יחד בני המשפחה. ולקיים זאת האמונה ההכרחית נכתב בתורה מה שבא בקבורת האבות ובקפדנותם במקום קבורתם </span>וְשָׁכַבְתִּי עִם אֲבֹתַי<span style="font-size: 0.75rem">, ורבותי ז"ל אמרו על זה למה האבות תובעין ומחבבין קבורת ארץ ישראל? אמר רבי פלוני דברים בגו, </span>"אֶתְהַלֵּךְ לִפְנֵי ה' בְּאַרְצוֹת הַחַיִּים" <span style="font-size: 0.75rem">(תהלים קטז, ט), נמצא שהכוונה היא לאמונת התחייה לחזק האמונה הזאת, אמרו עתידין צדיקים שיעמדו בלבושיהן ולא על כל אדם אמרו רק על הצדיקים, ועל הדרך הזה היא ההקפדה ברוב כבוד גופות המתים (כלבו סימן קיד).  </span></p>
+<p>בספר פני ברוך בסופו מובא מאמר תחיית המתים הדן בנושא ומביא מקורות נוספים. ע"ע <strong>נשמה.</strong> <strong>תחית המתים.</strong></p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content"><strong>תהליך אבל – היבטים ייחודיים לילדים / ד"ר פורטו בן הראש, פסיכיאטר ילדים בבית החולים הדסה הר הצופים</strong></span></div>
+<p style="font-size: 0.75rem">לשם התמציתיות, פרק זה אינו מנסה כלל להקיף את הנושא אלא רק להדגיש בקיצור רב כמה נקודות ייחודיות לילדים. ישנם היבטים נוספים חשובים שכבר הוזכרו בפרקים אחרים בספר זה ולכן לא נחזור עליהם כאן.</p>
+<p>השלב הראשון הוא השלב החריף ביותר, והוא כולל את השבועות הראשונים לאחר אירוע המוות. בשלב זה כמעט כל תגובה היא טבעית. דווקא העדר תגובה עלולה ללמד על בעיה רגשית.</p>
+<p>לאחר השלב החריף, אם התגובות נמשכות ללא שינוי, חשוב להתייעץ עם איש מקצוע המתמחה <strong>בטיפול בילדים</strong>. יחד עם זה, אסור להתייחס לילד כאל אדם עם "בעיה" או "פתולוגיה". רק איש המקצוע מוסמך לקבוע שיש צורך בהתערבות חיצונית, אחרי שאסף מספיק נתונים על הילד וסביבתו.</p>
+<p>מאידך, לעתים קרובות מצוקה רגשית אצל ילד אינה מזוהה, כי הילד נראה מתפקד או משחק כרגיל.</p>
+<p>לעתים הילד מרגיש באינטואיציה (באופן לא מודע) שהמבוגרים סביבו מוצפים רגשית. כדי "להגן עליהם", הוא נמנע מביטוי מצוקתו, אך בעצם נשאר בודד.</p>
+<p>מצוקה רגשית אצל ילד יכולה לבוא לידי ביטוי באופנים רבים ושונים, למשל:</p>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">קושי בריכוז בלימודים.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">תלונות גופניות שונות כגון כאב ראש, "משהו" מפריע בגרון, עייפות, כאב בטן.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">תאבון ירוד או תאבון יתר.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">קושי להירדם, חלומות מטרידים או הרטבת לילה.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">פחדים חדשים (גם אם לא קשורים ישירות למוות או לאירוע המסוים) כגון פחד מחושך או פחד מהליכה לשירותים לבד.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">נסיגה התפתחותית (אובדן של הישגים שכבר הגיע אליהם קודם כגון במוטוריקה, בדיבור, בעצמאות).</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">נסיגה חברתית.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">פעילות יתר או הפרעות בהתנהגות.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">חוסר עניין בדברים שקודם היו מהנים עבורו.</span></div>
+<p>אנשים רבים מתייחסים לרגשות היגון והאובדן כאל דברים שצריך "להוציא החוצה" כמה שיותר מהר. על פי תפיסה זו, היגון הוא מין "מחלה", וניתן להימנע מהתוצאות השליליות של "מחלה" זו על ידי ביטוי הרגשות הקשים עד להקהייתם. אלה שמתייחסים כך לאבל מדברים על "החלמה", על "מיצוי החוויה" תוך זמן קצוב, או על "לשים את זה מאחור".</p>
+<p>לעתים קרובות תפיסה זו <strong>איננה מתאימה</strong> למה שילדים ומתבגרים באבל חווים בפועל. הם מרגישים שהם נתונים לתהליכים רבים ושונים של שינוי, הסתגלות ומעבר. לגביהם העניין אינו רק "להרגיש כמה רגשות קשים". </p>
+<p>לכן, תפיסה נכונה יותר של האבל היא זו המגדירה אותו <strong>כשלב מעבר במעגל החיים</strong>. תפיסה זו מתייחסת לטווח הרחב של נושאים ותפקידים שהילד והוריו צריכים להתמודד אתם בעקבות האובדן והשפעתו על חייהם (שינוי דפוסי חיים, הסתגלות לשינויים ועוד).</p>
+<p>במילים אחרות, יש לזכור:</p>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">אבל הוא בעיקר <strong>שלב מעבר ושינוי</strong>.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">התהליך הטבעי הוא כאשר הילד, במסגרת משפחתו וחבריו, <strong>מוצא בעצמו את דרכי ההתמודדות </strong>עם המצב המשתנה, דרכים שמתאימות לו.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">תפקיד העזרה לילד המתאבל הוא <strong>לחזק את יכולתו</strong> למצוא  את דרכי התמודדות.</span></div>
+<p>קווים מנחים בגישה לילד המתאבל:</p>
+<p>אין מרשם קל איך להקל על הכאב, אבל יש דרכים שבהן אנשים קרובים לילד ולמשפחה יכולים לעזור למתאבלים להרגיש יותר יכולת התמודדות עם קשיי המעבר למצב החדש בחיים:</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">מבוגרים רבים שואלים: "האם לדבר על זה עם הילד או לא"?</span></div>
+<div class="sage-quote"><p>התשובה: יש <strong>ליצור סביב הילד אווירה שמאפשרת דיבור והקשבה כנים</strong>. הילד ידבר או לא ידבר - על פי צרכיו, ויש לכבד זאת. </p>
+<p>שני הקצוות שצריך להימנע מהם: </p>
+<p>     -  לחץ לדבר. </p>
+<p>     -  הכחשת הנושא או הימנעות מיחס לנושא.</p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">חשוב שכל ילד <strong>ייכלל בתהליכים ובטקסים</strong> המשפחתיים של האבל (כמובן בדרכים המתאימות לגילו ולרמתו ההתפתחותית).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">ההורים חייבים ללמוד איך לדבר עם ילדים <strong>על הנפטר</strong>, על נסיבות המוות, <strong>על הכאב המשותף</strong> ועל <strong>איך הם</strong> <strong>יבנו ביחד את המשך חייהם</strong>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">כשמדברים עם ילד באבל, יש <strong>להקשיב</strong> לסיפור הפרטי שלו, <strong>לא להגיד לו איך הוא מרגיש או איך הוא צריך להרגיש</strong>. יש לתת לו לומר ולהביע למבוגר איך הוא מרגיש בפועל. חלק מהילדים לא רוצים שום יחס מיוחד וחלק לא רוצים לדבר. יש לכבד את ההבדלים הללו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">לגבי ילדים רבים, חשוב יותר שידברו על הנפטר <strong>ועל מה הם איבדו עם מותו,</strong> מאשר שידברו על איך הם מרגישים. חשוב שהילד ירגיש <strong>לגיטימציה להתייחסויות שונות לנפטר</strong>, כולל לזכור תכונות חיוביות ושליליות, לחפש דרכים להמשך התקשרות עם דמות הנפטר, ועוד.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">יש להימנע מהכללות ומדעות קדומות.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">עדיף להימנע מלתת עצות כשלא מתבקשים לכך.     </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">יש ילדים שזקוקים למקום להתבודד בו לזמן קצר, למשל במהלך השבעה או בבית הספר. ילדים אחרים זקוקים לעתים לעיסוק יזום. <strong>יש צורך ברגישות לביטויים של הילד לגבי מה הוא צריך ומתי</strong>.</span></div>
+<p>ילדים, כמו מבוגרים, זקוקים לאהבה ולסבלנות. לעתים המבוגרים נלחצים מתגובות של ילדים מעבר למידה, ולעתים מוסיפים או משליכים עליהם את בעיותיהם שלהם. לחץ זה כמובן אינו מיטיב עם הילדים. לכן התנהגות פשוטה של אהבה ותמיכה, ביטחון, סבלנות ואופטימיות, היא היכולה לסייע לילדים ולמבוגרים כאחד.</p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

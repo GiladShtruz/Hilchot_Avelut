@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p><strong>הספד</strong></p>
+<p>דרשה לכבוד הנפטר, להזכיר טובו ומעשיו הטובים. להביע רגשות צער ועצב על פטירתו ולעורר עליו בכי. הספד עורכים בשעת הלוויה והקבורה. ויש שקיימו במשך השנה הראשונה לפטירה, וכיום קוראים לכך אזכרה. </p>
+<p>מצינו במקרא שאברהם ספד לשרה, וליעקב ספדו בניו וכל מצרים. כשמת שמואל הנביא ספדו לו כל ישראל (שמואל א', כה, א). </p>
+<p>מצוה גדולה להספיד על המת כראוי לו. בימים קדמונים שכרו ספדנים ושלמו להם שכר רב. מסופר שאשה אחת נתנה מעות שכינס בעלה כדי לעלות לרגל, לידי הספדן, ונמנע ולא עלה לרגל (מועד קטן ח, א). לפי רוב השכר כך רבו השבחים, ועל זה אמרו חז"ל "כשם שנפרעים מן המתים, כך נפרעים מן הספדנים" (ברכות סב, א), אם אומרים דברי שקר. לכן אסור להוסיף בשבחו יותר מדי. וכל המזכיר מדות טובות על מי שלא היה בו כלל, או שמוסיף להפליג יותר מדי על מה שהיה בו, גורם רעה לעצמו ולמת. מאידך, יש להקפיד לספוד כהלכה בני אדם ותלמידי חכמים הראויים לשבח. אמרו חז"ל: "כל המוריד דמעות על אדם כשר, הקדוש ברוך הוא סופרן ומניחן בבית גנזיו. כל המתעצל בהספדו של חכם, ראוי לקברו בחייו, ואינו מאריך ימים ". דרשו זאת מהפסוקים על יהושע בן נון שלא נספד כראוי. עוד אמרו: "על ארבעה דברים חמה לוקה… על אב בית דין שמת ואינו נספד כהלכה" (סוכה  כט, א). </p>
+<p>חכם ואלוף וגאון מכניסים מטתו לבית המדרש במקום שהיה דורש, וסופדים אותו (שלחן ערוך יורה דעה סימן שדמ, כ. וע"ע שו"ת יביע אומר חלק ט, יורה דעה סימן מו).</p>
+<p>בגמרא דנו האם ההספד הוא לכבוד החיים או לכבוד המת (סנהדרין מו, ב), לעניין אם הנפטר ציוה שלא יספידוהו. להלכה נפסק שיש לקיים צוואתו, ואם ציוה - אין מספידים אותו (שלחן ערוך שם סימן שמד, י), וכמו שציוה רבי יהודה הנשיא "אל תספידוני בעיירות" (כתובות קג, ב). גדול הדור שציוה שלא יספידוהו, המקילים להספידו כדי לעורר את העם בתשובה יש להם על מה שיסמוכו (פתחי תשובה על שלחן ערוך שם שדמ, א; וע"ע בילקוט יוסף סימן יא, ו  ובהערה).</p>
+<p>יש ימים שאין מספידים בהם, מפני שנוהגים בהם מקצת יום טוב. ימים אלו נאספו במגילת תענית, שהיא חיבור תָנַאי קדום בשפה הארמית, ובו רשימה של ימים "דלא למספד בהון". </p>
+<p>לא יעורר אדם על מתו ולא יספוד לו קודם הרגל שלושים יום (המשמעות כיום - אין מתכננים אזכרה בפרק זמן זה). והטעם כיון שמעורר את הצער, ואין המת משתכח מן הלב שלושים יום. אך אם נפטר בתוך שלושים יום שלפני החג, מותר להספידו ביום השבעה ואפילו בערב החג. כיון שהצער והמרירות כבר קבוע לאבל בלבו ואינו מתווסף בגלל ההספד. (משנה מועד קטן ח, א. שלחן ערוך אורח חיים סימן תקמז, ג. יורה דעה סימן שמז)<span style="font-size: 0.75rem"><strong>.</strong></span> אך אם יום השלושים או השנה יוצא בפרק זמן זה, מותר לערוך אזכרה (שלחן ערוך אורח חיים סימן תקמז, ה. פני ברוך סימן ג, ט).</p>
+<p>מלבד המשמעויות ההלכתיות, יש להספד גם משמעויות חברתיות:</p>
+<p>ההספד משמש גורם מנחם לאבלים בתתו התייחסות מכובדת ומעריכה כלפי הנפטר, דמותו ומעשיו. </p>
+<p>ההספד גם עשוי להרגיע רגשות אשם העלולים לקנן בלב האבלים כלפי הנפטר, שמא לא עשו די למענו או שמא פגעו בו. הספד ומתן כבוד ראוי לנפטר עשויים לגרום הקלה ופיצוי לרגשות אלו.</p>
+<p>השימוש במטבעות לשון ובמילים רכות יותר, עשוי לעדן את עובדת המיתה. מאידך, השמיעה של ההספד והדיבור על יקירם כמי שהלך לעולמו, עשויה לסייע לאבלים לקלוט ולהפנים את העובדה שקרובם נפטר. </p>
+<p>בהספדים מדגישים פעמים רבות ערכים חברתיים עליונים ומקובלים ומקשרים אותם לנפטר; עובדה המחזקת את ההזדהות עם ערכים אלו ועם דמותו של הנפטר. ההספד עשוי גם לחזק לכידות חברתית סביב ערכים אלו, דווקא בהקשר לפטירת אותו אדם שמספידים, כדי להתגבר במשותף על האבידה. (על פי "קץ החיים" - ניסן רובין, עמוד 205).</p>
+<p> ע"ע <strong>יקרא דחיי, יקרא דשכבי</strong>. <strong>כבוד המת.</strong> </p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

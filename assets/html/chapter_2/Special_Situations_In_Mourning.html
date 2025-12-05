@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p style="font-size: 1.3rem"><strong>מצבים מיוחדים באבלות</strong></p>
+<div class="sage-quote"><p><strong>עיכוב בקבורה</strong></p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">אם הקבורה מתעכבת לזמן קצוב שיש בו אפשרות וצורך לטפל בנפטר ובקבורתו, עדיין יש דין אנינות על הקרובים<span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span>. אם אין אפשרות או צורך לטפל בנפטר, אין דין אנינות<span class="footnote-ref" onclick="showFootnote('2', '2', event)">2</span>. ראה לעיל בפיסקה "חלות האנינות", עמוד 50 @.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">אם שלחו את המת לעיר אחרת ולא ידוע מתי ייקבר, ככלל, הנשארים בבית מתחילים לנהוג אבלות מיד כשחוזרים מהלוויה<span class="footnote-ref" onclick="showFootnote('3', '3', event)">3</span>, ואלו שנסעו עם המת לקברו מתחילים אבלות לאחר הקבורה<span class="footnote-ref" onclick="showFootnote('4', '4', event)">4</span>. פירוט והתייחסות נוספת להלכה זו תובא בפרק הבא.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">אם קיבל ידיעה שמת לו מת בעיר אחרת והקבורה מתעכבת ואינו נוסע למקום הקבורה, האבלות חלה רק מזמן הקבורה<span class="footnote-ref" onclick="showFootnote('5', '5', event)">5</span> ויש אומרים שחלה מיד. לפי זה אם הוא בארץ ומת לו קרוב בחוץ לארץ, והקבורה תהיה בחוץ לארץ בערב יום טוב, אם קיבל עליו אבלות שעה אחת קודם יום טוב פטור מהשבעה, למרות שבחוץ לארץ לא קברו עדיין<span class="footnote-ref" onclick="showFootnote('6', '6', event)">6</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">מי שהחל וסיים את אבלות השבעה קודם לשאר קרוביו, מסיים גם את השלושים קודם לשאר קרוביו. בכל אופן את העלייה לקבר יעשו רק לאחר שלושים יום מהקבורה<span class="footnote-ref" onclick="showFootnote('7', '7', event)">7</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">אם נתנו את המת בארון והניחוהו בחדר אחר ולא קברוהו לפי שהיתה העיר במצור, מונים לו מיד שבעה ושלושים לאבלות אף על פי שדעתם לקברו בבית הקברות אחר המצור. וסתימת הארון נחשבת לגביהם כקבורה וחלה עליהם אבלות מיד<span class="footnote-ref" onclick="showFootnote('8', '8', event)">8</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">הרוגי מלכות שאין מניחים אותם לקברם, מתחילים להתאבל עליהם ולמנות שבעה ושלושים משעה שנתיאשו לקברם ברשות המלכות<span class="footnote-ref" onclick="showFootnote('9', '9', event)">9</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">מי שנהג אבלות על קרובו שמת כיון שהיה סבור שכבר נקבר, ונודע לו לאחר מכן שטעה, אותה אבלות שנהג לא עולה לו וצריך לנהוג שוב מזמן שנקבר או משעה שנתייאשו לקברו<span class="footnote-ref" onclick="showFootnote('10', '10', event)">10</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">אם שלחו את המת לעיר אחרת והחלו לנהוג אבלות, ולאחר מכן עיכבו את הקבורה זמן ארוך, אין צריכים להפסיק אבלותם וגם לא צריכים לחזור ולהתאבל מאחר שנהגו כדין<span class="footnote-ref" onclick="showFootnote('11', '11', event)">11</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">אם הקבורה מתעכבת ואין אפשרות להקדימה, מותר לכבודו של הנפטר להקפיא את הגופה או להזריק לה חומרים משמרים<span class="footnote-ref" onclick="showFootnote('12', '12', event)">12</span>. </span></div>
+<div class="sage-quote"><p><strong>מי שנודע לו על המיתה רק לאחר שקרוביו כבר החלו לשבת שבעה</strong></p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">קרוב שלא ידע שמת קרובו ובא באמצע השבעה לבית האבלים, או שידע אבל לא החל לנהוג אבלות קודם שבא אצל שאר הקרובים היושבים שבעה, לעתים מתחיל למנות לעצמו שבעה, ולעתים מצטרף למנות שבעה עם שאר האבלים. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">מושג משמעותי בהלכה זו הוא "<strong>גדול הבית</strong>". גדול הבית הוא הדמות המרכזית במשפחה, האבל שענייני המת וקבורתו נחתכין על פיו, לאו דווקא הגדול בשנים. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">אם יושב עם האבלים גם גדול הבית – מצטרף הקרוב לאבלים ויושב רק את מספר הימים שהם משלימים, וקם מהשבעה יחד אתם. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">ישנם ארבעה תנאים כדי שיוכל הקרוב להצטרף אל האבלים:</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">כשלא ידע שמת, או אפילו ידע אבל לא התחיל לנהוג אבלות עד  שבא למקום האבלים. אבל אם התחיל למנות לעצמו, לא מצטרף אפילו אם בא אליהם.</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">כשגדול הבית בין האבלים (אפילו אם רק ישב שם וכבר הלך). </span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">כשהאבלים יושבים בעיר שמת או שנקבר שם.</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">שהקרוב היה בזמן הקבורה לא רחוק יותר ממהלך יום אחד ממקום הקבורה<span class="footnote-ref" onclick="showFootnote('13', '13', event)">13</span>.</span></div>
+<p>אם לא מתקיימים כל ארבעת התנאים, מונה הקרוב שבעה ימים לעצמו מהזמן שנודע לו.</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">גם אם אין גדול הבית במשפחה, כגון אחים השוים ביניהם, מחשיבים את רוב האחים כגדול הבית, ונהגו להקל שהקרוב יצטרף עם שאר האבלים. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">אפילו בא ביום השביעי, אם עדיין לא קמו – יושב אתם שעה קלה וקם יחד אתם, ולאחר שקם אתם מניח תפילין בברכה<span class="footnote-ref" onclick="showFootnote('14', '14', event)">14</span>. אם כבר קמו מאבלותם – מתחיל למנות שבעה לעצמו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">אם האבל מצטרף לקרוביו ויושב אתם, אפילו חזר אחר כך לביתו נגרר אחרי גדול הבית, וקם בזמן שגדול הבית קם. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">גדול הבית עצמו שבא למקום האבלים ואז נודע לו על המיתה, לא מצטרף אתם, ויש מי שמקל שמצטרף עמם<span class="footnote-ref" onclick="showFootnote('15', '15', event)">15</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">גדול הבית שהתחיל אבלות ובא והודיע לקרוביו, מתחילים למנות לעצמם ולא מצטרפים איתו. שאין הנמצא נגרר אחרי הבא, אלא הבא נגרר אחרי הנמצא.   </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">כשמוליכים את המת מעיר לעיר, וחלק מהקרובים נשארים וחלקם מלווים את הנפטר לעיר האחרת, ככלל, אלו שאינם מלווים את המת מונים שבעת ימי אבלות משיחזירו פניהם מהמת, ואלו שהולכים עמו מונים מסתימת הגולל. אבל כשגדול הבית הולך עם הנפטר ללוותו, ולא עתיד לחזור לשאר האבלים, כולם נגררים אחריו ומונים משעה שייקבר, ודווקא כשמקום הקבורה אינו רחוק יותר משלושה ימי הגעה. אבל אם מקום הקבורה רחוק יותר משלושה ימי הגעה, מתחילים למנות מיד. ואם גדול הבית עתיד לחזור בתוך שבעה לבית האבלים, מונים הנשארים שבעה משיחזירו פניהם מהמת, והחוזרים מצטרפים אליהם וקמים יחד אתם<span class="footnote-ref" onclick="showFootnote('16', '16', event)">16</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">אדם ששמע שמת לו קרוב בעיר אחרת, ואין בכוונתו להשתתף בלוויה, אם יודע שהלוויה תתקיים באותו יום – ימתין ויתחיל לשבת שבעה מזמן סיום הקבורה. אם הקבורה מתאחרת, ולא תתקיים באותו יום – יתחיל לשבת מיד ולא ימתין לקבורה. אם אינו יודע מתי תהיה הלוויה, יתחיל באבלות מרגע ששמע על הפטירה<span class="footnote-ref" onclick="showFootnote('17', '17', event)">17</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">מי שקיבל הודעה על קרובו שנפטר בחוץ לארץ, אינו מניח תפילין ביום ההודעה. לכתחילה יתחיל לנהוג אבלות רק לאחר הקבורה, ויש אומרים שיכול לנהוג אבלות מיד, ובפרט אם לא ידוע מתי ייקבר. ואם החל לנהוג אבלות מיד ונתברר לו שנקבר קרובו רק לאחר שלושה ימים, אינו צריך להשלים שלושה ימים נוספים באבלות<span class="footnote-ref" onclick="showFootnote('18', '18', event)">18</span>. </span></div>
+<div class="sage-quote"><p><strong>דיני שמועה</strong></p>
+</div><p>שמועה קרובה</p>
+<div class="sage-quote"><p>כללו של דבר: יום שמועתו הקרובה כיום הקבורה.</p>
+<p>רמב"ם הלכות אבל, פרק ז, א</p>
+</div><div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">א'.</span><span class="list-content">קרוב שנודע לו על פטירת קרובו בתוך השלושים למיתה או ביום השלושים עצמו, נקראת שמועתו "שמועה קרובה"<span class="footnote-ref" onclick="showFootnote('19', '19', event)">19</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ב'.</span><span class="list-content">בשמועה קרובה האבל לא מניח תפילין, וחייב לקרוע, ואוכל סעודת הבראה, וחייב לנהוג אבלות שבעה ושלושים מיום השמועה. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ג'.</span><span class="list-content">מברכים דיין האמת מיד כששומעים, גם בשבת וביום טוב מברכים<span class="footnote-ref" onclick="showFootnote('20', '20', event)">20</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ד'.</span><span class="list-content">דין שמועה קרובה יתכן גם לפני הקבורה. לדוגמא: לפי הדעה שיתחיל לנהוג אבלות מיד מזמן השמועה, כאשר שמע על פטירת קרובו, ולא עתיד להשתתף בלוויה. וראה עוד בפרק הקודם הלכה יב@.</span></div>
+<p>בשבת ובחג</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ה'.</span><span class="list-content">אם שמע שמועה קרובה בשבת, השבת מצטרפת לשבעה כיון שנוהג אבלות בצנעה וקם ביום שישי בבוקר<span class="footnote-ref" onclick="showFootnote('21', '21', event)">21</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ו'.</span><span class="list-content">אם שמע שמועה קרובה בערב החג, גם אם ערב החג חל בשבת, החג מבטל את השבעה<span class="footnote-ref" onclick="showFootnote('22', '22', event)">22</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ז'.</span><span class="list-content">אם שמע שמועה קרובה ביום טוב, מברך דיין האמת. במוצאי יום טוב קורע רק כשחל בחול ולא בחול המועד, כיון שאין זו שעת חימום וצער וגם לא שעת שמועה<span class="footnote-ref" onclick="showFootnote('23', '23', event)">23</span>. אין החג עולה לו למניין "שבעה" אלא מתחיל לשבת לאחר החג, אבל ימי הרגל עולים למניין שלושים.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ח'.</span><span class="list-content">מי ששמע אחרי הרגל שקרובו נפטר קודם הרגל, כיון שלא נהג כלל אבלות קודם הרגל, צריך להתחיל לנהוג אבלות שבעה מיום השמועה<span class="footnote-ref" onclick="showFootnote('24', '24', event)">24</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ט'.</span><span class="list-content">אין אוכלים סעודת הבראה בשבת וביום טוב<span class="footnote-ref" onclick="showFootnote('25', '25', event)">25</span>. אך אם שמע שמועה קרובה בשבת או בחג, לפי מנהג עדות המזרח עורכים סעודת הבראה במוצאי שבת ויום טוב, <span style="font-size: 0.75rem">כיון שאז מתחילה האבלות</span>; ולפי מנהג האשכנזים אין עורכים סעודת הבראה כלל במוצאי שבת ויום טוב כיון שנדחתה האבלות<span class="footnote-ref" onclick="showFootnote('26', '26', event)">26</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י'.</span><span class="list-content">אם שמע שמועה קרובה בחול המועד, דינו כמת בחול המועד. ואם תהיה רחוקה לאחר המועד, קורע בחול המועד על כל אחד מקרוביו<span class="footnote-ref" onclick="showFootnote('27', '27', event)">27</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י"א.</span><span class="list-content">סופרים שלושים יום מהמיתה וגם אם חל חג בינתיים אין מחשבים בו קיצורי ימים. כך למשל, אם שמע עשרה ימים אחרי סוכות שמת לו מת ערב החג, אף על פי שאם היינו מחשיבים שעה לפני החג לשבעה ימים, ובצירוף שבעת ימי החג ושמיני עצרת שגם הוא נחשב לשבעה ימים נקבל עשרים ואחת יום, ובצירוף עשרה ימים שעברו נגיע לשלושים ואחת, אין לזה דין שמועה רחוקה אלא שמועה קרובה. שאין החג עולה למי שלא נהג אבלות קודם לחג, וכל שכן למי שלא ידע שמת לו מת<span class="footnote-ref" onclick="showFootnote('28', '28', event)">28</span>. </span></div>
+<p>אם לא נהג אבלות כששמע</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">אם שמע שמועה קרובה ולא נהג אבלות, עדיין יש עליו חיוב להתחיל ולמנות שבעה ושלושים, כל זמן שלא עברו שלושים יום מיום <u>השמועה</u>. הטעם הוא כיון שיום השמועה כיום הקבורה, ודינו כמי שלא נהג אבלות שבתוך שלושים חייב להשלים. ואם עברו שלושים יום גם מיום השמועה ולא נהג אבלות, אינו יכול להשלים יותר<span class="footnote-ref" onclick="showFootnote('29', '29', event)">29</span>. ויש אומרים שאם עברו שלושים יום מהמיתה, אינו צריך להתאבל<span class="footnote-ref" onclick="showFootnote('30', '30', event)">30</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">חתן או כלה ששמעו שמועה קרובה בתוך שבעת ימי המשתה, ולאחריהם תהיה רחוקה, נוהגים אבלות בצנעה עד תום ימי המשתה, ולמוצאי ימי המשתה נוהגים באבלות זמן קצר כדין שמועה רחוקה<span class="footnote-ref" onclick="showFootnote('31', '31', event)">31</span>.</span></div>
+<p>עיתוי האזכרה</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">אף על פי שדיני השבעה והשלושים נוהגים מיום השמועה, את האזכרה בשלושים עורכים בליל או ביום השלושים מהקבורה<span class="footnote-ref" onclick="showFootnote('32', '32', event)">32</span>.</span></div>
+<p>שמועה רחוקה</p>
+<div class="sage-quote"><p>אבל אם הגיעה לו השמועה אחר השלֹשים יום, הרי זו שמועה רחוקה ואינה נוהגת אלא יום אחד ואינו קורע, וכאילו יום השמועה הוא יום שביעי ויום שלֹשים, ומקצת היום ככולו. </p>
+<p>שם ברמב"ם</p>
+</div><p>עיתוי </p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">אם הגיעה אליו השמועה אחר שלושים למיתה אפילו בליל שלושים ואחד נקראת שמועתו "שמועה רחוקה".</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">שמועה רחוקה מונים מיום המיתה ולא מיום הקבורה<span class="footnote-ref" onclick="showFootnote('33', '33', event)">33</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י"ז.</span><span class="list-content">אפשר לנהוג את האבלות הקצרה גם בלילה<span class="footnote-ref" onclick="showFootnote('34', '34', event)">34</span>.</span></div>
+<p>אופן הבעת האבלות</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י"ח.</span><span class="list-content">בשמועה רחוקה נוהג אבלות רק שעה קלה, וגם אז אינו נוהג כל דיני האבלות אלא די במעשה אחד שניכר בו שעושהו משום אבלות, כגון חליצת הנעליים או להתיישב בכסא נמוך, ומיד אחר כך הוא יכול לנעול נעליו או לקום מהכסא<span class="footnote-ref" onclick="showFootnote('35', '35', event)">35</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י"ט.</span><span class="list-content">אם היה עוסק בתורה או במלאכה או ברחיצה ושמע שמועה רחוקה, פוסק, אך אינו צריך לחלוץ תפילין. בכל מקרה צריך שיעשה מעשה בפועל שניכר שעושהו משום אבלות.  </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ'.</span><span class="list-content">בשמועה רחוקה אין סעודת הבראה<span class="footnote-ref" onclick="showFootnote('36', '36', event)">36</span>.</span></div>
+<p>דיין האמת</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ"א.</span><span class="list-content">צריך לברך "דיין האמת" על כל הקרובים. אם לא ברך וכבר עברו 24 שעות מאז ששמע, כבר פג עיקר הצער הראשוני ולא יברך<span class="footnote-ref" onclick="showFootnote('37', '37', event)">37</span>.</span></div>
+<p>קריעה</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ"ב.</span><span class="list-content">אין קורעים על שאר קרובים אלא רק על אב ואם, ועליהם לעולם קורע<span class="footnote-ref" onclick="showFootnote('38', '38', event)">38</span>, וקורע כל בגדיו <span style="font-size: 0.75rem">כמו שפורט לעיל בדיני קריעה על אב ואם. </span></span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ"ג.</span><span class="list-content">בחול המועד אין קורעים בשמועה רחוקה על אביו ואמו, וקורע רק לאחר המועד<span class="footnote-ref" onclick="showFootnote('39', '39', event)">39</span>. אבל מברכים ברכת דיין האמת מיד, אפילו בשבת ויום טוב<span class="footnote-ref" onclick="showFootnote('40', '40', event)">40</span>.</span></div>
+<p>שבעה, שלושים ושנים עשר חודש</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ"ד.</span><span class="list-content">שמועה רחוקה לאחר שנהג אבלות שעה קצרה, מבטלת דיני שבעה ודיני שלושים. אבל על אב ואם ממשיכים לחול הדינים המיוחדים הנוהגים גם לאחר שלושים: אסור בתספורת עד שיגערו בו חבריו, אינו מחדש בגדים וחפצים, נמנע משמחות וכו' <span style="font-size: 0.75rem">(כמו שפורט מעמוד @</span><span style="font-size: 0.75rem">166</span><span style="font-size: 0.75rem">). </span>הגבלות אלה נמנות מיום הפטירה ולא מיום השמועה, לפיכך אם שמע שמועה על אביו ואמו לאחר שנים עשר חודש מהפטירה, קורע ונוהג רק שעה קלה ודיו<span class="footnote-ref" onclick="showFootnote('41', '41', event)">41</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ"ה.</span><span class="list-content">שמע שמועה רחוקה על אביו ואמו ונהג אבלות שעה קלה, ופגע בו החג בתוך שלושים יום לאבלו, מותר לו להסתפר בערב יום טוב לכבוד החג<span class="footnote-ref" onclick="showFootnote('42', '42', event)">42</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ"ו.</span><span class="list-content">אם שמע בשבת או ביום טוב אינו נוהג בהם שום מנהג אבלות, גם לא דברים שבצנעה. וינהג במוצאי שבת שעה קצרה כאמור לעיל<span class="footnote-ref" onclick="showFootnote('43', '43', event)">43</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ"ז.</span><span class="list-content">שמועה קרובה שנעשית רחוקה - אם שמע בשבת או ביום טוב שהם יום שלושים, ולמוצאי שבת או מוצאי יום טוב נעשית שמועה רחוקה. אף על פי שנוהג בשבת וביום טוב אבלות בצנעה, נחשבת במוצאי שבת או מוצאי יום טוב כשמועה רחוקה<span class="footnote-ref" onclick="showFootnote('44', '44', event)">44</span>. יש אומרים שהוא הדין בפורים, אם שמע שמועה קרובה בפורים ולמוצאי פורים נעשתה רחוקה דינו כשמועה רחוקה<span class="footnote-ref" onclick="showFootnote('45', '45', event)">45</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ"ח.</span><span class="list-content">שמועה שעוברת מארץ לארץ, מחשיבים לפי המקום של השומע ולא לפי מקום הנפטר. כך למשל אם הגיעה שמועה מארצות הברית ששם הוא בתוך שלושים אבל בארץ כבר יום שלושים ואחד, נחשבת שמועה רחוקה. ולהפך – אם נפטר בארץ וכאן כבר ליל שלושים ואחד אבל שם עדיין יום שלושים, נחשבת שמועה קרובה<span class="footnote-ref" onclick="showFootnote('46', '46', event)">46</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ"ט.</span><span class="list-content">שמועה ספק קרובה ספק רחוקה, יש להקל שלא לקרוע על שאר קרובים, ויושב שעה אחת ודיו<span class="footnote-ref" onclick="showFootnote('47', '47', event)">47</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ל'.</span><span class="list-content">חכם שבאה שמועתו לאחר שנים עשר חודש, אין סופדים אותו.</span></div>
+<p>שמועה על שני קרובים</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ל"א.</span><span class="list-content">אם שמע על שני קרובים, שמועה קרובה או רחוקה, נוהג אבלות בבת אחת על שניהם. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ל"ב.</span><span class="list-content">אם שמע על קרוב אחד ולאחר יום או יותר שמע על קרוב נוסף, מתחיל לנהוג אבלות מחדש על הקרוב השני והימים נחשבים לו גם לראשון<span class="footnote-ref" onclick="showFootnote('48', '48', event)">48</span>. פירוט מובא לקמן בפרק נד@ - מת קרוב נוסף בתוך זמן האבלות.</span></div>
+<p>טעות בשמועה</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ל"ג.</span><span class="list-content">אם שמע שמועה ומספק החשיבה לרחוקה ולאחר שלושים נודע לו שהיתה קרובה, או שהטעו אותו על שמועה קרובה ואמרו לו שהיא רחוקה, או שטעה בעצמו ונהג אבלות בשמועה קרובה כאילו היתה שמועה רחוקה, אינו צריך לנהוג שוב אבלות<span class="footnote-ref" onclick="showFootnote('49', '49', event)">49</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ל"ד.</span><span class="list-content">שמע שמת לו מת ונהג שבעת ימי אבלות, ולאחר מכן נודע לו שמת רק כעת, צריך לישב שוב שבעת ימי אבלות. וכן הדין אם נהג בטעות שבעה על קרובו שנפטר ולאחר מכן נתברר שלא אותו קרוב נפטר אלא קרוב אחר נפטר, צריך לשבת שבעה שוב.<span class="footnote-ref" onclick="showFootnote('50', '50', event)">50</span></span></div>
+<p>אם לא נהג אבלות כששמע</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ל"ה.</span><span class="list-content">אם לא נהג אבלות בשעת שמועה, צריך להשלימה אחר כך<span class="footnote-ref" onclick="showFootnote('51', '51', event)">51</span>.</span></div>
+<div class="sage-quote"><p><strong>ספק אבלות</strong></p>
+</div><p>במקרים של ספק אבלות, הכלל היסודי שנפסק להלכה הוא: כל עדות שמשיאים את האשה על פיה, מתאבלים על פיה. כלומר, שאם זו עדות שניתן להסתמך עליה כדי להשיא אשה של אדם שנעדר, ניתן גם להסתמך עליה כדי להחיל דין אבלות על הקרובים<span class="footnote-ref" onclick="showFootnote('52', '52', event)">52</span>.</p>
+<p>דיני היתר עגונה מורכבים ביותר. ככלל ניתן לומר שחכמים הקלו והתירו להסתמך על עדויות שבאופן רגיל אין מסתמכים עליהן, כדי לשחרר את האשה מעגינותה ולאפשר לה להינשא. הסיבות שחכמים אפשרו להסתמך על עדויות לא מוצקות הן: האשה תדייק היטב לפני שתינשא בשנית, ולא תינשא כל עוד יש אפשרות שבעלה חי עדיין (הביטוי ההלכתי - "אשה דייקא ומינסבא"). טעם נוסף – עדים לא ישקרו בדבר העתיד להתגלות (הביטוי ההלכתי - "מילתא דעבידא לאיגלויי, לא משקרי אינשי").</p>
+<p>אמנם בעדות לאבלות מתאים רק הטעם השני. אך ההכרעה ההלכתית בסופו של דבר היא להסתמך גם על עדויות פחות מבוססות, שבאופן רגיל אין מסתמכים עליהן.</p>
+<p>עדות לאבלות</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">מתאבלים על פי עד אחד או עדה אחת או עד מפי עד שהעידו שקרובו מת, ועל גוי המסיח לפי תומו<span class="footnote-ref" onclick="showFootnote('53', '53', event)">53</span>. כלומר שלא בא מתוך מגמה ורצון להעיד שאז יש חשש שמא יש לו אינטרס בעדותו, ועדותו לא תתקבל. אלא כשהוא מסיח לפי תומו – מספר עובדות ללא כוונה מיוחדת להעיד או להשפיע בדבריו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">עד אומר מת ועד אומר לא מת, או שניים אומרים מת ושניים אומרים לא מת – אין מתאבלים. כיון שיש לאדם חזקת חיים כל זמן שלא נודע לנו שמת. כשהעדות שקולה אנו משאירים את האדם בחזקתו – חזקת חיים. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">מונים שבעה ושלושים מיום שהודיעו להם. הודיעו לקרובים שמת קרובם, והם אינם יודעים אם הוא בתוך שלושים ואז צריך לשבת שבעה כדין שמועה קרובה, או לאחר שלושים ואז אין צריך לשבת כי אם זמן מועט כדין שמועה רחוקה; יש דעות לכאן ולכאן. ובמקום שיש מחלוקת, הלכה כדברי המקל באבל ואין צריך לשבת שבעה<span class="footnote-ref" onclick="showFootnote('54', '54', event)">54</span>. וכן אם הורו לו שלא יתאבל, ואחר כך נודע שהיה בתוך שלושים כשהודיעוהו, אין צריך להתאבל אחר השלושים<span class="footnote-ref" onclick="showFootnote('55', '55', event)">55</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">אדם נשוי שיש ספק אם נפטר, אין מתאבלים עליו ואין אומרים עליו קדיש עד שבית דין יתירו את אשתו להינשא<span class="footnote-ref" onclick="showFootnote('56', '56', event)">56</span>. </span></div>
+<p>שבויים ונעדרים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">מי שנפל בשבי ולא יודעים אם הוא עדיין בחיים, או אם ידוע שמת או נהרג ולא נמצאה גופתו, אין מתאבלים עליו כל עוד לא נתייאשו ויש סיכוי למצוא את הגופה ולהביאה לקבר ישראל<span class="footnote-ref" onclick="showFootnote('57', '57', event)">57</span>. אם עבר זמן ואפסו הסיכויים יש לשאול שאלת חכם. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">אם נתייאשו מלמצאו מתחילים להתאבל עליו ולומר עליו קדיש מזמן שנתייאשו<span class="footnote-ref" onclick="showFootnote('58', '58', event)">58</span>. מונים אחד עשר או שנים עשר חודש מהזמן שנתייאשו מלמצאו, אפילו אם מצאוהו לאחר מכן וקברוהו<span class="footnote-ref" onclick="showFootnote('59', '59', event)">59</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">אם נתייאשו מלמצאו ונהגו עליו אבלות וישבו עליו שבעה, ואחר כך נמצאה גופתו, אין נוהגים עליו אבלות שוב. אם המת הוא אביו או אמו קורע עליהם כדין שמועה רחוקה. אם הוא במקום שנמצא המת נוהג אבלות אותו היום בלבד<span class="footnote-ref" onclick="showFootnote('60', '60', event)">60</span>.</span></div>
+<div class="sage-quote"><p><strong>חתן וכלה</strong></p>
+</div><p>בחתן וכלה שאירעה אצלם אבלות, יש התנגשות קשה בין שיא של שמחה מחד, עם צער האבלות מאידך. ההתייחסות ההלכתית להתנגשות זו היא באותם כלים רעיוניים כמו במפגש של חג עם אבלות. (כמובא באוצר המושגים <strong>מעבירים את המת מלפני הכלה</strong>).</p>
+<p>פטירת קרוב מיד אחרי החתונה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">העיקרון הוא ששבעת ימי הנישואין של חתן וכלה דינם כחג. לכן אם מת לחתן או לכלה קרוב לאחר החתונה, בתוך שבעת ימי המשתה, קודם משלימים את שבעת ימי השמחה, ואחר כך נוהגים את ימי האבלות<span class="footnote-ref" onclick="showFootnote('61', '61', event)">61</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">ההשוואה לחגים אינה מוחלטת, כיון שבחגים נוהגים איסור חיי אישות וגם איסור תספורת וגיהוץ. לעומת זאת בימי הנישואין נוהגים רק איסור חיי אישות, אבל מלבד זאת אין הגבלות הקשורות לאבלות. לכן מי שמת לו מת בחג, מונה שלושים מיום הקבורה, כיון שנהג מקצת אבלות; ואילו בחתן וכלה מתחילים למנות את השלושים רק מסיום שבעת ימי הנישואין.</span></div>
+<p>אנינות וטומאה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">חתן וכלה לא נוהגים אנינות<span class="footnote-ref" onclick="showFootnote('62', '62', event)">62</span><span style="font-size: 0.75rem">.</span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">החתן מניח תפילין גם ביום הראשון, ומותר בבשר וביין<span class="footnote-ref" onclick="showFootnote('63', '63', event)">63</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">יש אומרים שחתן כהן לא נטמא לקרוביו, אפילו לא לאביו ואמו<span class="footnote-ref" onclick="showFootnote('64', '64', event)">64</span>, ויש אומרים שמחויב להיטמא לקרוביו<span class="footnote-ref" onclick="showFootnote('65', '65', event)">65</span>.</span></div>
+<p>קריעה וברכת דיין האמת</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">לעניין קריעה, לפי רוב הפוסקים חתן וכלה אין קורעים כלל<span class="footnote-ref" onclick="showFootnote('66', '66', event)">66</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">אף על פי שחתן וכלה אינם נוהגים אבלות, אבל מברכים ברכת דיין האמת. </span></div>
+<p>השתתפות בלוויה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">חתן וכלה יכולים ללוות את הנפטר כמה צעדים, אך לא ילכו לבית העלמין כדי שלא להשבית שמחתם. <span style="font-size: 0.75rem">ולעתים עדיף לדחות את ההודעה על הפטירה</span>. ויש מי שכתב שמצוה עליהם ללכת ללוויה<span class="footnote-ref" onclick="showFootnote('67', '67', event)">67</span>.</span></div>
+<p>ניחום אבלים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">  סברה פשוטה היא שאין מנחמים חתן וכלה בשבעת ימי המשתה<span class="footnote-ref" onclick="showFootnote('68', '68', event)">68</span>. אך ברור שמותר ומצוה לבקרם ולשמחם.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">מותר לחתן וכלה לנחם אבלים אחרים. </span></div>
+<p>שבעת ימי המשתה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">בשבעת ימי הנישואין לא אומרים מקצת היום ככולו (כמו שאומרים באבלות), אלא שבעה ימי שמחה שלמים. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">החתן והכלה אינם רשאים למחול על שמחתם ולנהוג אבלות בשבעת ימי המשתה<span class="footnote-ref" onclick="showFootnote('69', '69', event)">69</span>.</span></div>
+<p>חג בתוך שבעת ימי המשתה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">אם פגע חג בתוך שבעת ימי הנישואין, אין החג מבטל שבעה, כיון שחג מבטל שבעה רק אם נהגו אבלות קודם החג. בשבעת ימי הנישואין לא התחילו אבלות ולכן החג לא מבטלה<span class="footnote-ref" onclick="showFootnote('70', '70', event)">70</span>. אך יש פוסקים שהחג מפסיק את האבלות כיון שנוהגים דברים שבצנעה<span class="footnote-ref" onclick="showFootnote('71', '71', event)">71</span>. </span></div>
+<p>הצטרפות לשאר האבלים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">אם אירעה לחתן או לכלה האבלות בתוך ימי השמחה, באופן שיתחילו לשבת שבעה כששאר קרוביהם כבר יושבים, הרי הם נגררים אחר קרוביהם, ויושבים אתם שבעה, וקמים מהשבעה יחד אתם <span style="font-size: 0.75rem">(כמפורט לעיל מעמוד </span><span style="font-size: 0.75rem">220</span><span style="font-size: 0.75rem"> ובערך </span><span style="font-size: 0.75rem"><strong>גדול הבית</strong></span><span style="font-size: 0.75rem"> באוצר המושגים). </span>ואפילו אם מצטרפים החתן או הכלה רק בסוף היום השביעי לפני שקמו שאר האבלים – קמים אתם<span class="footnote-ref" onclick="showFootnote('72', '72', event)">72</span>. אולם אם לא היו יכולים להצטרף עמהם, כיון ששאר האבלים קמו לפני סיום שבעת ימי הנישואין, מתחילים לשבת ומונים שבעה ימי אבלות לעצמם.</span></div>
+<p>נישואין שניים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">בנישואין שניים לשני בני הזוג (כגון אלמן שנשא אלמנה), חל אותו עיקרון של השלמת ימי השמחה לפני ימי האבלות, אך בהבדל אחד - בנישואין שניים נוהגים שלושה ימים בלבד לשמחה.</span></div>
+<p>תאריך החופה בתוך השבעה או לאחריה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">אם נפטר אחד משבעה קרובים לחתן או לכלה עוד לפני שנכנסו לחופה, ומועד החתונה היה מתוכנן בתוך השבעה, דוחים את החופה. נוהגים תחילה שבעת ימי אבלות, וביום השביעי מותרים להיכנס לחופה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">כלה אבלה יכולה לבצע הפסק טהרה בתוך שבעת ימי האבל, כדי שתוכל לטבול מיד לאחריהם לקראת חתונתה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">אם מועד החתונה הוא לאחר סיום השבעה, אין דוחים את החופה ומקיימים את החתונה כרגיל עם מוסיקה וריקודים.  </span></div>
+<div class="sage-quote"><p><strong>מי שלא נהג אבלות</strong></p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">מי שלא נהג אבלות כלל כל שבעה, בשוגג או במזיד, מונה שבעה אחר כך, כל זמן שלא עברו שלושים יום מהקבורה. לאחר שלושים הוא מעוות שלא יוכל לתקון<span class="footnote-ref" onclick="showFootnote('73', '73', event)">73</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">אם נהג אבלות רק בחלק מהימים, אין לו אפשרות להשלים את הימים שהחסיר.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">קריעה יכול לקרוע רק בתוך השבעה, ועל אביו ואמו קורע לעולם.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">אם לא נהג אבלות כל שבעה מחמת שהיה חולה, והיתה דעתו להתאבל אלא שלא היה באפשרותו להתאבל מחמת מחלתו, נחשבים לו ימי השבעה ואין צריך להשלימם<span class="footnote-ref" onclick="showFootnote('74', '74', event)">74</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">אם נהג אבלות שבעה אבל לא נהג אבלות שלושים, אין צריך להשלים<span class="footnote-ref" onclick="showFootnote('75', '75', event)">75</span>.</span></div>
+<p>אבלות לקטן שגדל</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">ילד או ילדה קטנים שגדלו והגיעו למצוות תוך כדי השבעה, פטורים מעיקר הדין מלשבת שבעה כיון שבתחילת השבעה לא היו בני חיוב<span class="footnote-ref" onclick="showFootnote('76', '76', event)">76</span>, אבל נהגו שמשלימים מזמן שגדלו<span class="footnote-ref" onclick="showFootnote('77', '77', event)">77</span>. אם גדלו אחר השבעה אינם צריכים לנהוג מנהגי אבלות כלל מפני שבזמן הפטירה היו פטורים לגמרי, שהרי אין חינוך לקטן לאבלות<span class="footnote-ref" onclick="showFootnote('78', '78', event)">78</span>. ומנהג בני תימן שקטן שהגיע לחינוך נוהג אבלות, וכל שכן כשהגדיל בימי השבעה. <span class="footnote-ref" onclick="showFootnote('79', '79', event)">79</span></span></div>
+<div class="sage-quote"><p><strong>מת קרוב נוסף בתוך זמן האבלות</strong></p>
+</div><p>המינוח ההלכתי נקרא "תכפוהו אבליו", דהיינו שהאבלויות באו עליו בתכיפות, ובטרם סיים האבל תקופת אבלות אחת, צריך היה להתחיל אבלות מחדש על קרוב אחר שנפטר. </p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">מי שמתו לו שני מתים ביום אחד, נוהג אבלות בבת אחת על שניהם<span class="footnote-ref" onclick="showFootnote('80', '80', event)">80</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">מי שמת לו קרוב נוסף בתוך שבעת ימי אבלותו, מתחיל למנות מחדש שבעה למת האחרון ועולים לו גם לשבעה של המת הראשון<span class="footnote-ref" onclick="showFootnote('81', '81', event)">81</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">יש כמה הקלות בהלכה למי שתכפוהו אבליו. אם הכביד שערו יכול להסתפר בשינוי – על ידי תער ולא במספריים. לאחר שעברו השבעה מהאבלות הראשונה יכול לכבס כסותו במים (בלבד) אף על פי שממשיך את השבעה על המת השני; וכן הדין אם ארעה לו אבלות סמוך לשבוע שחל בו תשעה באב, רוחץ בצונן ולא בחמין<span class="footnote-ref" onclick="showFootnote('82', '82', event)">82</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">כבר נזכר לעיל בהלכות קדיש שאבל האומר קדיש על אב או אם, ובתוך השנה החל לומר קדיש גם על קרוב אחר, לפי מנהג עדות המזרח יפסיק למשך שבוע בתחילת החודש השנים עשר, וימשיך לאחר מכן<span class="footnote-ref" onclick="showFootnote('83', '83', event)">83</span>. ויש אומרים שלא יפסיק לעבור לפני התיבה ולומר קדיש לאחר אחד עשר חודש אפילו ליום אחד, אלא ימשיך לומר קדיש ללא הפסקה. כיון שזו גם תקופת האבלות למת הנוסף<span class="footnote-ref" onclick="showFootnote('84', '84', event)">84</span>. לפי האשכנזים יש אומרים שיפסיק רק ביום הראשון והאחרון של החודש השנים עשר, ויש אומרים שיבקש או ישכור אדם אחר שיאמר במקומו במשך חודש זה<span class="footnote-ref" onclick="showFootnote('85', '85', event)">85</span>. </span></div>
+<div class="sage-quote"><p><strong>מאבד עצמו לדעת</strong></p>
+<p style="font-size: 0.75rem">אָנָה אֵלֵךְ מֵרוּחֶךָ וְאָנָה מִפָּנֶיךָ אֶבְרָח:</p>
+<p style="font-size: 0.75rem">אִם אֶסַּק שָׁמַיִם שָׁם אָתָּה וְאַצִּיעָה שְּׁאוֹל הִנֶּךָּ:</p>
+<p style="font-size: 0.75rem">אֶשָּׂא כַנְפֵי שָׁחַר אֶשְׁכְּנָה בְּאַחֲרִית יָם:</p>
+<p style="font-size: 0.75rem">גַּם שָׁם יָדְךָ תַנְחֵנִי וְתֹאחֲזֵנִי יְמִינֶךָ:</p>
+<p style="font-size: 0.75rem">וָאֹמַר אַךְ חֹשֶׁךְ יְשׁוּפֵנִי וְלַיְלָה אוֹר בַּעֲדֵנִי:</p>
+<p style="font-size: 0.75rem">גַּם חֹשֶׁךְ לֹא יַחְשִׁיךְ מִמֶּךָ </p>
+<p style="font-size: 0.75rem">וְלַיְלָה כַּיּוֹם יָאִיר כַּחֲשֵׁיכָה כָּאוֹרָה:</p>
+</div><p style="font-size: 0.75rem">תהלים מזמור קל"ט</p>
+<p>ההלכה היהודית התייחסה בחומרה רבה למאבד עצמו לדעת. ההשקפה היהודית גורסת, שכיון שאין הנשמה של האדם עצמו, אלא של ריבונו של עולם שנתנה בקרבו, לכן אין רשות לאדם לנתק את הקשר בין הגוף לבין הנשמה. כך לגבי אדם אחר – לא תרצח, וכך גם לגבי האדם עצמו. לכן המאבד עצמו לדעת מוגדר כרוצח לכל דבר. </p>
+<p>מבחינה הלכתית רעיונית, גדול עוון הרוצח עצמו, יותר מאשר רוצח נפש אחרת. המאבד עצמו לדעת מדגיש במעשהו את הכפירה בריבונו של עולם שנתן לו את נשמתו, ושרק לו יש את הרשות ליטלה מהאדם. האדם השולח יד בנפשו, כביכול לוקח מריבונו של עולם את האדנות על הנשמה שנתן בקרבו, ומכחיש את הידיעה הפשוטה שהוא – האדם - לא היה שותף כלל ביצירה שלו עצמו. </p>
+<p>מעבר לכך, המות נחשב לכפרה על האדם החוטא. ובמקרה של המאבד עצמו לדעת, לא רק שהמיתה אינה מכפרת על האדם, אלא אדרבה – היא המרשיעתו בעבירה החמורה של רצח.</p>
+<p>מלבד זאת, המאבד עצמו לדעת כופר בהישארות הנפש. ההתאבדות מבטאת בריחה מהחיים, אך לפי האמונה היהודית הנשמה היא נצחית, ואי אפשר לברוח מריבונו של עולם. האדם יצטרך לתת דין וחשבון על מעשיו גם לאחר מיתתו.</p>
+<p>גם מבחינה מוסרית וחברתית התאבדות היא בריחה מאחריות, בגידה והפקרה של בני המשפחה והחברים, לכן מכל בחינה שהיא יש לשלול אותה מכל וכל. </p>
+<p>למרות התייחסות עקרונית חמורה זו, חכמים ניסו לרכך מעט את ההתייחסות המעשית למי ששלחו יד בנפשם, כפי שיפורט בהמשך. </p>
+<p>ההתייחסות העקרונית</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">את ההתייחסות העקרונית למאבד עצמו לדעת ביטאו חז"ל במשפט: </span></div>
+<p><strong>"כללו של דבר: כל שהוא כבוד החיים מתעסקים.</strong></p>
+<p><strong>וכל שאינו לכבוד החיים (אלא כבוד המת),</strong></p>
+<p><strong>אין הרבים מתעסקים עמו לכל דבר"</strong><span class="footnote-ref" onclick="showFootnote('86', '86', event)">86</span><strong>.</strong></p>
+<p>דיני המאבד עצמו לדעת</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">אין נוהגים אנינות עליו, ויש חולקים וסוברים שיש אנינות על קרוביו<span class="footnote-ref" onclick="showFootnote('87', '87', event)">87</span>. <span style="font-size: 0.85rem">יש שני טעמים לדיני אנינות הפוטרים את קרוביו מכל המצוות עד הקבורה: הטעם האחד הוא הצורך המעשי לטפל בקבורה, והטעם האחר הוא כבודו של הנפטר, שמחשבת קרוביו תהיה מרוכזת בו. במאבד עצמו לדעת חל רק הטעם המעשי, כיון שיש להביאו לקבורה, אך לא קיים הטעם של כבוד הנפטר.</span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">אין קורעים עליו, אם כי יש מהפוסקים שלפיהם שבעת קרוביו קורעים עליו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">קרוביו לא מברכים דיין האמת, כי טרף נפשו בכפו נגד רצון ה' ואין מקום לומר "דיין האמת". ומכל מקום קרוב הרוצה לברך יש לו על מה שיסמוך, <span style="font-size: 0.75rem">כיון שאין הברכה על האבלות אלא על עצם השמועה הרעה והצער</span><span class="footnote-ref" onclick="showFootnote('88', '88', event)">88</span><span style="font-size: 0.75rem">.</span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">אין מספידים אותו ולא חולקים לו כבוד. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">קוברים אותו בריחוק ארבע אמות משאר הקברים.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">קרובו הכהן לא נטמא לו<span class="footnote-ref" onclick="showFootnote('89', '89', event)">89</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">עומדים עליו בשורה ומנחמים את האבלים, כיון שזה כבוד החיים. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">כעיקרון אין מתאבלים עליו. אולם כיון שיש פוסקים המחשיבים את האבלות ככבוד החיים (ולא ככבוד המת),לכן המשפחה החפצה בכך יכולה להתאבל עליו. למעשה נוהגים להתאבל גם על מאבד עצמו לדעת<span class="footnote-ref" onclick="showFootnote('90', '90', event)">90</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">אומרים קדיש גם על מאבד עצמו לדעת, ואומרים שנים עשר חודש שלמים. בדרך כלל אומרים קדיש רק אחד עשר חודש, כיון שמשפט רשעי ישראל בגיהנום שנים עשר חודש, וכדי לא להחזיק אביו ואמו כרשעים אומר הבן קדיש רק אחד עשר חודש. אבל על עבירה חמורה כזאת של מאבד עצמו לדעת קשה ללמד זכות, וכדי לתת לו יותר זכויות אומרים עליו קדיש שנים עשר חודש שלמים.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">פשוט וברור שאין בעל תשובה רשאי לאבד עצמו לדעת כדי לכפר על עוונותיו הרבים, וזהו איסור חמור ביותר. ומכל מקום אם עבר ועשה כן מתאבלים עליו כיון שלבו היה לשמים<span class="footnote-ref" onclick="showFootnote('91', '91', event)">91</span>. </span></div>
+<p>מי נחשב למאבד עצמו לדעת</p>
+<div class="sage-quote"><p>מעשה בבנו של גורגוס בלוד שברח מבית הספר, והראה לו אביו באזנו, ונתיירא מאביו והלך ואיבד עצמו בבור. ובאו ושאלו את רבי טרפון ואמר: אין מונעים ממנו כל דבר. </p>
+<p>אבל רבתי פרק ב, ד </p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">ברוב המקרים של מאבד עצמו לדעת, משתדלים בדיעבד לא לדון אותו בהגדרה חמורה זו<span class="footnote-ref" onclick="showFootnote('92', '92', event)">92</span>. לכן בכל מקרה שניתן לומר שנהרג בתאונה, או על ידי אחר, או שלא היה שפוי בדעתו, או שהיה מבולבל, או שלאחר ששלח יד בנפשו התחרט על מעשהו; מנסים בדיעבד ללמד עליו זכות ולהקל ולא להחשיב אותו כרוצח נפשו. אפילו אם אמר או השאיר מכתב על כונתו לשלוח יד בנפשו והיה רווח של זמן עד המעשה, מנסים ללמד עליו זכות שמא חזר בו לאחר מכן. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">אדם ששלח יד בנפשו והוא אנוס, כגון שאול המלך שפחד שהפלשתים יתעללו בו, או ילד קטן ששלח יד בנפשו, אין להם דין מאבד עצמו לדעת.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">יש שרצו ללמד זכות על מי ששלח יד בנפשו מרוב צרותיו, שאין לו גדר מאבד עצמו לדעת. ויש שדחו זאת, כיון שכל מאבד עצמו עושה זאת מרוב צרות<span class="footnote-ref" onclick="showFootnote('93', '93', event)">93</span>.</span></div>
+<div class="sage-quote"><p><strong>מומר</strong></p>
+</div><div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">א'.</span><span class="list-content">מומר – יהודי שהמיר את דתו, אף על פי שבכל זאת נשאר עליו שם ישראל, מעיקר הדין אין קורעים עליו ואין מתאבלים עליו ואין קוברים אותו בקברי ישראל ואין אחריות על קרוביו לקברו<span class="footnote-ref" onclick="showFootnote('94', '94', event)">94</span>. בכל זאת כתבו הפוסקים שלמעשה יש על קרוביו חובה לקברו<span class="footnote-ref" onclick="showFootnote('95', '95', event)">95</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ב'.</span><span class="list-content">בשעת מיתתו אין צורך לקרוע ולא להתאבל. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ג'.</span><span class="list-content">מומר שנהרג על ידי גויים, יש אומרים שמתאבלים עליו, וכן ילד קטן שהמיר עם אביו או אמו, כיון שנחשב כאנוס<span class="footnote-ref" onclick="showFootnote('96', '96', event)">96</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ד'.</span><span class="list-content">מומר שחזר בו, וקיבל עליו לעשות תשובה ולשוב לדת ישראל, ולא הספיק, ומת, נחשב כישראל לעניין קבורה ואבלות<span class="footnote-ref" onclick="showFootnote('97', '97', event)">97</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ה'.</span><span class="list-content">מתאבלים על מומר מזמן שהמיר דתו<span class="footnote-ref" onclick="showFootnote('98', '98', event)">98</span>. יושבים בשעת השמועה על ההמרה יום אחד<span class="footnote-ref" onclick="showFootnote('99', '99', event)">99</span>, ויש שכתבו שמנהג ירושלים להתאבל ארבע עשר יום<span class="footnote-ref" onclick="showFootnote('100', '100', event)">100</span>. וקורעים כדין שמועה רעה, ומברכים ברכת דיין האמת.</span></div>
+<p><strong>קבורה בחוץ לארץ בשעת הדחק</strong></p>
+<p>לכתחילה יש לעשות כל מאמץ אפשרי, להביא כל יהודי מכל מקום בעולם לקבר ישראל. את כל מנהגי הטהרה, הלוויה והקבורה יש לקיים על פי כללי ההלכה ומנהגי ישראל. בדרך כלל יש אפשרות לכך, גם אם הדבר מחייב מאמץ מרובה. אם אי אפשר לשמור על כל הכללים, יש לנסות לקיים את כל מה שמתאפשר. ההוראות דלהלן הן בדיעבד ומיועדות לשעת הדחק בלבד, כשלאחר כל המאמצים לא ניתן לקבור את המת על פי כל כללי מסורת ישראל. ההוראות נכתבו בעקבות התייעצות עם הרב מרדכי אליהו שליט"א. </p>
+<p>טהרה ותכריכים</p>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">א'.</span><span class="list-content">החוק הבינלאומי ברוב המקומות מחייב את שטיפת הנפטר בהעברה מארץ לארץ<span class="footnote-ref" onclick="showFootnote('101', '101', event)">101</span>. כלומר שאמורה להיות מערכת לא יהודית המבצעת פעולה המקבילה לטהרה. יש להתאמץ כדי לאפשר טהרה בכל מקום בו נמצאים, ואם ניתן יש להיעזר במערכת האזרחית המקומית.</span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">ב'.</span><span class="list-content">אמנם מצד עיקר הדין אין איסור בשעת הדחק להיעזר בגויים בטהרת המת<span class="footnote-ref" onclick="showFootnote('102', '102', event)">102</span>, ואולם לכתחילה יש להשתדל ולהקפיד שלא יגעו במת לא גויים ולא בעלי קרי ולא נידה<span class="footnote-ref" onclick="showFootnote('103', '103', event)">103</span>. אם נעזרים בגויים, לאחר שיסיימו הגויים את הטהרה ויסלקו את ידיהם, ישליך היהודי מים על כל גופו של הנפטר, כך שסוף טהרתו תהא על ידי ישראל<span class="footnote-ref" onclick="showFootnote('104', '104', event)">104</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">ג'.</span><span class="list-content">כשאין אפשרות לבצע טהרה, יש לנקות מבחוץ על ידי משקה ערק או חומר חיטוי וניקוי אחר<span class="footnote-ref" onclick="showFootnote('105', '105', event)">105</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">ד'.</span><span class="list-content">אם אין תכריכים בנמצא, יש לכרוך את הנפטר בבד לבן.</span></div>
+<p>כשאין מקום בבית קברות יהודי</p>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">ה'.</span><span class="list-content">כשבית הקברות היהודי מלא עד אפס מקום, מותר לקבור מעל קבר קיים בתנאים הבאים<span class="footnote-ref" onclick="showFootnote('106', '106', event)">106</span>:</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">שעת הדחק, אין מקום אחר.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">רווח של שישה טפחים (שישים ס"מ) עפר בין קבר לקבר.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">אבד זכרו של התחתון – המשפחה לא פוקדת את הקבר.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">עדיף לצלם את המצבה הישנה, ולכתוב על צד המצבה החדשה גם את שם האדם הקבור מתחת.</span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">ו'.</span><span class="list-content">בשעת הדחק אפשרית קבורה עילית, מעל פני הקרקע. דהיינו ישימו עפר על יציקת בטון ובתוך העפר ייקבר הנפטר.</span></div>
+<p>אצל גויים</p>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">ז'.</span><span class="list-content">אין לקבור יהודי אצל גויים, אך אם יש חשש שישרפו את גופת הנפטר, עדיפה קבורה אצל גויים מאשר שריפה.</span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">ח'.</span><span class="list-content">כשקוברים בדלית ברירה בבית קברות של גויים: </span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">יש להרחיק ארבע אמות מקבר הגוי (כשני מטרים), ולכתחילה שמונה אמות<span class="footnote-ref" onclick="showFootnote('107', '107', event)">107</span>. </span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">אם לא ניתן להרחיק ארבע אמות, יעשו מחיצה בגובה עשרה טפחים (כמטר), אפילו גדר רשת.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">אם אי אפשר, יעמיקו את הקבר במטר נוסף.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">ישתדלו לקנות את הקרקע לצמיתות כדי שלא יבואו לפנות את הקברים ממקומם.</span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">ט'.</span><span class="list-content">גם כשנאלצים לקבור אצל גויים, כל פעולה בטהרה, בלוויה ובקבורה, יש לבצע על ידי יהודים בלבד. </span></div>
+<p>קבורה בארון</p>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">י'.</span><span class="list-content">אם נקבר בארון, עדיף שיהיו חורים בארון מתחתיו או לפחות מצידיו, לפחות בגודל של כמוציא שורש (קוטר 4 ס"מ, ויש שנהגו כמטבע של 5 ₪).</span></div>
+<p>קבורה בשבת וביום טוב</p>
+<p>הלכות אלו לא מיוחדות לחוץ לארץ. אבל כיון שלמעשה בארץ אין קוברים ביום טוב, עיקר המשמעות היא לחוץ לארץ.</p>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">י"א.</span><span class="list-content">אין קוברים בשבת וביום הכיפורים, אפילו על ידי גויים<span class="footnote-ref" onclick="showFootnote('108', '108', event)">108</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">ביום טוב מותר לחפור קבר ולבצע את ההכנות על ידי גויים, ולקברו על ידי ישראל. וביום טוב שני של גלויות ואפילו ביום טוב שני של ראש השנה, מותר לבצע גם את כל ההכנות על ידי ישראל, שיום טוב שני לגבי מת עשאוהו חכמים כיום חול.<span class="footnote-ref" onclick="showFootnote('109', '109', event)">109</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">ביום טוב שני מותר להסיע את הנפטר לקבורה על ידי נהג גוי. ומותר לאחדים מהחברה קדישא לנסוע כדי לקברו. ואם אין נהג גוי, יסיע נהג ישראל<span class="footnote-ref" onclick="showFootnote('110', '110', event)">110</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">נפטר בשבת ולמחרת חל יום טוב, ויש חשש לניוול המת, יש מי שהתיר למתי מספר מהחברה קדישא  לנסוע על ידי נהג גוי כדי לקבור, אפילו ביום טוב ראשון<span class="footnote-ref" onclick="showFootnote('111', '111', event)">111</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">אין להשהות מת מיום טוב ראשון ליום טוב שני כדי שיתעסקו בו ישראל.</span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">יום טוב שני של גלויות נמנה למניין שבעה למרות שאין נוהג בו אבלות<span class="footnote-ref" onclick="showFootnote('112', '112', event)">112</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">י"ז.</span><span class="list-content">אם נקבר בשבת נגד רצונם, אין להשתתף בלוויה כיון שבהכרח ייגרם מזה חילול שבת. אולם יכול להגיד קדיש בבית הכנסת. במקרה כזה מונה את שבעת ימי האבלות משבת. </span></div>
+<p>אבלות בנישואין אזרחיים</p>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">י"ח.</span><span class="list-content">מבחינה הלכתית אין שום משמעות לנישואין ולגירושים אזרחיים לעניין שבעה ומנהגי אבלות.</span></div>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " יד  אפרים הלכות אונן , א.", "2": " כל בו על אבלות עמוד 118. בזמנו היו תקנות ממשלתיות במקומות מסוימים שאין לקבור נפטר בתוך 48 שעות מפטירתו, כדי לוודא שאמנם מת. מצב זה עורר את השאלה לגבי גדר אנינות באותו זמן על הקרובים. ראה למשל שם (מעמוד 119), התייחסויות הלכתיות לכך. ", "3": " הערת הרב נבנצל שליט\"א – אם עומדים בקשר טלפוני וכיוצא בזה, ונותנים הוראות היכן לקבור וכו', עדיין הם אוננים.", "4": " שלחן ערוך יורה דעה סימן שעה, ב. גשר החיים פרק יט, ד, ח. ועיין עוד לעיל בפיסקה על תחילת האבלות, עמוד 83.", "5": " גשר החיים פרק יט, ד, י. פני ברוך סימן ח, יא. במראה הבזק חלק ב עמוד 144. אמנם כששלחו את המת לקבורה בעיר אחרת נוהגים אבלות מיד כיון שגמרו את הטיפול בו, אבל כשמקבל אבלות על פי ידיעה והידיעה אומרת שיקבר למחר, נוהג אבלות מהקבורה. אמנם יש שדחו סברה זו ולכן לדעתם גם במקרה זה נוהג אבלות מיד ולא צריך להמתין לקבורה. גם לפי הדעה שצריך להמתין עד הקבורה, מסתבר שאינו נוהג אנינות כיון שאינו טרוד בקבורה. (פני ברוך שם הערה כג). הערת הרב נבנצל שליט\"א – אלא אם כן מעביר הנחיות.", "6": " נטעי גבריאל חלק א, פרק קלג, טו.", "7": " כך הורה לי הרב יעקב רוז'ה שליט\"א, כיון שהאבלות קשורה בקרובים ונמדדת לפי הזמן שבו הם החלו לנהוג אבלות, ואילו העלייה לקבר קשורה בעניינים של עליית הנשמה, ועניינים אלו נקבעים לפי הקבורה. ", "8": " שלחן ערוך יורה דעה סימן שעה, ד.", "9": " שם סעיף ה.", "10": " רמ\"א שם סעיף א, שלחן ערוך שם סעיף ו.", "11": " רמ\"א יורה דעה סימן שעה, ז. פני ברוך סימן ח, ט.", "12": " כך הורה לי הרב מרדכי אליהו שליט\"א. (וכעין זה משמע מהרמ\"א יורה דעה סימן שסג, ב. אמנם שם מדובר על זירוז תהליך וכאן על עיכובו, אך העיקרון המשותף הוא כבוד הנפטר).", "13": " בשלחן ערוך (יורה דעה סימן שעה, ח) נפסק שאם היה במקום קרוב, שהוא כשיעור מהלך עשר פרסאות, שאפשר שיבוא ביום אחד – מצטרף עם שאר האבלים. נחלקו האחרונים אם אפשר כיום להחשיב מהלך יום אחד ברכבת או במטוס. למעשה כיום שאפשר להגיע בעזרת מטוסים למרחקים גדולים, מחשיבים לפיהם מרחק של יום אחד. סיכום הדעות מובא בילקוט יוסף סימן טו, הערה ג. ועוד הוסיף (שם הלכה ו) שאם יש אפשרות עקרונית להגיע תוך 12 שעות, למרות שבפועל הזמן מתארך בגלל חניות ביניים, עדיין נחשב מהלך יום אחד, ומצטרף עמהם.", "14": " ילקוט יוסף סימן נח, יד.", "15": " ילקוט יוסף סימן טו, ח.", "16": " שלחן ערוך יורה דעה סימן שעה, ב. גשר החיים פרק יט, ה, ו. חכמת אדם כלל קסב, טו.", "17": " צרור החיים פיסקה עו.", "18": " ילקוט יוסף סימן טו, י. ובהערה שם דן אם יש מציאות של אבלות קודם הקבורה.", "19": " שלחן ערוך יורה דעה סימן תב, א.", "20": " שמירת שבת כהלכתה חלק ב, פרק סה, מט.", "21": " שלחן ערוך יורה דעה סימן תב, ז.", "22": " שלחן ערוך יורה דעה סימן שצט, א; תב, י. שמירת שבת כהלכתה שם, נ. ", "23": " משנה ברורה סימן תקמז, סעיף קטן יא.", "24": " שלחן ערוך אורח חיים  סימן תקמח, כ; יורה דעה סימן תב, ח.", "25": " שלחן ערוך יורה דעה סימן תא, ד.", "26": " שלחן ערוך ורמ\"א, יורה דעה סימן שעח, יא. גשר החיים פרק כ, ב, יא. ילקוט יוסף סימן יג, יג.", "27": " גם לפי המנהג שבחול המועד קורעים רק על אב ואם. שלחן ערוך יורה דעה סימן שמ, לב; תא, ג. גשר החיים פרק ד, כה.", "28": " שלחן ערוך אורח חיים  סימן תקמח, כ; יורה דעה סימן תב, ח.", "29": " גשר החיים פרק כד, א, ז.", "30": " נטעי גבריאל חלק ב, פרק לח, יג, בשם החיד\"א.", "31": " שם, טז.", "32": " ילקוט יוסף סימן לו, ו.", "33": " שלחן ערוך יורה דעה סימן תב, א. אמנם יש דעות המחמירות להחשיב רק מיום הקבורה, אך בגשר החיים (פרק כד, א, א) כתב שהרוצה להקל יש לו על מה שיסמוך, וגם בילקוט יוסף (סימן נח, ד), ובפני ברוך (סימן כו, ג) כתבו להקל. ", "34": " שלחן ערוך יורה דעה סימן שצה, ב. אמנם לגבי השבעה יש מחלוקת אם אומרים מקצת היום ככולו גם בלילה. אבל לגבי שמועה רחוקה לכל הדעות אומרים מקצת היום ככולו גם בלילה (טור שם). וכן שם סימן תב, א.", "35": " שלחן ערוך יורה דעה סימן תב, ב.", "36": " שלחן ערוך יורה דעה סימן שעח, יב. ", "37": " גשר החיים פרק כד, ב, ג. למרות שמי שיושב באבלות ולא ברך יכול לברך תוך שלושה ימים, שם מדובר במי שיושב בפועל באבלות והצער מורגש יותר, ולכן יכול לברך עד שלושה ימים.", "38": " שלחן ערוך יורה דעה סימן שמ, יח. סימן תב, ד.", "39": " משנה ברורה סימן תקמז, סעיף קטן יד. גשר החיים פרק ד, כד.", "40": " כיון שהברכה נתקנה על שמועות רעות. בגשר החיים (פרק ד, כו) כתב שאלו הנוהגים לסמוך את הברכה לקריעה, דוחים את הברכה למוצאי שבת ויום טוב שאז קורעים, אבל דווקא בהמתנה קרובה כזאת ולא בהמתנה ארוכה מחול המועד ועד לאחר המועד.", "41": " שלחן ערוך יורה דעה סימן תב, א. גשר החיים פרק כד, ב, ד.", "42": " ילקוט יוסף סימן נח, ג.", "43": " שלחן ערוך אורח חיים סימן תקמח, יח. יורה דעה סימן תב, ו.", "44": " שלחן ערוך יורה דעה סימן תב, ה. ", "45": " פני ברוך סימן כו, טו.", "46": " ילקוט יוסף סימן נח, י.", "47": " אמנם יש דעות שחייב להתאבל כיון שנותנים חזקת חיים לאדם שנפטר ואומרים שרק לאחרונה מת (בית חדש, יורה דעה שצז). והטורי זהב חלק עליו מטעם שאין אומרים חזקת חיים למי שכבר נפטר, ולכן אין להתאבל במקרה של ספק כזה, בפרט שאנו אומרים שהולכים באבל להקל. וכן פסק בגשר החיים פרק כד, ב, ז; ובילקוט יוסף סימן נח, ח. ובפני ברוך (סימן כו, ד) הביא בשם שבט הלוי (יורה דעה סימן ריג) שבזמננו שאפשר לברר בקלות בטלפון וכדומה, יש להחמיר עד שיברר.", "48": " שלחן ערוך יורה דעה סימן תב, ט.", "49": " ילקוט יוסף סימן נח, ט. פני ברוך סימן כו, ו. ועיין עוד גשר החיים פרק כד, ב, ט. ", "50": " פני ברוך שם ז – ח.", "51": " ציץ אליעזר חלק ז, סימן מט, פרק י. ", "52": " רמב\"ן בתורת האדם (עמוד רלט).", "53": " שלחן ערוך יורה דעה סימן שצז, א. אמנם יש פוסקים שכתבו שאין לסמוך על גוי מסיח לפי תומו (טורי זהב שם בשם אור זרוע ורש\"ל), אבל בגשר החיים (פרק יט, ט, א) כתב שיש לנהוג כשלחן ערוך ולהסתמך גם על גוי מסיח לפי תומו כדי לנהוג אבלות. ", "54": " טורי זהב סימן שצז, ב. ערוך השלחן יורה דעה סוף סימן שצז.", "55": " טורי זהב שם. אמנם בשפתי כהן שם כתב שצריך להתאבל, אך בגשר החיים (יט, ט, ד) כתב שאין לנהוג אבלות (ובשפתי כהן נפלה טעות סופר וגם לדעתו אין לנהוג אבלות, כמו שמובא בנקודות הכסף שם).", "56": " שלחן ערוך אבן העזר סימן יז, ה. שפתי כהן על שלחן ערוך יורה דעה סימן שעה סעיף קטן ז, ומקורו בתשובת הרי\"ף המובאת בבית יוסף שם. העיקרון הוא שכל זמן שלא התירו את אשתו להינשא הריהו בגדר חי ואין מתאבלים עליו. זאת עקב החשש שאם יתאבלו עליו ללא הוכחות מספקות, עלולה לצאת מכך תקלה חמורה שאשתו תחשוב בטעות שכבר יכולה להינשא ותלך ותינשא.", "57": " שלחן ערוך יורה דעה סימן שעה, ה. הגדר של \"נתייאשו\" הוא על מי שבידם לחפש. אם מדובר בחיילים, ההגדרה בדרך כלל היא על הממשלה האחראית. במקרים מסוימים, אזרחיים ואפילו צבאיים, המשפחה לוקחת אחריות ומחפשת בעצמה, ואז ההגדרה של נתייאשו מוסבת על המשפחה.", "58": " שם סעיף ז.", "59": " גשר החיים פרק ל, ט, יא.", "60": " שלחן ערוך יורה דעה סימן שעה, ז.", "61": " גשר החיים פרק יט, ז, יא. ועיין עוד בשלחן ערוך יורה דעה סימן שמב.", "62": " גשר החיים סוף פרק יח. אמנם בילקוט יוסף (סימן ז, נ) כתב שאנינות נוהגת בחתן, והתירו רק בעילת מצוה.", "63": " גשר החיים פרק יח, ד, יב. חלק שני סוף פרק טו.", "64": " גשר החיים פרק יט, ז, ט. כל בו על אבלות עמוד 70. ", "65": " מנחת שלמה תנינא, סימן פט. אמנם למעשה נשאר בצריך עיון.", "66": "אמנם יש פוסקים שעל אב ואם מחליפים בגדים וקורעים בצנעה, ומיד חוזרים ולובשים בגדי חתן וכלה, אולם עדיף לא לקרוע כלל. גשר החיים עמוד קצ פיסקה ה. כך פסק גם בילקוט יוסף סימן טו, ט.", "67": " בגשר החיים (פרק יט, ז, ז) כתב להימנע מללכת לבית העלמין, ובילקוט יוסף (סימן י, ט) כתב שמצוה להשתתף, ובסימן טו, ט, כתב שרשאי מעיקר הדין להשתתף בלוויה.", "68": " גשר החיים פרק יט, ז, ה.", "69": " ילקוט יוסף סימן טו, ט.", "70": " עיין גשר החיים פרק יט, ז, ב.", "71": " ילקוט יוסף סימן מד, ה. כל בו על אבלות עמוד 66.", "72": " גשר החיים פרק יט, ז, ד.", "73": " שלחן ערוך יורה דעה סימן שצו, א.", "74": " גשר החיים פרק כא, טו, ד; על פי ערוך השלחן שצו, ב. אמנם בפני ברוך (סימן כה, ג) הביא דעות שצריך להשלים את ימי האבלות, אולם גם מסקנתו שלו בסופו של דבר להקל. גם בילקוט יוסף (בסוף הספר עמוד תשעט) כתב להקל בזה.", "75": " כל בו על אבלות עמוד 351.", "76": " שלחן ערוך יורה דעה סימן שצו, ג.", "77": " גשר החיים פרק יט, ג, ג.", "78": " צרור החיים פיסקה רצג. אמנם יש פוסקים שהחמירו שאם הגדיל בתוך שלושים הרי שצריך למנות שבעה ושלושים (מהר\"ם). ויש מי שכתב שיתכן שיש לנהוג אבלות שנים עשר חודש, שהיא משום כבוד אביו ואמו (חכמת אדם כלל קסח, ו) אבל בגשר החיים (פרק יט, ג, ג) כתב שהמקל יש לו על מה שיסמוך כפשטות לשון השלחן ערוך. ", "79": " שלחן ערוך המקוצר עיני יצחק, יורה דעה סימן קפו, יג. באר לחי רואי סימן ו – ז.", "80": " שלחן ערוך יורה דעה סימן תב, ט.", "81": " שלחן ערוך יורה דעה סימן שעה, י.", "82": " מועד קטן יז, ב. רמב\"ם הלכות אבל פרק ו, יג. שלחן ערוך יורה דעה סימן שפט, א. שצ, ג. שלחן ערוך אורח חיים סימן תקנא, טו.", "83": " צרור החיים פיסקה רסד.", "84": " ילקוט יוסף סימן ל, ח. וכתב שם שכן הובא בספר הליכות שלמה (הלכות תפילה עמוד רכה) בשם הגרש\"ז אויערבך.", "85": " גשר החיים פרק ל, ט, ח. ", "86": " מסכת שמחות פרק ב, א.", "87": " לפי גשר החיים (פרק כה, ב, ו) אין נוהגים אנינות, ולפי הציץ אליעזר (חלק ה, אבן יעקב סימן ב) יש דיני אנינות. בכל בו על אבלות (עמוד 142) מסתפק לגבי דין אנינות על הקרובים, עיין שם.", "88": " ילקוט יוסף סימן נו, א.", "89": " שלחן ערוך יורה דעה שעג, ח.", "90": " בצרור החיים פיסקה רצד כתב שבספר בן איש חי הביא שבעה נימוקים להקל ולהתאבל עליו, ושכך יש לנהוג למעשה.", "91": " ילקוט יוסף סימן נו, ג. וראה שם בהערה את ההתייחסות ליקים איש צרורות שקיים בעצמו ארבע מיתות בית דין כדי לכפר על עוונותיו.", "92": " הערת הרב נבנצל שליט\"א – צריך עיון אם כדאי להקל, או שמא עדיף להחמיר כדי להרתיע אחרים.", "93": " גשר החיים פרק כה, ג, ד; בשם בשמים ראש. הערת הרב נבנצל שליט\"א – שהוא ספר מפוקפק, כידוע. (הספר היה מיוחס לרבנו הרא\"ש, ויצאו על כך עוררין). ", "94": " הגהות הרמ\"א על שלחן ערוך יורה דעה סימן שמ, ה.", "95": " שו\"ת חתם סופר, יורה דעה סימן שמא.", "96": " הגהות הרמ\"א על שלחן ערוך יורה דעה סימן שמ, ה. למרות שמסקנת הרמ\"א שם היא שאין להתאבל עליהם, בשפתי כהן שם (סעיף קטן ט) כתב שמתאבלים עליהם, כיון שמיתתם על ידי גויים היא כפרתם. ", "97": " במראה הבזק חלק ד סימן קכג, על פי הרמ\"א בחושן משפט סימן לד, כב. ", "98": " גשר החיים פרק כה, ד, ג.", "99": " הערת הרב נבנצל שליט\"א – ויש אומרים שבעה, ורבנו גרשום מאור הגולה נהג ארבע עשר יום. ", "100": " ציץ אליעזר חלק ה, אבן יעקב סימן ד.", "101": " כך אמר לי חנניה שחור, מנהל חברה קדישא קהילת ירושלים.", "102": " \"מת ביום טוב ראשון, יתעסקו בו עממים\" – ביצה ו,, א; וכך נפסק להלכה בשלחן ערוך אורח חיים סימן תקכו, א.", "103": " גשר החיים פרק יב, א, ב; על פי פרק מעשה המת להלל הזקן.", "104": " במראה הבזק חלק ג, סימן סו.", "105": " תשובה במכתב מהרב מרדכי אליהו שליט\"א.", "106": " עיין באוצר המושגים ערך קבורה בקומות.", "107": " מנחת אלעזר, מובא בכל בו על אבלות עמוד 163.", "108": " שלחן ערוך אורח חיים סימן תקכו, ג.", "109": " שלחן ערוך שם ד. והרמ\"א שם כתב שלכתחילה יעשו מלאכות על ידי גויים, ובגשר החיים (פרק יז, ב, ב) כתב שהיום גם הספרדים נוהגים לחפור ביו\"ט שני של ראש השנה על ידי גויים.", "110": " גשר החיים פרק יז, ב, ד.", "111": " הרב צבי פסח פראנק. מובא בגשר החיים שם, ה. ", "112": " טור יורה דעה סימן שצט. שלחן ערוך אורח חיים סימן תקמח, ב. גשר החיים פרק כג, ב, טו הכריע להקל גם בראש השנה."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

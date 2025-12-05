@@ -13,10 +13,12 @@ class StorageService {
   late Box<ReadingPosition> _readingPositionBox;
   late Box _settingsBox;
   late Box<double> _chapterPositionsBox;
+  late Box<DateTime> _termAccessBox;
 
   bool _isInitialized = false;
 
   static const String _chapterPositionsBoxName = 'chapter_positions';
+  static const String _termAccessBoxName = 'term_access';
 
   /// Initialize Hive and open boxes
   Future<void> init() async {
@@ -38,6 +40,7 @@ class StorageService {
         await Hive.openBox<ReadingPosition>(AppConstants.readingPositionBox);
     _settingsBox = await Hive.openBox(AppConstants.settingsBox);
     _chapterPositionsBox = await Hive.openBox<double>(_chapterPositionsBoxName);
+    _termAccessBox = await Hive.openBox<DateTime>(_termAccessBoxName);
 
     _isInitialized = true;
   }
@@ -137,6 +140,25 @@ class StorageService {
     return _settingsBox.get(key, defaultValue: defaultValue) as T?;
   }
 
+  // ============ Term Access Methods ============
+
+  /// Record access to a term
+  Future<void> recordTermAccess(String termId) async {
+    await _termAccessBox.put(termId, DateTime.now());
+  }
+
+  /// Get term access history (termId -> last access time)
+  Map<String, DateTime> getTermAccessHistory() {
+    final history = <String, DateTime>{};
+    for (final key in _termAccessBox.keys) {
+      final value = _termAccessBox.get(key);
+      if (value != null) {
+        history[key as String] = value;
+      }
+    }
+    return history;
+  }
+
   // ============ Utility Methods ============
 
   /// Clear all data (for debugging/reset)
@@ -145,6 +167,7 @@ class StorageService {
     await _readingPositionBox.clear();
     await _settingsBox.clear();
     await _chapterPositionsBox.clear();
+    await _termAccessBox.clear();
   }
 
   /// Close all boxes
@@ -153,5 +176,6 @@ class StorageService {
     await _readingPositionBox.close();
     await _settingsBox.close();
     await _chapterPositionsBox.close();
+    await _termAccessBox.close();
   }
 }

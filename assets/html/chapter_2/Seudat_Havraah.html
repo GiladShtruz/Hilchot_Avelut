@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p style="font-size: 1.3rem"><strong>בבית האבל</strong></p>
+<div class="sage-quote"><p style="font-size: 0.75rem">טוֹב לָלֶכֶת אֶל בֵּית אֵבֶל </p>
+<p style="font-size: 0.75rem">מִלֶּכֶת אֶל בֵּית מִשְׁתֶּה </p>
+<p style="font-size: 0.75rem">בַּאֲשֶׁר הוּא סוֹף כָּל הָאָדָם </p>
+<p style="font-size: 0.75rem"><span style="font-size: 0.75rem">וְהַחַי </span><span style="font-size: 0.75rem">יִתֵּן</span><span style="font-size: 0.75rem"> אֶל לִבּוֹ </span></p>
+</div><p>קהלת ז, ב</p>
+<div class="sage-quote"><p><strong>סעודת הבראה</strong></p>
+</div><p style="font-size: 0.85rem">סעודת הבראה היא הסעודה הראשונה שמאכילים את האבל בשובו מהקבורה. בתנ"ך מוזכר שהעם בא להברות את דוד אחרי שנהרג אבנר בן נר (שמואל ב', ג, לה). חכמים למדו שהאבל ביום הראשון אסור לאכול משלו מיחזקאל הנביא שמתה אשתו, והנביא הוזהר <u>שלא</u> להתאבל. ליחזקאל הנביא נאמר "וְלֶחֶם אֲנָשִׁים לֹא תֹאכֵל" דהיינו שלא יאכל סעודת הבראה. הנביא הוא היוצא מן הכלל, המלמד שהאבל בדרך כלל אוכל סעודת הבראה משל אחרים (מועד קטן כז, ב).</p>
+<p>טעם הדבר כי האבל דואג ונאנח על מתו, ואינו חפץ לאכול. על כן בתחילת תהליך האבלות מודגש דווקא הצורך הבסיסי ביותר של האדם החי – אכילה. ממד נוסף בסעודת ההבראה הוא השתתפות הקהילה והחברה סביב האבלים בצערם, ויש בה סוג מסוים של ניחום אבלים. יש שנתנו טעם בעל משמעות הפוכה, והוא מה שאמרו חז"ל שמי שמצפה וסמוך על שלחן אחרים עולם חשוך בעדו, ובמצב כזה הוא האבל.</p>
+<p>מתי אוכלים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">כששבים האבלים מבית הקברות, מצוה על השכנים או הקרובים שאינם מתאבלים, שיאכילום משלהם. סעודה זו היא הנקראת "סעודת הבראה"<span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">אם לא האכילום השכנים, יכולים האבלים לאכול משל עצמם. <span style="font-size: 0.75rem">בכלל, סעודת הבראה אינה חובה גמורה, אלא שהסעודה הראשונה ביום הקבורה צריכה להיות משל אחרים. מעיקר הדין מותר לאבל לא לאכול ביום הראשון עד הערב, ואז לאכול משלו</span><span class="footnote-ref" onclick="showFootnote('2', '2', event)">2</span><span style="font-size: 0.75rem">.</span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">אם היתה הקבורה בלילה מברים (מאכילים) אותם בלילה, ואם לא האכילום בלילה מברים אותם ביום שלמחרת<span class="footnote-ref" onclick="showFootnote('3', '3', event)">3</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">אם היתה הקבורה בין השמשות, נחשב הלילה ליום שני לאבלות, ואין בו סעודת הבראה. להגדרת בין השמשות ראה לעיל עמוד @. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">בערב שבת או חג, כשעתיים וחצי לפני הדלקת נרות, אין מברים את האבלים כלל מפני כבוד השבת, אלא ממתינים עד סעודת הערב<span class="footnote-ref" onclick="showFootnote('4', '4', event)">4</span>.  </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">אם הסעודה מתעכבת, מותר לאבלים לשתות בינתיים תה או קפה משל עצמם.</span></div>
+<p style="font-size: 0.85rem">מה אוכלים</p>
+<div class="sage-quote"><p><span style="font-size: 0.75rem">"</span><span style="font-size: 0.75rem">וַיָּזֶד</span><span style="font-size: 0.75rem"> יַעֲקֹב נָזִיד וַיָּבֹא עֵשָׂו מִן הַשָּׂדֶה וְהוּא </span><span style="font-size: 0.75rem">עָיֵף</span><span style="font-size: 0.75rem">"</span> (בראשית כה, כט). אותו היום נפטר אברהם אבינו מן העולם, ועשה יעקב אבינו תבשיל של עדשים לנחם את יצחק אביו. ולמה של עדשים? אמרו במערבא (בארץ ישראל שהיא מערבית לבבל) משמו של רבה בר מרי: מה עדשה זו אין לה פה, אף אבל אין לו פה. דבר אחר: מה עדשה זו מגולגלת, אף אבלות מגלגלת ומחזרת על באי עולם.</p>
+</div><p>בבא בתרא טז, ב</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">עיקר סעודת הבראה בלחם<span class="footnote-ref" onclick="showFootnote('5', '5', event)">5</span>. ונהגו להאכיל פת או כעכים עם ביצים קשות או עדשים שהם מאכל אבלים<span class="footnote-ref" onclick="showFootnote('6', '6', event)">6</span>. המאכלים העגולים מסמלים את מעגל החיים ואת האבלות שהיא גלגל חוזר בעולם. למאכלים העגולים אין פה כמו האבל שאין לו פה, שיושב ודומם מחמת צערו ואבלותו. ונכון לתת לאבלים את הביצים כשהן קלופות כדי שלא יראה האבל כרעבתן. יש הנוהגים לשתות יין בסעודת הבראה כמו שכתוב "תְּנוּ שֵׁכָר לְאוֹבֵד וְיַיִן לְמָרֵי נָפֶשׁ" (משלי כא, ו)<span class="footnote-ref" onclick="showFootnote('7', '7', event)">7</span>.</span></div>
+<p>איך מברים (איך מאכילים)</p>
+<div class="sage-quote"><p>בראשונה היו מוליכין לבית האבל. עשירים בקלתות של כסף ושל זהב ועניים בסלי נצרים של ערבה קלופה, והיו עניים מתביישים. התקינו שיהו הכל מביאין בסלי נצרים של ערבה קלופה, מפני כבודם של עניים.</p>
+<p>בראשונה היו משקין בבית האבל. עשירים בזכוכית לבנה ועניים בזכוכית צבועה, והיו עניים מתביישים. התקינו שיהו הכל משקין בזכוכית צבועה מפני כבודן של עניים.</p>
+<p style="font-size: 0.85rem">מועד קטן כז, ב</p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">אדם אחר בוצע את הפת, ונותן פרוסה ביד האבל. לומדים זאת מהפסוק ממגילת איכה (א, יז) "<span style="font-size: 0.75rem">פֵּרְשָׂה צִיּוֹן בְּיָדֶיהָ</span>", הוא רמז לפרוסה שנותנים ביד האבל. (לאדם שאינו אבל מניחים את הלחם לפניו ולא נותנים בידו).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">אנשים מברים לאיש, ונשים מברות לאשה. כשיש אבלים ואבלות באותו חדר, אין להקפיד בכך<span class="footnote-ref" onclick="showFootnote('8', '8', event)">8</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">אשה נשואה אין לבעלה להברותה משלו. מאחר וחייב במזונותיה, נחשבת הסעודה שלה. </span></div>
+<p>ברכת המזון </p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">בסעודת הבראה אין האבל מצטרף לזימון עשרה, ורצוי שגם לא ישבו שלושה כדי שלא להתחייב בזימון כלל<span class="footnote-ref" onclick="showFootnote('9', '9', event)">9</span>. בשאר הסעודות מזמן ומזמנים עליו. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">יש נוסח מיוחד לברכת המזון בבית האבל. יובא לקמן בעמוד 97.@</span></div>
+<p>בחול המועד ובפורים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">בחול המועד ובפורים אוכלים סעודת הבראה בעת שיושבים על כסאות רגילים, ואין אוכלים ביצים ועדשים אלא קפה ועוגה וכדומה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">יש מי שכתבו שמנהג ירושלים להברות בחול המועד רק על אב ואם. ויש מי שכתב שכך מנהג ירושלים גם בפורים<span class="footnote-ref" onclick="showFootnote('10', '10', event)">10</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">מי שמת לו מת קודם הרגל ולא נהג עליו אבלות לפני הרגל, לפי מנהג עדות המזרח מקיימים סעודת הבראה כשמתחילים לשבת שבעה לאחר הרגל. ולפי מנהג האשכנזים אין מקיימים סעודת הבראה במקרה כזה<span class="footnote-ref" onclick="showFootnote('11', '11', event)">11</span>. </span></div>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " שלחן ערוך יורה דעה סימן שעח. מנהג בני תימן שהאבלים עורכים בסוף היום השביעי סעודה גדולה משלהם ומזמינים אליה את כל המנחמים שבאו אליהם במהלך השבעה, והיא נקראת בפיהם \"הבראה\". וכן מנהגם שהמנחמים מביאים עמם צרכי מאכל ומשתה כל שבעת ימי האבל, ואוכלים יחד עמם. (שלחן ערוך המקוצר עיני יצחק, יורה דעה סימן קצד, ג; ושם קפז, יא. הליכות תימן, מנהגי קבורה ואבלות עמוד 332. הרב קאפח מעיר שם שעקב ריבוי ההוצאות ומיעוט הפרנסה, נתמעטו המנחמים אצל האבלים, כיון שלא יכלו להביא כיבוד. לפיכך עמדו רבני העדה ונכבדיה ותיקנו להמעיט בכיבוד שמביאים אצל האבלים. תקנות אלו החזיקו מעמד שנים ספורות בלבד, ועתה שוב ההוצאות עצומות).", "2": " שלחן ערוך יורה דעה סימן שעח, ג.", "3": " פתחי תשובה יורה דעה סימן שעח, ב בשם נודע ביהודה.", "4": " שלחן ערוך יורה דעה סימן שעח, ה. גשר החיים פרק כ, ב, יא. אמנם בספר צרור החיים (פיסקה עא – עב) כתב שבזמן זה, יאכלו סעודת הבראה בקפה ועוגה ולא בפת. ואם לא הספיקו לאכול סעודת הבראה לפני שבת, יאכילום סעודת הבראה במוצאי שבת. ובילקוט יוסף (סימן יג, ט) כתב שאם לא הספיקו להברות בערב שבת, אין צריך להברות במוצאי שבת; וכך גם פסק בשמירת שבת כהלכתה (חלק ב, פרק סה, א) על פי דברי הרמ\"א (יורה דעה סימן שעח, יא). ובילקוט יוסף  שם הוסיף שאם נקבר בערב יום טוב, מברים אותו במוצאי יום טוב, כיון שאז מתחילה האבלות.", "5": " פת או עוגה - גשר החיים פרק כ, ב, ד. ובילקוט יוסף (סימן יג, ד) הצריך לכתחילה נטילת ידים ואכילת פת.", "6": " שלחן ערוך יורה דעה סימן שעח, ט.", "7": " אמר רבי חנן: לא נברא יין אלא לנחם אבלים… שנאמר \"תְּנוּ שֵׁכָר לְאוֹבֵד וְיַיִן לְמָרֵי נָפֶשׁ\" - סנהדרין ע, א; ילקוט החיים והשלום עמ' לז ועמ' נג.", "8": " ערוך השלחן יורה דעה סימן שעח, ג. גשר החיים פרק כ, ב,  ז. ילקוט יוסף סימן יב, ב.", "9": " שפתי כהן על שלחן ערוך יורה דעה סימן שעט, סעיף קטן ו. גשר החיים חלק ב פרק יח, א. אמנם בילקוט יוסף (סימן יג, טו) כתב שהאבלים מצטרפים לזימון, כפשטות לשון השלחן ערוך שם.", "10": " ילקוט יוסף סימן יג, י, וכן בפני ברוך (סימן כח, יא) ובשמירת שבת כהלכתה (חלק ב, פרק סה, ד), הזכירו מנהג זה לגבי חול המועד. אמנם לפי גשר החיים (פרק כ, ב, י) מברים בחול המועד על כל הקרובים (בקפה ועוגה ולא בביצים ועדשים). ובספר גשר החיים (שם) הזכיר מנהג זה בשם ספר מזבח אדמה וכתב שלא נתברר לנו מנהג זה ואין לנו מקור על זה.", "11": " צרור החיים פיסקה עג."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

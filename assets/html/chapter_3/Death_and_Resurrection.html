@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="sage-quote"><p><strong>מיתה ותחיית המתים – השקפת </strong><strong>הראי"ה</strong><strong> קוק</strong></p>
+<p style="font-size: 0.75rem">הפסקאות דלקמן מלוקטות מספרו של הרב אברהם יצחק הכהן קוק "אורות הקדש" חלק ב', בקובץ הנקרא "החיות העולמית" מפיסקה לח עד פיסקה מב. הפיסקאות עמוקות, מורכבות וקשות להבנה, אך לימודן נותן הסתכלות שונה ומקורית על החיים והמוות.</p>
+</div><p style="font-size: 1.15rem"><strong>הטל העליון</strong><strong> </strong></p>
+<p>אותו הטל של תחיית המתים הוא עצמו אותו הנושא שמלאכי השרת חיים ומתקימים ממנו, חיים איתנים, חיים שאין עמם מות  ושפע החיים הללו הולך הוא ופועל את פעולתו, עובד הוא את עבודתו התדירית, להביא את העולם לידי מעמדו. ואין לך כל הטבה והארה שבעולם, מקטנה ועד גדולה, מחיצונה עד פנימית, שאינה עשויה דרגה של סולם לאושר החותם העליון, של תחיית המתים, של נצחון הטוב המוחלט, לא רק במובן החברותי לבד בצמצומו, כי אם במובן הכללי של כל העולמים, ובמובן הפרטי של כל בריה, מגדולה ועד קטנה.        </p>
+<p>    ואותו הטל העליון, שסיגיו ומותרותיו הם הם הנותנים כח לכל מרץ החיים, עקרו ופנימיותו הוא הוא הגנוז בתורה, והתורה בהתגלמותה, גם בהסתעפות ההבטאה היותר חיצונה ומפוצלת, לכל ערכי החיים, והדמיונות המתוארים, היא היא התגלמות עצמית של אותו הטל העליון, שמחיה את המתים. וכל  המשתמש בטל תורה טל תורה מחייהו, כי טל אורת טלך. </p>
+<p style="font-size: 1.15rem"><strong>אור החיים</strong><strong> </strong></p>
+<p>    התענוג הנפלא של תחיית המתים, באור החיים, של עדן העליון, של טל אורות טלך, הוא משעשע את הצדיקים ומשמחם בשמחה עליונה תמיד, עד שכל ההפסקה שבין ההוה להעתיד הגדול הזה, וההרפתקאות שבינתים, אינה נחשבת אצלם למאומה, ובטלים הם ממש כניצוץ קטן לפני גלגל חמה.       </p>
+<p>    וכל אור גדול זה הושיטו לנו אבותינו בתיקון ברכת תחיית המתים בתפלה. ועם כל גדלו וזהרו של תענוג עליון זה, כלא הוא נחשב לגבי ציור התענוג והשלמות של דעת עליון שבעליונים, זהו סוד חפץ ד' ואהבתו, שצדיקים קשורים בו. וכל נשמת ישראל בו דבקה,  וכל התמצית של האורה האלהית, המחיה את כל הבריות, ומתקנתם לסעודה העליונה, שם היא שרויה.                               </p>
+<p>    ואלו הצחצחות מתמלאים תמיד שעשועים נפלאים, מלאי הוד ועדנים, גוונים מגוונים שונים זה מזה, ומשפיעים ומופיעים בשפעת נחלים גדולים וימים רבים ואדירים זה על זה, וזכרם מתוק ונעים, מתוקן ומקובל, פותח שערי חסד ורחמים, אורה וישועה לעד.                                            </p>
+<p style="font-size: 1.15rem"><strong>חזיון </strong><strong>המות</strong></p>
+<p>    המות הוא חזיון שוא, טומאתו היא שקרו, מה שבני אדם קוראים מות הרי הוא רק תגבורת החיים ותעצומתם. ומתוך השקיעה התהומית בקטנות, אשר יצר לב האדם השקיע אותו בה, הרי הוא מצייר את תגבורת החיים הזאת בצורה מדאיבה וחשוכה, שהוא קוראה מות.                         </p>
+<p>    מתעלים הם הכהנים בקדושתם מהקשבה שקרית זו, שאי אפשר להמלט ממנה כל זמן שהממשל הכזבי כל כך שולט בעולם, כי אם בהעברת העינים מהמחזה המביא את רשמי ההטעאה הללו אל הנפש, על כל נפשות מת לא יבא, לנפש לא יטמא בעמיו.                                            </p>
+<p style="font-size: 1.15rem"><strong>השחרור מיראת </strong><strong>המות</strong><strong> </strong></p>
+<p>    יראת המות היא מחלת האדם הכללית, הבאה בעקב החטא. החטא יצר את המות, והתשובה היא התרופה האחת להכחיד אותו מן העולם  כל עמל האדם סובב והולך הוא להנצל מן המות, ולא יבא למטרתו כי אם בהגדילו את נשמתו, ממקורה הפנימי. השיקוע בעפר החומריות, וההתלהבות הנפשית בכל ערכיה, הוא רק מגדיל את המות, וממילא הוא מוסיף יראה על יראתו, וכל מה שיתאמץ האדם שלא להתירא מפניו לא יועיל לו כלום, מאחר שהוא משקיע את כל הויתו בתוכנים כאלה, שמות שולט בהם, והוא מהרסם ומכלה אותם. איך לא יתפלץ הלב על יופי הנהפך לכיעור ועל חמדה שמתהפכת לבחילה. באין לחיים מטרה, המות מוכרח להיות מאוים, המלחמה נגדו לשוא היא, העזות מאומה לא תועיל.                 </p>
+<p>    התרופות האמתיות שבהן העולם הולך ומשתחרר משעבוד המות הן גנוזות באוצר חיים, בנשמתא דאורייתא, המתגלה בכל גילוייה, והולכת ומסתתרת בחביון עזה. </p>
+<p>    ראש לכל התרופות היא אריכות ימים, אריכות ימים בכדי השעור המספיק לטבעו של אדם, הרוחני והחמרי, האישי והמשפחתי, העולמי והמדיני. כשברכה זאת מתפשטת בעולם, הולכת היא צורת המות, המטלת אימה, ומתבטלת, ותחתיה באה צורה של חזיון הויה, הראוי להערך בערכו האמתי. ואז איננו עוד משבש את הדעות, והבינה חוזרת להתגלות, איך שלא יש כאן מות כלל, על פי אותו הציור המדכא וההרוס, שהוא שוכן בלב החיים לדכאם, ומסתכלים ביום המיתה ואומרים שירה, ד' אלהי  גדלת מאד הוד והדר לבשת.                                    </p>
+<p>    אריכות הימים באה על ידי תיקון החיים, בכל מובנם, וביחוד בהמובן המוסרי ההולך ומתרחב, הולך ומתעמק בכל השבילים, שהם מתפצלים ממנו. רוח המוסר העליון, הממדד את החיים בערכם, חי הוא ושוכן בנפש, על פי אותה המידה שהחיים מושקפים ממנו באורם, ולא יוכלו החיים להשקף באורם המלא, כי אם בדעת אל חי, מקור חכמה, חסד וגבורה, המאוחדים.                    </p>
+<p>    מועיל הוא גם כן פתוחו של הרוח הלאומי, במה שהאדם מרגיש את אושר הקיבוץ הכללי בהרגשה חיה פנימית, ושמח בשמחת האומה, בתור אבר מאבריה, שבזה פחד המות מצד מראה הכליון החמרי שלו מתקלש, שהרי נשארה היא האומה בדורותיה, שבה כל מעיניו. אבל אין זאת עצמותה של ההצלה מיראת המות, שהרי סוף כל סוף העצמיות הפרטית מתבהלת משידוד מהותה.        </p>
+<p>    עצם ההדרכה להסרת יראת המות צריכה לבוא על ידי ההתרגלות של אהבת החיים בערכם האמיתי. כל זמן שהכל מדומדם, וחשבון החיים בא רק במהומה, אי אפשר להמדות שתזוקקנה, וממילא אי אפשר שהחיים יהיו נאהבים. כל עניין אהבת החיים בא רק על ידי הפחד הדמיוני מהמות, ואי אפשר כלל לדבר על דבר הסרת יראה זו, שהיא מלח החיים.                       </p>
+<p>    אמנם לא תמיד צריכים החיים לעמוד במדרגה זו הפחותה, עד שאין ערכם נמצא בעצמם, כי אם ביראת הפכם. על ידי קדושת החיים בתכנם העליון, אפשר לבא לאהבת החיים העצמותית. לזה אמנם צריך שיגלה בנפש ערכו של הכלל, כלומר המציאות בכל היקפה, האדם ונשמתו, ערך הרצון הטוב, והמוסר המוחלט, בתכונת הנצח, ערכה של ההרמוניה הרוחנית עם החיים וההויה המגושמת. וזה כבר כולל חלק חשוב מהתוכן של חכמת האלהות והכרותיה הפנימיות.                                         </p>
+<p>    היסוד מונח בעילוי הרצון והתעמקותו במעמקה של ההכרה, זיווגו עמה והתאחדותו המוחלטת בקרבה.               </p>
+<p>    סוד הסרת הערלה הוא עליית חפץ החיים למידה העליונה המגמתית, עד שכל הנטיה ההולדית, וכל סעיפיה הרוחניים, המקושרים עמה, כל המון הרומנטיקה וכל ענפיה, כולם הם סעיפי הקודש של חוסן חפץ החיים, עד כדי להמציאו מתוך ההעדר במרום עז וטהרת חשק, המטביע את נעימת האהבה בכל היקום.                       </p>
+<p>    החיים כשהם מוכרים בערכם הטוב, הם בעצמם מסירים הם את התבלול מעיני ההכרה, המעכב בעד הבירור של ידיעת המהות הרוחנית וערכי חייה המוחלטים. אז מתחיל העולם הרוחני להשתרע בכל הוד מילואו, מרגיש הוא אז בקרבו את עצמו וחופשו, והחיים הנשמתיים מתגלים, לא רק בתור איזה שריד של חיים גופניים, שהם הנראים כהמלאים, אלא בתור גודל עצמי, שרק ניצוץ וצל של חיים הנם החיים של קישור הגוף ותנאיו ההוים לעומתו. באופן זה כשהאמצעיים הצדדיים גם כן עוזרים, כשהמעמד האיקונומי, המשפחתי, הלאומי, ועצם שביעתם של החיים הטבעים, בא עמו, סר פחד המות לגמרי, ונהפך הוא למקור שמחה ובטחון וחסה במותו צדיק. וכשתכונת חיים כזאת מתפשטת בעולם, בא השחרור ממלאך המוות, במרום מילואו.                                   </p>
+<p>    ומעמד חיים כמו אלה, אפשר להכשיר את העולם אליהם. אבל לא היחיד יעצר כח לזה כי אם האומה, אומה בין האומות אומה קדושה מופתית, אומה נבחרה, הסגולה מכל העמים, שבניה בנים לד' אלהיהם הם, הם הם המצווים על לא תתגדדו ולא תשימו קרחה בין עיניכם למת, כי עם קדוש אתה לד' אלהיך ובך בחר ד' אלהיך להיות לו לעם סגלה מכל העמים אשר על פני האדמה,   ולהעביר המות, שהוא חרפה לעם קדוש, וכל מוראיו ועצבונותיו, שהיא תחלת התרבות המכוננת, המאשרת את החיים בכל תפקידיהם.          </p>
+<p>    לזה הננו נקראים, ובשביל כך אנו נלחמים, וכל הנפילות אשר נפלנו לא יתיקו רגלינו מהמטרה העליונה, הנשואה בנשמתנו, בא נבא אליה, דרך כל השלבים, ודרך כל השבילים המסובכים, אבל בא נבא לאותה החירות אשר עבורה הננו חיים.                                                  </p>
+<p style="font-size: 1.15rem"><strong>חיים עד העולם</strong><strong>  </strong></p>
+<p>    המות בא בעקב החטא, לולא החטא הקדמון, לולא הלך האדם אחרי תאותיו הבהמיות, היתה התחושה הרוחנית מופיעה עליו ברוב אורה.                                         </p>
+<p>    אין אנו מתחילים את התולדה האנושית מהגשמתו הגלויה של האדם, שבאה אחרי נפילה עמוקה. יסוד המציאות מתחיל באדם בהויתו העליונה, בהיותו מואר הארה רוחנית לפי תכונת עצם נשמתו. והנשמה במילוי החיים מוארה היא חוצה לגויתו ופנימה, היצירה הגופנית המרתקת את מאורה של הנשמה אל הגוף, והיא פועלת בו את פעולתה.                 </p>
+<p>    לולא נפל האדם ברשת השכחה, ושאיפתו אל הגדולה העליונה, שהיא העבודה האלהית, עבודת גן עדן לעבדה ולשמרה, לא חדלה, והיא רק היא היתה מכשרת את המשכת החיים, אז החיים בעצמם, בהתאימם אל המטרה הנשאה הכללית, של הויתו של האדם האצילית, אינם צריכים להפסק.            </p>
+<p>    מדוע זה לא תתקשר הנשמה בגויה להחיותה תמיד, מדוע לא תמצא את כל מרחביה, בהיותה מנצחת על עבודתה החיה במרכזה הנשא, הגויה וכליה. רק מפני שכרע הרצון תחת המחשך של השעבוד השפל של העבדות הבהמית הגופנית, ורפש זה נטבע בו האדם עד אין מנוס. לא שאיפה רוממה ונצחית של יצירת חיים נשאים פועל  בהעלאת נר החיים ביצירות גופיות, אלא כח אחר מעורב, יצר סוכן, והתעוררות שפלה סמויה, על כן אין הקישור אמיץ, והמחשכים רבו.</p>
+<p>   כפי ערכו של הזיכוך הרעיוני, תעלה יקרת הנשמה המופעת, ושלטונה על הגוף יגדל, אבל לנצח את המות לא תוכל, עטיו של נחש מפעפע ומחלחל, עד אשר יפוח היום, והשאיפה העליונה תלך ותתגשם, הרצון הנשגב, של שכלול חיים שלמים ונשאים, יגדל ויגבר על כל נטיה, וההשפלה העבדותית, אשר לחומר ותנאיו הנלחצים, לא תהיה מעורבת בכח היצירה. הנשמות שבגוף תכלינה, נשמות חדשות, שהן למעלה מן הגוף, יוצרות אותו, מתרכזות בו, ושואפות ממנו ועל ידו למרומים נשאים מאד, הן יופעו, והתולדה שהקריאה אל חייה נובעת בפועל מחפץ רומם זה של שאיפת יקיצה לחיים עליונים, היא תהיה המנצחת בעולם, לפניה יכרע המות ברך, ולא יזכר ולא יפקד, ובולע לנצח.           </p>
+<p>    המות מום הוא ביצירה, ישראל נועד להעבירו, חרפת עם הוא לנו, וחרפת עמו יסיר מעל כל הארץ, כי ד' דבר.                                                    </p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

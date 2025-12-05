@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="sage-quote"><p><strong>הטיפול בגוסס ובנפטר</strong></p>
+<p style="font-size: 0.85rem">רבי אליעזר אומר: שוב יום אחד לפני מיתתך. שאלו תלמידיו את רבי אליעזר: וכי אדם יודע איזהו יום ימות? אמר להם: וכל שכן! ישוב היום שמא ימות למחר, ונמצא כל ימיו בתשובה. ואף שלמה אמר  בחכמתו: "בְּכָל עֵת יִהְיוּ בְגָדֶיךָ לְבָנִים וְשֶׁמֶן עַל רֹאשְׁךָ אַל יֶחְסָר" (קהלת ט, ח). אמר רבי יוחנן בן זכאי: משל למלך שזימן את עבדיו לסעודה ולא קבע להם זמן. פקחים שבהם קישטו את עצמם וישבו על פתח בית המלך, אמרו: כלום חסר לבית המלך?! טפשים שבהם הלכו למלאכתם, אמרו: כלום יש סעודה בלא טורח?! פתאם ביקש המלך את עבדיו. פקחים שבהם נכנסו לפניו כשהם מקושטים, הטפשים נכנסו לפניו כשהם מלוכלכים. שמח המלך לקראת הפקחים וכעס לקראת טפשים. אמר: הללו שקשטו את עצמם לסעודה ישבו ויאכלו וישתו, הללו שלא קשטו את עצמם לסעודה יעמדו ויראו.</p>
+<p>שבת קנג, א</p>
+</div><p>ספרות ההלכה והמנהג מתארת בפירוט רב את שלבי הגסיסה האחרונים. בעבר היה מדובר בדרך כלל באנשים הגוועים לאיטם, בבית, מוקפים בקרוביהם, ברמה יחסית די גבוהה של הכרה ומודעות להתקרב הקץ.</p>
+<p>בימינו מצבים כאלו נדירים יותר. בני אדם מתים בדרך כלל בבתי חולים, תוך נסיונות רפואיים לדחות את הקץ, ולעתים לאחר נסיונות החיאה שבהם האדם כלל אינו בהכרה. אף על פי כן, יש להחשיב זאת כזכות לנפטר ולמשפחתו כאשר האדם נמצא במצב בו ניתן להגיע למעמד המרומֵם ומקדֵש את שעת הפרידה מן הנפש היקרה, שעת הפטירה מן העולם. למצבים מעין אלו נכתבו השורות הבאות. </p>
+<p>בהתקרב הקץ</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">בהתקרב הקץ יש חולים הנוטלים ידיהם ואומרים מזמור כ"ט בתהלים "הבו לה' בני אלים". יש אומרים "נשמת כל חי" או "אלקי נשמה" או "אתה גבור לעולם ה' " - כל אלו ללא חתימת הברכה<span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span><span style="font-size: 0.75rem"><em>.</em></span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">יש אומרים פיטום הקטורת מילה במילה בכוונה ובהטעמה<span class="footnote-ref" onclick="showFootnote('2', '2', event)">2</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">בשעה האחרונה, אם אפשר הדבר, טוב שיאמר החולה הפסוקים הללו:</span></div>
+<p>מִי אֵל כָּמוֹךָ נֹשֵׂא עָוֹן וְעֹבֵר עַל פֶּשַׁע לִשְׁאֵרִית נַחֲלָתוֹ לֹא הֶחֱזִיק לָעַד אַפּוֹ כִּי חָפֵץ חֶסֶד הוּא:</p>
+<p>יָשׁוּב יְרַחֲמֵנוּ יִכְבֹּשׁ עֲוֹנֹתֵינוּ וְתַשְׁלִיךְ בִּמְצֻלוֹת יָם כָּל חַטֹּאותָם <span style="font-size: 0.75rem">(מיכה ז, </span><span style="font-size: 0.75rem">יח</span><span style="font-size: 0.75rem"> – </span><span style="font-size: 0.75rem">יט</span><span style="font-size: 0.75rem">)</span></p>
+<p>בְּיָדְךָ אַפְקִיד רוּחִי פָּדִיתָה אוֹתִי ה' אֵל אֱמֶת <span style="font-size: 0.75rem">(תהלים לא, ו)</span></p>
+<p>יְבָרֶכְךָ ה' וְיִשְׁמְרֶךָ</p>
+<p>יָאֵר ה' פָּנָיו אֵלֶיךָ וִיחֻנֶּךָּ</p>
+<p>יִשָּׂא ה' פָּנָיו אֵלֶיךָ וְיָשֵׂם לְךָ שָׁלוֹם <span style="font-size: 0.75rem">(במדבר ו, כד – </span><span style="font-size: 0.75rem">כו</span><span style="font-size: 0.75rem">).</span></p>
+<p style="font-size: 0.75rem">לִישׁוּעָתְךָ קִוִּיתִי ה' (בראשית מט, ח)</p>
+<p>ה' אֵל אֱמֶת <span style="font-size: 0.75rem">(תהלים לא, ו)</span></p>
+<p>משה אמת ותורתו אמת.</p>
+<p style="font-size: 0.75rem"><strong>שְׁמַע יִשְׂרָאֵל ה' </strong><strong>אֱלהֵינו</strong><strong>ּ ה' אֶחָד </strong><strong>(דברים ו, ד)</strong></p>
+<p>ברוך שם כבוד מלכותו לעולם ועד.</p>
+<p>וידוי</p>
+<div class="sage-quote"><p><span style="font-size: 0.75rem">"כִּי שָׁמַע </span><span style="font-size: 0.75rem">אֱלֹהִים</span><span style="font-size: 0.75rem"> אֶל קוֹל הַנַּעַר בַּאֲשֶׁר הוּא שָׁם</span>" (בראשית כא, יז) – בזכות עצמו. יפה תפילת החולה לעצמו יותר מכל.</p>
+<p>בראשית רבה פרשה נג, יז</p>
+</div><p>וידוי הוא חלק ממצות התשובה. עצם המודעות לחטא היא שלב הכרחי בהכרה ובצורך בתיקון המעשים. מדובר בוידוי המבטא את הרגשות הכנים של האדם ולא דברים מן השפה ולחוץ, רגשות המביעים את הרצון האנושי העמוק והפנימי להיות אדם טוב וישר, מתוך הסתכלות על החיים כסולם שהאדם משתדל להתקדם ולעלות בו מבחינה ערכית ואנושית. אצל אדם המוטל על ערש דווי ואין בכוחו לעשות מעשה, הוידוי הוא כעין הצהרה על מגמה רוחנית של רצון להתעלות והטבה.</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">מצוה על החולה להתוודות קודם פטירתו. כיון שצריך רגישות רבה כדי לומר זאת לחולה, נהגו לומר לו שישנם הרבה שהתוודו וחיו, ויש שלא התוודו ומתו. ואין אומרים דברים אלו בפני עם הארץ ולא בפני נשים וקטנים, כדי שלא יבכו וישברו את לבו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">נוסח הוידוי<span class="footnote-ref" onclick="showFootnote('3', '3', event)">3</span>:</span></div>
+<div class="sage-quote"><p>מודה אני לפניך ה' אלהי ואלהי אבותי</p>
+<p>שרפואתי ומיתתי בידך</p>
+<p>על כל החיים וצרכי החיים שנתת לי</p>
+<p>יהי רצון מלפניך שתרפאני רפואה שלמה</p>
+<p>ואם אמות חס ושלום</p>
+<p>תהא מיתתי כפרה</p>
+<p>על כל חטאים ועוונות ופשעים</p>
+<p>שחטאתי ושעויתי ושפשעתי לפניך</p>
+<p>ותן חלקי בגן עדן</p>
+<p>וזכני לעולם הבא הצפון לצדיקים</p>
+<p>אל נא רפא נא לי</p>
+</div><p>גם יאמר: </p>
+<p>אני מאמין באמונה שלמה בה' אלקים אמת ושמו אמת ובשלֹשה עשר העקרים.</p>
+<p>וימחול לכולם ויבקש מחילה מכולם.</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">נוסח הוידוי הקצר "אם אמות, תהא מיתתי כפרה על כל עוונותי".</span></div>
+<p>אפשר להאריך בוידוי ולומר את הנוסח שאומרים ביום הכיפורים, כמובא במחזורים<span class="footnote-ref" onclick="showFootnote('4', '4', event)">4</span>.</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">אם אינו יכול להתוודות בפיו, יתודה בלבו<span class="footnote-ref" onclick="showFootnote('5', '5', event)">5</span>, או שאדם אחר יאמר לפניו. <em> </em></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">אפשר לומר וידוי גם במקום שאינו נקי, אך ללא הזכרת שם ומלכות<span class="footnote-ref" onclick="showFootnote('6', '6', event)">6</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">טוב לתת צדקה או לייחד כסף לצדקה, קודם אמירת הוידוי. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">אפשר לומר וידוי גם בשבת ויום טוב<span class="footnote-ref" onclick="showFootnote('7', '7', event)">7</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">יש האומרים את הפיוט "יגדל" הכולל בתוכו את שלושה עשר עקרי האמונה. הטעם מפני שכתוב שבשעה שנשמתו של אדם יוצאת ממנו, השטן עומד על ימינו לשטנו ואומר לו: כפור בה' אלהי ישראל. מה תקנתו להנצל ממנו? יכוון בשלושה עשר עקרי האמונה, ובפסוק שמע ישראל לקבל עליו עול מלכות שמים, ולהודות ביחוד ה' בעולם. ניתן לבאר שהיסורים עלולים לפעמים לגרום לאדם הרהורי חטא וספקות אמוניים. התקנה לכך היא להתחזק באמונה ולכן משננים את עיקרי האמונה. וכן הטעם באמירת "ברוך שם כבוד מלכותו לעולם ועד", על פי המדרש המובא בגמרא (פסחים נו, ב):</span></div>
+<div class="sage-quote"><p>"ויקרא יעקב אל בניו ויאמר האספו ואגידה לכם …" – ביקש יעקב לגלות לבניו קץ הימים, ונסתלקה ממנו שכינה. אמר: שמא חס ושלום יש במטתי פסול, כאברהם שיצא ממנו ישמעאל, וכאבי יצחק שיצא ממנו עשו?!  אמרו לו בניו: שמע ישראל ה' אלהינו ה' אחד. (שמע אתה אבינו ישראל), כשם שאין בלבך אלא אחד, כך אין בלבנו אלא אחד. באותה שעה פתח יעקב אבינו ואמר: ברוך שם כבוד מלכותו לעולם ועד".</p>
+<p>וכן יש קבלת עול מלכות ה' בפסוקים הנוספים שמזכירים לפניו. וכיון שאין הגוסס יכול לומר, אומרים לפניו.</p>
+<p>יש שכתבו שנכון לומר עם החולה מסירת מודעה בהיותו בדעה צלולה, שאם יבוא השטן וכת דיליה חס ושלום ברגע האחרון להסית אותי לעבור על אחד מעיקרי האמונה או אחת מכל מצוות ה' ואפילו מדרבנן, יהיו דברי בטלין ומבוטלין<span class="footnote-ref" onclick="showFootnote('8', '8', event)">8</span>. </p>
+</div><p>אומרים את הפיוט "אדון עולם", "אנא בכח", "על כן נקוה לך". </p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">אם הדבר אפשרי, יברך החולה את בניו ואת בני משפחתו לפני מותו. ירחץ ידיו ויניח שתי ידיו על ראשם ויאמר לבנים: "יְשִׂמְךָ אֱלֹהִים כְּאֶפְרַיִם וְכִמְנַשֶּׁה", ולבנות: "ישימך אלהים כשרה רבקה רחל ולאה". "יְבָרֶכְךָ ה' וְיִשְׁמְרֶךָ: יָאֵר ה' פָּנָיו אֵלֶיךָ וִיחֻנֶּךָּ: יִשָּׂא ה' פָּנָיו אֵלֶיךָ וְיָשֵׂם לְךָ שָׁלוֹם". "וְנָחָה עָלָיו רוּחַ ה' רוּחַ חָכְמָה וּבִינָה רוּחַ עֵצָה וּגְבוּרָה רוּחַ דַּעַת וְיִרְאַת ה' ". ואחר שברך את כולם יאמר "הַמַּלְאָךְ הַגֹּאֵל אֹתִי מִכָּל רָע יְבָרֵךְ אֶת הַנְּעָרִים וְיִקָּרֵא בָהֶם שְׁמִי וְשֵׁם אֲבֹתַי אַבְרָהָם וְיִצְחָק וְיִדְגּוּ לָרֹב בְּקֶרֶב הָאָרֶץ"<span class="footnote-ref" onclick="showFootnote('9', '9', event)">9</span>.</span></div>
+<div class="sage-quote"><p>ויצוה אותם על תכלית החיים לשמור את דרך ה', בין אדם לחברו ובין אדם למקום.</p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">אין זועקים ומתפללים עליו בפניו כי עלולים לגרום לו להתאמץ להמשיך שעותיו ביסורים. לכן נהגו לשלוח את קרוביו שיצאו מהחדר בשעת הוידוי, שמא יבכו וישבר לבו של הנוטה למות. אולם קרוביו וביחוד בניו שיכולים להישאר לידו, ראוי ונכון שיעמדו בקרבתו.</span></div>
+<p>גוסס</p>
+<p>גוסס הוא מושג הלכתי המגדיר את מצבו של החולה הסופני בשלבים האחרונים של חייו. </p>
+<p>הלכות הטיפול בגוסס ארוכות ומפורטות ואין כאן המקום להאריך בהן, אך אלו הם העקרונות ההלכתיים הראשיים:</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">יש לטפל בחולה כל זמן שעדיין יש תקוה להחיותו. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">חולה המתיסר יש להמשיך לתת לו את כל הטיפול השגרתי כגון נוזלים, מזון וחמצן, ואסור לנתקו ממכשירים רפואיים כדי לקרב את קיצו. אך אין חובה לתת לו טיפולים חריגים כגון החייאה, אם אין סיכוי לריפוי אלא רק להארכת חייו במידת מה, כיון שאין להאריך את חייו ביסורים<span class="footnote-ref" onclick="showFootnote('10', '10', event)">10</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">יש לתת תרופות הרגעה לחולה כדי להקל את יסוריו, אף על פי שישנו חשש מסוים שתרופות אלה עלולות לקרב את מותו. הואיל ואין ודאות שהתרופות יגרמו למיתתו, חוזרת החובה הבסיסית להקל את יסוריו; יתכן גם שהרגשה טובה קצת יותר, תתן לו כוח להתמודד עם המחלה<span class="footnote-ref" onclick="showFootnote('11', '11', event)">11</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ז.</span><span class="list-content">בשעת גסיסה כשכבר אין יותר אפשרות לטפל, אין להזיז את הגוסס ממקומו ואסור לקרב את מיתתו. אולם אם יש דבר המעכב את יציאת הנפש, מותר להסיר את המונע<span class="footnote-ref" onclick="showFootnote('12', '12', event)">12</span>. חכמים השוו את הגוסס לנר שדועך, על פי הפסוק "<span style="font-size: 0.85rem">נֵר ה' נִשְׁמַת אָדָם</span>" (משלי כ, כז). בנר דועך כל מגע קל עלול להחיש את כיבויו, לכן לגבי גוסס אסרו חכמים כל מגע העלול להחיש את מיתתו. כיון שמדובר בעניינים מורכבים, עדינים ורגישים ביותר מבחינה הלכתית ומעשית, צריך שאלת חכם לגבי כל מקרה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ח.</span><span class="list-content">פשוט שאין לעשות שום הכנות ללוויה או לקבורה קודם יציאת הנפש<span class="footnote-ref" onclick="showFootnote('13', '13', event)">13</span>. מותר ומצוה ללמוד מראש (בצנעה) את ההלכות הקשורות ביציאת הנפש, ואין בכך שום סימן רע לחולה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ט.</span><span class="list-content">נוהגים לומר במחיצת הגוסס פרקי תהלים שמתאימים לרוח השעה </span></div>
+<p>יציאת נשמה</p>
+<div class="sage-quote"><p>שנו רבותינו: המעצם עיניו של מת עם יציאת הנפש הרי זה שופך דמים. משל לנר שכבה והולך, אם אדם נותן אצבעו עליו - מיד כבה.</p>
+<p>מסכת שבת קנ"א, ב</p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ'.</span><span class="list-content">בשעת יציאת נשמה מצוה לעמוד ליד הגוסס, ולא ישאירוהו יחידי<span class="footnote-ref" onclick="showFootnote('14', '14', event)">14</span>; וטוב שיעמדו עשרה מישראל. על פי הקבלה לא יעמדו לרגלי המיטה אלא מצדיה<span class="footnote-ref" onclick="showFootnote('15', '15', event)">15</span>.</span></div>
+<div class="sage-quote"><p>בבית החולים לעתים מוציאים את הקרובים סמוך לפטירה. אך אם הדבר אינו מפריע, ובני המשפחה מעוניינים להישאר בחדר, ניתן לבקש זאת מהצוות הרפואי.</p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"א.</span><span class="list-content">בשעת המיתה יזהרו העומדים שם לוודא שלא יוצא שום אבר של הגוסס חוץ למיטה. על פי הסוד יש להקפיד שלא יצא שום אבר חוץ למיטה בשעת יציאת נשמה<span class="footnote-ref" onclick="showFootnote('16', '16', event)">16</span>, כמו שכתוב אצל יעקב אבינו "ויאסף רגליו אל המִטה" (בראשית מט ,לג). ואם בכל זאת יצא, לא יגעו בו אלא יכסו בסדין גדול<span class="footnote-ref" onclick="showFootnote('17', '17', event)">17</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ב.</span><span class="list-content">העומדים ליד הגווע יתנו לבם לשוב בתשובה, יתבוננו מה אנוש כי תזכרנו, וזה גם לזכות הגווע. על פי חכמי הקבלה, יציאת הנשמה היא על ידי גילוי שכינה; הנפטר רואה את האור הגדול ומשתוקק ונכסף אליו ואז נשמתו יוצאת. זכות היא לנפטר שיעמדו לידו וזכות היא גם לעומדים לידו. לכן יש להתייחס בכבוד הראוי ובתשומת לב מיוחדת למעמד זה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ג.</span><span class="list-content">אומרים פסוקי יחוד – <strong>שְׁמַע יִשְׂרָאֵל ה' </strong><strong>אֱלֹהֵינו</strong><strong>ּ ה' אֶחָד</strong></span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">ברוך שם כבוד מלכותו לעולם ועד – שלוש פעמים</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">ה' הוא האלקים – שבע פעמים</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">ה' מלך ה' מלך ה' ימלך לעולם ועד</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ד.</span><span class="list-content">נהגו לפתוח את החלונות בשעת יציאת הנפש. פעולה שמסמלת את עזיבת הנשמה מהמרחב הגשמי המוגבל של הגוף, ואת המעבר שלה אל מרחבי העולם הרוחני הבלתי מוגבל. כל ימי חייו היה האדם מחובר לבית גשמי מוגדר. פתיחת החלונות מסמלת את המעבר אל חלל האויר והשמים האינסופיים. </span></div>
+<div class="sage-quote"><p>על פי ההלכה יש להתפלל בבית שיש בו חלונות. החלונות מסמלים את האפשרות לקשר עם האלוהים בתפילה. גם בפטירה פותחים חלונות, לסמל שהנשמה חוזרת ומתחברת אל האלוהים אשר נתנה<span class="footnote-ref" onclick="showFootnote('18', '18', event)">18</span>.</p>
+</div><p>לאחר הפטירה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ה.</span><span class="list-content">בעבר נהגו להניח נוצה רכה סמוך לאפו של הנפטר כדי לבדוק אם נותרה רוח חיים באפיו. כיום למעשה רק רופא מוסמך לקבוע את המוות.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ו.</span><span class="list-content">מצד עיקר הדין כל העומדים על המת בשעת יציאת נשמה גם מי שאינם קרובי משפחה, חייבים לקרוע<span class="footnote-ref" onclick="showFootnote('19', '19', event)">19</span>. אולם בדורות האחרונים נשתנה דין זה, ואין קורעים על המת בשעת יציאת נשמה. <span style="font-size: 0.75rem">והטעם לכך כיון שחוששים שלא יימצא אדם שיעמוד אצל המת בשעת יציאת נשמה, ונמצא מת יחידי </span><span style="font-size: 0.75rem">בעגמת</span><span style="font-size: 0.75rem"> נפש; כי הנפש משתוממת בשעה שהיא יוצאת מן הגוף</span><span class="footnote-ref" onclick="showFootnote('20', '20', event)">20</span>. ומנהג בני תימן שכל העומדים שם קורעים ומברכים ברכת דיין האמת בשעת יציאת נשמה<span class="footnote-ref" onclick="showFootnote('21', '21', event)">21</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ז.</span><span class="list-content">מצד עיקר הדין הקרובים צריכים לקרוע ולברך ברכת "דיין האמת" בשעת יציאת נשמה, או כששומעים על הפטירה. אך למעשה נהגו כיום לקרוע ולברך בתחילת הלוויה (מנהג האשכנזים) או לאחר הקבורה (מנהג עדות המזרח) הטעם הוא כיון שבדרך כלל בשעת הפטירה, הקרובים נמצאים בסערת נפש ולא יודעים מה לעשות בזמן זה, לכן בפועל קורעים ומברכים בלוויה כשאנשי ההחברה קדישא מדריכים אותם כיצד לנהוג. מכל מקום, המדקדק לקרוע ולברך בשעת יציאת נשמה או בשעת שמועה על הפטירה – כדין הוא עושה<span class="footnote-ref" onclick="showFootnote('22', '22', event)">22</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ח.</span><span class="list-content">העומדים על המת בשעת יציאת נשמה שאינם קרוביו, מברכים "ברוך דיין האמת" בלי שם ומלכות<span class="footnote-ref" onclick="showFootnote('23', '23', event)">23</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ט.</span><span class="list-content">מדליקים שני נרות למראשותיו, ויש נוהגים על פי הסוד להדליק שבעה נרות. הנר מסמל ביהדות את הנשמה – "<span style="font-size: 0.85rem">נֵר ה' נִשְׁמַת אָדָם</span>" (משלי כ, כז). חכמים השתמשו בדימוי זה כדי לכבד את נשמת הנפטר. המושג "אור" מסמל במקרא דימויים שונים:</span></div>
+<div class="list-item bullet" style="margin-right: 40px"><span class="marker bullet-marker">•</span><span class="list-content">הקב"ה כמקור האור – "ה' <span style="font-size: 0.85rem">אוֹרִי </span><span style="font-size: 0.85rem">וְיִשְׁעִי</span>". (תהלים כז, א)</span></div>
+<div class="list-item bullet" style="margin-right: 40px"><span class="marker bullet-marker">•</span><span class="list-content">נוכחות השכינה – "<span style="font-size: 0.85rem">יָאֵר</span><span style="font-size: 0.85rem"> ה' פָּנָיו אֵלֶיךָ וִיחֻנֶּךָּ</span>". (במדבר ו, כה)</span></div>
+<div class="list-item bullet" style="margin-right: 40px"><span class="marker bullet-marker">•</span><span class="list-content">האור כמקבילה לחיים – "<span style="font-size: 0.85rem">כְּעֹלְלִים</span><span style="font-size: 0.85rem"> לֹא רָאוּ אוֹר</span>".  (איוב ג, טז)</span></div>
+<div class="list-item bullet" style="margin-right: 40px"><span class="marker bullet-marker">•</span><span class="list-content">התורה – "<span style="font-size: 0.85rem">כִּי נֵר מִצְוָה וְתוֹרָה אוֹר</span>". (משלי ו, יג)</span></div>
+<div class="sage-quote"><p>כל הדימויים הללו ניגוד למוות ולחושך. מתוך ההסתכלות על נצחיות הנשמה, כינו חכמים את הנשמה בשם נר – "נשמה שנתתי בכם קרויה נר"<span class="footnote-ref" onclick="showFootnote('24', '24', event)">24</span>. </p>
+<p>הנר מורכב מחומר הבעירה הפיזי ומהלהבה עצמה שהיא עיקר הנר ותכליתו, אבל אין לה משקל ונפח. גם באדם ישנו יסוד פיזי שהוא גוף האדם הגשמי, שתכליתו ועיקרו היא הנשמה הרוחנית שאי אפשר להגדירה במונחים פיזיקליים, והיא עיקר משמעות האדם.</p>
+<p style="font-size: 0.85rem">אור הנר נמשך כלפי מעלה, למרות שחומר הבעירה מגיע מתחתיו. אפשר לדמות זאת לנשמה המחוברת לגוף החומרי אך כמהה לעולמות העליונים. כשהאדם נפטר אל בית עולמו, הרוח חוזרת אל האלוהים אשר נתנה, לעולמות העליונים. הנר האנושי חוזר אל מקור האור. (על פי הקבלה נתנו משמעות נוספת להדלקת הנר ליד הגוסס. הטעם מובא באוצר המושגים דלקמן ערך <strong>נר נשמה</strong>).</p>
+</div><p>נפטר בבית</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל'.</span><span class="list-content">אם נפטר בבית, משאירים את הנפטר במיטה כעשרים דקות, ואין לגעת בו. הטעם כיון שיתכן שיש לו עדיין גדר של גוסס, אולי עדיין יש בו חיות כלשהי. אסור לגעת בגוסס כדי שלא להחיש את גסיסתו, כפי שנתבאר לעיל, לכן ממתינים זמן מה אחרי פטירתו. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"א.</span><span class="list-content">אחרי כן מכסים את הנפטר בסדין לבן ומשכיבים אותו על הרצפה. הטעם לכך הוא כדי למנוע ריח רע של הנפטר, ולכן רצוי שהנפטר יושכב במקום צונן ככל האפשר. יש טעם נוסף על פי הקבלה<span class="footnote-ref" onclick="showFootnote('25', '25', event)">25</span>. בכל פעם לפני שמזיזים אותו מבקשים ממנו מחילה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ב.</span><span class="list-content">פושטים ממנו את בגדיו כשהוא מכוסה בסדין, ומקפידים שלכל הפחות פני הנפטר והערוה יהיו מכוסים כל הזמן. גברים יטפלו בנפטר, ונשים בנפטרת. סוגרים את עיניו ואת פיו, מיישרים את רגליו ומצמידים אותן זו לזו כשרגליו לכיוון הפתח<span class="footnote-ref" onclick="showFootnote('26', '26', event)">26</span>. את הידיים מניחים על החזה.<span style="font-size: 0.75rem"> אם אין כוחות נפש לעשות זאת, אפשר להמתין לאנשי החברה קדישא שיפנו ויטפלו. </span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ג.</span><span class="list-content">יש להודיע מייד לחברה קדישא המקומית על הפטירה כדי שאפשר יהיה לטפל בהקדם האפשרי בסדרי הלוויה והקבורה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ד.</span><span class="list-content">התייחסות לגבי שבת תובא לקמן.</span></div>
+<p>צידוק הדין</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ה.</span><span class="list-content">לאחר שמכסים את פני הנפטר<span class="footnote-ref" onclick="showFootnote('27', '27', event)">27</span> בבד או בסדין לבן, אומרים צידוק הדין: </span></div>
+<div class="list-item bullet" style="margin-right: 20px"><span class="marker bullet-marker">•</span><span class="list-content">ברוך דיין האמת. </span></div>
+<div class="list-item bullet" style="margin-right: 20px"><span class="marker bullet-marker">•</span><span class="list-content">ה' נָתַן וַה' לָקָח יְהִי שֵׁם ה' מְבֹרָךְ</span></div>
+<div class="list-item bullet" style="margin-right: 20px"><span class="marker bullet-marker">•</span><span class="list-content">הַצּוּר תָּמִים פָּעֳלוֹ כִּי כָל דְּרָכָיו מִשְׁפָּט, אֵל אֱמוּנָה וְאֵין עָוֶל צַדִּיק וְיָשָׁר הוּא</span></div>
+<div class="list-item bullet" style="margin-right: 20px"><span class="marker bullet-marker">•</span><span class="list-content">וְהָלַךְ לְפָנֶיךָ צִדְקֶךָ כְּבוֹד ה' יַאַסְפֶךָ</span></div>
+<div class="list-item bullet" style="margin-right: 20px"><span class="marker bullet-marker">•</span><span class="list-content">לֵךְ בֶּשָלוֹם וְתָנוּחַ וְתַעֲמֹד לְגֹרָלְךָ לְקֵץ הַיָּמִין.</span></div>
+<p>בשבת ויום טוב אין אומרים צידוק הדין, אבל אומרים ברוך דיין האמת<span class="footnote-ref" onclick="showFootnote('28', '28', event)">28</span>.</p>
+<p>כבוד המת</p>
+<p>היות וגופו של הנפטר שימש ככלי קיבול לנשמה שהיא חלק אלוה ממעל, יש לנהוג בגוף כבוד.</p>
+<p>חכמים השוו אדם מישראל לספר תורה. גם בספר תורה וגם באדם מישראל יש ביטוי להשראת שכינה. לכן העומד על אדם מישראל בשעת יציאת נשמה חייב לקרוע, כאילו רואה ספר תורה שנשרף<span class="footnote-ref" onclick="showFootnote('29', '29', event)">29</span>. כמו שנוהגים כבוד בספר תורה שבלה, כך נוהגים כבוד בגופו של אדם מישראל לאחר שנשמתו פרחה ממנו, ונפטר מן העולם. נוהגים כבוד גם בעצמות או באברים, ואפילו בכזית מן המת, שהם כחלקי גויל של ספר תורה.</p>
+<p>הלכות רבות קשורות לכבוד המת – שמירה, רחיצה, טהרה, הלבשה, לוויה וקבורה. כובד ראש בפני המת או בבית הקברות.</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ו.</span><span class="list-content">אין נוהגים קלות ראש בפני המת. אין אוכלים ושותים בפניו. אין לעשן לידו. אין מניחים תפילין, לא מברכים ולא לומדים תורה בתוך ארבע אמות שלו או בחדר שהמת שם. גם אין ראוי לשיח שם בדברי חולין. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ז.</span><span class="list-content">מותר ורצוי לומר תהלים לעילוי נשמת הנפטר. יש אוסרים לקרובים האוננים לומר תהלים מדין איסור לימוד תורה, ויש מתירים<span class="footnote-ref" onclick="showFootnote('30', '30', event)">30</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ח.</span><span class="list-content">במקרים של המתנה ארוכה לפינוי הנפטר, צריך לקרר את הנפטר על ידי מאוורר, מזגן או קרח כדי למנוע ריח רע, בייחוד בקיץ. אין לחלל שבת כדי להפעיל מכשירים חשמליים לצורך כך, ולכן יש להשתמש בקרח.</span></div>
+<p>שמירת המת</p>
+<div class="sage-quote"><p>תניא רבי שמעון בן אלעזר אומר: תינוק בן יומו חי, אין צריך לשמרו מן החולדה ומן העכברים. אבל עוג מלך הבשן מת, צריך לשמרו מן החולדה ומן העכברים. </p>
+</div><p>שבת קנא, ב.</p>
+<p>שמירת המת היא מכמה טעמים: האחד משום כבודו, שאם יניחוהו לבד הרי זה כאלו עזבוהו ככלי אין חפץ בו, ומוטל בביזיון (ירושלמי ברכות פ"ג. רמ"א שעג, ה). הטעם השני, שהגוף נרתיק קדוש שהורקה הנשמה ממנו. ולפי מה שכתבו המקובלים, שואפים אז כוחות הטומאה לחדור אל תוכו. משל לחבית שהורקה מדבש, שנוהרין לתוכה שקצים ורמשים. כמו שכתוב בזהר (אמור פח:) "וכל כמה דגופא לא אקבר וכו' רוח דמסאבותא מזדמן לשריא עליה ולסאבא ההוא גופא".</p>
+<p>כל שכן כשצריך לשמור את המת מביזיון והשחתה, אם מונח במקום שמצויים עכברים או חולדות וכלבים, או שמוטל במקום שיש חשש לדלקה או שמוטל ברחוב או במקום הפקר. חייבים לשמרו מהשחתה ומביזיון ולהביאו למקום מכובד ושמור.</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ט.</span><span class="list-content">הנפטר טעון שמירה עד הקבורה או עד הפינוי לחברה קדישא<span class="footnote-ref" onclick="showFootnote('31', '31', event)">31</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ'.</span><span class="list-content">המשמר את המת נחשב עוסק במצוה של כבוד המת. והעוסק במצוה פטור מן המצוה, ופטור מקריאת שמע ותפילה. אם עובר זמן קריאת שמע יכול לצאת ולקרוא קריאת שמע, אך אינו חייב. ואם הם שניים, אחד משמר את המת והשני קורא ומתפלל ומתחלפים ביניהם<span class="footnote-ref" onclick="showFootnote('32', '32', event)">32</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"א.</span><span class="list-content">המשמר את המת צריך לומר דברים שבקדושה לשמירת המת - מזמורי תהלים ותפילות, ולא לעסוק בדברים בטלים.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ב.</span><span class="list-content">גם בשבת צריך שמירה<span class="footnote-ref" onclick="showFootnote('33', '33', event)">33</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ג.</span><span class="list-content">שומרי המת אין שואלים ואין משיבים שלום.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ד.</span><span class="list-content">אין אוכלים בפני המת. ואם צריך יאכל במקום אחר, או יעשה מחיצה, או לפחות יסב פניו ויאכל<span class="footnote-ref" onclick="showFootnote('34', '34', event)">34</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ה.</span><span class="list-content">כהן אבל שהמת מוטל עליו, מותר לו להיטמא כדי לשמור את המת. ויש מתירים לכהן לשמרו אפילו בשבת, למרות שאי אפשר לטפל אז בקבורתו<span class="footnote-ref" onclick="showFootnote('35', '35', event)">35</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ו.</span><span class="list-content">המהלך בין המתים צריך ליטול ידיו לאחר מכן<span class="footnote-ref" onclick="showFootnote('36', '36', event)">36</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ז.</span><span class="list-content">מותר לקבל שכר עבור שמירת המת<span class="footnote-ref" onclick="showFootnote('37', '37', event)">37</span>.</span></div>
+<p>הלנת המת</p>
+<div class="sage-quote"><p style="font-size: 0.85rem">אמר ר' יוחנן משום ר' שמעון בר יוחאי: מנין למלין את מתו שעובר עליו בלא תעשה? תלמוד לומר "לֹא תָלִין נִבְלָתוֹ עַל הָעֵץ כִּי קָבוֹר תִּקְבְּרֶנּוּ בַּיּוֹם הַהוּא".</p>
+<p>הלינו לכבודו: לשמע עליו עיירות, להביא לו מקוננות, להביא לו ארון ותכריכים – אינו עובר עליו; שכל העושה אינו אלא לכבודו של מת.</p>
+<p>סנהדרין מו, ב – מז, א</p>
+</div><p style="font-size: 0.85rem">האזהרה שלא להלין את המת אלא לקברו בו ביום, נלמדת מהפסוק "לֹא תָלִין נִבְלָתוֹ עַל הָעֵץ כִּי קָבוֹר תִּקְבְּרֶנּוּ בַּיּוֹם הַהוּא" (דברים כא, כג). ואף שהפסוק נאמר על הרוגי בית דין שנהרגו ונתלו, למדו מהם על כל המתים. </p>
+<p style="font-size: 0.85rem">מלבד הלאו ישנה גם מצות עשה לקבור את המת בו ביום קודם שקיעת החמה, שגם היא נלמדה מהפסוק "כִּי קָבוֹר תִּקְבְּרֶנּוּ בַּיּוֹם הַהוּא". </p>
+<p>הגמרא בסנהדרין (מז, א) למדה שהאיסור הוא דווקא דרך ביזיון בדומה לתלוי על העץ, אבל אם הלינו לכבודו מותר וכך גם נפסק להלכה. (שלחן ערוך יורה דעה שנז, א).</p>
+<p>הטעם כתבו משום כבודו של הגוף, שלא תראה הלנתו כביזיון. רש"י באר הטעם (על פי הגמרא בסנהדרין מו, ב) שזלזולו של מלך הוא, שהאדם עשוי בדמות דיוקנו של ה' וישראל הם בניו. משל לשני אחים שהיו דומים זה לזה, אחד נעשה מלך ואחד נתפס ללסטיות ונתלה. כל הרואה אותו אומר: המלך תלוי. ציוה המלך והורידוהו. ויש שהסמיכו זאת לפסוק בתהלים (מט, כא) "אָדָם בִּיקָר וְלֹא יָבִין נִמְשַׁל כַּבְּהֵמוֹת נִדְמוּ". שהאדם שהוא יקר מכל יקר "בל ילין", שאם ילינוהו – יהיה נמשל כבהמות נדמו (זהר נשא). יש גם יתרון פסיכולוגי גדול במצוה זו. המצב של נפטר שאינו קבור, הוא מעמסה גדולה על המשפחה. הבאת המת למקום מנוחתו מהווה הקלה נפשית משמעותית למשפחה (דרכה של היהדות במוות ובאבלות, עמוד 40).</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ח.</span><span class="list-content">מצות עשה לקבור את המת בו ביום קודם שקיעת החמה, וכן ישנה אזהרה שלא להלין את המת אלא לקברו מייד, אלא אם כן הלינו לכבודו להביא לו ארון ותכריכים או כדי שיבואו קרובים<span class="footnote-ref" onclick="showFootnote('38', '38', event)">38</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ט.</span><span class="list-content">אם הטהרה מתעכבת, מותר להלין את המת לצורך טהרתו, כיון שזה נחשב לכבודו<span class="footnote-ref" onclick="showFootnote('39', '39', event)">39</span>. ובכל אופן יש להקדים את הטהרה ככל האפשר.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ'.</span><span class="list-content">אם נקבר בלילה קודם עלות השחר, לא נחשב שהלינוהו. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"א.</span><span class="list-content">אפילו אם נתנו את המת בארון ולא קברוהו בקרקע, עוברים על הלאו ועל העשה כל זמן שלא נקבר בקרקע.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"ב.</span><span class="list-content">בגוי, בנפל, בעצמות ובאברים לא עוברים על הלאו ועל העשה. הרמב"ן (דברים כא, כב) מחדש שיש בארץ ישראל לאו נוסף "ולא תטמא את אדמתך", ולכן בארץ ישראל יש להקפיד גם בגוי<span class="footnote-ref" onclick="showFootnote('40', '40', event)">40</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"ג.</span><span class="list-content">אין להלין רשע, כדי שתהיה לו כפרה בביזיון ההלנה או כדי להצילו מעונש. כגון שמת ביום חמישי ורוצה לקברו סמוך לשבת כדי להצילו מחיבוט הקבר<span class="footnote-ref" onclick="showFootnote('41', '41', event)">41</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"ד.</span><span class="list-content">בירושלים אין מלינים את המת כלל, אפילו לכבודו<span class="footnote-ref" onclick="showFootnote('42', '42', event)">42</span>, אלא אם מת בה אדם, קוברים אותו מיד<span class="footnote-ref" onclick="showFootnote('43', '43', event)">43</span>. איסור זה נוהג גם בזמן הזה בירושלים שלפנים מן החומה<span class="footnote-ref" onclick="showFootnote('44', '44', event)">44</span>, אך בעיר ירושלים שאינה בתוך החומות נוהג הכלל הרגיל, שלכבוד הנפטר מלינים אותו<span class="footnote-ref" onclick="showFootnote('45', '45', event)">45</span>. יש מי שכתב שיש להחמיר בכל ארץ ישראל כמו בירושלים<span class="footnote-ref" onclick="showFootnote('46', '46', event)">46</span>.</span></div>
+<p>כהן</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"ה.</span><span class="list-content">מצד עיקר הדין אין לכהן להיכנס לבית שיש בו גוסס<span class="footnote-ref" onclick="showFootnote('47', '47', event)">47</span>.  </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"ו.</span><span class="list-content">עם יציאת הנשמה, אסור לכהן שאינו משבעת הקרובים לנפטר להמצא בבית, עד לאחר הוצאת המת מן הבית. (הלכות טומאת כהן מפורטות לקמן בעמוד 60 ).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"ז.</span><span class="list-content">נכון שהכהן יחמיר על עצמו ולא ייטמא לקרובו בשבת. ישנו דיון בפוסקים האם הכהן מצווה להיטמא רק לצורך הנפטר ולקבורתו, או להיטמא גם שלא לצורך. בשבת, שאי אפשר לקבור את המת, זו טומאה שלא לצורך. מסקנת הפוסקים שראוי להחמיר ולא להיטמא. אם יש צורך שהכהן ישמור את קרובו המת, מותר לו להיטמא שהרי זו טומאה לצורך<span class="footnote-ref" onclick="showFootnote('48', '48', event)">48</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"ח.</span><span class="list-content">בשבת מותר להוציא את הנפטר מן הבית על ידי גויים, לצורך כהנים שנמצאים בבית הנפטר, כיון שאסור להם לשהות באהל המת. על ידי יהודים מותר לפנות את הנפטר רק לצורך כהן חולה שנמצא בבית. המת נחשב למוקצה, וההיתר לטלטלו הוא אגב בגדיו שאינם מוקצה<span class="footnote-ref" onclick="showFootnote('49', '49', event)">49</span>. ההיתר להוצאתו הוא רק<span style="font-size: 1.15rem"> </span>למקום שאינו רשות הרבים גמורה<span class="footnote-ref" onclick="showFootnote('50', '50', event)">50</span><span style="font-size: 1.15rem">.</span></span></div>
+<p>הרוג</p>
+<div class="sage-quote"><p>דם היוצא מהנפטר בזמן המיתה נקרא <strong>דם </strong><strong>הנפש</strong> וטעון קבורה. בהרוג ישנה סבירות שדם הנפש נבלע בבגדיו ובנעליו, לכן אין מלבישים את ההרוג בתכריכים אלא נקבר בבגדיו. לכן גם אוספים עפר שבלע מדמו ונקבר עמו.<span class="footnote-ref" onclick="showFootnote('51', '51', event)">51</span> </p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"ט.</span><span class="list-content">הרוג קוברים כשהוא לבוש בבגדיו ובנעליו עם הדם שנספג בהם, וכורכים אותו בסדין, שנקרא סובב, מעל בגדיו<span class="footnote-ref" onclick="showFootnote('52', '52', event)">52</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ס'.</span><span class="list-content">יש לאסוף במידת האפשר כל דבר שבלע מדם ההרוג – בגדים, סדינים וגם עפר שבלע מהדם, וקוברים עמו. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ס"א.</span><span class="list-content">אם טבע או נחנק ולא יצא ממנו דם, מטהרים אותו ומלבישים אותו תכריכים כשאר מתים.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ס"ב.</span><span class="list-content">אם נהרג על ידי גויים, אף שלא יצא ממנו דם, קוברים אותו בבגדיו. הטעם שהוזכר בפוסקים הוא כדי להעלות חימה ולנקום נקם<span class="footnote-ref" onclick="showFootnote('53', '53', event)">53</span>. כלומר שאי אפשר לעבור לסדר היום ולקבור באופן הרגיל כמו שקוברים אדם שסים את חייו; אלא קוברים אותו בבגדיו כדי להביע כלפי שמים שקוברים כביכול אדם חי, אדם שהיה אמור לחיות אלא שנהרג או נרצח על ידי הגויים, פעמים רבות בגלל עצם היותו יהודי. יש בכך מעין זעקה כלפי ריבונו של עולם לגאול את עמו ולמנוע את חילול השם ואת המצב שבו יהודים נהרגים ונרצחים רק בגלל היותם יהודים.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ס"ג.</span><span class="list-content">אם נפצע פצעי מוות, ויצא ממנו דם ומת לאחר כמה ימים; אין צורך לקבור את הדם. כיון שהחובה לקבור היא רק בדם הנפש היוצא בשעת מיתה, ולא את הדם שיצא קודם לכן<span class="footnote-ref" onclick="showFootnote('54', '54', event)">54</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ס"ד.</span><span class="list-content">יולדת שנפטרה בלידתה, מנהג ירושלים להלבישה תכריכים. אם יש בגדים הבלועים מדם הנפש, נקברים עמה<span class="footnote-ref" onclick="showFootnote('55', '55', event)">55</span>.</span></div>
+<p>שפיכת המים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ס"ה.</span><span class="list-content">נהגו לשפוך את המים שיש בבית הנפטר ובשכנותו הקרובה<span class="footnote-ref" onclick="showFootnote('56', '56', event)">56</span> (בסירים אגרטלים וכו'). הטעמים לכך מובאים באוצר המושגים ערך "שפיכת המים". לא שופכים מים שבבקבוקים או במיכלים סגורים. בשבת וביום טוב אין צריך לשפוך. בשעת הצורך מותר להשתמש במים לשטיפה או רחיצה<span class="footnote-ref" onclick="showFootnote('57', '57', event)">57</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ס"ו.</span><span class="list-content">יש מי שכתב שאין לשפוך מים מכוסים או מים שבישלו בהם וכן אין שופכים בשבת, ושיש להקל הרבה בעניין זה<span class="footnote-ref" onclick="showFootnote('58', '58', event)">58</span>. ויש מי שכתב שהיום אין נוהג דין שפיכת המים כלל אצל שכני הנפטר, וגם בבית הנפטר עצמו יש להתיר אלא שיש לפתוח מעט את הברזים לשפוך מעט מהמים<span class="footnote-ref" onclick="showFootnote('59', '59', event)">59</span>. </span></div>
+<p>שבת</p>
+<p>חלק מהלכות שבת שלפנינו כבר נכתבו במקומם, אך הבאנום כאן באופן מרוכז.</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ס"ז.</span><span class="list-content">מחללים שבת לצורך פיקוח נפש של החולה, ומותר לחלל שבת אפילו כדי להאריך את חייו לשעה קלה בלבד<span class="footnote-ref" onclick="showFootnote('60', '60', event)">60</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ס"ח.</span><span class="list-content">חולה שנטה למות אומרים איתו וידוי גם בשבת ויום טוב<span class="footnote-ref" onclick="showFootnote('61', '61', event)">61</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ס"ט.</span><span class="list-content">אין קורעים בשבת וביום טוב <span style="font-size: 0.75rem">אלא במוצאי שבת</span> ומוצאי יום טוב<span class="footnote-ref" onclick="showFootnote('62', '62', event)">62</span>, אבל מותר לברך ברכת "דיין האמת"<span class="footnote-ref" onclick="showFootnote('63', '63', event)">63</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ע'.</span><span class="list-content">מותר להוציא מחטים וצינורות מגוף הנפטר, מבלי להזיזו. מותר לנקות את הנפטר מבלי לסחוט בד או צמר גפן לצורך כך. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ע"א.</span><span class="list-content">גם בשבת מורידים את הנפטר לרצפה, ודואגים לקרר את הנפטר<span class="footnote-ref" onclick="showFootnote('64', '64', event)">64</span>. אבל אסור לחלל שבת לצורך כך, או כדי להזמין חברה קדישא, או לשם פינוי המת.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ע"ב.</span><span class="list-content">בשבת אין שופכים מים שבכלים, גם במוצאי שבת אין שופכים אותם<span class="footnote-ref" onclick="showFootnote('65', '65', event)">65</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ע"ג.</span><span class="list-content">הלכות כהן בשבת, פורטו לעיל עמוד @.</span></div>
+<p>הודעה לקרובים על המיתה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ע"ד.</span><span class="list-content">מצד עיקר הדין אין חיוב להודיע לקרובים שמת להם מת, אפילו באב ואם. ולא עוד אלא שחז"ל דרשו על מי שמודיע, את הפסוק ממשלי (י, יח) - "וּמוֹצִא דִבָּה הוּא כְסִיל"<span class="footnote-ref" onclick="showFootnote('66', '66', event)">66</span>. העיקרון הוא שאין עניין לגרום צער רק לשם עצם ההודעה, אם אין בה צורך ולא תועלת אלא תוצאתה היא גרימת צער בלבד. כמובן שכיום קשה להסתיר מידע כזה, ולכן האפשרות הפשוטה בדרך כלל היא להודיע לקרובים, כדי שיוכלו להערך כראוי ללוויה ולקבורה, פן תגיע הבשורה הקשה באופן בלתי ראוי, או מחשש שייגרם כעס על אי ההודעה. כיום למעשה נהגו להודיע על הפטירה הן לקרובים והן באופן פומבי, אפילו ברמקולים ברחובה של עיר, כיון שמטרת ההודעה היא לאפשר לאנשים לבוא ללוויה או לנחם את האבלים. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ע"ה.</span><span class="list-content">בשבת וביום טוב יש עניין נוסף לדחות את ההודעה, במידת האפשר, למוצאי היום. הן מצד שאי אפשר לטפל בשבת וביום טוב בלוויה ובקבורה, וגם כדי לא לגרום צער בשבת וביום טוב. ומכל מקום יש לדון בכל מקרה לגופו, ובפרט יש לקחת בחשבון, אם בין כה וכה ההודעה תגיע במשך היום.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ע"ו.</span><span class="list-content">יש להודיע ברגישות ובאחריות, ולשון חכמים מרפא. יפורט בפרק  - הטיפול במשפחה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ע"ז.</span><span class="list-content">מצד עיקר הדין נהגו להודיע לבנים על פטירת הוריהם, כדי שיאמרו עליהם "קדיש"<span class="footnote-ref" onclick="showFootnote('67', '67', event)">67</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ע"ח.</span><span class="list-content">כל זמן שלא נודע לקרובים על הפטירה, אין עליהם שום חיובי אבלות. לכן מעיקר הדין אפילו אדם אחר שיודע, מותר לו להזמין את הקרובים לסעודת נישואין ולשאר שמחות<span class="footnote-ref" onclick="showFootnote('68', '68', event)">68</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ע"ט.</span><span class="list-content">מעיקר הדין מותר להשהות את ההודעה על הפטירה עד סמוך לתום השבעה, כך שהקרוב יוכל להצטרף לשאר קרוביו ולשבת עימם אפילו זמן מועט בסיום השבעה, ויסיים את השבעה יחד איתם<span style="font-size: 0.85rem">. </span>וכן מותר להמתין כדי שהשמועה הקרובה תהפוך להיות רחוקה, ויוכל לשבת זמן מועט ולא יצטרך שבעה ושלושים<span style="font-size: 0.85rem">.</span> אם מדובר בערב החג, כדאי להודיעם כדי שישבו שעה קצרה לפני החג ויסיימו בזאת את השבעה<span class="footnote-ref" onclick="showFootnote('69', '69', event)">69</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">פ'.</span><span class="list-content">אם הקרובים שואלים על הנפטר אין לשקר להם ולומר שהוא עדיין חי, אבל מותר לומר להם בלשון שמשתמעת לשני פנים.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">פ"א.</span><span class="list-content">אם ההודעה עלולה לגרום לנזק בריאותי, בפרט אצל אנשים זקנים או חולים, צריך לשקול אם כדאי להסתיר מהם את הידיעה על הפטירה. כמובן, רק באופן שברור שהדבר לא עלול להוודע להם באקראי ללא הכנה נפשית מתאימה. </span></div>
+<p>ניתוחי מתים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">פ"ב.</span><span class="list-content">ככלל, משום כבוד המת<span class="footnote-ref" onclick="showFootnote('70', '70', event)">70</span> וגם משום איסור הנאה מהמת, יש לאסור ניתוחי מתים<span class="footnote-ref" onclick="showFootnote('71', '71', event)">71</span>. הזכרנו כבר לעיל שחכמי ישראל השוו אדם מישראל לספר תורה, וכשם שספר תורה שבלה אסור להשחיתו ולקלקלו גם לאחר שנפסל, אלא יש לנהוג בו כבוד ולגנזו, כך גם את הגוף שהיה כלי קיבול לנשמה שהיא חלק אלוה ממעל, אסור לבזות ולהשחית.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">פ"ג.</span><span class="list-content">אין היתר לנתח  נפטר כדי להתלמד עליו. הטענה שניתוח לצורך לימוד רפואה יוכל בעתיד להציל חיים נידונה באריכות על ידי הפוסקים. ככלל ניתן לומר שטענה זו מקובלת על הפוסקים כיון שפיקוח נפש דוחה את כלל המצוות<span class="footnote-ref" onclick="showFootnote('72', '72', event)">72</span>, אך יש גישות שונות באלו מקרים יש לישמה. יש גישות המקבלות טענה זו רק במקרה שיש שני חולים לפנינו החולים באותה מחלה, ואחד מהם נפטר, והרופאים אומרים שאפשר לנסות ולהציל את החולה השני, אם ינתחו את הנפטר וילמדו מכך על המחלה (המינוח ההלכתי לכך - "חולה לפנינו")<span class="footnote-ref" onclick="showFootnote('73', '73', event)">73</span>. ישנן דעות מקילות יותר המתחשבות בעובדה שהיום הודות לקשר המיידי והתמידי בין המרכזים הרפואיים השונים, ניתן לומר שההגדרה ההלכתית "חולה לפנינו" קיימת תמיד, כיון שלמידה במקום אחד יכולה לסייע מייד לחולה הנמצא במקום אחר<span class="footnote-ref" onclick="showFootnote('74', '74', event)">74</span>. על פי גישה זו הורה הרב הרצוג שהיה הרב הראשי לישראל:</span></div>
+<div class="sage-quote"><p>"... ועדה של שלושה רופאים מומחים מורכבים באופן זה: אחד מהם ראש המחלקה בבית החולים הנידון, אחד מהם מיופה כח הרבנות המקומית, ואחד מהם מהמשפחה של הנפטר ידונו; ואם יחליטו שיש סיכויים שהניתוח יפיץ אור על המחלה שממנה מת המת... אזי על פי החלטתם בכתב ובחתימת ידיהם מותר לנתח, ובלבד שלא ינתחו אלא את ההכרחי ביותר, ושיחזירו אחר כך הכל לחברה קדישא לקבורה"<span class="footnote-ref" onclick="showFootnote('75', '75', event)">75</span>.</p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">פ"ד.</span><span class="list-content">גם לפי הדעות המחמירות מותר לשאוב מעט דם או רקמות כדי לבצע בדיקות<span class="footnote-ref" onclick="showFootnote('76', '76', event)">76</span>. <span style="font-size: 0.75rem">בדיקות אלו נותנות בדרך כלל מידע העשוי למנוע את הצורך בניתוח. </span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">פ"ה.</span><span class="list-content"><span style="font-size: 0.75rem">מותר לנתח אדם שנרצח כדי להפליל את רוצחו</span><span class="footnote-ref" onclick="showFootnote('77', '77', event)">77</span><span style="font-size: 0.75rem">.</span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">פ"ו.</span><span class="list-content"><span style="font-size: 0.75rem">אם </span><span style="font-size: 0.75rem">היתה</span><span style="font-size: 0.75rem"> רשלנות רפואית שבגללה נפטר אדם, מותר לנתח את הנפטר כדי לתבוע את הרופא</span><span style="font-size: 0.75rem">, על מנת למנוע רשלנות רפואית עתידית. זאת בתנאי שאדם מטעם המשפחה יהיה נוכח בנתיחה, ויוודא שכל אבריו יובאו לקבורה לאחר הנתיחה</span><span class="footnote-ref" onclick="showFootnote('78', '78', event)">78</span><span style="font-size: 0.75rem">.</span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">פ"ז.</span><span class="list-content">גם על פי חוק אסור לנתח את הנפטר ללא הסכמת המשפחה או צו מבית משפט. בכל מקרה יש לשאול שאלת רב.</span></div>
+<div class="sage-quote"><p>עקב מורכבות הנושא והרגישות הכרוכה בו, הובאו כאן רק ראשי פרקים. מקורות נוספים לעניין הובאו בהערות<span class="footnote-ref" onclick="showFootnote('79', '79', event)">79</span>.</p>
+<p style="font-size: 0.85rem">סיוע ויעוץ בעניין זה ניתן לקבל אצל הרב נחום הכהן קוק: 03-6741778, 03-5748157, 522-503630; או אצל הרב מרדכי ויכלדר 03-6743858, 0522-729659. הסיוע ניתן בהתנדבות ללא תשלום. כמו כן בארגון זק"א אצל מיכאל גוטויין רכז המחלקה המשפטית של זק"א באמצעות עורכי דין מתנדבים 0505-5766128, 0577-292459. </p>
+</div><p>תרומת גוף למדע</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">פ"ח.</span><span class="list-content">מבחינה הלכתית אין משמעות לכך שאדם מישראל ציוה לתרום את גופו ואבריו למדע. <span style="font-size: 0.75rem">התפיסה היהודית הבסיסית היא ש</span>האדם אינו ריבון על גופו, אלא הגוף ניתן לו כפיקדון מריבונו של עולם לתקופה מוגבלת. לכן אסור לאדם לחבול בגופו או לאבד עצמו לדעת או לתרום את גופו ואבריו למדע. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">פ"ט.</span><span class="list-content">אמנם לבקשה כזאת יכולות להיות שתי משמעויות. משמעות אחת היא ביטול או עיכוב הקבורה, כגון שיניחו את השלד במוזיאון. והשנייה, הסכמה לניתוח הגופה. לגבי ביטול הקבורה כבר נפסק להלכה שאם אדם ציוה שלא יקברוהו אין לשמוע לו<span class="footnote-ref" onclick="showFootnote('80', '80', event)">80</span>, כיון שיש בכך ביזיון למשפחתו ולכל ישראל. לכן הסכמתו לביטול הקבורה או דחייתה אינה מועילה כלום. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">צ'.</span><span class="list-content">אבל אם אדם ציוה לנתח את גופו ומיד לאחר מכן לקברו, יש דעות שונות בפוסקים. לפי רוב הדעות גם לאדם עצמו אין זכות להתיר לבזות את גופו <span style="font-size: 0.75rem">כיון שאדם נברא בצלם אלוהים ואין לאדם רשות לבזות את הגוף שהיה משכן לנשמה</span><span class="footnote-ref" onclick="showFootnote('81', '81', event)">81</span>. מאידך, יש דעות המתירות לנתח גופת אדם שהסכים לכך בחייו<span style="font-size: 0.75rem"> כיון שהטעם לאיסור הוא כדי שלא לפגוע בכבודו. אבל אם הוא מחל על כבודו, אין איסור</span><span class="footnote-ref" onclick="showFootnote('82', '82', event)">82</span>. כך פסקה גם מועצת הרבנות הראשית בראשותו של הרב הרצוג<span class="footnote-ref" onclick="showFootnote('83', '83', event)">83</span> כיון שהרופאים יכולים לסמוך בזה על דעת המתירים.  </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">צ"א.</span><span class="list-content">קרוביו של מי שמסר את גופו למדע, וציווה שלא לקברו; אינם צריכים לנהוג אבלות עליו. כיון שאז נכלל בגדר "הפורשים מדרכי ציבור" שפרק מעליו כל עול מצוות, ואין מתאבלים עליו כלל<span class="footnote-ref" onclick="showFootnote('84', '84', event)">84</span>. ויש אומרים שמי שציווה למסור גופו למדע, צריך לנהוג עליו אבלות, אף על פי שעשה מעשה חמור מאוד. ואם היה אפיקורוס הכופר בתחיית המתים, אין צריך להשתדל להביאו לקבר ישראל. ואם היה טועה וחשב שבמעשהו הריהו גומל חסד להציל נפשות מישראל, ובחייו לא היה פורש מדרכי ציבור, מצוה להביאו לקבר ישראל<span class="footnote-ref" onclick="showFootnote('85', '85', event)">85</span>.</span></div>
+<p>תרומת אברים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">צ"ב.</span><span class="list-content">תרומת אברים של הנפטר להצלת חיים: </span></div>
+<div class="sage-quote"><p style="font-size: 0.75rem">מבחינה עקרונית יש בתרומת אברים מצוה גדולה; מאידך גיסא יש מגבלות הלכתיות, עקרוניות וגם מעשיות. כיון שהנושא מורכב ביותר, לא נאריך כאן. תובא עמדתה הרשמית של הרבנות הראשית לישראל בנושא השתלת אברים, ובנוסף לכך עמדות מעשיות שונות. (בפרקי עיון והגות מעמוד 246 ואילך). כמו כן ראה באוצר המושגים ערך <strong>איסור הנאה ממת</strong>.</p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">צ"ג.</span><span class="list-content">מי שנתן את הסכמתו שאם יהיה חולה מסוכן נוטה למות, ינתחוהו ויקחו את לבו להשתלה באדם אחר, יושבים עליו שבעה, כיון שלא עשה כן מתוך אפיקורסות וכפירה בתחיית המתים ובהישארות הנפש<span class="footnote-ref" onclick="showFootnote('86', '86', event)">86</span>.</span></div>
+<div class="sage-quote"><p>רבי יוחנן כשהיה מסיים ספר איוב, אמר כך: סוף אדם למות וסוף בהמה לשחיטה, והכל למיתה הם עומדים. אשרי מי שגדל בתורה ועמלו בתורה ועושה נחת רוח ליוצרו, וגדל בשם טוב ונפטר בשם טוב מן העולם. ועליו אמר שלמה: "<span style="font-size: 0.75rem">טוֹב שֵׁם מִשֶּׁמֶן טוֹב וְיוֹם </span><span style="font-size: 0.75rem">הַמָּוֶת</span><span style="font-size: 0.75rem"> מִיּוֹם </span><span style="font-size: 0.75rem">הִוָּלְדו</span><span style="font-size: 0.75rem">ֹ</span>" (קהלת ז, א).</p>
+</div><p>ברכות יז, א</p>
+<div class="sage-quote"><p>"<span style="font-size: 0.75rem">טוֹב שֵׁם מִשֶּׁמֶן טוֹב וְיוֹם </span><span style="font-size: 0.75rem">הַמָּוֶת</span><span style="font-size: 0.75rem"> מִיּוֹם </span><span style="font-size: 0.75rem">הִוָּלְדו</span><span style="font-size: 0.75rem">ֹ</span>" (קהלת ז, א). נולד אדם הכל שמחים, מת הכל בוכים. ואינו כן, אלא נולד אדם אין שמחים לו שאין יודעים באיזה פרק ומעשים יעמוד, אם צדיק ואם רשע אם טוב ואם רע. מת צריכים לשמוח שנפטר בשם טוב ויצא מן העולם בשלום. משל לשתי ספינות פורשות לים הגדול, אחת יוצאת מן הלימן (הנמל) ואחת נכנסת ללימן. היוצאת מן הלימן הכל שמחים והנכנסת ללימן לא שמחו לה. היה שם פקח אחד, אמר להם חלוף דברים אני רואה... אתה מוצא שכשהצדיקים נולדים אין בריה מרגשת, וכשמתים הכל מרגישים. נולד משה רבנו ולא הרגישה בו בריה, וכשמת הרגישו בו הכל.</p>
+<p>קהלת רבה פרשה ז, ד</p>
+</div>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " גשר החיים פרק ב, א.", "2": " הקונטרס היחיאלי, בית עולמים פרק טו. וכתב שם הטעם כדי להציל הנשמה מפחד ומצער מלאך המות, כדי שימות על ידי מלאך רחמים. עוד הוסיף שם טעמים, עיין שם.", "3": " תורת האדם לרמב\"ן שער המיחוש עמוד מז. שלחן ערוך יורה דעה סימן שלח, ב. ", "4": " נוסח ארוך ומפורט על פי הקבלה מובא בקונטרס היחיאלי, בית עולמים, ונקרא ספר הביקורים.", "5": " שלחן ערוך יורה דעה סימן שלח, א.", "6": " שמירת שבת כהלכתה חלק ב, פרק סד, א.", "7": " שמירת שבת כהלכתה שם; בשם באר היטב אורח חיים סימן רפח, ג.", "8": " נטעי גבריאל חלק א, פרק א, יא. המקור ברבנו ירוחם בשם הרמב\"ן. ", "9": " נטעי גבריאל חלק א, פרק א, יג. וראה גם בערוך השלחן יורה דעה סימן שלט, ח.", "10": " נשמת אברהם כרך ב, סימן שלט, ד.", "11": " ציץ אליעזר חלק יג, פז.", "12": " שלחן ערוך והגהות הרמ\"א, יורה דעה סימן שלט, א. על ההבדל בין פעולה אסורה הגורמת או מזרזת את המיתה לבין הפעולה המותרת של הסרת מונע נכתב רבות, כמו כן נכתב על ההתייחסות להארכת חיים באופן מלאכותי העלולה לגרום יסורים לחולה. ראה סיכום באנציקלופדיה הלכתית רפואית כרך ד' ערך 'נוטה למות' מעמוד 366 ואילך.", "13": " שלחן ערוך יורה דעה סימן שלט, א.", "14": " שלחן ערוך יורה דעה סימן שלט, ד.", "15": " הטעם מובא באוצר המושגים ע\"ע מלאך המות.", "16": " מעבר יַבֹּק מאמר שפתי רננות פרק ו. ", "17": " הקונטרס היחיאלי, בית עולמים פרק טו, יב.", "18": " על פי מעבר יַבֹּק מאמר שפתי צדק פרק כו. שם מביא טעמים נוספים על פי הקבלה כדי להבריח הרוחות הרעות. ", "19": " מועד קטן כה, א. שלחן ערוך יורה דעה סימן שמ, ה.", "20": " גשר החיים פרק ד, ט; בשם שלחן גבוה.", "21": " שלחן ערוך המקוצר עיני יצחק, יורה דעה קעו, ה. באר לחי רואי סימן ג.", "22": " גשר החיים פרק ד, ו.", "23": " באר היטב אורח חיים סימן רכג, ו. וראה משנה ברורה שם שכתב שכך נוהגים העולם ואינו נכון לנהוג כן, ועל כל פנים על תלמיד חכם או אדם גדול שמרגיש צער במיתתו צריך לברך בשם ובמלכות. גשר החיים פרק ג, א, ג.", "24": " שבת לב, א.", "25": " מניחים את המת על גבי קרקע שאינה מקבלת טומאה כדי למנוע מכוחות הטומאה להחזיק במת, וכך עדיף מאשר שישאר במטה שהיא כלי המקבל טומאה. גם כיסוי המת בסדין, נעשה כדי להעלימו ממידת הדין השולטת רק על הנראה לעין (ספר מעבר יַבֹּק מאמר שפתי צדק, עמוד 112). והוסיף טעם (שם, במאמר שפתי רננות, פרק ט) שכל דבר שואף לחזור למקורו וזו מנוחתו. לכן הנשמה חוזרת למעלה ששם מקורה; והגוף חוזר אל העפר, כי עפר הוא ואל עפר ישוב. ובקונטרס היחיאלי (בית עולמים פרק טו) הוסיף טעם שהשמתו על הקרקע עשויה להחשב כסקילה כדי לכפר עליו. ובנטעי גבריאל חלק א (פרק ה, ג) הביא טעם בשם ספר זכור לאברהם שנהגו כך בארץ ישראל מפני קדושת הקרקע, כמו שכתוב \"כי רצו עבדיך את אבניה\" (תהלים קב, טו).", "26": " פירוט והסבר על כך מובא באוצר המושגים ערך רגלי המת כלפי הפתח.", "27": " טעמים לכך על פי הקבלה מובאים בגשר החיים (פרק ג, א, א) ובספר מעבר יַבֹּק מאמר שפתי רננות פרק ט.", "28": " גשר החיים פרק ג, א, ו.", "29": " מועד קטן כה, א.", "30": " ראה בילקוט יוסף (סימן ח, יא) מעשה רב מהרב עובדיה יוסף שגער באונן שאמר תהלים ליד מיטת הנפטר. אך בציץ אליעזר (חלק ה, רמת רחל סימן מו) כתב להתיר אמירת תהלים על ידי האוננים. הערת הרב נבנצל שליט\"א – אמירת תהלים עבור הנפטר, יש מתירים. ", "31": " אם השומרים המחליפים אינם מגיעים בזמן שנקבע, והשומרים הנוכחיים חייבים לעזוב מפני שאחרת לא יוכלו לתפקד למחרת בעבודתם, מותר להם לעזוב את המת לאחר שעשו מאמצים, עד כמה שניתן, לאתר את המחליפים. (צרור החיים פיסקה מ).", "32": " שלחן ערוך יורה דעה תג, ט. צרור החיים פיסקה מג.", "33": " הגהות הרמ\"א של שלחן ערוך יורה דעה שעג, ה. ילקוט יוסף במבוא. צרור החיים פיסקה לו. ", "34": " שלחן ערוך יורה דעה סימן שמא, א ופתחי תשובה שם סעיף קטן ב.", "35": " גשר החיים פרק ה, ד, ג.", "36": " שלחן ערוך אורח חיים סימן ד, יח; ויש מחמירים להצריך נטילה שלוש פעמים על כל יד לסירוגין (משנה ברורה שם).", "37": " נטעי גבריאל חלק א, פרק י, י. ובהערה שם כתב שמותר לקבל שכר אפילו עבור שמירת המת בשבת.", "38": " עיין בילקוט יוסף סימן ח, ז, שכתב שגם אם ציוה להלינו – חייבים לקברו מיד, כדי למנוע צער גדול מנשמתו. ובכל בו על אבלות (עמ' 37 הערה 9) כתב שאפילו כדי להמתין שיבואו כל בניו ובנותיו אין זה ברור שההמתנה היא לכבודו.", "39": " במראה הבזק חלק ג, סימן סב.", "40": " גשר החיים פרק ז, ב, א.", "41": " ילקוט יוסף סימן ח ,ח. ובשו\"ת רדב\"ז כתב שאין זה מועיל כלום.", "42": " בבא קמא פב, ב.", "43": " ומסורת היא בידנו ואין טעם לדבר, רש\"י שם.", "44": " דהיינו במקום המקודש לאכילת קדשים קלים ומעשר שני. הגבולות מבוארים בספר 'עיר הקדש והמקדש' לרב טוקצינסקי חלק ב פ\"א, ובגשר החיים פרק ז, ג, ג.", "45": " הערת הרב נבנצל שליט\"א – ונוהגים במידת האפשר שלא להלין גם בעיר החדשה, וקוברים במידת הצורך אפילו בשעה מאוחרת בלילה. ", "46": " צרור החיים פיסקה מו. יתכן שעל פי דברי הרמב\"ן דלעיל, שכתב שבארץ ישראל יש לאו נוסף \"ולא תטמא את אדמתך\".", "47": " שלחן ערוך יורה דעה סימן שע. אמנם יש פוסקים מקילים המתירים לכהן להיכנס כל זמן שלא מת. עיין שם בבית יוסף ובהגהות הרמ\"א.", "48": " שלחן ערוך ורמ\"א, יורה דעה סימן שעג, ה. שמירת שבת כהלכתה חלק ב, פרק סד, ו.", "49": " הערת הרב נבנצל שליט\"א – אם נרצח ח\"ו, כגון בפיגוע, הוא נקבר בבגדיו להעלות חימה, ואז הם מוקצים; ויש להניח עליו משהו אחר.", "50": " שמירת שבת כהלכתה שם, יד. דווקא אם קרובי המת רוצים להוציאו. ", "51": " שפתי כהן יורה דעה סימן שסד סעיף קטן יא. בפיגועים הנוראים שחוינו ניתן היה לראות את אנשי זק\"א (זיהוי קרבנות אסון) המלקטים כל בדל אבר וכל פיסה שהיתה שייכת להרוגים כדי להביאה בכבוד לקבר ישראל. ", "52": " שלחן ערוך יורה דעה סימן שסד, ד. באוצר המושגים דלקמן ערך הי\"ד - ה' יקום דמו מובא טעם לכך על פי הקבלה.", "53": " שפתי כהן על שלחן ערוך יורה דעה סימן שסד סעיף קטן יא. חכמת אדם כלל קנז, יב. ", "54": " דם שיצא לאחר מיתה יש לקבור. עיין גשר החיים פרק יא, ה.", "55": " רמ\"א יורה דעה סימן שסד, ד. גשר החיים פרק יא, ו. ", "56": " שלחן ערוך יורה דעה סימן שלט, ה. מדובר בשני הבתים הסמוכים לבית הנפטר (גשר החיים פרק ג פיסקה ג).", "57": " מים חמים – יש אוסרים (גשר החיים פרק ג, ג, י. ילקוט יוסף סימן ו, ו); ויש מתירים (צרור החיים סימן רצו).", "58": " ערוך השלחן יורה דעה סימן שלט, ט.", "59": " הר צבי יורה דעה סימן רסא. ילקוט יוסף סימן ו, ג. חיים וחסד פרק א, כ.", "60": " שלחן ערוך אורח חיים סימן שכט, ד וביאור הלכה שם דיבור המתחיל אלא.", "61": " שמירת שבת כהלכתה חלק ב, פרק סד, א; בשם באר היטב אורח חיים סימן רפח, ג.", "62": " אלא אם כן נקבר ביום טוב עצמו על ידי נכרים שאז הקריעה נדחית מחול המועד לאחר המועד. (ע\"ע שלחן ערוך אורח חיים סימן תקכו, א. למעשה היום אין קוברים ביום טוב).", "63": " גשר החיים פרק ד, כג. כבר נכתב לעיל שהאשכנזים נהגו לברך בתחילת הלוויה, ועדות המזרח נוהגים לברך אחרי הלוויה. ראה גם בשמירת שבת כהלכתה חלק ב, פרק סד הערה ז. (וכן בשלחן ערוך יורה דעה סימן שלט, ג).", "64": " מסקנת גשר החיים (פרק ג, ב, ג) לאחר הדיון על טלטול המת בשבת; וגם התיר להפשיט ממנו את בגדיו כדי שלא יסריח, לא רק בקיץ אלא גם בחורף. אמנם הגרש\"ז אויערבך כתב שאם אין חשש שיסריח, אין להפשיט ממנו את בגדיו (והובאו דבריו בלב אברהם חלק ב עמוד כא; ובאנצקלופדיה הלכתית רפואית ערך 'שבת' כרך ו עמוד 397). וכעין זה כתב במבוא לילקוט יוסף  (עמוד ד), אך ציין שיש נוהגים שלא לגעת בנפטר כלל בשבת ויום טוב. בנטעי גבריאל (חלק א, פרק ה, ד) הזכיר מנהג פרסבורג שבשבת אין מניחים את המת על הקרקע.", "65": " שמירת שבת כהלכתה חלק ב, פרק סד, ז.", "66": " שלחן ערוך יורה דעה סימן תב, יב.", "67": " רמ\"א שם.", "68": " שלחן ערוך יורה דעה סימן תב, יב. ולפי זה מותר לאיש ולאשתו לשמש יחד, אם אחד מהם אבל, ולא ידוע לו על כך, למרות שלבן הזוג ידוע. חידושי הגרשוני שם בשם ספר חסידים, וכן בילקוט יוסף סימן לח, יב בהערה.", "69": " ילקוט יוסף סימן יט, ג. ובסימן ל, לח. נטעי גבריאל חלק א, פרק קכח, יב.", "70": " הערת הרב נבנצל שליט\"א – גם משום מצוָת קבורה.", "71": " יש מי שכתב שיש בזה גם משום מצות \"ואהבת לרעך כמוך\" (עמוד הימיני לד). ואם בגלל הניתוח הקבורה מתעכבת ביום, יש בזה גם משום איסור \"לא תלין\" (דברים כא, כג).", "72": " יומא פד, ב. נודע ביהודה חלק ב, יורה דעה סימן רי.", "73": " בגשר החיים פרק ה פיסקה ו מובאות דעות אלה ונימוקיהן. ועיין עוד באגרות משה יורה דעה חלק ב, קנא.", "74": " חזון איש יורה דעה סימן רח, ז. ב\"תחומין\" (כרך יב, עמוד 382) מובא מכתבו של הרב יחיאל יעקב ויינברג לרב קלמן כהנא שהיה אז סגן שר החינוך ובו התייחסותו לעניין. לדעתו כיום נחשב כל מקרה כ'חולה לפנינו', מפני שהאינפורמציה עוברת מייד ממקום למקום. לפי זה יש יותר מקום להקל. ", "75": " מכתבו של הרב הרצוג מיום ד' באייר תשי\"ד מובא בפסקים וכתבים של הרב הרצוג כרך ה סימן קנה. ", "76": " אגרות משה יורה דעה חלק ב, קנא. בסוף התשובה. ", "77": " ציץ אליעזר ד, יד, ט.", "78": " תשובה בעל פה מהרב עובדיה יוסף שליט\"א שנמסרה לי על ידי בנו הרב יצחק יוסף שליט\"א. המקרה שהובא לפניהם היה ניתוח לצורך קבלת דמי ביטוח, אך ההיתר ההלכתי היה מניעת רשלנות רפואית.", "79": " סיכום רחב מופיע בציץ אליעזר חלק ד, יד. באנציקלופדיה הלכתית רפואית כרך ד ערך ניתוח המת, בכל בו על אבלות מעמוד 40 ואילך, וכן בפניני הלכה חלק ג. הרב קלמן כהנא  פרסם סקירה ביבליוגרפית של מאמרים בנושא \"ניתוחי מתים בהלכה\" בקובץ \"המעיין\" (תשכ\"ז חוברת ב עמוד 72 – 43, ומילואים בחוברת ג עמוד 72 – 71).", "80": " הלכות אבל לרמב\"ם פרק יב, א.", "81": " חתם סופר (יורה דעה סימן שלו). הראי\"ה קוק (דעת כהן סימן קצט). אגרות משה (יורה דעה חלק ג, קמ). ילקוט יוסף סימן יד, יד.", "82": " ציץ אליעזר חלק ד, יד.", "83": " אנציקלופדיה הלכתית רפואית כרך ד עמוד 537.", "84": " כך הורה לי הרב יעקב רוז'ה שליט\"א בשם הרב מרדכי אליהו שליט\"א, על פי שלחן ערוך יורה דעה סימן שמה, ה.", "85": " ילקוט יוסף סימן יד, יג; וכן מט, ב.", "86": " ילקוט יוסף סימן יד, טו."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

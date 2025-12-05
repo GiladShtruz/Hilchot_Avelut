@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p><strong>לוויה</strong></p>
+<p>מצוה גדולה ללוות את המת, והיא בכלל <span style="font-size: 0.85rem">וְאָהַבְתָּ לְרֵעֲךָ כָּמוֹךָ</span>. </p>
+<p style="font-size: 0.85rem">הרואה את המת ואינו מלוהו, עובר משום "לֹעֵג לָרָשׁ" (משלי יז, ה), ובר נידוי הוא. ולפחות ילוונו ארבע אמות (שלחן ערוך יורה דעה סימן שס"א). ונהגו שהמלווים את המת ארבע אמות או יותר והולכים לדרכם, ממתינים עד שתעלם המיטה מן העין ויש לזה סימוכין ממה שכתב החזקוני בסוף פרשת שופטים "וְעֵינֵינוּ לֹא רָאוּ" – מכאן למלַוה את חברו שצריך לעמוד במקומו עד שיתעלם מעיניו. (ילקוט יוסף סימן י, ב). </p>
+<p>מבטלים תורה ללווית המת. למי שלימד אחרים אין לו שיעור, ואפילו יש עמו כמה אלפים מתבטל מלימודו כדי ללוותו. אבל למי שלא שנה אין מבטלים אם יש לו מי שיתעסק עמו, והוא שיש שם עשרה כדי שיוכלו לומר קדיש וברכת אבלים. אבל אם אין שם מתעסקים קבועים, צריכים ליבטל ממלאכה כל בני העיר, ובשעת הוצאת המת הכל בטלים ממלאכה. </p>
+<p style="font-size: 0.85rem">כשבאים הכתפים לשאת את המת נהגו לומר "<span style="font-size: 0.75rem">וּבִנְסֹעַ הַמִּשְׁכָּן יוֹרִידוּ אֹתוֹ הַלְוִיִּם וּבַחֲנֹת הַמִּשְׁכָּן יָקִימוּ אֹתוֹ הַלְוִיִּם</span>" (במדבר א, נא), "וַיְהִי בִּנְסֹעַ הָאָרֹן וַיֹּאמֶר מֹשֶׁה קוּמָה ה' וְיָפֻצוּ אֹיְבֶיךָ וְיָנֻסוּ מְשַׂנְאֶיךָ מִפָּנֶיךָ" (שם י, לה). הטעם, כיון שאדם מישראל מושווה לספר תורה. ספר התורה אמור להיות דוגמא וסמל להתנהגות חיובית וראויה וכך גם אמור להיות אדם מישראל. בפסוקים דלעיל מוזכרים המשכן וארון הברית, וכמו שבתוך הארון והמשכן הגשמיים היתה השראת השכינה הרוחנית, כך גם הגוף הריהו הכלי הגשמי בו מונחת הנשמה הרוחנית, חלק אלוה ממעל.</p>
+<p>על דרך הקבלה והסוד הוסיפו עניינים נוספים בחשיבות הלוויה:</p>
+<p>נשיאת המת הצדיק על הכתף הוא בסוד ויביאו את המשכן אל משה ובנסוע המשכן שהיא הנשמה הזו הממושכנת בעולם הזה בעל כרחה… וגם בחנות המשכן כשהולכת למקום מנוחתה יש ללוויתה שרפי קודש אשר פעל ומלאכים אין מספר מול צדקותיו אשר עשה… באופן כי "<span style="font-size: 0.85rem">הַזָּר הַקָּרֵב יוּמָת</span>". פירוש, הזר הקרב לנגד נשמה זו, יומת ויבולע כי סקל המסלה ופנה לו דרך לעלות לה' בלי עכוב; ו"<span style="font-size: 0.85rem">קוֹל קוֹרֵא בַּמִּדְבָּר</span>" שהם כוחות החיצונים השוכנים במקום חורב – "<span style="font-size: 0.85rem">פַּנּוּ דֶּרֶךְ ה' </span>". ואם כן המלווים את המת נעשים מרכבה למלווים העליונים, וכמו שהם מלווים גופו למטה בגופם כן יכוונו ללוות נפשו בסוד נפשם, ורוחו ברוחם ונשמתו בנשמתם, כי נשמת המת ורוחו ונפשו מלווים הגוף לקבר, ולא לחנם הזהירו חכמים כל כך בכבוד המת ובלוויתו ואמרו הרואה את המת ואינו מלווהו עובר משום לועג לרש ודברים הרבה כיוצא בזה, כי ודאי לא כוונו אל הכבוד המדומה לגוף בלבד…</p>
+<p style="font-size: 0.85rem">והסדר שתקן יעקב לבניו בנשיאת מטתו כמו שכתוב במדרש, כיון שבא יעקב אבינו להפטר מן העולם קרא לבניו וצום וזרזם על דרכי האלהים וקבלו עליהם מלכות שמים. משגמר דבריו אמר להם: כשתטלו אותי, ביראה ובכבוד לוו אותי ולא יגע אדם אחר במטתי. וכן ממה שציוה רבנו הקדוש וממה שנתבאר בקבורת רבי שמעון בר יוחאי נראה בפירוש כי כבוד והדר ונייחא רבא יש לצדיקים כשאנשים הגונים מתעסקים בהם אחר פטירתם, ולא כל הרוצה ליטול את השם יטול. ואם בכניסת חתן וכלה לחופה המנהג לעשות על ידי גדול, כל שכן וקל וחומר להכניס הנשמה והנלוים אליה עם הגוף למקום משכן כבודם, כי כבוד יעשו לו במותו על ידי אנשים של צורה. ואמר רבי שמעון בר יוחאי כי קבורה מצוה מן התורה ונלמדת מהפסוק "כִּי קָבוֹר תִּקְבְּרֶנּוּ בַּיּוֹם הַהוּא". ובירושלמי אמרו כי לווית המת קודם לתלמוד תורה, וחכמי המשנה חשבו דבר זה לזכות גדולה, עד שאמרו (סוטה פרק א, ט): "יוסף זכה לקבור את אביו ואין באחיו גדול ממנו, שנאמר: "וַיַּעַל יוֹסֵף לִקְבֹּר אֶת אָבִיו... וַיַּעַל עִמּוֹ גַּם רֶכֶב גַּם פָּרָשִׁים". מי לנו גדול מיוסף שלא נתעסק בו אלא משה. משה זכה בעצמות יוסף ואין בישראל גדול ממנו, שנאמר:"וַיִּקַּח מֹשֶׁה אֶת עַצְמוֹת יוֹסֵף עִמּוֹ". מי גדול ממשה שלא נתעסק בו אלא המקום, שנאמר:"וַיִּקְבֹּר אֹתוֹ בַגַּיְ". ובעת הלוויה יכוונו ללוות הקדושה עמו בכח ניצוצות נשמת כל אחד מהם, שהקדושה חופפת ושוכנת בכל עדה מישראל כדכתיב "וְנִקְדַּשְׁתִּי בְּתוֹךְ בְּנֵי יִשְׂרָאֵל". וכבר אמרנו כי היודע סוד הלוויה לחיים, ממנה יבין צורך הלוויה למת. ועוד יתוסף ללווית המת כוונות אחרות ונרמז קצת מהכוונה של הלוויה בזהר (פרשת וירא דף קכו), ולא לחנם תלמוד תורה נדחה מפניה, ולמי ששונה לאחרים אין לו שיעור". (מעבר יַבֹּק מאמר שפתי רננות פרק טו). </p>
+<p>ע"ע <strong>ארון המת. חברה קדישא. חסד של אמת. לועג לרש.</strong> </p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

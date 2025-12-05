@@ -80,6 +80,7 @@ flutter:
     - assets/html/chapter_7/
     - assets/html/chapter_8/
     - assets/html/chapter_9/
+    - assets/html/terms/
 
   fonts:
     - family: David

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p style="font-size: 1.3rem"><strong>אבלות לאחר השבעה</strong></p>
+<div class="sage-quote"><p><strong>ככלות השבעה</strong><strong> </strong></p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">מנהג עדות המזרח לערוך סעודה ולימוד לעילוי נשמת הנפטר בלילה אור ליום השביעי. מותר לאבלים לצאת מביתם כדי ללכת לבית הכנסת לשמוע הדרשות, ומותר להם לשבת שם על כסא ואינם חייבים לשבת על גבי קרקע<span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span>. אם היום השביעי חל בשבת, מקדימים ליום חמישי בלילה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">ביום השביעי בבוקר אחר התפילה יושבים האבלים שעה קלה ומנחמים אותם, ולאחריה אומרים להם "קומו". לפי מנהג עדות המזרח אומרים את הפסוק "<span style="font-size: 0.85rem">לֹא יָבוֹא עוֹד שִׁמְשֵׁךְ וִירֵחֵךְ לֹא </span><span style="font-size: 0.85rem">יֵאָסֵף</span><span style="font-size: 0.85rem">, כִּי ה' יִהְיֶה לָּךְ לְאוֹר עוֹלָם וְשָׁלְמוּ יְמֵי אֶבְלֵךְ</span>" (ישעיהו ס, כ), וכן את הפסוק "<span style="font-size: 0.85rem">כְּאִישׁ אֲשֶׁר </span><span style="font-size: 0.85rem">אִמּו</span><span style="font-size: 0.85rem">ֹ תְּנַחֲמֶנּוּ כֵּן אָנֹכִי אֲנַחֶמְכֶם וּבִירוּשָׁלִַם תְּנֻחָמוּ</span>" (שם סו, יג).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">מיד לאחר שהאבלים קמים, הם מותרים בכל הדברים שהיו אסורים להם במשך השבעה (מלבד גילוח, תספורת ושמחה, כמו שיפורט לקמן בפרק @, בפרק שלאחריו יפורטו גם המנהגים השונים לגבי רחיצה לאחר השבעה), ומותר להם להחליף את הבגד הקרוע. </span></div>
+<div class="sage-quote"><p>העיקרון ההלכתי הוא "<strong>מקצת היום ככולו</strong>". עיקרון זה נאמר גם בתחילת ימי השבעה וגם בסופם. בתחילת השבעה, גם אם נקבר זמן מועט לפני השקיעה או אפילו בין השמשות, והאבלים הספיקו לנהוג אבלות אפילו זמן מועט, נחשב ליום הראשון מהשבעה. גם בסוף השבעה, יושבים זמן מועט לאחר התפילה וקמים, שמקצת היום ככולו<span class="footnote-ref" onclick="showFootnote('2', '2', event)">2</span>.</p>
+<p>כלומר שאם התחילו את האבלות ביום ראשון, אפילו סמוך לפני השקיעה, האבלות נפסקת בשבת בבוקר ואין צורך לשבת במוצאי שבת.</p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">גם לגבי יחסי אישות אומרים מקצת היום ככולו, ויש אוסרים עד הלילה<span class="footnote-ref" onclick="showFootnote('3', '3', event)">3</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">יש אומרים שלצורך גדול גם ליל יום השביעי יכול להחשב "מקצת היום ככולו"<span class="footnote-ref" onclick="showFootnote('4', '4', event)">4</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">מי שאין לו מנחמים וכן בשבת שאין באים לנחם, נפסקת האבלות בזמן שהיה אפשר לנחם, דהיינו אחר זמן התפילה הרגיל באותו מקום, או כשרגילים לצאת מבית הכנסת. לפי עדות המזרח האבלות מסתיימת ביום השביעי אחרי הזריחה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">ביום השביעי שחל להיות בשבת, יש שנהגו שלא עולה לתורה בשחרית אלא במנחה. ומי שיעלה בשחרית, יש לו על מה שיסמוך. ועיין לעיל פרק שבת לאבלות – בבית הכנסת, מעמוד 153 @מנהג חברון.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">חשוב לסיים את השבעה בבית הנפטר, שבו ישבו שבעה. אך בשעת הצורך כגון כאשר היום השביעי חל בשבת, וביום שישי רוצים האבלים לחזור לביתם ולהיות עם משפחתם – מותר להם לעזוב את בית הנפטר, ולסיים את השבעה בביתם<span class="footnote-ref" onclick="showFootnote('5', '5', event)">5</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">נוהגים לעלות ביום השביעי לקבר<span class="footnote-ref" onclick="showFootnote('6', '6', event)">6</span>. מותר לאבלים לאכול לפני העלייה לקבר, ומותר להם גם להחליף בגדים<span class="footnote-ref" onclick="showFootnote('7', '7', event)">7</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">אם חל היום השביעי בשבת, עולים לקבר ביום ראשון, ואין מקדימים ליום שישי. ואם יש אבלים שצריכים לחזור לביתם בחוץ לארץ מיד ביום ראשון בבוקר, יכולים לעלות לקבר ביום שישי<span class="footnote-ref" onclick="showFootnote('8', '8', event)">8</span>. הלכות העלייה לקבר מפורטות לקמן מעמוד @.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content"><span style="font-size: 0.75rem">מנהג בני תימן שבפעם הראשונה שעולה האבל לתורה לאחר שקם מאבלו, אומר אחר הברכה האחרונה את הפסוק "</span><span style="font-size: 0.75rem">אוֹדְך</span><span style="font-size: 0.75rem">ָ ה' כִּי אָנַפְתָּ בִּי יָשֹׁב אַפְּךָ וּתְנַחֲמֵנִי"</span><span class="footnote-ref" onclick="showFootnote('9', '9', event)">9</span><span style="font-size: 0.75rem">. </span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">דיני הקמת מצבה מפורטים לקמן מעמוד 204.</span></div>
+<div class="sage-quote"><p><strong>מנהגי אבלות בתוך השלושים</strong></p>
+<p style="font-size: 0.75rem"><span style="font-size: 0.75rem">וַיִּבְכּוּ בְנֵי יִשְׂרָאֵל אֶת מֹשֶׁה בְּעַרְבֹת מוֹאָב שְׁלֹשִׁים יוֹם וַיִּתְּמוּ יְמֵי בְכִי אֵבֶל מֹשֶׁה </span></p>
+</div><p> (דברים לד, ח)</p>
+<div class="sage-quote"><p style="font-size: 0.85rem">מדברי סופרים שיהיה האבל נוהג במקצת דיני אבלות כל שלֹשים יום. ומנין סמכו חכמים לשלֹשים יום? שנאמר "וּבָכְתָה אֶת אָבִיהָ וְאֶת אִמָּהּ יֶרַח יָמִים" (דברים כא, יג). מכלל שהאבל מצטער כל שלֹשים יום.</p>
+<p>רמב"ם הלכות אבל פרק ו, א</p>
+</div><p>אמנם יש בדברים שלפנינו חזרה מסוימת על מה שנכתב לעיל, אך כדי להקל על המעיינים העדפנו לרכז את מנהגי האבלות בתוך השלושים ובתוך שנים עשר חודש. כאן הובאו בעיקר הכללים, ויתכן שפרטים שאינם מופיעים כאן מפורטים לעיל. לגבי חגים החלים בתוך תקופת האבלות, יובא פירוט נוסף מעמוד 173 @ ואילך.</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">לאחר שבעת ימי האבלות עודנו אבל עוד עשרים ושלושה יום עד תום שלושים יום, ונוהג בהם מקצת מנהגי אבלות<span class="footnote-ref" onclick="showFootnote('10', '10', event)">10</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">כשם שביום השביעי אומרים "מקצת היום ככולו", כך גם ביום השלושים. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">גם את השלושים מחשבים מיום הקבורה ולא מיום המיתה.</span></div>
+<p>תספורת וגילוח </p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">אין להסתפר ולהתגלח בתוך שלושים. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">לפי מנהג עדות המזרח, אשה מותרת להסתפר אחר שבעה. לפי האשכנזים דין איש ואשה שוה לעניין תספורת<span class="footnote-ref" onclick="showFootnote('11', '11', event)">11</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">על אב ואם חל האיסור גם אחרי השלושים, עד שיגערו בו חבריו. משמעות הגערה היא שכלפי חוץ כבר ניכר גידול השיער באופן מוגזם, עד כדי כך שחבריו מוצאים לנכון לגעור בו שצריך כבר להסתפר ולהתגלח. יפורט בפרק הבא.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">מותר לחתן וכלה להסתפר בתוך שלושים, אפילו באבלות על אב ואם. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">סנדק, מוהל ואבי הבן, אסורים להסתפר בתוך שלושים, ויש מתירים לאבי הבן<span class="footnote-ref" onclick="showFootnote('12', '12', event)">12</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">אם צריך להתגלח ולהסתפר לטובת הכלל, התירו לאחר השבעה. למשל רופא או נושא תפקיד ציבורי, שבו הופעה של אדם לא מגולח היא בלתי נסבלת; ויסתפר בצנעה<span class="footnote-ref" onclick="showFootnote('13', '13', event)">13</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">אין להקל בגילוח לצורך שמחה בתוך שלושים. אולם כיון שיש מתירים בגילוח לצורך שמחה בתוך השלושים, מי שיקל כמותם בצורך גדול מאוד, יש לו על מי שיסמוך<span class="footnote-ref" onclick="showFootnote('14', '14', event)">14</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">יש מי שכתב שלמרות שמחמירים בתספורת וממתינים שיעור גערה, יש מקום להקל בגילוח הזקן כיון שמצער ומנוול הרבה את האבלים. לפי דעות אלה יש מקום להקל ולהתגלח כבר לאחר שבועיים - שלושה<span class="footnote-ref" onclick="showFootnote('15', '15', event)">15</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">לצורך רפואי כגון שיש לו כינים וכדומה, מותר להתגלח ולהסתפר<span class="footnote-ref" onclick="showFootnote('16', '16', event)">16</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">אם צריך להסתיר את הפטירה והאבלות מקרוב חולה, מחשש שידיעה על הפטירה עלולה להזיק לו ולסכנו, מותר לו להסתפר ולהתגלח לצורך כך<span class="footnote-ref" onclick="showFootnote('17', '17', event)">17</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">אם יום השלושים חל בשבת, יש מתירים לאבל על שאר קרובים (חוץ מאב ואם), להסתפר בערב שבת, ויש אוסרים<span class="footnote-ref" onclick="showFootnote('18', '18', event)">18</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">אם חל חג בתוך שלושים, יכול האבל על שאר קרובים (חוץ מאב ואם), להסתפר בערב חג, כיון שהחג מבטל ממנו גזרת תספורת. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">אם יום שלושים חל בערב חג, מותר גם לאבל על אביו או אמו להסתפר לאחר שיגערו בו חבריו<span class="footnote-ref" onclick="showFootnote('19', '19', event)">19</span>. ויש מי שהתיר לאבל על אב ואם להסתפר בערב החג, אפילו אם החג חל ביום שלושים עצמו, ואפילו ללא גערה<span class="footnote-ref" onclick="showFootnote('20', '20', event)">20</span>.  </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ז.</span><span class="list-content">אם נשלמו השלושים יום בימים שבין י"ז תמוז לשבוע שחל בו תשעה אב מותר להתגלח<span class="footnote-ref" onclick="showFootnote('21', '21', event)">21</span>. אבל אם נשלמו בתוך השבוע שחל בו תשעה באב, גוזז מקצת שערו בתער ולא במספריים<span class="footnote-ref" onclick="showFootnote('22', '22', event)">22</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ח.</span><span class="list-content">אם נשלמו ימי השלושים בין ראש חודש אייר לל"ג בעומר מותר להסתפר, ויש חולקים ואוסרים<span class="footnote-ref" onclick="showFootnote('23', '23', event)">23</span>.</span></div>
+<p>נטילת ציפורניים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ט.</span><span class="list-content">אין ליטול ציפורניים בכלי. מותר ליטול ציפורניים בשינוי – בסכין, בידיים או בשיניים. יש שהקלו גם בפצירה<span class="footnote-ref" onclick="showFootnote('24', '24', event)">24</span>. מותר להתחיל בכלי ולסיים ביד<span class="footnote-ref" onclick="showFootnote('25', '25', event)">25</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ'.</span><span class="list-content">מותר לאשה לגזור ציפורניה לצורך טבילה לאחר שבעה על ידי אשה אחרת, ואם אין אחרת מותר לה ליטול בעצמה<span class="footnote-ref" onclick="showFootnote('26', '26', event)">26</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"א.</span><span class="list-content">אם חל יום שלושים בשבת, מותר ליטול ציפורניים בערב שבת, אפילו באבלות על אב ואם<span class="footnote-ref" onclick="showFootnote('27', '27', event)">27</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ב.</span><span class="list-content">אם הציפורניים גדולות, מותר לגוזזן לכבוד שבת<span class="footnote-ref" onclick="showFootnote('28', '28', event)">28</span>. </span></div>
+<p>רחיצה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ג.</span><span class="list-content">רחיצה מותרת לאחר השבעה. האשכנזים נוהגים לא להתרחץ רחיצה של תענוג כל השלושים למשל הליכה לבריכת שחייה, אבל רחיצה להסיר הזיעה מותרת גם במים חמים<span class="footnote-ref" onclick="showFootnote('29', '29', event)">29</span>, וכל שכן לצורך רפואי<span class="footnote-ref" onclick="showFootnote('30', '30', event)">30</span>. יש מי שכתב שבארץ ישראל נוהגים גם האשכנזים להקל להתרחץ לאחר השבעה, ובפרט בקיץ<span class="footnote-ref" onclick="showFootnote('31', '31', event)">31</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ד.</span><span class="list-content">אשה מותרת לטבול טבילה של מצוה, ומותר לה לחפוף ולהתכונן לטבילה כדרכה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ה.</span><span class="list-content">אשה נשואה מותר לרחוץ כדרכה במקום צורך, כדי שלא תתגנה על בעלה<span class="footnote-ref" onclick="showFootnote('32', '32', event)">32</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ו.</span><span class="list-content">מותר לחתן וכלה ליטול ציפורניים בתוך שלושים, אפילו באבלות על אב ואם. </span></div>
+<p>בגדים מכובסים וחדשים </p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ז.</span><span class="list-content">לפי מנהג עדות המזרח מותר ללבוש בגדים מכובסים לאחר שבעה, מלבד בגד לבן שהחמירו בו כיון שהכיבוס יפה לו. לפי האשכנזים, כשלובשים בגדים מכובסים צריך לתת אותם מקודם לאחר ללובשם זמן מה, ואחר כך מותר לו ללובשם. יש נוהגים להניחם על גבי האדמה ואז נחשב כאילו לבשם אחר, ומותר אז ללובשם<span class="footnote-ref" onclick="showFootnote('33', '33', event)">33</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ח.</span><span class="list-content">אין לקנות או ללבוש בגדים חדשים, אלא אם כן אדם אחר לבש את הבגד יומיים שלושה<span class="footnote-ref" onclick="showFootnote('34', '34', event)">34</span>. יש הנוהגים איסור רק בבגד לבן מגוהץ ומתירים בשאר בגדים חדשים<span class="footnote-ref" onclick="showFootnote('35', '35', event)">35</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ט.</span><span class="list-content">מותר ללבוש לבנים וגרביים חדשים כיון שאינם בגדי כבוד. </span></div>
+<p>כלים חדשים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל'.</span><span class="list-content">מותר לאבל לקנות כלי חשמל או ריהוט חדש הנצרך, אם קשה לו להמתין עד אחר השלושים<span class="footnote-ref" onclick="showFootnote('36', '36', event)">36</span>.</span></div>
+<p>שאילת שלום ושינוי מקום</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">מעיקר הדין לא שואלים בשלומו בתוך שלושים, אבל הוא שואל בשלום אחרים. אמנם למעשה נהגו להקל כרמ"א<span class="footnote-ref" onclick="showFootnote('37', '37', event)">37</span> שאמירת שלום שלנו (כגון "מה שלומך" "מה נשמע") אינה נחשבת שאילת שלום<span class="footnote-ref" onclick="showFootnote('38', '38', event)">38</span>. במיוחד יש להקל במקום שיש לחוש שהאבל אינו יודע הלכה זו, ועלול להפגע כשיפגוש אדם מוכר שאינו אומר לו "בוקר טוב", "מה שלומך" וכדו'<span class="footnote-ref" onclick="showFootnote('39', '39', event)">39</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">אין נותנים מתנה לאבל בזמן האבל, כיון שנתינת המתנה מוגדרת הלכתית כאמירת שלום<span class="footnote-ref" onclick="showFootnote('40', '40', event)">40</span>. פירוט מובא לקמן בדיני שנים עשר חודש בעמוד @.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">לפי מנהג עדות המזרח אבל משנה מקומו בבית הכנסת בתוך שלושים. לפי האשכנזים אבל על אביו ואמו משנה מקומו בבית הכנסת במשך כל שנת האבל<span class="footnote-ref" onclick="showFootnote('41', '41', event)">41</span>.</span></div>
+<p><strong>שמחה</strong></p>
+<p>נישואין לאבלים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">ככלל אין לקבוע חתונה בתוך שלושים לחתן או לכלה<span class="footnote-ref" onclick="showFootnote('42', '42', event)">42</span>. אך אם קבעו את מועד החתונה קודם שנעשו אבלים, לא ידחו אותה, ואפילו באבלות על אב ואם. מותר להסתפר ולהתגלח ביום חופתו, וכן בתוך שבעת ימי המשתה<span class="footnote-ref" onclick="showFootnote('43', '43', event)">43</span>. מותר לקנות את כל הדרוש לחתונה. בחתונה מותר לשמוח כרגיל, עם ריקודים ומוסיקה<span class="footnote-ref" onclick="showFootnote('44', '44', event)">44</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">נישואין לאחר שלושים מותר אפילו באבל על אביו ואמו. ומי שלא קיים פריה ורביה התירו לו אפילו אחרי שבעה<span class="footnote-ref" onclick="showFootnote('45', '45', event)">45</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">להחזיר גרושתו מותר אפילו בתוך שלושים, אך אין לערוך סעודת נישואין<span class="footnote-ref" onclick="showFootnote('46', '46', event)">46</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">מתה אשתו, מעיקר הדין לא ישא אשה אחרת עד שיעברו עליו שלושה  רגלים. הטעם הוא כדי ששמחת הרגל תעביר את הצער ואת זיכרון אשתו הראשונה, ויוכל לפנות לבו לאהבת אשתו השנייה. ואם יש לו בנים קטנים או שאין לו מי שישמשנו מותר לקדש מיד ולכנוס אחר שבעה, אבל לא יבוא עליה עד לאחר שלושים יום, אלא אם כן לא קיים פריה ורביה שאז מותר לבוא עליה אחר שבעה<span class="footnote-ref" onclick="showFootnote('47', '47', event)">47</span>. ובזמן הזה רבים מקילים לאבל שמתה אשתו לישא אשה אחרת כבר לאחר שלושים יום.<span class="footnote-ref" onclick="showFootnote('48', '48', event)">48</span> </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">אשה שמת בעלה מותרת להינשא לאחר שלושה חודשים. הטעם אינו מדין אבלות, אלא כדי להבחין בין זרע הבעל הראשון לזרע הבעל השני. דין זה קיים גם בגרושה<span class="footnote-ref" onclick="showFootnote('49', '49', event)">49</span>. ואם יש לה תינוק מעיקר הדין אסורה להינשא עד מלאת לו עשרים וארבעה חודש<span class="footnote-ref" onclick="showFootnote('50', '50', event)">50</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">שידוכים, מעיקר הדין מותר לעשות אפילו בתוך השבעה. ללא מסיבות ושמחה אלא כדי שלא תתפרד החבילה.</span></div>
+<p>השתתפות בחתונות ובשמחות</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">אבל אסור בשמחה כל שלושים, ועל אב ואם כל שנים עשר חודש. לכן בזמנים אלו הוא מנוע מלהיכנס לבית המשתה, למסיבת מרעים או להשתתף בשמחות. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">מותר לאבל להיות נוכח בחופה ולשמוע את הברכות, אך אסור לו להשתתף בסעודה. השמחה המתפרצת בחתונה עומדת בסתירה לרגשות הצער המתמשכים של האבלות. אי ההשתתפות בשמחה היא אחד הביטויים לאבלות. <span style="font-size: 0.75rem">מכיון</span><span style="font-size: 0.75rem"> שהגבלה זו גורמת לעתים צער לחתן ולכלה שקרוביהם מנועים מלהשתתף בשמחתם, בנוסף לצערם של הקרובים המעוניינים להשתתף בשמחות המשפחתיות, לכן </span>במקום הצורך יש מתירים לאבל בתוך שלושים, או בתוך שנים עשר חודש על אביו ואמו, להיות משמש בסעודה (כעין מלצר), ולאכול בשלחן צדדי<span class="footnote-ref" onclick="showFootnote('51', '51', event)">51</span>. כך יוכל להשתתף באירוע של שמחה ואפילו בחתונה, אך לא בריקודים. היתר זה ניתן לקרובי משפחה<span class="footnote-ref" onclick="showFootnote('52', '52', event)">52</span>. אם מדובר באחים לחתן או כלה, התירו אפילו בתוך שלושים על אביו ואמו. אם האבלים הם הורי החתן והכלה, התירו להם להשתתף גם אם לא יהיו "משמשים בסעודה". ההורים יכולים גם להיות שושבינים, דהיינו להוליך את החתן והכלה לחופה<span class="footnote-ref" onclick="showFootnote('53', '53', event)">53</span>, אך לא ירקדו בחתונה אם היא בתוך שלושים יום לאבלותם<span class="footnote-ref" onclick="showFootnote('54', '54', event)">54</span>. </span></div>
+<div class="sage-quote"><p>מלבד זאת יש מקרים נוספים בהם ניתן להקל בשעת הצורך: </p>
+</div><div class="list-item bullet" style="margin-right: 20px"><span class="marker bullet-marker">•</span><span class="list-content">אם יש צורך חיוני שהאבל ישתתף בשמחה, כגון שהעדרותו תגרום צער גדול לחתן ולכלה ושמחתם תיפגע<span class="footnote-ref" onclick="showFootnote('55', '55', event)">55</span>.</span></div>
+<div class="list-item bullet" style="margin-right: 20px"><span class="marker bullet-marker">•</span><span class="list-content">מותר לסבא וסבתא להשתתף בשמחת נכדיהם, אפילו בתוך אבלות שלושים על אב ואם<span class="footnote-ref" onclick="showFootnote('56', '56', event)">56</span>.</span></div>
+<div class="list-item bullet" style="margin-right: 20px"><span class="marker bullet-marker">•</span><span class="list-content">אם צריך את האבל להשלים מניין לחתונה או לשבע ברכות או לפנים חדשות<span class="footnote-ref" onclick="showFootnote('57', '57', event)">57</span>.</span></div>
+<div class="list-item bullet" style="margin-right: 20px"><span class="marker bullet-marker">•</span><span class="list-content">מותר לערוך סעודת שבע ברכות בביתו, אם בלעדיו היא עלולה להתבטל, גם בשבת וגם בחול<span class="footnote-ref" onclick="showFootnote('58', '58', event)">58</span>.</span></div>
+<div class="list-item bullet" style="margin-right: 20px"><span class="marker bullet-marker">•</span><span class="list-content">אם האבל עורך סעודת שבע ברכות בביתו, יש מחמירים ויש מקילים<span class="footnote-ref" onclick="showFootnote('59', '59', event)">59</span>.</span></div>
+<div class="list-item bullet" style="margin-right: 20px"><span class="marker bullet-marker">•</span><span class="list-content">למרות שאין האבלים רשאים להשתתף בסעודת שבע ברכות מחוץ לביתם, בכל זאת התירו לקרובים שחסרונם ניכר (כגון אחי הכלה והחתן) להשתתף בסעודה זו בשבת, כדי שלא יראה כאבלות בפרהסיה<span class="footnote-ref" onclick="showFootnote('60', '60', event)">60</span>.</span></div>
+<div class="sage-quote"><p>גם במקרים אלו לא ישתתף בריקודים, ויאכל במקום צדדי, וישמש בסעודה. אם עורך שבע ברכות בביתו, לא ינגנו בכלי זמר.</p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">אין איסור לשלוח הזמנות לאבלים, למרות שידוע שלא יוכלו להשתתף בשמחה מחמת אבלם.</span></div>
+<p>בר מצוה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">אב או אם אבלים בתוך שלושים העורכים בר מצוה לבנם, יכולים ללבוש בגדים חגיגיים ולהשתתף בסעודה, אך לא ישבו בסעודה כדרכם אלא ישמשו את האורחים<span class="footnote-ref" onclick="showFootnote('61', '61', event)">61</span>; ויערכו את החגיגה ללא מוסיקה. ויש מקילים שמותר גם להשמיע מוסיקה<span class="footnote-ref" onclick="showFootnote('62', '62', event)">62</span>.</span></div>
+<p>סעודות מצוה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">מותר לאבל להשתתף באירועים של מצוה שאין בהם כלי זמר, כגון ברית מילה, פדיון הבן, חנוכת בית ואירוסין, שלא בשעת הסעודה<span class="footnote-ref" onclick="showFootnote('63', '63', event)">63</span>, ומותר לטעום שם כיבוד קל; ויש שהתירו להשתתף גם בסעודה, ובמקום הצורך אפשר לסמוך על דבריהם<span class="footnote-ref" onclick="showFootnote('64', '64', event)">64</span>.  אך אם יש שם ריקודים או תזמורת יש להימנע מלהשתתף<span class="footnote-ref" onclick="showFootnote('65', '65', event)">65</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">בסעודות שיש בהן תזמורת כגון בר מצוה, אפשר לבוא בשעת הדרשה, לומר מזל טוב ולצאת. אפשר לבוא בקבלת הפנים בראשיתה שאז האוירה עדיין לא של שמחה<span class="footnote-ref" onclick="showFootnote('66', '66', event)">66</span>.  </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">האבל לא משתתף בסעודת סיום מסכת, אלא אם הוא מסיים בעצמו. ולהשתתף בלי לאכול בוודאי מותר<span class="footnote-ref" onclick="showFootnote('67', '67', event)">67</span>. ואם מגישים כיבוד קל, לא נחשב לסעודה<span class="footnote-ref" onclick="showFootnote('68', '68', event)">68</span>. ואם עושים סיום מסכת או משניות לכבוד הנפטר, מותר לו להשתתף גם אם לא סיים עמהם. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ז.</span><span class="list-content">בסעודות שהאבל אסור להשתתף בהן, אם עורכים שלחן בצד לאבלים שיאכלו שם, נחשב שאוכלים בסעודה לעצמם<span class="footnote-ref" onclick="showFootnote('69', '69', event)">69</span>.</span></div>
+<p>אירוח בשבת</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ח.</span><span class="list-content">בשבת ויום טוב מותר להזמין אורחים לסעודה, ומותר להתארח לסעודה אצל חברים. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ט.</span><span class="list-content">מותר להשתתף בקידוש שעורכים בבית הכנסת בשבת בבקר אחרי התפילה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ'.</span><span class="list-content">מותר ללכת לשלום זכר או להשתתף בעונג שבת שאומרים בו דברי תורה ושרים שירי שבת, ויש מתירים רק אם היעדרותו של האבל תבלוט כדי שלא תהיה אבלות בפרהסיה בשבת<span class="footnote-ref" onclick="showFootnote('70', '70', event)">70</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"א.</span><span class="list-content">מותר לעבור בסעודת שבע ברכות כדי לאחל מזל טוב, כיון שאינו אוכל ואינו שוהה שם בריקודים.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ב.</span><span class="list-content">מותר להשתתף בסעודה שלישית אף אם היא נמשכת לתוך הלילה. </span></div>
+<p>ביקורי חברים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ג.</span><span class="list-content">לפי מנהג האשכנזים, סעודת מרעים אסורה, לכן יש לאבל להימנע מלהזמין אנשים לסעוד אצלו במשך שנת האבלות על אביו ואמו או בתוך שלושים על שאר קרובים<span class="footnote-ref" onclick="showFootnote('71', '71', event)">71</span>. אם אחרים הזמינו אותו, מותר לו ללכת<span class="footnote-ref" onclick="showFootnote('72', '72', event)">72</span>, ויש מי שאוסר<span class="footnote-ref" onclick="showFootnote('73', '73', event)">73</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ד.</span><span class="list-content">הזקוקים לתמיכה נפשית על ידי חבריהם, מותר להם להזמין חברים לסעודה<span class="footnote-ref" onclick="showFootnote('74', '74', event)">74</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ה.</span><span class="list-content">ביקורי חברים לא נחשבים שמחת מרֵעות.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ו.</span><span class="list-content">כבר צוין לעיל שבשבת מותר להזמין אורחים לסעודה, ומותר גם להתארח לסעודה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ז.</span><span class="list-content">לפי מנהג עדות המזרח אין הגבלה בסעודת מרעים שאין בה שמחה<span class="footnote-ref" onclick="showFootnote('75', '75', event)">75</span>.</span></div>
+<p>מסיבות כינוסים וטקסים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ח.</span><span class="list-content">מסיבות שמחות אסורות. מסיבות של גן הילדים, או מסיבות של בית ספר עם תוכנית רצינית מותרות.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ט.</span><span class="list-content">מותר להשתתף בכנסים מקצועיים וגם להשתתף בסעודות, כיון שהן חלק מהכינוס ונחשבות כחלק מעבודתו<span class="footnote-ref" onclick="showFootnote('76', '76', event)">76</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל'.</span><span class="list-content">מותר להשתתף בטקס קבלת דרגות או סיום קורס של בן בצבא, כיון שהולך לכבוד הבן ולא כדי ליהנות מהמופע<span class="footnote-ref" onclick="showFootnote('77', '77', event)">77</span>.</span></div>
+<p>טיולים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"א.</span><span class="list-content">טיול משפחתי לחיק הטבע מותר. טיול לאתר שעשועים הומה אסור. כך גם לגבי הליכה למסעדה – מקום שקט וצנוע אפשר. מקום ציבורי הומה אסור<span class="footnote-ref" onclick="showFootnote('78', '78', event)">78</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ב.</span><span class="list-content">מותר לצאת לחופשה לצורך רפואי, לצורך משפחתי, לצורך לימודי או לצורך מנוחה, אבל לא לצורך תענוג<span class="footnote-ref" onclick="showFootnote('79', '79', event)">79</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ג.</span><span class="list-content">מדריך טיולים או מורה שצריך לצאת לטיול במסגרת עבודתו, מותר להם להשתתף בטיול<span class="footnote-ref" onclick="showFootnote('80', '80', event)">80</span>.</span></div>
+<p>מוסיקה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ד.</span><span class="list-content">משפחת האבל לא חייבת להתנזר ממוסיקה בגלל האבל, וכן עובדים במקום העבודה, חברים לחדר או הנוסעים ברכב עם האבל. האבל אינו חייב לאטום את אזניו, אך צריך להתאמץ לא ליהנות מן המוסיקה ולא ללכת בכוונה למקום שמנגנים אלא רק אם יש צורך. למרות שמותר לבני ביתו של האבל לשמוע מוסיקה, בוודאי שראוי שלא ישמיעו מוסיקה בקולי קולות<span class="footnote-ref" onclick="showFootnote('81', '81', event)">81</span>. מותר לאבל לשמוע מוסיקה תוך כדי נהיגה אם הדבר יועיל לו לשמור על ערנות<span class="footnote-ref" onclick="showFootnote('82', '82', event)">82</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ה.</span><span class="list-content">סטודנט ומורה למוסיקה יכולים להמשיך ללמוד וללמד מוסיקה לאחר השבעה. ההיתר אינו להרחבת הדעת, אלא להמשך לימודים סדיר לתלמיד, ולפרנסה למורה<span class="footnote-ref" onclick="showFootnote('83', '83', event)">83</span>. </span></div>
+<div class="sage-quote"><p><strong>מנהגי אבלות עד שנים עשר חודש</strong></p>
+<p>אמר רב: אין המת משתכח מן הלב </p>
+<p>אלא לאחר שנים עשר חודש</p>
+</div><p>(ברכות נח, ב)</p>
+<p>על אב ואם עדיין נחשבים אבלים עד שנים עשר חודש, מפני כיבוד אב ואם. ישנו גדר של כיבוד אב ואם בחייהם וישנו גדר של כיבוד אב ואם לאחר מיתתם.<strong> </strong>האבלות הממושכת על אב ואם דווקא, קשורה לכבוד המיוחד שאדם מחויב כלפי הוריו.<strong> </strong>פרק זה עוסק במנהגי האבלות ו<u>אינו</u> כולל את מנהגי אמירת הקדיש ואת מנהג קהילות אשכנז שהאבל עובר לפני התיבה במשך אחד עשר חודש. פרטים על מנהגים אלו פורטו במקומם לעיל. @</p>
+<p>כמה מדיני השלושים ממשיכים לנהוג גם אחרי השלושים:</p>
+<p>תספורת</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">אבל על אביו ואמו אסור בתספורת גם אחרי שלושים, עד שיגערו בו חבריו שצריך להסתפר<span class="footnote-ref" onclick="showFootnote('84', '84', event)">84</span>. גם אשתו ובני ביתו יכולים לגעור בו שצריך להסתפר, ואף האבל יכול לרמוז שיגערו בו<span class="footnote-ref" onclick="showFootnote('85', '85', event)">85</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">הגערה מועילה רק מיום השלושים ואילך. אם לא גערו בו, ממתין שיעור גערה ומותר בתספורת וגילוח<span class="footnote-ref" onclick="showFootnote('86', '86', event)">86</span>. ויש מי שהצריך שיגערו בו בפועל<span class="footnote-ref" onclick="showFootnote('87', '87', event)">87</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">שיעור גערה – נהגו שלושים יום לגילוח<span class="footnote-ref" onclick="showFootnote('88', '88', event)">88</span>, אבל לתספורת נהגו להמתין שלושה חודשים מאז התספורת האחרונה, ויש מחמירים שלושה חודשים מתחילת האבלות<span class="footnote-ref" onclick="showFootnote('89', '89', event)">89</span>. ויש הממתינים שנים עשר חודש<span class="footnote-ref" onclick="showFootnote('90', '90', event)">90</span>. לפי מנהג עדות המזרח די בהמתנת שני חודשים<span class="footnote-ref" onclick="showFootnote('91', '91', event)">91</span>. ויש מי שהתיר לעדות המזרח וגם לאשכנזים לאחר שלושים ואחד יום, וכשגערו בו<span class="footnote-ref" onclick="showFootnote('92', '92', event)">92</span>.</span></div>
+<p>בגדים וחפצים חדשים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">אין קונים בגדים חדשים לאחר שלושים עד שיגיע החג ויגערו בו חבריו, והאשכנזים נהגו איסור בבגדים חדשים כל שנים עשר חודש<span class="footnote-ref" onclick="showFootnote('93', '93', event)">93</span>. אך בגדים חדשים שחייבים לקנות מותר ומברך שהחיינו. למשל מי שבלו בגדיו או מעונין לקנות בגד חדש לחג. גם אשה אבלה יכולה לקנות בגדים אם היא מרגישה שאין לה מה ללבוש<span class="footnote-ref" onclick="showFootnote('94', '94', event)">94</span>. ההגבלה היא רק בבגדים חשובים, אבל בגדים פשוטים כמכנסיים וכיוצא בזה, מותר. אם אדם אחר ילבש את הבגד זמן מה, מותר גם בבגדים חשובים <span class="footnote-ref" onclick="showFootnote('95', '95', event)">95</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">במקום צורך מותר לקנות נעליים חדשות לאחר שלושים<span class="footnote-ref" onclick="showFootnote('96', '96', event)">96</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">תשמישי מצוה כגון טלית, מותר לקנות; כי מצוות לאו ליהנות ניתנו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">קניות של מותרות – אסורות, וקניות שיש בהן צורך אמיתי – מותרות. למשל מותר להחליף רכב ברכב יותר בטיחותי או מרווח יותר, כדי שיוכל להסיע את משפחתו<span class="footnote-ref" onclick="showFootnote('97', '97', event)">97</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">מותר לאבל לקנות מתנה לאדם אחר ולתת לו אותה,<span style="font-size: 1.15rem"> </span>אבל לא ישלח דברים של שמחה. דברים אחרים מותר, אף שעצם הנתינה גורמת לו שמחה<span class="footnote-ref" onclick="showFootnote('98', '98', event)">98</span><span style="font-size: 1.15rem">. </span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">אין נותנים מתנה לאבל בשנת האבל, כיון שנתינת המתנה מוגדרת הלכתית כאמירת שלום<span class="footnote-ref" onclick="showFootnote('99', '99', event)">99</span>. אך מותר לתת מתנה לאבל כשמתחתן בתוך שנים עשר חודש לאבלותו, ומותר לחתן לשלוח מתנות לכלתו כשהיא בתוך שנים עשר חודש לאבלותה<span class="footnote-ref" onclick="showFootnote('100', '100', event)">100</span>. מותר וראוי שהבעל יקנה לאשתו האבלה מתנה לכבוד יום טוב, לשם קירוב הדעת ושלום הבית.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">מותר לשפץ את הבית במהלך שנת האבל אם יש צורך בדבר: לבנות, להחליף ריצוף וכו'. אך אין לשפץ לצורך מותרות<span class="footnote-ref" onclick="showFootnote('101', '101', event)">101</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">מותר לעבור דירה ואפילו לעבור לבית חדש אם יש צורך בדבר. מותר לערוך סעודה לחנוכת הבית ללא מוסיקה<span class="footnote-ref" onclick="showFootnote('102', '102', event)">102</span>.  </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">מותר לטעת עצי נוי ועצי פרי<span class="footnote-ref" onclick="showFootnote('103', '103', event)">103</span>.</span></div>
+<p>שמחות</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">לגבי השתתפות בשמחה, במסיבות ובטיולים, ככלל פורטו הדינים לעיל בדיני אבלות בתוך השלושים. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">מותר להשתתף בסעודת בר מצוה אם אין שם תזמורת וריקודים<span class="footnote-ref" onclick="showFootnote('104', '104', event)">104</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">אסור להשתתף בחתונות אבל יכול להשתתף בחופה כשאינה בבית החתונה. מותר לו לאכול שם רק אם ישמש בסעודה<span class="footnote-ref" onclick="showFootnote('105', '105', event)">105</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">מותר לאבל בתוך השנה להשתתף כרגיל בחתונת בנו או בתו, וכן בשבע ברכות. גם לאחי החתן והכלה מותר להשתתף בחתונה אם העדרותם תגרום צער לחתן ולכלה<span class="footnote-ref" onclick="showFootnote('106', '106', event)">106</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ז.</span><span class="list-content">אין לדחות חתונה של בן או בת בגלל שאחד ההורים נמצא בתוך אבלות שנים עשר חודש; ואדרבה, יש לזרז את מועד החתונה<span class="footnote-ref" onclick="showFootnote('107', '107', event)">107</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ח.</span><span class="list-content">לכתחילה אשה אבלה אינה יכולה להצטרף לבעלה כדי ללכת לחתונה, אך כשיש חשש לשלום בית מותר לה ללכת איתו לחתונה<span class="footnote-ref" onclick="showFootnote('108', '108', event)">108</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ט.</span><span class="list-content">מותר לרב אבל לערוך חופה בתוך שנת האבל, אולם לא התירו לו להשתתף בסעודה, בריקודים ובשמחה שלאחר החופה<span class="footnote-ref" onclick="showFootnote('109', '109', event)">109</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ'.</span><span class="list-content">אב ואם שציוו את בניהם לא להימנע משמחה במשך שנים עשר חודש, מותר לבנים לנהוג כפי שהורו להם, לאחר השלושים<span class="footnote-ref" onclick="showFootnote('110', '110', event)">110</span>. הטעם הוא שאבלות שנים עשר חודש מיוחדת לאב ואם משום כבודם, ואם מחלו על כבודם, מצוה לקיים דבריהם. ראוי שיציינו שכך אמרו להם הוריהם, משום מראית העין.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"א.</span><span class="list-content">מותר לאבל להזמין אורחים לשבת<span class="footnote-ref" onclick="showFootnote('111', '111', event)">111</span>, וגם מותר להתארח בשבת אם הזמינוהו<span class="footnote-ref" onclick="showFootnote('112', '112', event)">112</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ב.</span><span class="list-content">מותר להשתתף ב"שבת מחזור" (שבת בוגרים של מוסד חינוכי) בתוך שנת האבלות.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ג.</span><span class="list-content">מותר לתלמיד בבית ספר להשתתף בפעילות ספורט ובטיולים. אך לא ישתתף בפעילות הכוללת שירים, ריקודים ושמחה<span class="footnote-ref" onclick="showFootnote('113', '113', event)">113</span>.</span></div>
+<p>שינוי מקום</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ד.</span><span class="list-content">לפי מנהגי האשכנזים אבל משנה מקומו כל שנים עשר חודש, אך בשבתות לאחר השלושים לא משנה מקומו<span class="footnote-ref" onclick="showFootnote('114', '114', event)">114</span>.</span></div>
+<p>הגדרת זמן האבלות</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ה.</span><span class="list-content">הגדרת האבלות על אב ואם היא שנים עשר חודש ולא שנה. לכן גם בשנה מעוברת נוהגים אבלות רק שנים עשר חודש. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ו.</span><span class="list-content">את שנים עשר החודשים מונים מיום הקבורה<span class="footnote-ref" onclick="showFootnote('115', '115', event)">115</span> ויש אומרים מיום הפטירה<span class="footnote-ref" onclick="showFootnote('116', '116', event)">116</span>. אין אומרים בהם "מקצת היום ככולו", ולכן מונים עד סוף היום האחרון של שנים עשר חודש<span class="footnote-ref" onclick="showFootnote('117', '117', event)">117</span>. הטעם מפני שבשבעה ובשלושים מונים ימים, ובהם נוהג הכלל "מקצת היום ככולו". אבל בשנים עשר חודש מונים חודשים, ובחודשים לא מתאים הכלל שנקבע על הימים<span class="footnote-ref" onclick="showFootnote('118', '118', event)">118</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ז.</span><span class="list-content">מנהג האשכנזים להמשיך לנהוג מנהגי אבלות גם ביום השנה הראשון (יארצייט) וגם בשאר ימי השנה <span class="footnote-ref" onclick="showFootnote('119', '119', event)">119</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ח.</span><span class="list-content">נהוג שכל שנים עשר חודש כשמזכיר שם אביו או אמו אומר "הריני כפרת משכבו / משכבה", וגם בכתיבה מציין זאת בראשי תבות - "הכ"מ". טעם והסבר לכך מובא באוצר המושגים לקמן ערך <strong>הריני כפרת משכבו. </strong>לאחר שנים עשר חודש אומר עליהם "זכרונם לברכה"<span class="footnote-ref" onclick="showFootnote('120', '120', event)">120</span>. גם בתוך שנים עשר חודש יכול לומר "זכרונם לברכה", אבל לאחר שנים עשר חודש לא יאמר "הריני כפרת משכבו". הטעם כיון שמשפט רשעים בגיהנום רק שנים עשר חודש<span class="footnote-ref" onclick="showFootnote('121', '121', event)">121</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ט.</span><span class="list-content">נקבע זמן מוגדר לאבלות ולניחום אבלים. חכמים הביעו הסתייגות ממי שמביע תנחומים לאחר שנים עשר חודש:</span></div>
+<div class="sage-quote"><p>אמר רבי מאיר: המוצא את חברו אבל לאחר שנים עשר חודש, ומדבר עמו תנחומין, למה הוא דומה? לאדם שנשברה רגלו וחיתה (נתרפאה). מצאו רופא ואמר לו: כלך אצלי, שאני שוברה וארפאנה, כדי שתדע שסממנים שלי יפים.</p>
+</div><p>מועד קטן כא, ב.</p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " ילקוט יוסף סימן לה, ח.", "2": " שלחן ערוך יורה דעה סימן שצה, א.", "3": " טורי זהב על שלחן ערוך אורח חיים סימן תקנה, וכן ביורה דעה סימן תב, ה. ערוך השלחן יורה דעה סימן שצה, ג. שמירת שבת כהלכתה חלק ב, פרק סה, י. ", "4": " הרמב\"ן בתורת האדם (עמוד רטו), מובא בטור יורה דעה סימן שצה. בשלחן ערוך לא פסק כרמב\"ן אלא כמהר\"ם מרוטנבורג שצריך דווקא מקצת היום, אלא שבשעת הדחק מסתמכים על הדעה המקילה. מפאת אריכותם יפורטו הדברים לקמן באוצר המושגים ערך \"מקצת היום ככולו\". למעשה גם בגשר החיים (פרק כא, יד, ג) כתב להקל בדברים שבצנעה בלילה שלפני היום השביעי. אבל בצרור החיים (פיסקה קסט) כתב לאסור בליל היום השביעי כיון שעדיין חלה האבלות. ", "5": " צרור החיים פיסקה עז.", "6": " הערת הרב נבנצל שליט\"א – ויש שאין עולים.", "7": " ילקוט יוסף סימן לה, ה.", "8": " ילקוט יוסף סימן לה, ג.", "9": " שלחן ערוך המקוצר עיני יצחק, יורה דעה סימן קצד, ב.", "10": " הרמב\"ן (תורת האדם עמוד קמה) הביא ירושלמי שלמד זאת מהפסוק \"רָאשֵׁיכֶם אַל תִּפְרָעוּ\" (ויקרא י, ו) ומהשוואה לנזיר \"גַּדֵּל פֶּרַע שְׂעַר רֹאשׁוֹ\" וסתם נזירות שלושים יום. ובירושלמי שלפנינו לא נמצא לשון זה. ", "11": " שלחן ערוך יורה דעה סימן שצ, ה. יש מי שרצה לחלק בין צביעה ועיצוב שיער במספרה שיאסר בתוך שלושים, לבין חפיפה וסידור שיער במספרה שניתן להתיר בתוך שלושים (דרכה של היהדות במוות ובאבלות, עמוד 128).", "12": " ילקוט יוסף סימן לז, ז.", "13": " שאלות ותשובות דברי אהרן של סבי זקני ז\"ל, יורה דעה סימן מד.", "14": " במראה הבזק חלק ה, צד. ", "15": " כל בו על אבלות עמוד 352, על פי סברת הנודע ביהודה (קמא, אורח חיים סימן יד) כיון שכיום מגלחים זקנם, הרי נמאסים כבר אחרי שבועיים - שלושה, ועל כן נחשב אז \"ראוי לגערה\". אלא שכתב שגם בראוי לגערה לא התירו אלא לאחר שלושים יום. החתם סופר סמך על סברת הנודע ביהודה בתכפה עליו אבלות של רבים בתוך שלושים. ", "16": " נטעי גבריאל חלק ב, פרק ג, יג.", "17": " נטעי גבריאל שם, יז.", "18": " שמירת שבת כהלכתה חלק ב, פרק סה, מג. ", "19": " ילקוט יוסף סימן לז, ג. וכתב שבמקרה כזה גם האשכנזים יכולים להקל, אף במקומות שנהגו להמתין בדרך כלל עד יום שלושים ואחד. ", "20": " צרור החיים פיסקה קפ. פרטים נוספים מובאים לקמן בדיני המועדים.", "21": " משנה ברורה סימן תקנא סעיף קטן פז. אך יש דעות המתירות רק לפני ראש חודש אב, ובשער הציון כתב להקל בשעת הדחק.", "22": " שלחן ערוך אורח חיים סימן תקנא, טו.", "23": " פני ברוך סימן יט, יח; ראה שם מקורותיו.", "24": " צרור החיים פיסקה קעד. מועד לכל חי סימן כא, כ, בשם רב פעלים.", "25": " ילקוט יוסף סימן לז, ח. פני ברוך סימן יט, ה, בשם שו\"ת שבות יעקב.", "26": " שלחן ערוך יורה דעה סימן שצ, ז. בצרור החיים (פיסקה קעה) כתב שמותר לה ליטול צפרניים כדרכה לצורך הטבילה. ", "27": " ילקוט יוסף סימן לז, ט.", "28": " גשר החיים פרק כא, יא, ט. שמירת שבת כהלכתה חלק ב, פרק סה, מד. ", "29": " גשר החיים פרק כב, א, ז. נטעי גבריאל חלק ב, פרק ח, ב. בשמירת שבת כהלכתה (שם, מב) כתב להקל לרחוץ בצונן לכבוד שבת.", "30": " ערוך השלחן יורה דעה סימן שפא, ה.", "31": " צרור החיים פיסקה קעב. ", "32": " שלחן ערוך יורה דעה סימן שפא, ו.", "33": " גשר החיים פרק כב, א, ג. צרור החיים פיסקה קעג (אך כתב שזו עצה דחוקה). ילקוט יוסף סימן יז, ה. פורט לעיל בהלכות כיבוס בתוך השבעה (עמוד@ 145). הערת הרב נבנצל שליט\"א – אדמו\"ר זללה\"ה (הגרש\"ז אויערבך זצ\"ל) לא היה מתיר זאת.", "34": " גשר החיים פרק כא, י, ג.", "35": " ילקוט יוסף סימן לח, ג.", "36": " ילקוט יוסף שם, ד.", "37": " הגהות הרמ\"א לשלחן ערוך יורה דעה סימן שפה, א.", "38": " הערת הרב נבנצל שליט\"א – \"מה נשמע\" נראה פשוט שמותר, שהרי גם בבית האבל נשמעים דברים, ורק בשלום אינו שרוי.", "39": " צרור החיים פיסקה קפה. (שיניתי את הנוסח הכתוב שם, על פי הערת הרב נבנצל שליט\"א).", "40": " רמ\"א יורה דעה סימן שפה, ג. צרור החיים פיסקה ריא.", "41": " שלחן ערוך ורמ\"א, יורה דעה סימן שצג, ב. צרור החיים פיסקה ריד. ילקוט יוסף סימן לח, ה.", "42": " עיין גשר החיים פרק כא, ט, הערה 10. בנטעי גבריאל (חלק ב, פרק טו, ד) כתב שאפשר לקבוע את החתונה בליל שלושים.", "43": " ילקוט יוסף סימן לז, ו.", "44": " צרור החיים פיסקה קפב. ילקוט יוסף סימן לח, טו.", "45": " שלחן ערוך יורה דעה סימן שצב, ב. ולכתחילה גם אם לא קיים פריה ורביה אין לקבוע נישואין בתוך השלושים כיון שיש דעות המתירות רק לאחר שלושים. טור יורה דעה סימן שצב.", "46": " ערוך השלחן יורה דעה סימן שצב, א. והטעם כתב כיון שאין בזה שמחה, שהרי מותר אפילו בחול המועד ואין חשש שאין מערבין שמחה בשמחה.", "47": " שלחן ערוך יורה דעה סימן שצב, ב.", "48": " רמ\"א שם. ילקוט יוסף סימן לח, יד. הערת הרב נבנצל שליט\"א – לא נהגו כן, אלא אם כן זקוק למי שתשמשנו.", "49": " שלחן ערוך אבן העזר סימן יג, א.", "50": " שם יג, יג.", "51": " רמ\"א יורה דעה סימן שצא, ג. ערוך השלחן שם יג. אמנם בספר צרור החיים (פיסקה קצב) הסתייג וכתב שעצה זו אינה מועילה כיום, ובוודאי אם מגיש רק באופן סמלי - אין הדבר מועיל. הערת הרב נבנצל שליט\"א – וכן סבר אדמו\"ר זללה\"ה (הגרש\"ז אויערבך זצ\"ל). ", "52": " בגשר החיים (פרק כא, ח, יא) כתב להתיר רק לקרובי החתן והכלה. אך בנטעי גבריאל (חלק ב, פרק כ, ד) כתב שאין הבדל בין קרובים לשאינם קרובים, ואם משמש את האורחים כראוי או שימוש שאינו לפי כבודו בדרך כלל , מותר לכל אדם. ", "53": " גשר החיים פרק כא, ח, יא.", "54": " צרור החיים פיסקה קפג.", "55": " ערוך השלחן יורה דעה שצא, ה.", "56": " ערוך השלחן יורה דעה שצא, י, מביא שם דעות המקילות בכלל בסעודת מצוה, ושכל ההגבלות הן בסעודות רשות. ערוך השלחן כתב כהוראה כללית שיש לסמוך על הדעות המקילות במקום ההכרח, שהלכה כדברי המקל באבל.", "57": " גשר החיים כא, ח, ז. פני ברוך סימן כ, כא. הערת הרב נבנצל שליט\"א – אך אין מכבדים את האבל בברכה משבע ברכות.", "58": " על פי הוראת הרב נבנצל שליט\"א.", "59": " רמ\"א יורה דעה סימן שצא, ב, כתב להחמיר, ובפני ברוך (סימן כ הערה ל) כתב ששמע מגדולי הוראה להקל בכך.", "60": " גשר החיים פרק כא, ח, יב. פני ברוך סימן כ, טז.", "61": " כלבו על אבלות עמוד 360 הלכה כז.", "62": " כך הורה לי למעשה הרב נבנצל שליט\"א. וכן הורה שמותר להורים לשבת בסעודה כיון שיום טוב שלהם הוא, וממילא כיון שהם המארחים, גם ישמשו את האורחים.", "63": " רמ\"א יורה דעה שצא, ב. גשר החיים פרק כא, ח, א. פני ברוך סימן כ, כג. צרור החיים פיסקה קצא. ובפיסקה קצה החמיר אפילו לסבא על נכד, להשתתף רק בברית ולא בסעודה. גם למחמירים, אין להימנע מלהשתתף בשבת בברית, שלום זכר, סעודת חתן תורה וכו' אם ההעדרות תבלוט, כיון שעלול להיראות כאבלות בפרהסיה (שם פיסקאות קצו – קצז). לסנדק ולמוהל התירו גם להשתתף בסעודה לאחר שבעה על שאר קרובים ולאחר שלושים על אב ואם. גשר החיים פרק כא, ח, י. פני ברוך סימן כ, יד.", "64": " ערוך השלחן יורה דעה סימן שצא, י. ילקוט יוסף סימן לח, ז, אמנם בסעיף כה כתב שיש רבים שנהגו להחמיר לא להשתתף בסעודה, ובשבע ברכות כתב שם להחמיר ולא להשתתף כלל.", "65": " הערת הרב נבנצל שליט\"א – צריך עיון כנ\"ל (כמו בהערה 816@). וכן העיר להקל גם בסיום הלכה זו. (שיטת הרב להקל לאבלים להשתתף בסעודות מצוה לאחר שבעה גם אם יש כלי זמר, אך האבלים לא ירקדו ולא ישירו).", "66": " שאילת שלמה ה, עד.", "67": " נטעי גבריאל חלק ב, פרק כט, א.", "68": " מגן אברהם סימן תקנא, י.", "69": " צרור החיים פיסקה קצג.", "70": " צרור החיים פיסקה קצו. בשמירת שבת כהלכתה (חלק ב,פרק סה, סה) הביא דעה מחמירה ומקילה. טל לברכה חלק ב, קו.", "71": " הגהות הרמ\"א יורה דעה סימן שצא, ב.", "72": " צרור החיים פיסקה קפד ופיסקה ר. שאילת שלמה ה, עד.", "73": " פני ברוך סימן לא, יד. תשובת הגרש\"ז בקונטרס אהל חנה (שם עמוד תנט).", "74": " צרור החיים פיסקה ר.", "75": " החיד\"א בברכי יוסף, הובאו דבריו בילקוט יוסף סימן לח, כד.", "76": " צרור החיים פיסקה רג.", "77": " שם פיסקה רב.", "78": " שם פיסקה רה. שאילת שלמה ה, עג.", "79": " צרור החיים פיסקה קצט.", "80": " שם פיסקה רה. ", "81": " שם פיסקה רח. שאילת שלמה ה, עד.", "82": " צרור החיים פיסקה רז. הערת הרב יצחק יוסף שליט\"א– אך עדיף להמנע ממוסיקה ועדיף שיסתפק בשמיעת הרצאה וכדומה. ורק כשאין ברירה ויש חשש שירדם, יש להקל.", "83": " כך הורה לי הרב מרדכי אליהו שליט\"א. ומסתבר שהטעם הוא מפני שמוסיקה גורמת שמחה ולכן נאסרה לאבלים. אבל לימוד מוסיקה או נגינה לצורך פרנסה אינם לתענוג ושמחה, ולכן במקום הצורך אפשר להתיר.", "84": " שלחן ערוך יורה דעה סימן שצ, ד.", "85": " ילקוט יוסף סימן לז, א. צרור החיים פיסקה קעו.", "86": " גשר החיים פרק כב, ב, א.", "87": " צרור החיים פיסקה קעח.", "88": " תשובת חתם סופר מובאת בפתחי תשובה בשלחן ערוך שם, סעיף קטן ד, וראה עוד לעיל בפרק הקודם, דיני גילוח בתוך השלושים. הערת הרב נבנצל שליט\"א – צריך עיון לענ\"ד (על שלושים יום לגילוח).", "89": " גשר החיים פרק כא, יא, ג.  ", "90": " הגהות הרמ\"א על שלחן ערוך סימן שצ, ד.", "91": " ילקוט יוסף סימן לז, ד.", "92": " צרור החיים פיסקה קעו. אמנם לשיטתו צריך גערה ממש ולא מספיק שיעבור זמן שיעור גערה.", "93": " שלחן ערוך יורה דעה סימן שפט, ג, ה.", "94": " צרור החיים פיסקה רט.", "95": " ערוך השלחן יורה דעה סימן שפט, יא.", "96": " נטעי גבריאל חלק ב, פרק י, יז.", "97": " צרור החיים פיסקה רי. הערת הרב נבנצל שליט\"א – מעיקר הדין אין לאסור אפילו קניות של מותרות. אולי רק מדין למעט בעסקיו.", "98": " שלחן ערוך אורח חיים סימן תרצו, ו, ומגן אברהם שם.", "99": " רמ\"א יורה דעה סימן שפה, ג. צרור החיים פיסקה ריא.", "100": " ילקוט יוסף סימן כג, יז – יח.", "101": " צרור החיים פיסקה ריב. הערת הרב נבנצל שליט\"א – לענ\"ד נראה שיש להקל. (ראה בהערה לפני הקודמת).", "102": " ילקוט יוסף סימן לח, ד. חיים וחסד פרק יד, יב; בשם שו\"ת אמרי יציב לאדמו\"ר מצאנז. ", "103": " צרור החיים פיסקה ריג.", "104": " תשובת הגרש\"ז אויערבך, קונטרס אהל חנה בסוף ספר פני ברוך עמוד תנט.", "105": " גשר החיים פרק כב, ב, ו.", "106": " צרור החיים פיסקאות קפז – קפט.", "107": " ילקוט יוסף סימן לח, יח. ", "108": " אגרות משה יורה דעה חלק א סימן רנה. ", "109": " צרור החיים פיסקה קצ. וראה גם בילקוט יוסף סימן לח, כא.", "110": " שפתי כהן יורה דעה סימן שמד, סעיף קטן ט. ילקוט יוסף סימן מא, ג.", "111": " הערת הרב נבנצל שליט\"א – אינו נראה לענ\"ד, אלא אם כן לארח אנשים הזקוקים לאירוח. גם לגבי להתארח בשבת צריך עיון לענ\"ד.", "112": " צרור החיים פיסקה רא.", "113": " צרור החיים פיסקה רד.", "114": " כהכרעת גשר החיים פרק כב, ג. ", "115": " משנה ברורה, סימן תקסח, ח. (כדעת השפתי כהן ומשאת בנימין). ילקוט יוסף סימן מ, ד.", "116": " צרור החיים עמוד 88 (כדעת הטורי זהב).", "117": " שלחן ערוך יורה דעה סימן שצה, ג.", "118": " טורי זהב שם סעיף קטן ב, בשם תרומת הדשן.", "119": " רמ\"א יורה דעה סימן שצה, ג. וכן בסוף סימן שצא.", "120": " שלחן ערוך יורה דעה סימן רמ, ט.", "121": " שפתי כהן שם אות יג. ובילקוט יוסף (סימן לט, ד) כתב שרשאי להחמיר ולומר גם לאחר שנים עשר חודש."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

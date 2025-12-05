@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p style="font-size: 1.3rem"><strong>בית הקברות</strong></p>
+<div class="sage-quote"><p><strong>המצבה</strong></p>
+<p>אמר רבי שמעון בן פזי: רמז לציון קברות מן התורה מנין? תלמוד לומר "<span style="font-size: 0.75rem">וְרָאָה עֶצֶם אָדָם וּבָנָה אֶצְלוֹ צִיּוּן</span>" (יחזקאל לט, טו).</p>
+<p style="font-size: 0.85rem"><span style="font-size: 0.75rem">מועד קטן ה, א</span></p>
+</div><p>הקמת מצבה </p>
+<p>מימות עולם נהוג להקים מצבה על הקבר. </p>
+<p>שלושה שמות יש – מצבה, ציון, נפש.</p>
+<p style="font-size: 0.85rem">בתורה מצאנו שם "מצבה" – "וַיַּצֵּב יַעֲקֹב מַצֵּבָה עַל קְבֻרָתָהּ הִוא מַצֶּבֶת קְבֻרַת רָחֵל עַד הַיּוֹם" (בראשית לה, כ).</p>
+<p style="font-size: 0.85rem">בנביאים מצאנו שם "ציון" – "וַיֹּאמֶר מָה הַצִּיּוּן הַלָּז אֲשֶׁר אֲנִי רֹאֶה וַיֹּאמְרוּ אֵלָיו אַנְשֵׁי הָעִיר הַקֶּבֶר אִישׁ הָאֱלֹהִים אֲשֶׁר בָּא מִיהוּדָה" (מלכים ב', כג, יז).</p>
+<p>במשנה ובגמרא שם "נפש" – "בונים לו נפש על קברו" (משנה מסכת שקלים, פרק ב, ה).</p>
+<p>הטעמים להקמת המצבה –  </p>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">לזיכרון המת שלא ישתכח מן הלב. אמנם חז"ל אמרו שאין עושים נפשות (מצבות) לצדיקים, כיון שדבריהם הם הם זכרונם<span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span> וכך פסק הרמב"ם<span class="footnote-ref" onclick="showFootnote('2', '2', event)">2</span>. אך האריז"ל כתב<span class="footnote-ref" onclick="showFootnote('3', '3', event)">3</span> שהמצבה היא צורך גדול ויש בה תיקון לנפש. והרשב"א כתב<span class="footnote-ref" onclick="showFootnote('4', '4', event)">4</span> שהוא כבוד למת. וכן נוהגים עתה לעשות מצבות גם לרבנים גדולים.</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">לדעת את מקום הקבר כדי לבקרו ולהתפלל עליו.</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">לציין את מקום הטומאה ולהזהיר את הכהנים.</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">כבוד לנפש המרחפת שם.</span></div>
+<p>יש הקבלה בין שלושת השמות לטעמים. השם מצבה על שם התייצבות, בא להבליט את הקבר שיהיה ניכר כדי שיוכלו לבקרו, ולזיכרון המת שלא ישכח. השם ציון בא לציין את מקום הקבר כדי להזהיר מטומאה. והשם נפש על שם נפש הנפטר המרחפת שם, כמו שמוזכר בספר הזוהר<span class="footnote-ref" onclick="showFootnote('5', '5', event)">5</span>.</p>
+<p>מתי מעמידים (גילוי מצבה<span class="footnote-ref" onclick="showFootnote('6', '6', event)">6</span>)</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">א'.</span><span class="list-content">טוב להעמיד את המצבה כבר בסוף השבעה<span class="footnote-ref" onclick="showFootnote('7', '7', event)">7</span> ויש נוהגים לקראת השלושים<span style="font-size: 1.15rem">. </span>יש שמאחרים עד לאחר שנים עשר חודש.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ב'.</span><span class="list-content">אם חל רגל בתוך השלושים, עדיף להקדים את הקמת המצבה קודם לכן. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ג'.</span><span class="list-content">מנהג להספיד את המת בשעת הקמת המצבה. לכן יש שכתבו שאין להעמיד את המצבה בימים שאין מספידים בהם<span class="footnote-ref" onclick="showFootnote('8', '8', event)">8</span>.</span></div>
+<p>מה כותבים</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ד'.</span><span class="list-content">נוהגים לכתוב את שם הנפטר על המצבה. האשכנזים מציינים את שמו ושם אביו, ועדות המזרח מציינים את שמו ושם אמו<span class="footnote-ref" onclick="showFootnote('9', '9', event)">9</span>. כיום נהגו לכתוב את שמות ההורים. אם ההורים בחיים מוסיפים ליד שמם הי"ו (ה' ישמרם ויחיים), ואם כבר הלכו לעולמם כותבים ז"ל<span class="footnote-ref" onclick="showFootnote('10', '10', event)">10</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ה'.</span><span class="list-content">אין לכתוב שבחים גדולים על הנפטר אם באמת לא היו בו שבחים אלו<span class="footnote-ref" onclick="showFootnote('11', '11', event)">11</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ו'.</span><span class="list-content">אם מחליפים מצבה, אין למעט בשבחים במצבה החדשה ממה שהיה כתוב במצבה הקודמת<span class="footnote-ref" onclick="showFootnote('12', '12', event)">12</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ז'.</span><span class="list-content">מי שהוסיפו לו שם בחוליו וקם מחוליו והוחזק שלושים יום בשמו החדש, כותבים על המצבה גם את שמו החדש. אבל אם לא קם מחוליו, אין כותבים את שמו החדש על המצבה.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ח'.</span><span class="list-content">כותבים על המצבה את יום פטירתו בתאריך העברי, ואל לנו לכתוב תאריך לועזי<span class="footnote-ref" onclick="showFootnote('13', '13', event)">13</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ט'.</span><span class="list-content">בארץ ישראל יש לכתוב על המצבה בכתב עברי, ולא בלועזית<span class="footnote-ref" onclick="showFootnote('14', '14', event)">14</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י'.</span><span class="list-content">בסוף המצבה נהגו לכתוב  תנצב"ה – תהא נשמתו צרורה בצרור החיים<span class="footnote-ref" onclick="showFootnote('15', '15', event)">15</span>. ראה באוצר המושגים ערך <strong>צרור החיים.</strong></span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י"א.</span><span class="list-content">מי שהורה לא לבנות מצבה על קברו, אין שומעים לו. אך אם ציוה שלא לכתוב תארים על מצבתו, שומעים לו<span class="footnote-ref" onclick="showFootnote('16', '16', event)">16</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">יש להקפיד שהכתב על המצבה יהיה שקוע בתוך המצבה ולא בולט, כיון שעל פי תורת הסוד צריכים להיזהר שלא לקרוא כתב בולט שעל הקבר<span class="footnote-ref" onclick="showFootnote('17', '17', event)">17</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">אין לחקוק את תמונת הנפטר על המצבה<span class="footnote-ref" onclick="showFootnote('18', '18', event)">18</span>.</span></div>
+<p>צורת המצבה ומחירה</p>
+<div class="sage-quote"><p>בראשונה היתה הוצאת המת קשה לקרוביו יותר ממיתתו, עד שהיו מניחים אותו ובורחים. עד שבא רבן גמליאל ונהג קלות ראש בעצמו והוציאוהו בכלי פשתן. ונהגו כל העם אחריו להוציא בכלי פשתן.</p>
+<p>אמר רב פפא: וכעת נוהג העולם אפילו בצדרא בן זוז (באריג זול ופשוט שמחירו זוז אחד).</p>
+</div><p>כתובות ח, א</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">יש שכתבו להעדיף מצבה שוכבת. אולם גם לשיטה זו, אם בבית הקברות המצבות עומדות, אין איסור לנהוג כמנהג המקום<span class="footnote-ref" onclick="showFootnote('19', '19', event)">19</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">יש הנוהגים מראש לבנות את המצבה עם מקום להדלקת נר באופן שלא יכבה. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">יש להשתדל לבנות מצבה כמנהג אותה העיר, שלא תהיה פחותה מדי כדי לכבד את הנפטר, ומאידך מוטב לא להוציא ממון רב מדי על המצבה. במיוחד יש להימנע מבזבזנות ראוותנית ומנקרת עיניים. אם יבנו מצבה רגילה במקום להוציא ממון רב מדי על מצבה מפוארת, ואת יתרת הכסף יעבירו לעניים הנצרכים לכך, יוכלו לגרום נחת רוח יתרה לנשמת הנפטר ולזכותו.</span></div>
+<p style="font-size: 1.3rem">ככלל ניתן לומר (במחירים של זמן הוצאת הספר) שעלות מינימלית למצבה פשוטה היא 1500 – 2000 ₪. המצבה הפשוטה היא משיש חברוני בהיר. שינוי גוון עלול לייקר מאוד את מחיר המצבה. אבן גרניט שחורה או אדומה יקרה אף יותר. אותיות חרוטות או צבועות הן הסטנדרט. אותיות מובלטות יקרות יותר וגם בעייתיות מבחינה הלכתית. מקובל שבמחיר המצבה כלולות 60 – 70 אותיות. כמובן, מדובר בהערכה כוללנית ביותר העשויה להשתנות ממקום למקום ומזמן לזמן.</p>
+<p style="font-size: 0.85rem">הביטוח הלאומי אינו משלם את ההוצאות לבניית היסוד למצבה ולבניית המצבה, אלה יחולו על המשפחה. הביטוח הלאומי מממן הקמת מצבה לנפטר גלמוד, שאין לו בישראל קרוב משפחה שנמנה על אחד מאלה: הורה, בן זוג, בן או בת של הנפטר. את המצבה תקים החברה קדישא שטיפלה בקבורה. המצבה תוקם 12 חודשים לאחר יום הקבורה. אם קרובי הנפטר חיים מהבטחת הכנסה, הם יכולים להגיש בקשה למענק עבור הקמת המצבה. הביטוח הלאומי אינו מחזיר תשלומים לקרוב משפחה שהקים מצבה.</p>
+<div class="sage-quote"><p style="font-size: 0.75rem"><strong>דיני בית הקברות</strong><strong> </strong></p>
+</div><p>כבוד בית הקברות</p>
+<p style="font-size: 0.85rem">בית הקברות נקרא "בית מועד לכל חי" (על פי איוב ל, כג), ובשם "בית עולם" (על פי קהלת יב, ח), ובלשון חז"ל נקרא "בית עלמין" (למשל בסנהדרין יט). גם נקרא בשם "בית החיים" (על שם מעבר החיים ממצב למשנהו). </p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">אף על פי שאין לבזבז סכומי כסף גבוהים על מצבות מפוארות ויקרות, יש להקפיד על ניקיון וכבוד בית העלמין. צריך שיהיו הקברים מסודרים שורות שורות, ושיהיו שבילים מסודרים כדי שלא יאלצו לדרוך על קברים. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">ברוב הקהילות בארץ ובחוץ לארץ נוטעים בבית הקברות אילנות ופרחים לכבוד המתים. בנטיעה יש להקפיד שהעצים לא יאהילו על הקברים וגם על השטח מחוץ לבית הקברות, כדי לא להכשיל כהנים באיסור טומאת אהל המת. כמו כן יש להקפיד ששורשי העצים לא יונקים מהקברים עצמם<span class="footnote-ref" onclick="showFootnote('20', '20', event)">20</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">אין בנטיעת עצים איסור של "וּבְחֻקֹּתֵיהֶם לֹא תֵלֵכוּ<span class="footnote-ref" onclick="showFootnote('21', '21', event)">21</span>" כיון שהאיסור חל רק על דברים שנזכרו במפורש בגמרא<span class="footnote-ref" onclick="showFootnote('22', '22', event)">22</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">בערים העתיקות – ירושלים, צפת, טבריה וחברון יש שנהגו לא לטעת עצים בבית הקברות. הטעם מפני מה שנהגו משנים קדמוניות שהיו נזהרים בטהרה לא לנטוע אילנות כדי שלא יאהילו על הקברים ועל הכהנים או מי שנזהרים מטומאה, וכיון שמקום אילנות מושך יותר לבוא לשם טיול, נמנעו מנטיעת אילנות בבתי הקברות<span class="footnote-ref" onclick="showFootnote('23', '23', event)">23</span>. יש מי שכתב שגם בשאר מקומות אין לנטוע אילנות ופרחים בבתי הקברות<span class="footnote-ref" onclick="showFootnote('24', '24', event)">24</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">אין ללכת בבית הקברות כשתפילין בראשו, וכן אין ללכת כשהציציות גלויות אלא מכוסות. הטעם משום "לועג לרש" (מבואר באוצר המושגים דלקמן). אין ללמוד או להתפלל בתוך בית הקברות אלא אם כן הוא לעילוי נשמת המתים. יש מקילים בלימוד ותפילה בתוך בית הקברות אם הוא במרחק ארבע אמות מהנפטר ומהקברים<span class="footnote-ref" onclick="showFootnote('25', '25', event)">25</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">אין נוהגים קלות ראש בבית הקברות, כגון לאכול ולשתות שם או לחשוב חשבונות, או לקצר משם את הדרך<span class="footnote-ref" onclick="showFootnote('26', '26', event)">26</span>. אין לעשן שם<span class="footnote-ref" onclick="showFootnote('27', '27', event)">27</span>. כמו כן מכבוד המקום להיכנס בו בלבוש צנוע ובכיסוי ראש. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">מותר ומומלץ לנקות ולצחצח את המצבות, ולבצע עבודות שימור ואחזקה, גם אם עבודה זו נועדה לצורך תיעוד ומחקר הסטורי. יש לשמור את העפר בתוך בית הקברות, ואין לחפור מתחת למצבות<span class="footnote-ref" onclick="showFootnote('28', '28', event)">28</span>.</span></div>
+<p>ברכה כשרואים קברי ישראל</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">מי שלא ראה קברי ישראל בתוך שלושים יום, כשבא לבית הקברות מברך<span class="footnote-ref" onclick="showFootnote('29', '29', event)">29</span>: </span></div>
+<p>ברוך אתה ה' אלוהינו מלך העולם</p>
+<p>אשר יצר אתכם בדין,</p>
+<p>וזן וכלכל אתכם בדין,</p>
+<div class="sage-quote"><p>והמית אתכם בדין</p>
+<p>ויודע מספר כולכם בדין,</p>
+<p>ועתיד להחזיר ולהחיותכם בדין</p>
+<p>ברוך אתה ה' מחיה המתים</p>
+<p>אתה גיבור לעולם ה' מחיה מתים אתה רב להושיע </p>
+<p>מכלכל חיים בחסד, מחיה מתים ברחמים רבים</p>
+<p>סומך נופלים ורופא חולים ומתיר אסורים</p>
+<p>ומקיים אמונתו לישני עפר</p>
+<p>מי כמוך בעל גבורות ומי דומה לך</p>
+<p>מלך ממית ומחיה ומצמיח ישועה</p>
+<p>ונאמן אתה להחיות מתים.</p>
+<p>תחילת הברכה מבוססת על המשנה בפרקי אבות (סוף פרק רביעי):</p>
+<p>"על כרחך אתה נוצר, ועל כרחך אתה נולד, ועל כרחך אתה חי, ועל כרחך אתה מת, ועל כרחך אתה עתיד ליתן דין וחשבון לפני מלך מלכי המלכים הקדוש ברוך הוא". </p>
+<p>תחילה מדגישה המשנה את שלטונו המוחלט של הבורא באדם:</p>
+<p> "לידע להודיע ולהוודע שהוא אל, הוא היוצר הוא הבורא, הוא המבין הוא הדיין, הוא עד הוא בעל דין הוא עתיד לדון". </p>
+<p>שלטון כה מוחלט עלול לעורר באדם חששות לגבי מידת הצדק שבו. לכן מדגישה המשנה שם באופן חד משמעי:</p>
+<p>"ברוך הוא, שאין לפניו עולה ולא שכחה, ולא משוא פנים ולא מקח שוחד, שהכל שלו. ודע שהכל לפי חשבון".</p>
+<p>יש במשנה את היסודות שעליהן נבנתה הברכה: הכרה באדנות הבורא ובשלטונו המוחלט בעולם, העומד בניגוד גמור לכורח האנושי להוולד, לחיות בעולם, ולהיפטר מן העולם. המשנה מדגישה את מידת הצדק המוחלט שיש בדינו של הבורא. אותה מידת צדק המאפשרת לאדם להצדיק את דינו של הקדוש ברוך הוא, למרות שאי אפשר לו לאדם לעמוד בסוד ה' ולהבין את עומק דינו.</p>
+<p>המשך הברכה מבוסס על ברכת גבורות שבתפילת שמונה עשרה<span class="footnote-ref" onclick="showFootnote('30', '30', event)">30</span>, המסתיימת בברכת מחיה המתים. תחיית המתים היא אחד משלושה עשר עיקרי האמונה על פי הרמב"ם, וגם בברכה מודגש נושא האמונה – "ונאמן אתה להחיות מתים". יש משמעויות רבות לתחיית המתים. אחת המשמעויות שניתן ללמוד לצורך ענייננו היא, שלמרות שהאדם הוא זמני בעולם ולמרות שחייו קצובים ומסתיימים. בכל זאת בסופו של דבר ישנה משמעות נצחית לנפש האלוקית שניתנה בו, אותו חלק אלוה ממעל שיש בו יסוד שאינו מתכלה. חלק זה עתיד לגרום לתחייה מחודשת של החלק הגופני שהוא זמני וכלה, ולתת בו את היסוד של חיי נצח. </p>
+<p>בעצם גם בזמן שהאדם חי, בכל רגע ורגע הוא מקבל את חיותו מריבונו של עולם. תשומת לב יתרה שלנו היתה מסייעת לנו לראות שבכל רגע ורגע מתקיימת בנו תחיית המתים. לכן בברכות השחר מופיעה ברכת "המחזיר נשמות לפגרים מתים", שבאה לעורר ולחדד את התודעה על התחדשות הגוף מדי יום ביומו, ובעצם בכל רגע ורגע.</p>
+<p>הברכה קושרת בין תחיית המתים שלעתיד לבוא, ובין גבורותיו של ה' – סומך נופלים ורופא חולים ומתיר אסורים; פעולות המאפשרות את המשך החיים האנושי בעולם. מתחיית המתים שיש בנו בכל יום ויום, אנו למדים על תחיית המתים שלעתיד לבוא.</p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">מותר לברך את הברכה גם בתוך ארבע אמות לקבר<span class="footnote-ref" onclick="showFootnote('31', '31', event)">31</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">מברכים גם אם רואים את הקברים בשבת או ביום טוב<span class="footnote-ref" onclick="showFootnote('32', '32', event)">32</span>. כיון שאין ברכה זו נחשבת לצידוק הדין, אלא מתארת את פעולותיו של הקדוש ברוך הוא עם כל בריותיו. אמנם אין נכון להיכנס לבית הקברות בשבת מפני הרוח הרעה השורה שם<span class="footnote-ref" onclick="showFootnote('33', '33', event)">33</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">נכון שאונן לא יברך ברכה זו. ואם ברך, יש לו על מה שיסמוך<span class="footnote-ref" onclick="showFootnote('34', '34', event)">34</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">אף על פי שכתבו שאין לברך בלוויה ברכה זו<span class="footnote-ref" onclick="showFootnote('35', '35', event)">35</span>, כיון שבזמן הלוויה עוסקים במצות הקבורה ופטורים מלברך, וגם מפני שלרוב לא עוברים שלושים יום מבלי שאנשי החברה קדישא יראו את הקברים, בכל זאת יש לקיים את המנהג שחזן החברה קדישא מברך בבית הקברות בכל לוויה ברכת "אשר יצר אתכם בדין", אף על פי שהוא בתוך שלושים יום מאז שראה קברי ישראל. הטעם מפני שבכל תוספת קבר יכול לברך על התוספת<span class="footnote-ref" onclick="showFootnote('36', '36', event)">36</span>, וכן כוונתו לפטור אחרים שלא ראו קברי ישראל שלושים יום ולהוציאם ידי חובת הברכה<span class="footnote-ref" onclick="showFootnote('37', '37', event)">37</span>.</span></div>
+<p>קניין קבר</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">טוב לאדם שייקבר בקבר הקנוי לו<span class="footnote-ref" onclick="showFootnote('38', '38', event)">38</span>. אברהם הקפיד לרכוש את מערת המכפלה קודם קבורת שרה - "וַיָּקָם שְׂדֵה עֶפְרוֹן אֲשֶׁר בַּמַּכְפֵּלָה אֲשֶׁר לִפְנֵי מַמְרֵא הַשָּׂדֶה וְהַמְּעָרָה אֲשֶׁר בּוֹ וְכָל הָעֵץ אֲשֶׁר בַּשָּׂדֶה אֲשֶׁר בְּכָל גְּבֻלוֹ סָבִיב: לְאַבְרָהָם לְמִקְנָה לְעֵינֵי בְנֵי חֵת בְּכֹל בָּאֵי שַׁעַר עִירוֹ: וְאַחֲרֵי כֵן קָבַר אַבְרָהָם אֶת שָׂרָה אִשְׁתּוֹ אֶל מְעָרַת שְׂדֵה הַמַּכְפֵּלָה עַל פְּנֵי מַמְרֵא הִוא חֶבְרוֹן בְּאֶרֶץ כְּנָעַן" (בראשית כג, יז). גם יעקב הדגיש את הקניין של מערת המכפלה – "קִבְרוּ אֹתִי אֶל אֲבֹתָי... בַּמְּעָרָה אֲשֶׁר בִּשְׂדֵה הַמַּכְפֵּלָה אֲשֶׁר עַל פְּנֵי מַמְרֵא בְּאֶרֶץ כְּנָעַן אֲשֶׁר קָנָה אַבְרָהָם... " (שם מט, ל). גם בקבורת יוסף מודגש – "וְאֶת עַצְמוֹת יוֹסֵף אֲשֶׁר הֶעֱלוּ בְנֵי יִשְׂרָאֵל מִמִּצְרַיִם קָבְרוּ בִשְׁכֶם בְּחֶלְקַת הַשָּׂדֶה אֲשֶׁר קָנָה יַעֲקֹב" (יהושע כד, לב). ולצורך כך התירו אפילו לפנותו מקבר שנקבר בו לקברו הקנוי לו כמו שיתבאר לקמן.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">לכן ישנם הרבה שרוכשים קבר עוד בחייהם. אם לא קנה מחיים, היורשים קונים את הקבר, ועדיף לפני הקבורה. אם אין ליורשים לשלם, עדיף שישלמו אפילו סכום סמלי, כדי שעל ידי כך ייקָנה הקבר למשפחת הנפטר. אם אין מי שיקנה קבר עבור הנפטר, אזי הציבור מקנה לו את קברו<span class="footnote-ref" onclick="showFootnote('39', '39', event)">39</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">הקונה קבר בחייו, יש הנוהגים לחפרו, להכין את האהל בתוכו ולכסותו. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">כשחופרים קבר מראש, יש להיזהר לא להניחו פתוח אלא לכסותו באותו יום<span class="footnote-ref" onclick="showFootnote('40', '40', event)">40</span>. לעתים אנשי החברה קדישא מקילים וחופרים קברים מראש כדי להיות מוכנים, ולא מסיימים את החפירה ואז אין הקפדה בעניין; ובאותו יום שרוצים לקבור, משלימים את החפירה<span class="footnote-ref" onclick="showFootnote('41', '41', event)">41</span>. ומותר במקום הצורך גם לחפור ולכסות בנסרים<span class="footnote-ref" onclick="showFootnote('42', '42', event)">42</span>.</span></div>
+<p>קבר משפחה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ז.</span><span class="list-content">אם ישנה אפשרות, יש לקבור אדם אצל משפחתו<span class="footnote-ref" onclick="showFootnote('43', '43', event)">43</span>. מצאנו במקרא הקפדה על קבורה בקברי משפחה: אברהם קנה את מערת המכפלה בחברון כדי לקבור את שרה, ושם גם נקבר אברהם. שם נקברו יצחק ורבקה. שם קבר יעקב את לאה וציוה על יוסף "וּקְבַרְתַּנִי בִּקְבֻרָתָם". על פי המדרש יעקב התנצל בפני יוסף על כך שלא הצליח לקבור את רחל אמו בחברון (ראה רש"י בראשית מח, ז).</span></div>
+<p>אלעזר בן אהרן הכהן נקבר בגבעת פנחס בנו (סוף ספר יהושע). גדעון נקבר בקבר אביו יואש (שופטים ח, לב). את עצמות שאול המלך ויהונתן בנו קברו בארץ בנימין, בקבר קיש אבי שאול (שמואל ב', כא, יד). את עשהאל קברו בקבר אביו (שמואל ב', ב, לב).  רחבעם נקבר בקברי אבותיו (מלכים א', יד, לא), וכן מלכים נוספים. נחמיה מכנה את ירושלים "<span style="font-size: 0.85rem">הָעִיר בֵּית קִבְרוֹת </span><span style="font-size: 0.85rem">אֲבֹתַי</span>" (נחמיה ב, ב).</p>
+<p style="font-size: 0.85rem">והטעם הוא כיון שנוח לו לאדם שיהיה קבור אצל אבותיו, ניתן ללמוד זאת מדברי ברזילי הגלעדי שאמר "וְאָמֻת בְּעִירִי עִם קֶבֶר אָבִי וְאִמִּי " (שמואל ב', יט, לח).</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ח.</span><span class="list-content">עד כדי כך חשוב הדבר, שהתירו לפנות נפטר מקברו כדי לקברו אצל אבותיו<span class="footnote-ref" onclick="showFootnote('44', '44', event)">44</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ט.</span><span class="list-content">אם האב נקבר במקום אחד והאם במקום אחר, קוברים אצל האב<span class="footnote-ref" onclick="showFootnote('45', '45', event)">45</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ'.</span><span class="list-content">אין חיוב הלכתי לקבור בני זוג זה ליד זה, אך טוב לנהוג כן<span class="footnote-ref" onclick="showFootnote('46', '46', event)">46</span>. לכן אשה קוברים אצל בעלה, אך גרושה קוברים אצל אבותיה ומשפחתה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"א.</span><span class="list-content">אשה שהיתה נשואה פעמיים, אומדים היכן היתה מעדיפה להיקבר. אם היו לה בנים מאחד מהם בלבד, מסתבר שהוא עדיף. ואם היו לה או לא היו לה בנים משניהם ואין יודעים דעתה, נקברת אצל הראשון<span class="footnote-ref" onclick="showFootnote('47', '47', event)">47</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ב.</span><span class="list-content">אשה שקנתה חלקת קבר ליד בעלה, אך שינתה דעתה ורוצה להיקבר במקום אחר, מותר לה לשנות את מקום קבורתה<span class="footnote-ref" onclick="showFootnote('48', '48', event)">48</span>. </span></div>
+<p>קבורה בארץ ישראל</p>
+<div class="sage-quote"><p style="font-size: 0.85rem">וַיִּקְרְבוּ יְמֵי יִשְׂרָאֵל לָמוּת, וַיִּקְרָא לִבְנוֹ לְיוֹסֵף וַיֹּאמֶר לוֹ אִם נָא מָצָאתִי חֵן בְּעֵינֶיךָ שִׂים נָא יָדְךָ תַּחַת יְרֵכִי, וְעָשִׂיתָ עִמָּדִי חֶסֶד וֶאֱמֶת אַל נָא תִקְבְּרֵנִי בְּמִצְרָיִם: וְשָׁכַבְתִּי עִם אֲבֹתַי וּנְשָׂאתַנִי מִמִּצְרַיִם וּקְבַרְתַּנִי בִּקְבֻרָתָם, וַיֹּאמַר אָנֹכִי אֶעֱשֶׂה כִדְבָרֶךָ: </p>
+<p style="font-size: 0.85rem">בראשית מז, כט - ל</p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ג.</span><span class="list-content">זכות גדולה להיקבר בארץ ישראל. אמרו חכמים שכל הקבור בארץ ישראל כאילו קבור תחת המזבח<span class="footnote-ref" onclick="showFootnote('49', '49', event)">49</span>. ואשרי האדם הזוכה שארץ ישראל קולטתו מחיים ונשמתו יוצאת במקום הטהרה המכוון לשער השמים<span class="footnote-ref" onclick="showFootnote('50', '50', event)">50</span>. אבל גם אם נפטר בחוץ לארץ, ישנה זכות להיקבר בארץ ישראל. </span></div>
+<p>חכמים מנו יתרונות למי שנקבר בארץ ישראל<span class="footnote-ref" onclick="showFootnote('51', '51', event)">51</span>:</p>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">הקבורה בארץ ישראל מכפרת, כמו שכתוב "<span style="font-size: 0.75rem">וְכִפֶּר אַדְמָתוֹ עַמּו</span>" (דברים לב, מג),</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">התחיה בארץ ישראל ללא גלגול מחילות<span class="footnote-ref" onclick="showFootnote('52', '52', event)">52</span>,</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">ניצל מחיבוט הקבר<span class="footnote-ref" onclick="showFootnote('53', '53', event)">53</span>,</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">אינו נעשה רימה ותולעה<span class="footnote-ref" onclick="showFootnote('54', '54', event)">54</span>,</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">הנשמה עולה דרך שער השמים באופן ישר, וכמו שכתוב בספר הזוהר שכל הנשמות עוברות דרך ירושלים. ובמקום אחר בספר הזוהר<span class="footnote-ref" onclick="showFootnote('55', '55', event)">55</span> מובא שבצאת נשמת האדם מעולם הזה, באה תחילה אל מערת המכפלה.</span></div>
+<p style="font-size: 0.85rem">אמנם חז"ל גינו את מי שמתו בחוץ לארץ ובאו להיקבר בארץ ישראל, עד שאמרו עליהם: "אני קורא עליהם 'וְנַחֲלָתִי שַׂמְתֶּם לְתוֹעֵבָה' - בחייכם, 'וַתָּבֹאוּ וַתְּטַמְּאוּ אֶת אַרְצִי' – במיתתכם"<span class="footnote-ref" onclick="showFootnote('56', '56', event)">56</span>, אך בכל זאת לימדו זכות על המנהג להיקבר בארץ, כגון שהגינוי היה רק על מי שיכלו לבוא לארץ ולא באו. או שזכותה של ארץ ישראל מכפרת עליהם – "<span style="font-size: 0.75rem">וְכִפֶּר אַדְמָתוֹ עַמּו</span>", ומצינו להרבה מגדולי ישראל שציוו לקברם בארץ למרות שנפטרו בחוץ לארץ.</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ד.</span><span class="list-content">מעיקר הדין אין להוליך נפטר מעיר אחת כדי לקברו בעיר אחרת, משום כבוד המתים הקבורים באותה העיר שלא לבזותם כשלא נקבר עמהם. אלא אם כן מחוץ לארץ לארץ ישראל, או שמוליכים אותו להיקבר בקברות אבותיו, או שציוה לקברו במקום אחר<span class="footnote-ref" onclick="showFootnote('57', '57', event)">57</span>. למעשה בארץ ישראל לא נהגו להקפיד על כך, ומעבירים את הנפטרים לקבורה בעיר אחרת, ולא חוששים לביזיון המת. אמנם יש שהקפידו שלא להוציא את הנפטר מירושלים ומחברון מפני מעלתן אלא לקבור שם, ויש שהקפידו על כך גם בצפת ובטבריה<span class="footnote-ref" onclick="showFootnote('58', '58', event)">58</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ה.</span><span class="list-content">אין מוציאים נפטרים מארץ ישראל לחוץ לארץ. לפי הכלל של "<strong>הכל</strong><strong> מעלין לארץ ישראל ואין </strong><strong>הכל</strong><strong> </strong><strong>מוציאין</strong>", ראה ביאורו באוצר המושגים. דהיינו, ישנה זכות קדימה לארץ ישראל על פני חוץ לארץ. כך למשל בויכוח בין בני זוג, שאחד מהם רוצה להישאר בארץ והשני רוצה לרדת לחוץ לארץ, ידו של מי שרוצה להישאר בארץ על העליונה. כך גם לגבי בן חוץ לארץ שנפטר בארץ ובן ארץ ישראל שנפטר בחוץ לארץ – מעלים את הנפטר מחוץ לארץ לארץ, ואין מוציאים את מי שנפטר בארץ לחוץ לארץ<span class="footnote-ref" onclick="showFootnote('59', '59', event)">59</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ו.</span><span class="list-content">בקבורה בחוץ לארץ, יש הנוהגים לתת מעפר ארץ ישראל בקבר, ויש למנהג זה על מה שיסמוך<span class="footnote-ref" onclick="showFootnote('60', '60', event)">60</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ז.</span><span class="list-content">רשאים לפנות קבר כדי להעלותו מחוץ לארץ לקבורה בארץ ישראל.</span></div>
+<p>איסור הנאה מקברים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ח.</span><span class="list-content">בניין הקבר אסור בהנאה<span class="footnote-ref" onclick="showFootnote('61', '61', event)">61</span>, לכן אין לדרוך על קברים, אין להישען על קבר ולא לשבת עליו. לצורך מצוה מותר לדרוך על הקבר לפי שעה (למשל נושאי המת בלוויה)<span class="footnote-ref" onclick="showFootnote('62', '62', event)">62</span>, ונהגו לבקש מחילה מהנפטר כשמוכרחים לדרוך שם.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ט.</span><span class="list-content">גם המצבה ואפילו עפר בית הקברות אסורים בהנאה<span class="footnote-ref" onclick="showFootnote('63', '63', event)">63</span>, אבל קרקע עולם אינה נאסרת בהנאה<span class="footnote-ref" onclick="showFootnote('64', '64', event)">64</span>. כלומר שהקרקע שפינו ממנה קבר אינה נאסרת בהנאה, כיון שאי אפשר לאסור קרקע בהנאה. זהו כלל עקרוני גם בתחומים אחרים כגון קרקע שעבדו בה עבודת כוכבים, שאינה נאסרת, למרות שעבודת כוכבים עצמה אסורה בהנאה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל'.</span><span class="list-content">קבר שפינו ממנו מת, מותר לקבור שם מת אחר<span class="footnote-ref" onclick="showFootnote('65', '65', event)">65</span>. אם היה הקבר מיועד לאביו וקברו במקום אחר, לא ייקבר בו עולמית משום כבוד אביו, אבל אדם אחר מותר להיקבר בו<span class="footnote-ref" onclick="showFootnote('66', '66', event)">66</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"א.</span><span class="list-content">אם מחליפים את המצבה אסור להשתמש במצבה הישנה, למכרה או לקבל עבורה תמורה או הנחה. מותר לתתה עבור מת אחר ללא תמורה<span class="footnote-ref" onclick="showFootnote('67', '67', event)">67</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ב.</span><span class="list-content">ככלל, ארון מתים שפינו המת ממנו אסור בהנאה. וכן הדין בדברים אחרים שהשתמשו בהם לצורך המת. אמנם יש מי שכתב שהרוצה ליהנות מארון שנשלח בו המת מחוץ לארץ לארץ ישראל, ונקבר המת בארץ ללא הארון, יש לו על מה שיסמוך, ובפרט כשיש הפסד מרובה<span class="footnote-ref" onclick="showFootnote('68', '68', event)">68</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ג.</span><span class="list-content">צמחים ופירות האילנות שגדלו על הקברים עצמם – אסורים. אבל מותר להשתמש בהם או למכרם לצורך בית הקברות עצמו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ד.</span><span class="list-content">אילנות שנוטעים בבית הקברות שאינם על הקברים עצמם, מותר ללקט פירותיהם<span class="footnote-ref" onclick="showFootnote('69', '69', event)">69</span>.</span></div>
+<p>קניין בית קברות חדש</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ה.</span><span class="list-content">כשמייעדים שטח לבית קברות חדש, או כשמוסיפים שטח לבית קברות קיים, אומרים בעת קניית הקרקע שקונים אותה על מנת שיבולע המות לנצח. כדי שלא ליתן פתחון פה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ו.</span><span class="list-content">יש מקומות שנוהגים שלפחות מניין מאנשי החברה קדישא, מקיפים את השטח המיועד לבית הקברות שבע הקפות. מקיפים מקרן מזרחית דרומית כלפי ימין (כל המזרח, הצפון, מערב ודרום). לפני ההקפות אומרים מזמורי תהלים ובתוכם "ויהי נעם" ו"יושב בסתר עליון" (מזמור צ"א), פרשת הקטורת והברייתא שעוסקת בקטורת (לקמן עמוד 369@), ו"אנא בכח". תוך כדי ההקפות אומרים שוב "ויהי נעם" ו"יושב בסתר" ו"אנא בכח". אחרי שבע ההקפות אומרים את שם העיר מתוך פסוקי א - ב שבמזמור קיט (מובא לקמן עמוד @). וכן פסוקי האותיות קר"ע שט"ן.</span></div>
+<p>חלק מהקהילות מוסיפות תפילות מיוחדות ופסוקים נוספים.<span class="footnote-ref" onclick="showFootnote('70', '70', event)">70</span> ראה גם באוצר המושגים ערך <strong>חינוך בית הקברות</strong>.</p>
+<p>אופן הקבורה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ז.</span><span class="list-content">נהגו לקבור את הנפטר על גבו<span class="footnote-ref" onclick="showFootnote('71', '71', event)">71</span> כשפניו כלפי מעלה באופן שרגליו כלפי ירושלים. ובחוץ לארץ כלפי ארץ ישראל. עם זאת, גם אם לא הקפידו על כך, אין ליחיד לשנות את הכיוון הכללי הקיים בבית העלמין<span class="footnote-ref" onclick="showFootnote('72', '72', event)">72</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ח.</span><span class="list-content">אין לקבור רשע אצל צדיק. שנאמר "<span style="font-size: 0.75rem">אַל </span><span style="font-size: 0.75rem">תֶּאֱסֹף</span><span style="font-size: 0.75rem"> עִם חַטָּאִים נַפְשִׁי</span>" (תהלים כו, ט). </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ט.</span><span class="list-content">שניים שהיו שונאים זה לזה, אין לקברם זה ליד זה<span class="footnote-ref" onclick="showFootnote('73', '73', event)">73</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ'.</span><span class="list-content">יש מקומות שנהגו לכתחילה לקבור איש ליד איש ואשה ליד אשה. אך אין קפידה – במקום שנוהגים כך – לקבור איש ליד אשה<span class="footnote-ref" onclick="showFootnote('74', '74', event)">74</span>. </span></div>
+<p>על אופני קבורה שונים בבית הקברות – קבורת שדה, קבורת רמה, כוכים, קבר משפחתי / זוגי; ראה באוצר המושגים ערך <strong>קבורה בקומות</strong>.</p>
+<p style="font-size: 0.85rem">מידות הקברים וההרחקות ביניהם</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"א.</span><span class="list-content">העיקרון הוא שמידות הקבר צריכות להיות באופן שהנפטר יהיה מונח בתוכן ברווח. יתכנו הבדלים בין מקום למקום. אך ככלל נהגו 2.00 מטר אורך, 0.70 רוחב. עומק הקבר 1.20 מטר. (על פי הקבלה היו שרצו להעמיק יותר, אפילו כקומת אדם). בתוך הקבר בונים מסגרת מבלוקים או לבנים בגובה 40 ס"מ. לאחר הקבורה של הנפטר בתוך המסגרת, מניחים על המסגרת לוחות כיסוי באופן שישאר חלל של טפח (8 ס"מ) מעל הנפטר.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ב.</span><span class="list-content"> המרחק בין קבר לקבר צריך להיות שישה טפחים. כשיש סלע  או בהפרדה של מלט בין קברים אפשר להקל בהפסק של שש אצבעות (קצת יותר מ12 ס"מ). היו מקומות שמפני דוחק המקום הקלו בשש אצבעות גם כשלא היה סלע, אולם ראוי להרחיק שישה טפחים. בדרך כלל המרחק בין קבר לקבר 55 – 65 ס"מ. זה מה שנהוג בחלק גדול מהמקומות, והדברים עשויים להשתנות ממקום למקום ומזמן לזמן.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ג.</span><span class="list-content">בקבר משפחה אפשר להרחיק רק שש אצבעות (קצת יותר מ12 ס"מ) בין קבר לקבר<span class="footnote-ref" onclick="showFootnote('75', '75', event)">75</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ד.</span><span class="list-content">אם נתמלא בית הקברות ואי אפשר להשיג עוד קרקע זמינה לקבורה, מצד עיקר הדין מותר למלא עפר על הקברות הישנים בגובה שישה טפחים (כשישים ס"מ) כדי להכין למעלה קברים חדשים<span class="footnote-ref" onclick="showFootnote('76', '76', event)">76</span>. למעשה כיום כשישנה מצוקת מקום לקבורה, נהגו לקבור בקומות על פי הגדרים ההלכתיים המאפשרים זאת. במיוחד במקומות הרריים שישנם הפרשי גובה, כגון הר המנוחות בירושלים. עיין לקמן באוצר המושגים ערך <strong>קבורה בקומות</strong>. יש מי שכתב להימנע מקבורה באופן זה כשמדובר באיש ואשה, גם אם הם בעל ואשתו<span class="footnote-ref" onclick="showFootnote('77', '77', event)">77</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ה.</span><span class="list-content">במקרה אסון חלילה, כשמוכרחים לקבור רבים בבת אחת, עושים לפחות מחיצה דקה בין נפטר לנפטר<span class="footnote-ref" onclick="showFootnote('78', '78', event)">78</span>. </span></div>
+<div class="sage-quote"><p><strong>פינוי קברים</strong></p>
+</div><p>הטעם לאיסור</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">איסור פינוי מת הוא מפני "ניוול המת", שגופו של המת מוזז ממקומו ועלול להתפרק או להראות באופן בלתי מכובד; ומפני "חרדת הדין", שעל ידי התעסקות בגופתו, מטרידים את המת ממנוחתו. <span style="font-size: 0.75rem">זכר למנוחת המתים, מה שאמר איוב על שאיפתו למות "</span><span style="font-size: 0.85rem">יָשַׁנְתִּי אָז יָנוּחַ לִי</span><span style="font-size: 0.75rem">" (ג, </span><span style="font-size: 0.75rem">יג</span><span style="font-size: 0.75rem">), ומה שאמר שמואל  הנביא לשאול "</span><span style="font-size: 0.85rem">לָמָּה הִרְגַּזְתַּנִי לְהַעֲלוֹת אֹתִי</span><span style="font-size: 0.75rem">" (שמואל ב', </span><span style="font-size: 0.75rem">כח</span><span style="font-size: 0.75rem">, טו) </span><span class="footnote-ref" onclick="showFootnote('79', '79', event)">79</span><span style="font-size: 0.75rem">.</span></span></div>
+<p>מתי מותר לפנות</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">ככלל אין מפנים נפטר מקברו, אלא מאחת הסיבות הבאות<span class="footnote-ref" onclick="showFootnote('80', '80', event)">80</span>:</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">כדי לקברו בקברי אבותיו ומשפחתו.</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">להעבירו מקבר שאינו שלו לקבר שלו.</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">אם קבור בין הגויים או ליד גוי.</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">אם נקבר בקבר גזול, דהיינו שלא ברשות בעליו.</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">אם הקבר מזיק את הרבים, כגון שהוא סמוך לדרך.</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">כדי להביאו מחוץ לארץ לארץ ישראל.</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">אם קבור במקום שאינו משתמר, ויש חשש שהקבר ינזק.</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">אם קברוהו על דעת לפנותו משם. או שהוא ציוה לפני מותו לפנותו מקברו למקום אחר.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">ברור שאסור לפנות עצמות מתים לצורך מחקרים. גם במקרה שמותר להעביר עצמות מתים מקברם, יש לקברם מייד בכבוד הראוי.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">אם כבר נקבר בארץ ישראל, אין מוציאים אותו מקברו כדי להעלותו לירושלים. בדומה לכלל "הכל מעלין לארץ ישראל", יש כלל הלכתי מקביל - "הכל מעלין לירושלים ואין הכל מוציאין". אולם הכלל "הכל מעלין לירושלים" תקף רק בחיים ולא לאחר מיתה. לכן אף על פי שרשאים לפנות נפטר מחוץ לארץ כדי לקברו בארץ, אין לפנות נפטר בארץ כדי להעלותו לירושלים<span style="font-size: 0.75rem">. </span>פירוט על כללים אלו מובא באוצר המושגים ערך <strong>הכל</strong><strong> מעלין לארץ ישראל ואין </strong><strong>הכל</strong><strong> </strong><strong>מוציאין</strong><strong>.</strong></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">מצד עיקר הדין מת מצוה קנה מקומו ואין מפנים אותו<span class="footnote-ref" onclick="showFootnote('81', '81', event)">81</span>, ובזמן הזה אין נוהג דין זה ויש לפנותו לבית הקברות<span class="footnote-ref" onclick="showFootnote('82', '82', event)">82</span>. <span style="font-size: 0.75rem">הגדרות ו</span>פירוט יובאו באוצר המושגים ערך <strong>מת מצוה.</strong></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">המוצא קבר בתוך שדהו ואינו יודע אם נקבר שם מדעת בעל השדה, מותר לפנותו ומקומו טהור. אבל אם מדעת בעל השדה נקבר שם, אסור לפנותו ואם פינהו מקומו טמא ואסור בהנאה<span class="footnote-ref" onclick="showFootnote('83', '83', event)">83</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">קבר המזיק את הרבים כגון שהוא סמוך לדרך, אפילו נקבר שם מדעת בעל השדה מותר לפנותו ומקומו טהור. הקרקע אינה נאסרת בהנאה<span class="footnote-ref" onclick="showFootnote('84', '84', event)">84</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">אם קבר או בית קברות נמצאים בביזיון גדול, התירו לפנות את הקברים. אך יש לבדוק היטב קודם לכן שמוצו כל האפשרויות לשמור על כבוד הקברים, ויש לשאול שאלת חכם המכיר את כל הנתונים<span class="footnote-ref" onclick="showFootnote('85', '85', event)">85</span>.</span></div>
+<p>כיצד מפנים באופן המותר</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">גם כשמפנים מת באופן המותר, צריך להשתדל לחכות עד שיתעכל הבשר ויפנו רק את העצמות. ואם מפנים ארון, אין פותחים אותו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">בפינוי מת צריך ליטול גם את העפר שהיה מונח שם ובלע מהמת, ולקבור עמו במקום החדש. והשיעור הוא 3 אצבעות (6 ס"מ) בעומק ומכל צד.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">המוליך עצמות, עליו לעשות זאת באופן היותר מכובד שאפשר, מתוך רגישות וכבוד לצלם אלוקים שהיה באדם זה שאלו עצמותיו. בגמרא (ברכות יח, א) מובא: "המוליך עצמות ממקום למקום הרי זה לא יתנם בדסקיא (תיק עור) ויתנם על גבי החמור וירכב עליהם, מפני שנוהג בהם מנהג ביזיון. ואם היה מתיירא מפני נכרים ומפני לסטים – מותר". כלומר שהיחס לעצמות נמדד לפי תנאי המציאות, והעיקרון המנחה הוא כבוד המת.</span></div>
+<p>מנהגי אבלות בפינוי קבר</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">אם קברו על דעת לפנותו בתוך השבעה, מתחילים להתאבל רק מהקבורה השנייה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">אם קברו את המת על דעת לפנותו משם לאחר שבעה, מתחילים למנות אבלות מיד לאחר הקבורה הראשונה. אם פינוהו בתוך שבעה חוזרים ומונים מהקבורה השנית. אם פינוהו לאחר שבעה אין מתאבלים עליו שוב.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">אם קברו את המת על דעת שלא לפנותו, אף על פי שנמלכו ופינוהו אין מונים לו אבלות מחדש אלא נוהגים כדין ליקוט עצמות<span class="footnote-ref" onclick="showFootnote('86', '86', event)">86</span>.</span></div>
+<p>איסור פתיחת קבר</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">אחרי סתימת הגולל אין לפתוח את הקבר, גם אם אין מזיזים את המת, גם במת קטן<span class="footnote-ref" onclick="showFootnote('87', '87', event)">87</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">האיסור הוא בפתיחת הכיסוי הפנימי הסמוך מעל הנפטר – "האהל". לכן אם יש צורך אפשר לחטט בעפר שמעל האהל אם נפל שם דבר. קודם סתימת הגולל מותר לפתוח את כיסוי האהל אם הוא לצורך.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ז.</span><span class="list-content">אם נזכרו אחר סתימת הגולל שהנפטר ציוה לקבור עמו דבר מסוים, יקברו בתוך העפר שמעל האהל ולא יפתחו את האהל עצמו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ח.</span><span class="list-content">מותר לפתוח את הקבר לזהות אדם, כדי להתיר את אשתו מעיגון<span class="footnote-ref" onclick="showFootnote('88', '88', event)">88</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ט.</span><span class="list-content">תינוק שלא נימול ושכחו למולו על קברו, מותר בתוך יום או יומיים לפתוח הקבר כדי למולו. אבל לאחר מכן אין לפתוח הקבר, משום ניוול המת.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ'.</span><span class="list-content">אם שכחו להלביש את המת באחד מתכריכיו, פותחים ומלבישים בתוך יום או יומיים רק במת קטן פחות משלוש עשרה שנה. אבל לא במת גדול, כדי למנוע ממנו חרדת הדין. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"א.</span><span class="list-content">אם לא הניחוהו כראוי או שלא ישרו את אבריו כראוי בקבר, מותר לפתוח הקבר בתוך יום או יומיים גם במת גדול.</span></div>
+<p>ליקוט עצמות</p>
+<p>בזמן התלמוד היו קוברים בכוכים לפי שעה, ולא היו מפנים המת עד שנתעכל הבשר, ואז היו מלקטים את העצמות וקוברים אותן במקום אחר. בעת ליקוט העצמות היו נוהגים אבלות יום אחד, לפיכך היו מלקטים אותן סמוך לחשכה כדי לקצר האבלות. (מסכת שמחות פרק יב). כיום דין זה נוהג רק בהבאה לקבורה מחדש.</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ב.</span><span class="list-content">מיד כשמתחילים ללקט את העצמות, נוהג הקרוב אבלות – קורע שוב, יושב על הארץ, חולץ מנעליו ונוהג אבלות עד הערב. משחשך היום מפסיק אבלותו גם טרם שנקברו העצמות<span class="footnote-ref" onclick="showFootnote('89', '89', event)">89</span>. למחרת אינו נוהג אבלות כלל, גם אם ממשיכים אז ללקט העצמות וגם אם קוברים אותן אז. לפיכך אין מלקטים סמוך לחשכה כדי שלא יצא שלא התאבל על ליקוט העצמות כלל<span class="footnote-ref" onclick="showFootnote('90', '90', event)">90</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ג.</span><span class="list-content">בשעת ליקוט העצמות אין מספידים, אבל אומרים דברי שבח וקילוסין על הנפטר ועל הקב"ה שהוא ממית ומחיה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ד.</span><span class="list-content">דין אבלות בליקוט עצמות נוהג גם אם הבשר קיים.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ה.</span><span class="list-content">אין אנינות בליקוט עצמות, לכן מותר לאכול בשר ולשתות יין<span class="footnote-ref" onclick="showFootnote('91', '91', event)">91</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ו.</span><span class="list-content">אם לא נהג אבלות ביום ליקוט העצמות, אינו נוהג אבלות למחרת.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ז.</span><span class="list-content">הקרובים נוהגים אבלות באותו יום גם אם לא נכחו בליקוט העצמות אלא רק שמעו באותו יום על כך, אבל אם שמעו על כך למחרת אין נוהגים אבלות. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ח.</span><span class="list-content">אין חובה להודיע לקרובים על ליקוט העצמות, ויש אומרים שעדיף לא להודיעם כדי לא להצריכם להתאבל שוב<span class="footnote-ref" onclick="showFootnote('92', '92', event)">92</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ט.</span><span class="list-content">יש לנהוג כבוד בעצמות שנלקטו, ולשמרן ולשאת אותן כדרך שנושאים מת.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל'.</span><span class="list-content">אין מלקטים עצמות במועד, כדי שלא לעורר את הצער.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"א.</span><span class="list-content">כשמלקטים עצמות של שני מתים או יותר, מקפידים שלא לערבב בין העצמות. מותר לקבור בקבר אחד גדול, בארון נפרד לכל נפטר<span class="footnote-ref" onclick="showFootnote('93', '93', event)">93</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ב.</span><span class="list-content">אין הבן מפנה בידיו עצמות אביו ואמו, וכל שכן אם הגוף קיים שאז אסור מדינא. הטעם משום כבוד אביו ואמו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ג.</span><span class="list-content">אם הבן כהן אסור לו להיטמא לקרוביו, שמא חסר מהגוף, ואין הכהן רשאי להיטמא לגוף שאינו שלם<span class="footnote-ref" onclick="showFootnote('94', '94', event)">94</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ד.</span><span class="list-content">אם נקבר באופן זמני על דעת לפנותו, ופינהו תוך שבעה – מתחיל שבעה מחדש. ואם פינהו אחר שבעה, נוהג יום אחד.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ה.</span><span class="list-content">דין ליקוט עצמות נוהג פעם אחת בלבד, ואין ליקוט אחר ליקוט. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ו.</span><span class="list-content">העברה מארון לאדמה או מאדמה לארון נחשבת ליקוט עצמות. העברת ארון בשלמותו ממקום למקום לא נחשבת ליקוט עצמות<span class="footnote-ref" onclick="showFootnote('95', '95', event)">95</span>. </span></div>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " ירושלמי שקלים ב, ה. ", "2": " הלכות אבל ד, ד.", "3": " שער המצוות פרשת ויחי.", "4": " שו\"ת הרשב\"א סימן שע\"ה.", "5": " על פי גשר החיים פרק כח, א א. ", "6": " בארץ אין מנהג כזה בפועל אלא רק שימוש מילולי בשם זה. גם בהלכה אין איזכור לטקס כזה, לכן אין צורך בהסרת כיסוי כלשהו מעל המצבה. (הערת הרב יעקב אריאל שליט\"א בתוך \"דרכה של היהדות במוות ובאבלות\" עמוד 360).", "7": " גשר החיים פרק כח פיסקה ב. הקונטרס היחיאלי דף נה. כל בו על אבלות עמוד 379. ילקוט יוסף סימן נ, א. פני ברוך סימן לו, ב. בצרור החיים כתב שמנהג עדות המזרח להעמיד את היסודות כבר בשבעה, ולהעמיד את המצבה מיד לאחר מכן ולא ממתינים לשלושים. ואילו האשכנזים נוהגים לערוך גילוי מצבה ביום השלושים. ", "8": " שו\"ת מנחת יצחק חלק ג, נא.", "9": " גשר החיים פרק כח, ג, א. פני ברוך סימן לו, ג.", "10": " צרור החיים פיסקה רפב.", "11": " ילקוט יוסף סימן נ, ג. והוסיף שם שאם סבל יסורים לפני מותו טוב לכתוב על המצבה שסבל יסורים, שהיסורים מכפרים עוון ואשרי מי שיסורים באו עליו.", "12": " אגרות משה יורה דעה חלק א סימן רכח.", "13": " גשר החיים פרק כח, ג, ד. היו פוסקים שחששו לאיסור תורה בכתיבת תאריך לועזי, משום \"וְשֵׁם אֱלֹהִים אֲחֵרִים לֹא תַזְכִּירוּ\"  (שו\"ת מהר\"ם שיק יורה דעה סימן קעא וחושן משפט סימן נו), או משום \"וּבְחֻקֹּתֵיהֶם לֹא תֵלֵכוּ\" (רבי יצחק פלאג'י בספרו יפה ללב חלק חמישי סימן קעח). ובילקוט יוסף (סימן נ, ו - ז) כתב שאין לכתוב תאריך לועזי אף שמעיקר הדין אין בכך איסור, ואם כתבו – יש לטוח התאריך הלועזי בטיט. ובכל בו על אבלות (עמוד 380) כתב שאם נהגו לכתוב באותו מקום תאריך לועזי, אין לעשות מחלוקת בשל כך מכיון שאין מתכוונים לדבר רע. ואם כותבים את שני התאריכים, ודאי שפיר דמי.", "14": " ילקוט יוסף שם בשם מהר\"ם שיק.", "15": " יש הכותבים ת.נ.צ.ב.ה. אך מבחינה לשונית יש לכתוב בראשי תיבות – תנצב\"ה, שכן השימוש בניקוד במקום בראשי תיבות לקוח מן הלועזית. ", "16": " ילקוט יוסף סימן נ, ז. פני ברוך סימן לו, י.", "17": " צרור החיים פיסקה רפג.", "18": " צרור החיים פיסקה רפו.", "19": " צרור החיים פיסקה רפז. הטעם אינו הלכתי, אלא שמחיר מצבה עומדת עלול להיות גבוה, ויש להשתדל לא לייקר את העלות כמו שיבואר לקמן. לכן במקום חדש כשכותבים תקנון לחברה קדישא, מצבות שוכבות עדיפות.   ", "20": " שפתי כהן על שלחן ערוך יורה דעה סימן שסח, סעיף קטן ד.", "21": " ויקרא יח, ג.", "22": " שו\"ת הרשב\"א חלק א סימן תתכה. וראה גם במראה הבזק חלק ה, צז.", "23": " דעת כהן סימן ריב. גשר החיים פרק כז, א, ב.", "24": " ילקוט יוסף סימן יב, ג.", "25": " שלחן ערוך יורה דעה סימן שסז, ג, ו; גשר החיים פרק כז, ב, ב. וראה באור הלכה אורח סימן מה, שהביא שלוש שיטות כיצד להגדיר את המקום שבו אין להיכנס עם תפילין. בפועל, כשרוצים להתפלל בבית העלמין, אפשר באזור המשרדים ששם לא הוקדש לקברים, או לפחות ארבע אמות מחוץ לאזור שהוקדש לקבורה. ", "26": " שלחן ערוך יורה דעה סימן שסח, א.", "27": " ילקוט יוסף סימן מ, יא.", "28": " במראה הבזק חלק ג, סימן עד.", "29": " שלחן ערוך אורח חיים רכד, יב.", "30": " על פי הקבלה אומרים חלק זה לאחר הלוויה, כדי להבריח את כוחות הטומאה בכח שמות הקדושים שיש בברכה זו. הפירוט והביאור מובאים בספר מעבר יַבֹּק מאמר שפתי רננות פרק כ.", "31": " גשר החיים פרק כט, יז.", "32": " כל בו על אבלות עמ' 165. ילקוט יוסף סימן י, לג.", "33": " כל בו שם בשם הדרת קדש. את הטעם אמר לי הרב יעקב רוז'ה שליט\"א.", "34": " ילקוט יוסף סימן י, לד.", "35": " גשר החיים פרק כט, יז.", "36": " כל בו על אבלות עמ' 166.", "37": " ילקוט יוסף סימן י, לו. ", "38": " גשר החיים פרק טז, א, ד.", "39": " כיום על פי המצב המשפטי במדינת ישראל, רכישת הזכות להיקבר במקום מסוים אינה מקנה זכות קנינית של 'בעלות', כי אם 'זיקת הנאה' באותם מקרקעין. מכל מקום, לאחר רכישת אותה הזכות, הרי שהזכות להיקבר באותו מקום שמורה לאדם שבעבורו נרכשה זכות זו, כל עוד לא נקבר במקום אחר. (על פי מכתב מהלשכה המשפטית של המשרד לענייני דתות לעו\"ד יהודה אלרם).", "40": "  הגהות הרמ\"א על שלחן ערוך יורה דעה סימן שלט, א; בשם רבינו ירוחם, מצוואת רבי יהודה החסיד (אות ב).", "41": " גשר החיים פרק כז, ח, ב.", "42": " ילקוט יוסף סימן ה, ז.", "43": " שלחן ערוך יורה דעה סימן שסו.", "44": " שלחן ערוך יורה דעה סימן שסג, א.", "45": " גשר החיים פרק כז, ז, א.", "46": " צרור החיים פיסקה רפט.", "47": " גשר החיים שם ב.", "48": " במראה הבזק כרך ב עמוד 137.", "49": " כתובות קיא, א.", "50": " על זה אמרו חכמים (שם במסכת כתובות) שאינו דומה קולטתו מחיים לקולטתו לאחר מיתה.", "51": " על פי גשר החיים פרק כז, ט, א.", "52": " עיין באוצר המושגים ערך גלגול מחילות.", "53": " עיין באוצר המושגים ערך חיבוט הקבר.", "54": " הערת הרב נבנצל שליט\"א – צריך עיון לענ\"ד.", "55": " זהר חדש פרשת נח.", "56": " ירושלמי כלאים פרק ט סוף הלכה ד, על פי פסוקי ירמיהו ב, ז.", "57": " שלחן ערוך יורה דעה סימן שסג, ב, ושפתי כהן שם.", "58": " גשר החיים פרק כז, ט, ג. הערת הרב נבנצל שליט\"א – אין מוציאים נפטר מעיר לעיר, משום כבוד המתים בעיר הראשונה, שלא יאמרו שאין כבודו לנוח איתם. מותר להוציא מחוץ לארץ לארץ ישראל, או מעיר אחרת לקברי משפחה. ", "59": " תייר שהגיע לביקור בארץ ונפטר ונקבר בארץ, ובני משפחתו מחוץ לארץ מבקשים להעבירו לקבר המשפחה בחוץ לארץ, אין להתיר לפנות את הנפטר אשר זכה להיקבר בארץ ישראל, אף אם גילה דעתו בחייו ובקש לקברו בחוץ לארץ. ויש להסביר הדברים לבני המשפחה שהם מרי נפש ולדבר  על לבם כי מאת ה' היתה זאת לטובתו ולהנאתו, ויש זכות לנפטר שזכה להיקבר בארץ ישראל. (ילקוט יוסף סימן נב, ז).", "60": " הגהות הרמ\"א על שלחן ערוך יורה דעה סימן שסג, א.", "61": " שלחן ערוך יורה דעה סימן שסד, א.", "62": " טורי זהב על שלחן ערוך שם סעיף קטן א.", "63": " הגהות הרמ\"א על שלחן ערוך יורה דעה סימן שסח, א. נהגו לקחת מעפר הר הזיתים כדי לשלוח לחוץ לארץ, ולצרכי המתים התירו. גשר החיים פרק כז, ד, ד.", "64": " שלחן ערוך יורה דעה סימן שסד, א; על פי הכלל העקרוני המופיע בגמרא (סנהדרין מז, ב).", "65": " גשר החיים פרק כז, ג, יא.", "66": " שלחן ערוך יורה דעה סימן שסד, ז.", "67": " שם יד – טו. ובקשר לשימוש בגדר בית העלמין ראה שם הלכה יט.", "68": " ילקוט יוסף סימן נא, א. והטעם כיון שהשולחים מחוץ לארץ סמכו על דעת החברה קדישא בארץ, וכיון שבארץ לא נהגו לקבור עם הארון, לא הוקדש הארון להיאסר. ואף אם נאמר שלא ידעו ממנהג הארץ, הוי הקדש בטעות ואינו הקדש. והוסיף שיש לברר את דעת השולחים, ואם דעתם היתה על מנת שהארון יקבר עמו, אין להקל.", "69": " שלחן ערוך יורה דעה סימן שסח, ב. גשר החיים פרק כז, ה, ב. פני ברוך סימן לז, כז.", "70": " הפירוט מובא בספר גשר החיים פרק כז, יא; וכתב שם שבירושלים ובשאר הערים העתיקות שבארץ ישראל לא נהגו בהקפות הללו. ועיין עוד כל בו על אבלות עמוד 163.", "71": " מנהג בני תימן להניח את הנפטר על צידו, אלא שפניו כלפי מעלה (שלחן ערוך המקוצר עיני יצחק, יורה דעה סימן קפא, א, בהערה). המנהג בתימן היה לחפור כוך בצד חפירת הקבר ולהכניס את המת בתוכו, וסותמים הכוך באבנים ומכסים את החפירה בעפר. (שם, וכך כתב גם הרב קאפח בספר הליכות תימן, מנהגי קבורה ואבלות עמוד 328).", "72": " כל בו על אבלות עמ' 177 – 178.", "73": " שלחן ערוך יורה דעה סימן שסב, ה – ו.", "74": " כל בו על אבלות עמוד 179. כך אמר לי גם חנניה שחור מנהל חברה קדישא קהילת ירושלים בשם הרב קוליץ.", "75": " גשר החיים פרק כז, ז, ב.", "76": " שלחן ערוך יורה דעה סימן שסב, ד. אמנם בבית יוסף כתב בשם הרמב\"ן בתורת האדם שדי בשלושה טפחים. גם ר' עקיבא איגר (שם) כתב שדי בשלושה טפחים. גם בפתחי תשובה (שם ג) כתב שבמקום שאי אפשר ניתן להסתפק בפחות משישה טפחים. אבל בגשר החיים (פרק כז, ו, ו) פסק שיש להקפיד על רווח שישה טפחים, ושאין להקל בפחות. גם בצרור החיים (פיסקה רצ) כתב שיש להתיר קבורה בקומות במקום שאין ברירה, והצריך שישה טפחים בין קבר לקבר. ", "77": "  הרב שאול ישראלי במראה הבזק כרך ב עמוד 136.", "78": " גשר החיים פרק כז, ו, ד.", "79": " שפתי כהן על שלחן ערוך יורה דעה סימן שסג, סעיף קטן א.", "80": " שלחן ערוך יורה דעה סימן שסג, א.", "81": " שם סימן שסד, ג. על פי הגמרא בבא קמא פא, ב.", "82": " חזון איש יורה דעה סימן רט, יג. ילקוט יוסף סימן יד, כג.", "83": " לשון הטור יורה דעה סימן שסד, וכך גם נפסק להלכה בשלחן ערוך שם סעיף ב. ע\"ע באוצר המושגים ערך קבר הנמצא.", "84": " שלחן ערוך יורה דעה סימן שסד, ה. שפתי כהן שם סעיף קטן יב, על פי הגמרא בסנהדרין מז, ב - \"קרקע עולם אינה נאסרת\".", "85": " אגרות משה יורה דעה חלק א, רמו. וראה גם במראה הבזק חלק ה, צה.", "86": " שלחן ערוך יורה דעה סימן שעה, ג. גשר החיים פרק יט, ד, ט. פני ברוך סימן ח, ב.", "87": " שלחן ערוך יורה דעה סימן שסג, ז.", "88": " ילקוט יוסף סימן נב, ט.", "89": " גשר החיים פרק כו, ד, ח. קודם לכן (סעיף ה) כתב שלדעתו אין איסור \"לא תלין\" בליקוט עצמות אלא רק כשהבשר קיים. ", "90": " שלחן ערוך יורה דעה סימן תג, א. לפי החזון איש (יורה דעה סימן ריג, ד) נוהג אבלות מגמר הליקוט. לפיכך אם ליקט ביום וסיים בלילה נוהג אבלות כל יום המחרת.", "91": " שלחן ערוך שם.", "92": " בילקוט יוסף (סימן נט, ב) כתב שבמקרה של העברת חללי המלחמה לקבורת קבע ולמנוחת עולמים, יפה נהגו שלא להודיע על מועד הפינוי למשפחות החללים כדי לא להצריכם לשבת שוב באבלות.", "93": " ילקוט יוסף סימן נב, יב.", "94": " שפתי כהן יורה דעה סימן תג, סעיף קטן א.", "95": " גשר החיים פרק כו, ד, יב. שו\"ת יביע אומר חלק ט סימן מח. אמנם באגרות משה (יורה דעה חלק א, רס) כתב להחמיר ולנהוג אבלות במקרה כזה. וראה עוד במראה הבזק כרך ב עמוד 139."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p style="font-size: 1.3rem"><strong>עלייה לקבר ואזכרה</strong></p>
+<div class="sage-quote"><p><strong>יום השנה - "יארצייט".</strong><strong> </strong></p>
+<p><span style="font-size: 0.75rem">"טוֹב שֵׁם מִשֶּׁמֶן טוֹב וְיוֹם </span><span style="font-size: 0.75rem">הַמָּוֶת</span><span style="font-size: 0.75rem"> מִיּוֹם </span><span style="font-size: 0.75rem">הִוָּלְדו</span><span style="font-size: 0.75rem">ֹ". </span></p>
+<p>נולד אדם מונים לו למיתה. </p>
+<p>מת – מונים לו לחיים.</p>
+<p>קהלת רבה פרשה ז, ד</p>
+</div><p>זמנו</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">יום הזיכרון הוא ביום המיתה ולא ביום הקבורה גם בשנה הראשונה<span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span>. אמנם מנהגי האבלות נמנים מיום הקבורה שאז החלה האבלות, אבל מנהגי יום השנה (כגון אזכרה, תענית ועלייה לקבר) נוהגים ביום המיתה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">גם בשנה מעוברת יום השנה הוא יום המיתה, למרות שהאבלות הפסיקה אחרי שנים עשר חודש.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">אם נפטר באדר בשנה פשוטה, לפי מנהג עדות המזרח ובני תימן יום הזיכרון בשנה מעוברת הוא באדר שני. ולפי מנהג האשכנזים באדר ראשון, ויש אשכנזים המחמירים לקבוע בשניהם<span class="footnote-ref" onclick="showFootnote('2', '2', event)">2</span>. יסוד  המחלוקת הוא מה נקרא סתם אדר בפי בני אדם, ולפי מנהג האשכנזים נוסף גם הטעם שאין מעבירים על המצוות<span class="footnote-ref" onclick="showFootnote('3', '3', event)">3</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">החודשים חשון וכסלו לעתים מלאים (שלושים יום) ולעתים חסרים (עשרים ותשעה יום). לכן אם נפטר בל' בחשון או בל' בכסלו, הולכים אחר יום השנה הראשון – אם היה החודש מלא, יקבע תמיד בראש חודש; ואם היה החודש חסר, יקבע לעולם בכ"ט בחודש<span class="footnote-ref" onclick="showFootnote('4', '4', event)">4</span>. ויש אומרים שיקבע בא' שלאחריו<span class="footnote-ref" onclick="showFootnote('5', '5', event)">5</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">אם נפטר בל' באדר ראשון שהוא ראש חודש אדר שני, יקבע את יום השנה בשנה רגילה בל' בשבט שהוא ראש חודש אדר. כיון שאדר הרגיל הוא אדר השני. ויש אומרים שיקבע בא' בניסן<span class="footnote-ref" onclick="showFootnote('6', '6', event)">6</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">אם יש לו ספק לגבי יום השנה כגון שנפטר בין השמשות, יאמר קדיש בשניהם וגם ישתדל לעבור לפני התיבה בשני הימים, ואת העלייה לקבר והאזכרה יעשו ביום הראשון<span class="footnote-ref" onclick="showFootnote('7', '7', event)">7</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">קובעים את יום השנה לפי מקום הנפטר ולא לפי מקום הקרובים<span style="font-size: 0.85rem">. למשל אם נפטר בחוץ לארץ בזמן שבארץ ישנו כבר תאריך שונה</span><span class="footnote-ref" onclick="showFootnote('8', '8', event)">8</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">אם יודע באיזה חודש נפטר אבל לא יודע באיזה יום בחודש, יקבע את יום השנה ביום האחרון של החודש, כיון שמעמידים אותו בחזקת חי כל זמן שלא ידוע שנפטר. ויש אומרים שיקבע ביום הראשון של החודש כדי להקדים את הקדיש והלימוד לעילוי נשמה, לפני יום הפטירה<span class="footnote-ref" onclick="showFootnote('9', '9', event)">9</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">אם אי אפשר לדעת את יום הפטירה, יש לבחור יום ולקבעו כיום השנה<span class="footnote-ref" onclick="showFootnote('10', '10', event)">10</span>. כמו שקבעו את יום עשרה בטבת למי שנרצחו בשואה ולא ידוע תאריך פטירתם.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">יש אומרים שאדם צריך לשמור את מנהגי יום השנה לפטירת קרוביו, עד חמישים שנה מהפטירה. ויש אומרים שלעולם צריך לשמור<span class="footnote-ref" onclick="showFootnote('11', '11', event)">11</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">יש מעלה גדולה לקיים את יום השנה דווקא בזמנו, לכן אין לדחותו. עיקר העניין הוא לעבור לפני התיבה ולומר את הקדישים. גם את העלייה לקבר עדיף לקיים באותו היום, אך ניתן להקדימה אם יש צורך בכך<span class="footnote-ref" onclick="showFootnote('12', '12', event)">12</span>. </span></div>
+<p>שבת שלפניו </p>
+<p style="font-size: 0.85rem">כתוב בשם האר"י, היות שביום השבת עולות כל הנשמות לגן עדן, והיות וביום השנה יש עילוי לנשמה, אם כן בשבת שלפני כלות שנים עשר חודש עולה ואינה יורדת. זמן זה מסוגל יותר לעלייה אם הבן מתפלל. </p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">בשבת שלפני יום השנה עולה לתורה. לפי מנהג עדות המזרח עולה לעליית משלים (שביעי שאומר קדיש) ולפי האשכנזים לעליית "מפטיר". </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">יש נוהגים לומר קדיש אחר "מזמור שיר ליום השבת" בליל שבת שלפני יום השנה. לפי מנהג עדות המזרח מתחילים לומר קדיש מליל שבת קודם יום השנה <span style="font-size: 0.75rem">אחרי "במה </span><span style="font-size: 0.75rem">מדליקין</span><span style="font-size: 0.75rem">",  </span>בכל התפילות, עד יום השנה ועד בכלל. ואם חל יום השנה בשבת, מתחילים לומר קדיש מליל שבת שלפניו <span class="footnote-ref" onclick="showFootnote('13', '13', event)">13</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">יש נוהגים לעבור לפני התיבה בשבת בכל התפילות, ויש הנוהגים להתפלל כשליח ציבור בתפילת מוסף ואומרים קדיש דרבנן קודם עלינו. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">האבל מתפלל כשליח ציבור במעריב במוצאי שבת שאז הוא זמן שחוזרות הנשמות לגיהנום לאחר ששבתו בשבת, לכן צריך אז יותר זכויות לנפטרים<span class="footnote-ref" onclick="showFootnote('14', '14', event)">14</span>. לפי עדות המזרח יש הנוהגים להמשיך כשליחי ציבור ממוצאי שבת שלפני יום השנה עד יום השנה<span class="footnote-ref" onclick="showFootnote('15', '15', event)">15</span>.</span></div>
+<p>ממנהגי יום השנה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">ביום הזיכרון של המנוח מתפללים לעילוי נשמתו. והוא יום דין לנפטר. על פי קבלת האר"י, הקדיש שאומרים הבנים כל שנים עשר חודש הוא כדי להעלות אביהם מגיהנום לגן עדן, וביום השנה הוא להעלותו בגן עדן למדרגה יותר מעולה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ז.</span><span class="list-content">נוהגים שהבן מתפלל כשליח ציבור ביום הזיכרון להורים בכל התפילות ואומר כל הקדישים.<em> </em>אם שכח ולא אמר קדיש ביום הזיכרון, יאמר מיד ביום שייזכר, כי קדיש ולימוד ומצוה שיעשה הבן בכל זמן, עושה בכך נחת רוח לאביו ולאמו<span class="footnote-ref" onclick="showFootnote('16', '16', event)">16</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ח.</span><span class="list-content">לכתחילה לא יצא הבן לדרך סמוך ליום השנה אם יודע שבאופן זה לא יוכל להשתתף במניין לאמירת הקדיש, אלא בשעת דחק והפסד<span class="footnote-ref" onclick="showFootnote('17', '17', event)">17</span>. אם נמצא הבן במקום שלא יכול להשיג מניין בשום אופן, יבקש מקרוב משפחה או ישכור מי שיאמר במקומו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ט.</span><span class="list-content">נוהגים לעלות לתורה, ואם חל יום הזיכרון בימים שאין קוראים בהם בתורה, יש נוהגים לעלות לתורה בימים שלפניו, ואומר אל מלא רחמים<span class="footnote-ref" onclick="showFootnote('18', '18', event)">18</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ'.</span><span class="list-content">נוהגים לעלות לקבר ומתפללים שם לעילוי נשמת הנפטר. יש מי שכתב שאם לא יכול לעלות לקבר קרוביו, ילך לבית קברות סמוך ויתפלל שם. הלכות העלייה לקבר מפורטות מעמוד 194 ואילך.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"א.</span><span class="list-content">יש הנוהגים להתענות ביום השנה לפטירת ההורים, ויפורט לקמן.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ב.</span><span class="list-content">נוהגים לקיים אזכרה ביום השנה כמפורט לקמן עמוד 199@</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ג.</span><span class="list-content">יש נוהגים לערוך סעודה לכבוד הנפטר ביום השנה, ולומר בה דברי תורה ולברך לעילוי נשמתו. ואם הבן הוא בן תורה, נכון שיסיים מסכת או סדר משניות ביום השנה לעילוי נשמת הנפטר. ומלבד עילוי נשמה לנפטר, גם הסעודה היא סעודת מצוה, גם הברכות שמברכים בה הן לעילוי נשמה לנפטר, וגם אומר קדיש הגדול בסיום המסכת<span class="footnote-ref" onclick="showFootnote('19', '19', event)">19</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ד.</span><span class="list-content">בעדות המזרח נוהגים לערוך סעודה ואזכרה בלילה אור ליום השנה, ולומר השכבה. בשנה הראשונה נהגו גם לאחר אחד עשר חודש וגם ביום השנה. בשנה מעוברת יש הנוהגים לערוך פעם נוספת לאחר שנים עשר חודש, כך שיש שלוש אזכרות<span class="footnote-ref" onclick="showFootnote('20', '20', event)">20</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ה.</span><span class="list-content">כל הסעודות שעורכים הן מצד מנהג ואינן חיוב. לכן אם יש קושי לקיימן, אין להקפיד על כך, כיון שהעיקר הוא לומר קדיש. לכן גם אין להפריז בהוצאות כספיות לסעודות גדולות<span class="footnote-ref" onclick="showFootnote('21', '21', event)">21</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ו.</span><span class="list-content">מותר לקיים את הלימוד והאזכרה והסעודה בבית הכנסת, בתנאי שינהגו בכובד ראש ובצניעות.</span></div>
+<p>הדלקת הנר</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ז.</span><span class="list-content">מנהג קדמונים להדליק נר "יארצייט" שיהיה דלוק בכל היממה של יום הזיכרון. אין מכבים אותו גם אם כבר עבר היום.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ח.</span><span class="list-content">עדיף להדליק בשמן זית, פחות ממנו נר שעוה, ופחות ממנו נר חשמל<span class="footnote-ref" onclick="showFootnote('22', '22', event)">22</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ט.</span><span class="list-content">יש מדליקים הנר בבית, ויש מדליקים בבית הכנסת.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל'.</span><span class="list-content">יש להדליק נר נשמה לפני כניסת יום טוב, ואם שכחו אפשר להדליקו במקום שאוכלים כדי שיהיה אפשר גם ליהנות מאורו, ויותר טוב להדליקו בבית הכנסת אם ניתן<span class="footnote-ref" onclick="showFootnote('23', '23', event)">23</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"א.</span><span class="list-content">אפשר להדליק נר נשמה אחד עבור שני נפטרים<span class="footnote-ref" onclick="showFootnote('24', '24', event)">24</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ב.</span><span class="list-content">אשה שיש לה יארצייט על בעלה הראשון לא תדליק נר זיכרון עבורו ובפרט לא בפני בעלה השני, וכן הבעל לא ידליק נר זיכרון עבור אשתו הראשונה בפני אשתו השנייה<span class="footnote-ref" onclick="showFootnote('25', '25', event)">25</span>.</span></div>
+<p>תענית</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ג.</span><span class="list-content">מצוה להתענות ביום השנה של פטירת אביו או אמו<span class="footnote-ref" onclick="showFootnote('26', '26', event)">26</span>. והטעם כיון שביום ההוא איתרע מזלו של הבן וכמו שאמרו חז"ל שמגלגלים חובה ליום חייב. גם כיון שההורים נידונים שוב בכל יום שנה. מעבר לכך, הבנים יכולים לתת ליום זה משמעות של זיכרון וגעגועים, התבוננות ומחשבה. צום עשוי לטהר ולזכך את האדם, לפנותו מעט מענייני החומר אל עבר הממדים הרוחניים והמחשבתיים.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ד.</span><span class="list-content">אף על פי שיש עניין גדול ומצוה לצום ביום השנה של ההורים, אם הצום פוגע מאוד בתפקוד היומיומי – אין צורך לצום. שכיר או עובד ציבור יכול להקל ולא להתענות אם הצום יפגע בתפקידו המקצועי או בשירות לציבור<span class="footnote-ref" onclick="showFootnote('27', '27', event)">27</span>. מלמד תינוקות לא יתענה כדי שלא ימעט בלימוד תורה ובמלאכת שמים<span class="footnote-ref" onclick="showFootnote('28', '28', event)">28</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ה.</span><span class="list-content">תלמיד חכם שהצום עלול לפגוע בלימודו לא יתענה, אלא ירבה בלימוד תורה ביום זה. ואם אפשר ילמד ביום זה תוך כדי תענית דיבור<span class="footnote-ref" onclick="showFootnote('29', '29', event)">29</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ו.</span><span class="list-content">בתענית יחיד צריך לקבל את התענית במנחה של היום שלפניו<span class="footnote-ref" onclick="showFootnote('30', '30', event)">30</span>. אבל מי שרגיל להתענות ביום השנה, אין קבלת התענית מעכבת.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ז.</span><span class="list-content">אם חל יום השנה בשבת או בראש חודש, ואפילו ביום שאין אומרים בו תחנון, נהגו לא להתענות כלל<span class="footnote-ref" onclick="showFootnote('31', '31', event)">31</span>, וירבו בתורה ובתפילה ובצדקה ביום זה. אם חל בשבת יש המחמירים להתענות למחרת, ואין מקדימים<span class="footnote-ref" onclick="showFootnote('32', '32', event)">32</span>, ויש שכתבו שעדיף להקדים ליום חמישי<span class="footnote-ref" onclick="showFootnote('33', '33', event)">33</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ח.</span><span class="list-content">אם חלה תענית ציבור בתוך שבוע מיום השנה, אין מתענים ביום השנה וירבו בתורה בתפילה ובצדקה ביום זה<span class="footnote-ref" onclick="showFootnote('34', '34', event)">34</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ט.</span><span class="list-content">חתן בתוך שבעת ימי המשתה או חתן בר מצוה ביום שנעשה בר מצוה, פטורים מהתענית. אם הוא בעל ברית – אבי הבן או מוהל או סנדק, אינו מתענה. וכן בפדיון הבן, אבי הבן והכהן הפודה לא מתענים. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ'.</span><span class="list-content">רבים מקילים שאם מסיים מסכת לא מתענה<span class="footnote-ref" onclick="showFootnote('35', '35', event)">35</span>. כבר הוזכר לעיל שמנהג יפה הוא לסיים מסכת או סדר משניות לעילוי נשמת הנפטר. הסעודה שבסיום מסכת היא סעודת מצוה וגם הברכות שמברכים בה הן לעילוי נשמה. סעודת המצוה פוטרת מהתענית.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"א.</span><span class="list-content">אם התענה ביום השנה הראשון ולא אמר "בלי נדר", נחשב שקיבל עליו מעתה ואילך להתענות ביום השנה, וצריך התרת נדרים אם ירצה להפסיק<span class="footnote-ref" onclick="showFootnote('36', '36', event)">36</span>. לכן טוב שהמתענה יתנה מראש שתעניתו בלי נדר ובלי קבלה, ויועיל לו להקל אם תקשה עליו התענית או אם ירצה לא להשלים תעניתו כשתחול ביום שישי, או כשירצה להקל בסעודת סיום מסכת.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ב.</span><span class="list-content">יש פוסקים המקילים בתענית ביום השנה בפרט בזמננו שהדור חלוש ואין בכוחו להתענות. על כן תיקנו להוסיף בלימוד תורה, בצדקה ומעשים טובים. ונהגו לאחר התפילה לתת משקה ומזונות בבית הכנסת לברך לעילוי נשמה<span class="footnote-ref" onclick="showFootnote('37', '37', event)">37</span>. </span></div>
+<p>מנהגי אבלות </p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ג.</span><span class="list-content">יש מחמירים לא לשמוע מוסיקה ביום השנה<span class="footnote-ref" onclick="showFootnote('38', '38', event)">38</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ד.</span><span class="list-content">האשכנזים נוהגים לא להשתתף בשמחת נישואין ביום השנה או בלילו<span class="footnote-ref" onclick="showFootnote('39', '39', event)">39</span>, ויש אומרים שהמנהג להחמיר הוא רק בשנה הראשונה<span class="footnote-ref" onclick="showFootnote('40', '40', event)">40</span>. עדות המזרח נוהגים להחמיר גם בשאר שמחות, ואם תיגרם אי נעימות כתוצאה מכך, אפשר ללכת לחתונה כדי לאחל מזל טוב ולתת מתנה, ולאחר מכן לצאת<span class="footnote-ref" onclick="showFootnote('41', '41', event)">41</span>. ויש אומרים שעדות המזרח מעיקר הדין מותרים להשתתף בשמחות, אך טוב שיחמירו בזה במקום שאפשר. ואם יש צער לחתן ולכלה מהיעדרותו, מותר להשתתף<span class="footnote-ref" onclick="showFootnote('42', '42', event)">42</span>.</span></div>
+<p>יום השנה שחל בשבת</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ה.</span><span class="list-content">עלייה לקבר – עדות המזרח מקדימים והאשכנזים מאחרים.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ו.</span><span class="list-content">תענית – פורט לעיל הלכה לה @.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ז.</span><span class="list-content">עלייה לתורה – נהגו לעלות לתורה בשבת שלפני כן<span class="footnote-ref" onclick="showFootnote('43', '43', event)">43</span> ויש שנהגו גם באותה שבת. לפי מנהג עדות המזרח העלייה המובחרת היא משלים (שביעי שאומר קדיש). האשכנזים נהגו לעלות למפטיר, ויש גם מעדות המזרח שהעדיפו עליית מפטיר מאשר משלים; וברור שיש להתרחק ממחלוקת, אף אם יצטרך בשל כך להימנע מלעלות לתורה<span class="footnote-ref" onclick="showFootnote('44', '44', event)">44</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ח.</span><span class="list-content">קדיש – אומר באותה שבת. עדות המזרח מתחילים לומר כבר מהשבת הקודמת ליום השנה<span class="footnote-ref" onclick="showFootnote('45', '45', event)">45</span>.</span></div>
+<div class="sage-quote"><p><strong>עלייה לקבר</strong></p>
+<p><span style="font-size: 0.85rem">"יָבוֹא שָׁלוֹם יָנוּחוּ עַל </span><span style="font-size: 0.85rem">מִשְׁכְּבוֹתָם</span><span style="font-size: 0.85rem"> הֹלֵךְ נְכֹחוֹ</span>" (ישעיהו נז, א). על גופן של צדיקים אומר: "<span style="font-size: 0.85rem">יָבוֹא שָׁלוֹם יָנוּחוּ עַל </span><span style="font-size: 0.85rem">מִשְׁכְּבוֹתָם</span>", ועל נשמתן הוא אומר: "<span style="font-size: 0.75rem">וְהָיְתָה</span><span style="font-size: 0.75rem"> נֶפֶשׁ אֲדֹנִי צְרוּרָה בִּצְרוֹר הַחַיִּים אֵת ה' </span><span style="font-size: 0.75rem">אֱלֹהֶיך</span><span style="font-size: 0.75rem">ָ</span>" (שמואל א' כה, כט).</p>
+</div><p>שבת קנב, ב</p>
+<p>המקור</p>
+<p>המקור הראשון להשתטחות על קברים מצאנו במדרש אצל יוסף כשהורד מצרימה, שהשתטח על קבר רחל אמו ובכה, ואמו ענתה לו שה' יציל אותו מכל צרה. </p>
+<p style="font-size: 0.85rem">גם את הפסוק "וָאֶקְבְּרֶהָ שָּׁם בְּדֶרֶךְ אֶפְרָת הִוא בֵּית לָחֶם" (בראשית מח, ז) מפרש רש"י שקברה שם על פי הדיבור, שתהא לעזרה לבניה כשיַגלה אותם נבוזראדן ויהיו עוברים דרך שם, יוצאת רחל על קברה ובוכה ומבקשת עליהם רחמים, שנאמר "קוֹל בְּרָמָה נִשְׁמָע נְהִי בְּכִי תַמְרוּרִים רָחֵל מְבַכָּה עַל בָּנֶיהָ" (ירמיהו לא, יד). והקדוש ברוך הוא משיבה: "כִּי יֵשׁ שָׂכָר לִפְעֻלָּתֵךְ נְאֻם ה' וְשָׁבוּ מֵאֶרֶץ אוֹיֵב: וְיֵשׁ תִּקְוָה לְאַחֲרִיתֵךְ נְאֻם ה' וְשָׁבוּ בָנִים לִגְבוּלָם" (שם, טו - טז). </p>
+<p style="font-size: 0.85rem">גם אצל כלב בן יפנה נאמר "וַיָּבֹא עַד חֶבְרוֹן" (במדבר יג, כב) וחז"ל למדו שפרש מהמרגלים והלך ונשתטח על קברי האבות, אמר להם: בקשו עלי רחמים שאנצל מעצת המרגלים (מסכת סוטה לד, ב).</p>
+<p style="font-size: 0.85rem">גם מדברי ברזילי הגלעדי שאמר "וְאָמֻת בְּעִירִי עִם קֶבֶר אָבִי וְאִמִּי" (שמואל ב', יט, לח) למדו שיש הנאה למתים שבניהם ואוהביהם ילכו על קברם לתפילה ולהשכבה, שהנפש מרחפת על הקבר. (מעבר יַבֹּק מאמר שפתי רננות פרק כ"ג)</p>
+<p style="font-size: 0.85rem">מתי עולים לקבר</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">א'.</span><span class="list-content">נוהגים לפקוד קברי אבות וקברי קרובים, במיוחד ביום כלות השבעה או שלושים או שנים עשר חודש, וביום השנה (יארצייט). </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ב'.</span><span class="list-content">אם חל יום השביעי בשבת עולים לקבר ביום א' שלאחריו. אם חל יום השלושים או יום השנה בשבת, עדות המזרח מקדימים ליום חמישי ומהאשכנזים יש המקדימים ויש המאחרים ליום א'<span class="footnote-ref" onclick="showFootnote('46', '46', event)">46</span>. ואם ראש חודש חל בערב שבת או ביום ראשון, מעדיפים לעלות ביום שאינו ראש חודש. ואם הקבורה היתה למחרת יום המיתה, וחל יום השנה בשבת, דוחים את העלייה ליום ראשון<span class="footnote-ref" onclick="showFootnote('47', '47', event)">47</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ג'.</span><span class="list-content">אם חל יום השביעי בתוך החג, הולכים ביום שלאחר החג, אפילו אם עדיין לא עברו שבעה מהפטירה<span class="footnote-ref" onclick="showFootnote('48', '48', event)">48</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ד'.</span><span class="list-content">אם יום השנה חל בחג או בחול המועד, מנהג עדות המזרח להקדים ומנהג האשכנזים לאחר<span class="footnote-ref" onclick="showFootnote('49', '49', event)">49</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ה'.</span><span class="list-content">מותר להקדים את העלייה לקבר בכמה ימים לפני יום השנה אם הדבר יותר נוח למשפחה, ולמרות שאינו יום השנה יש לומר קדיש  אם ישנם עשרה, וכן יאמרו המזמורים כרגיל. את הקדיש יאמרו כרגיל ביום השנה וכן את התפילות בבית הכנסת מהשבת לפני כן לפי מנהגם<span class="footnote-ref" onclick="showFootnote('50', '50', event)">50</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ו'.</span><span class="list-content">מי שהוא זקן או חלוש והעלייה לקבר אבותיו קשה לו, או שהוא לומד תורה והעלייה לקבר תגרום לו לביטול תורה, רשאי להימנע מלעלות לקברי אבותיו. ויאמר קדיש וינהג בשאר מנהגי יום השנה<span class="footnote-ref" onclick="showFootnote('51', '51', event)">51</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ז'.</span><span class="list-content">יש שנהגו ללכת גם בערב ראש השנה ובערב יום הכיפורים ובתשעה באב. עדות המזרח נהגו לעלות לקבר בערב ראש חודש ניסן ובערב ראש חודש אלול. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ח'.</span><span class="list-content">יש נוהגים לבקר קברי אבות וקרובים וקברי צדיקים להתפלל שם על חולים ועל כל צרה שלא תבוא. ראה <strong>קברי אבות וקברי צדיקים</strong> באוצר המושגים.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ט'.</span><span class="list-content">בימים שהיו גוזרים תענית על הציבור היו יוצאים לבית הקברות. כלומר הרי אנו חשובים לפניך כמתים, או כדי שיבקשו עלינו המתים רחמים. (תענית טז.) <strong> </strong>ראה <strong>דורש אל המתים</strong> באוצר המושגים.</span></div>
+<p style="font-size: 0.85rem">זמנים שאין עולים בהם לבית העלמין</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י'.</span><span class="list-content">אין עולים לבית הקברות בחול המועד ובפורים. אם חל יום השנה בחול המועד, עדות המזרח מקדימים לפני החג והאשכנזים מאחרים<span class="footnote-ref" onclick="showFootnote('52', '52', event)">52</span>, ויש שדוחים לגמרי את הביקור<span class="footnote-ref" onclick="showFootnote('53', '53', event)">53</span>. הטעם שאין עולים בחול המועד הוא כדי שלא יבואו לידי בכי. לכן אם אחרי כמה שנים רוצים להראות לקרובים או לילדים היכן קבור הסבא וכדומה, מותר לעלות, אם וכאשר אין חשש לצער ובכי<span class="footnote-ref" onclick="showFootnote('54', '54', event)">54</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י"א.</span><span class="list-content">אם חל יום השביעי או השלושים בראש חודש או בחנוכה, יש שדוחים לאחריהם את העלייה לקבר ויש שעולים לקבר ואומרים את המזמורים וקדיש, אבל לא אומרים אל מלא רחמים<span class="footnote-ref" onclick="showFootnote('55', '55', event)">55</span>. ועדות המזרח נהגו לא לעלות בראש חודש ובחנוכה אלא להקדים לעלות לפני כן<span class="footnote-ref" onclick="showFootnote('56', '56', event)">56</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">אף על פי שביום השנה יש מקום להקל ולעלות לקבר גם בחנוכה ובפורים כיון שגזרה על המת שישתכח מן הלב לאחר שנים עשר חודש, מוטב גם ביום השנה להקדים את העלייה לקבר<span class="footnote-ref" onclick="showFootnote('57', '57', event)">57</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">בחודש ניסן נהגו לא לילך לבית הקברות. אולם ביום השבעה, ביום השלושים וביום השנה עולים גם בחודש ניסן<span class="footnote-ref" onclick="showFootnote('58', '58', event)">58</span>, ואומרים את המזמורים וקדיש, אבל לא אומרים אל מלא רחמים.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">זקן או חולה שקשה לו לעלות לקבר הוריו ביום השנה, יסתפק באמירת קדיש והשכבה או "אל מלא רחמים", ולימוד לעילוי נשמה. כיון שהעלייה לקבר היא מנהג ואינה חובה מעיקר הדין.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">על פי הקבלה אין מבקרים את הקבר בשנה הראשונה כדי להתפלל על חולה או שאר דברים, כיון שנשמת המת נידונת אז בבית דין של מעלה, אלא רק מתפללים לעילוי נשמתו. ורבים נוהגים למעט ולבקר את הקבר בשנה הראשונה גם אם הביקור נועד להתפלל לעילוי נשמה. ואם נוסע למקום רחוק ולא יוכל לבוא אחר כך, אפשר לבקר גם בתוך השנה הראשונה. המנהג הפשוט אצל עדות המזרח הוא שמותר לבקר את הקבר גם בשנה הראשונה<span class="footnote-ref" onclick="showFootnote('59', '59', event)">59</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">אין הולכים פעמיים באותו יום על קבר אחד<span class="footnote-ref" onclick="showFootnote('60', '60', event)">60</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י"ז.</span><span class="list-content">יש נמנעים מללכת בכלל לבית הקברות אלא לצורך הלוויה בלבד. בכתבי האר"י מובא שיש להימנע מללכת לבית העלמין למי שהוא בעל קרי ולא טבל, מפני שכוחות הטומאה נידבקים בו<span class="footnote-ref" onclick="showFootnote('61', '61', event)">61</span>. וכן מובא באגרת הגר"א לבני ביתו. וכן נמנעים מללכת לקברי רשעים. גם לפי דעות אלה מותר לילך לקברי צדיקים או לעלות לקבר אביו או אמו לכבודם<span class="footnote-ref" onclick="showFootnote('62', '62', event)">62</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י"ח.</span><span class="list-content">על פי הקבלה אין לנשים בזמן נידותן ללכת לבית הקברות<span class="footnote-ref" onclick="showFootnote('63', '63', event)">63</span>, אבל לצורך אזכרה מותר להן ללכת<span class="footnote-ref" onclick="showFootnote('64', '64', event)">64</span>. לכל הדעות מותר לנשים ללכת לקברי צדיקים (כגון מערת המכפלה, קבר רחל, קבר רשב"י וכדו') אם אינם בתוך בית קברות<span class="footnote-ref" onclick="showFootnote('65', '65', event)">65</span>. פירוט נוסף מובא באוצר המושגים ערך <strong>נשים – הליכתן ללוויה ולבית העלמין.</strong> </span></div>
+<p>סדר האזכרה בבית העלמין – (פרקי התהלים והתפילות מפורטים לקמן עמוד __ @).</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">י"ט.</span><span class="list-content">נהגו לומר שם לעילוי נשמה שבעה מזמורי תהלים אלו: ל"ג, ט"ז, י"ז, ע"ב, צ"א, ק"ד, ק"ל. יש במזמורים אלו התייחסות לחיי האדם ומותו, ולנצחיות נשמתו. כמו למשל "כִּי לֹא תַעֲזֹב נַפְשִׁי לִשְׁאוֹל לֹא תִתֵּן חֲסִידְךָ לִרְאוֹת שָׁחַת", "תֹּסֵף רוּחָם יִגְוָעוּן וְאֶל עֲפָרָם יְשׁוּבוּן: תְּשַׁלַּח רוּחֲךָ יִבָּרֵאוּן וּתְחַדֵּשׁ פְּנֵי אֲדָמָה", מזמור צ"א כולו המביע את בטחונו של האדם בה' המציל אותו. הצלה בחיים אך גם שמירה על הנשמה לאחר המיתה. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ'.</span><span class="list-content">אחר כך אומרים במזמור קי"ט את האותיות משמו הפרטי של הנפטר ואותיות נשמ"ה. מזמור קי"ט בנוי לפי סדר הא' – ב'. שמונה פסוקים הפותחים באות א', שמונה פסוקים הפותחים באות ב' וכן הלאה. נוהגים לומר את הפסוקים הפותחים באותיות שמו של הנפטר. לאחר מכן אומרים את הפסוקים הפותחים באותיות נשמ"ה הנוסח מופיע לקמן בעמוד @. ראה ערך <strong>אלפא ביתא</strong> באוצר המושגים.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ"א.</span><span class="list-content">אומרים תפילת "אנא" עבור נשמת הנפטר. לאחר כך מזכירים נשמתו בתפילת "א-ל מלא רחמים". (לקמן עמ' @ ) </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ"ב.</span><span class="list-content">בימים שאין אומרים תחנון, האשכנזים לא נוהגים לומר תפילת "אנא"  ו"אל מלא רחמים", כדי לא לעורר צער ובכי<span class="footnote-ref" onclick="showFootnote('66', '66', event)">66</span>. ויש שכתבו לומר "אל מלא רחמים" בתוך השבעה <span style="font-size: 0.75rem">שלא בשעת הלוויה</span><span class="footnote-ref" onclick="showFootnote('67', '67', event)">67</span>, או ביום השנה<span class="footnote-ref" onclick="showFootnote('68', '68', event)">68</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ"ג.</span><span class="list-content">יש להשתדל לקבץ מניין כשעולים לקבר. אך גם אם אין מניין, יש בהחלט עניין לעלות לקבר. ויש מי שכתב שאין צורך לטרוח כדי שיהיו עשרה אנשים דווקא<span class="footnote-ref" onclick="showFootnote('69', '69', event)">69</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ"ד.</span><span class="list-content">כשיש מניין אומרים קדיש, אך אם אין מניין אין לומר קדיש. אם אין מניין אפשר להתאסף בכניסה לבית העלמין עם אנשים אחרים ולומר שם קדיש<span class="footnote-ref" onclick="showFootnote('70', '70', event)">70</span>. את מזמורי התהלים, תפילת "אנא" ו"אל מלא רחמים", אפשר לומר ליד הקבר גם אם אין מניין. </span></div>
+<p>הנהגות על הקברים</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ"ה.</span><span class="list-content">נוהגים להניח יד שמאל על הקבר ואומרים פסוק: </span></div>
+<div class="sage-quote"><p style="font-size: 0.75rem">וְנָחֲךָ ה' תָּמִיד וְהִשְׂבִּיעַ בְּצַחְצָחוֹת נַפְשֶׁךָ וְעַצְמֹתֶיךָ יַחֲלִיץ וְהָיִיתָ כְּגַן רָוֶה וּכְמוֹצָא מַיִם אֲשֶׁר לֹא יְכַזְּבוּ מֵימָיו:</p>
+<p style="font-size: 0.75rem">וּבָנוּ מִמְּךָ חָרְבוֹת עוֹלָם מוֹסְדֵי דוֹר וָדוֹר תְּקוֹמֵם וְקֹרָא לְךָ גֹּדֵר פֶּרֶץ מְשֹׁבֵב נְתִיבוֹת לָשָׁבֶת:</p>
+</div><p style="font-size: 0.85rem"> (ישעיהו נח, יא- יב)</p>
+<div class="sage-quote"><p style="font-size: 0.85rem">'תשכב בשלום עד בא מנחם משמיע שלום'</p>
+</div><div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ"ו.</span><span class="list-content">נוהגים להניח על הקבר אבן או עשב כדי להראות שהיה על קברו. טעם נוסף - יש לקחת בחשבון שבעבר כשלא היו מצבות אבן, היו מקימים גלי אבנים על הקבר. גלי האבנים היו מתפזרים עם הזמן. חלק מפקידת הקבר היא גם הדאגה לציון הקבר על ידי הוספת אבנים על הקבר. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ"ז.</span><span class="list-content">יש הנוהגים להדליק נר נשמה ליד הקבר. יש הבונים מראש את המצבה עם מקום מיוחד להצבת הנר באופן שלא יכבה.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ"ח.</span><span class="list-content">ישנו מושג של "<span style="font-size: 0.85rem">לֹעֵג לָרָשׁ</span>" שבגללו אסור ללמוד תורה סמוך לקבר. שהרי הנפטר לא יכול ללמוד תורה ולקיים מצוותיה לאחר פטירתו. מסיבה זו גם אסור ללכת עם תפילין בבית העלמין או כשהציציות גלויות בתוך ארבע אמות של קבר<span class="footnote-ref" onclick="showFootnote('71', '71', event)">71</span>. אף על פי שאין ללמוד תורה בתוך ארבע אמות לקבר, מותר לומר ליד הקבר מזמורי תהלים ודברי תורה לכבוד הנפטר אפילו סמוך לקבר. שהרי אמירת התהלים ודברי התורה שאומרים שם הם לכבוד הנפטר ולעילוי נשמתו<span class="footnote-ref" onclick="showFootnote('72', '72', event)">72</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">כ"ט.</span><span class="list-content">כשמתפלל על קברי אבותיו או על שאר קברים, אל יתפלל למתים ואל יבקש מהם ואל ישים מגמתו כנגד המתים כדי שלא יהיה בכלל דורש אל המתים, אלא יתפלל לקב"ה. וכשמתפלל על קברי צדיקים יבקש מה' שיתן עליו רחמים בזכות הצדיקים שוכני עפר. אמונת היחוד בה' כוללת מחויבות לפנות לה' לבדו ולא דרך "מתווכים". לכן אין להתפלל למלאכים או לצדיקים או לנפטרים שיעזרו לאדם. התפילות הן לה' בלבד, אלא שיתכנו זכויות יתר שנותנים לאדם כדי שתתקבל תפילתו. כך למשל תפילת הציבור מתקבלת יותר מאשר תפילת היחיד. התפילה בימי הסליחות והרחמים מתקבלת יותר מאשר בשאר זמנים. כך גם יכולה תפילה על קברי צדיקים ללמד זכות על האדם המתפלל שם. אולם העיקרון של אמונת היחוד בה' שאין זולתו, חייב להשמר בכל מקרה. האלילות העתיקה החלה כתוצאה מטעות כזאת<span class="footnote-ref" onclick="showFootnote('73', '73', event)">73</span>.  אמנם יש שהתירו לבקש מהמתים להיות מליצי יושר עבור החיים, וכן עמא דבר. ראה ערך <strong>דורש אל המתים</strong> באוצר המושגים.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ל'.</span><span class="list-content">יש נוהגים שמי שלא הלך על קבר אביו עשר שנים, שוב לא ילך על קברו<span class="footnote-ref" onclick="showFootnote('74', '74', event)">74</span>. יש מי שכתב שאין להקפיד על כך<span class="footnote-ref" onclick="showFootnote('75', '75', event)">75</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ל"א.</span><span class="list-content">אין איסור לנשק את המצבה<span class="footnote-ref" onclick="showFootnote('76', '76', event)">76</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ל"ב.</span><span class="list-content">אלמן או אלמנה שנישאו בשנית, לא יעלו לקבר בן הזוג הראשון. ביום השנה יעלו לקבר רק הילדים ושאר בני המשפחה<span class="footnote-ref" onclick="showFootnote('77', '77', event)">77</span>. העיקרון הוא שאין לזיכרון העבר לעכב את בניין העתיד. לכן, עם כל הצער, זיכרון המתים נדחה מפני ההתמקדות החיונית בהמשך בניית החיים. ואף על פי כן ניתן לבחון את המצב המשפחתי בכלל, ואת היחס של בן/בת הזוג בפרט. ישנם זוגות שהסכימו מראש כיצד לנהוג, וככלל אם ישנה הסכמה בין בני הזוג שלא מעיבה על מערכת היחסים ביניהם – לא אמורה להיות מניעה מלבצעה. אך יש לבחון מראש בעדינות וברגישות אם בכלל ניתן להעלות את הנושא, ואם הדבר מקובל ורצוי. במקרים של ספק, נראה ש"שב ואל תעשה - עדיף".</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ל"ג.</span><span class="list-content">גם כהנים נוהגים לעלות לבית הקברות באזכרות. אך כבר נזכר לעיל בדיני הכהנים, שאסור לכהנים להיטמא למתים באזכרות ובעלייה לקבר. הפירוט מובא לעיל עמוד @.</span></div>
+<p>נטילת ידיים</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ל"ד.</span><span class="list-content">כשמבקרים בבית העלמין נוטלים ידיים קודם שמתפללים על הקברים ונוטלים שוב ביציאה משם, ויש רוחצים גם הפנים<span class="footnote-ref" onclick="showFootnote('78', '78', event)">78</span>. טעם לדבר מובא לעיל בפרק על הלוויה עמוד 84.</span></div>
+<div class="sage-quote"><p><strong>סדר האזכרה</strong><strong> </strong></p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">ביום השלושים וביום השנה נוהגים לקיים אזכרה לנפטר. מנהג עדות המזרח לערוך סעודה ולימוד לעילוי נשמת הנפטר גם בלילה שלפני סיום השבעה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">האזכרה כוללת עלייה לקבר <span style="font-size: 0.75rem">כמפורט בפרק הקודם.</span></span></div>
+<p>לימוד משניות</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">נוהגים ללמוד משניות לעילוי נשמת הנפטר. ביאור לעניין מובא באוצר המושגים ערך <strong>לימוד משניות</strong>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">המנהג הוא ללמוד פרקי משניות המתחילים באותיות שמו של הנפטר. רשימה של פרקי משניות לפי סדר א"ב מובאת לקמן בעמוד @. אחר כך נהגו ללמוד את ארבע המשניות האחרונות בפרק שביעי ממסכת מקוואות, המתחילות באותיות נשמ"ה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">אם קשה ללמוד פרקי משנה לפי סדר אותיות שם הנפטר, אפשר ללמוד משניות אחרות כי כולן מסוגלות לעילוי נשמה. אם רוצים אפשר ללמוד לימוד תורני אחר, עם לימוד המשניות או בלעדיו. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">אחרי הלימוד אומרים תפילת "אנא" כמובא בעמוד @  – חוץ מאשר בימים שאין אומרים בהם תחנון<span class="footnote-ref" onclick="showFootnote('79', '79', event)">79</span>. עדות המזרח אומרים השכבה לעילוי נשמה. ענייני השכבה והלכותיה מובאים בפרק הבא @.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">לאחר הלימוד אומרים את המשנה: </span></div>
+<div class="sage-quote"><p>ר' חנניה בן עקשיא אומר: רצה הקדוש ברוך הוא לזכות את ישראל לפיכך הרבה להם תורה ומצוות שנאמר: "ה' חָפֵץ לְמַעַן צִדְקוֹ יַגְדִּיל תּוֹרָה וְיַאְדִּיר"<span class="footnote-ref" onclick="showFootnote('80', '80', event)">80</span>.</p>
+</div><p>פירושים רבים נכתבו על משנה זו. לצורך ענייננו ניתן לומר שנהגו לומר משנה זו בסיום לימוד לפני קדיש דרבנן, היות והקדיש נאמר על לימוד אגדה, לכן נקרא הקדיש "על ישראל" גם בשם קדיש דאגדתא. כיון שמשנה זו עוסקת בדברי אגדה, היא נאמרת לאחר הלימוד, לפני הקדיש. </p>
+<p>קדיש</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">הבנים אומרים "קדיש דרבנן" מובא לקמן עמוד @. כשאין בנים, אומרים את הקדיש קרובים אחרים.</span></div>
+<p>ברכות לעילוי נשמה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">לאחר הלימוד והתפילה נהגו להגיש כיבוד קל כדי שיברכו לעילוי נשמת הנפטר <span style="font-size: 0.75rem">כמבואר לקמן באוצר המושגים ערך </span><span style="font-size: 0.75rem"><strong>ברכות לעילוי נשמה.</strong></span></span></div>
+<p>שילוב מנחה ומעריב, האבל שליח ציבור</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">בדרך כלל משתדלים לקבוע את הלימוד לשעות אחר הצהרים. כך אפשר לשלב בלימוד גם תפילת מנחה או מעריב או שתיהן, והאבל משמש כשליח ציבור ואומר קדיש.</span></div>
+<p>בשבת ובחג</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">גם אם חל יום השבעה או יום השלושים או יום השנה בחג או בשבת, מותר לעשות סעודה ולימוד ולומר שם דברי תורה ומוסר לעילוי נשמת הנפטר. כלומר, אף על פי שאין עולים לבית העלמין בשבת ובחג, מכל מקום אם רוצים ניתן לערוך את הלימוד והסעודה בשבת או בחג.</span></div>
+<p>סמוך לפני חגים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">חכמים התקינו שאין לתכנן אזכרות בתוך שלושים הימים שלפני החג. הטעם הוא כדי לא לעורר מחדש את הצער על הנפטר, צער העלול להימשך ולהשפיע גם בחג<span class="footnote-ref" onclick="showFootnote('81', '81', event)">81</span>. אף על פי שאין לתכנן אזכרות בתוך שלושים הימים שלפני החג, אם יום השלושים או יום השנה חלו בתוך תקופה זו, מותר<span class="footnote-ref" onclick="showFootnote('82', '82', event)">82</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">אם הרגל ביטל את השבעה, מקיימים את האזכרה והלימוד לפי מנהג עדות המזרח, בלילה שלפני סיום האבלות. </span></div>
+<p>סיכום ההכנות לאזכרה:</p>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">קביעת עיתוי – יום ושעה, בתיאום מראש עם קרובי משפחה אחרים.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">להביא בחשבון את זמן השקיעה ואת משך השיעור, אם רוצים להתפלל מנחה לפני האזכרה ומעריב לאחריה. </span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">בעלייה לבית העלמין לקחת את הספרונים עם פרקי התהלים שנהגו לומר בבית העלמין.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">מיקום האזכרה. אם המיקום בבית כנסת, יש לתאם עם הגבאים.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">לקבוע מראש מי ילמד את המשניות או את השיעור.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">כיבוד. שתיה. כלים.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">הודעה לקרובים ולחברים. </span></div>
+<div class="sage-quote"><p><strong>הזכרת נשמות והשכבה, יזכור</strong></p>
+<p>מנהג זכירת המתים בשבת, אין ספק שזכירתם ביום המנוחה מועיל להם מאד מפני שהם נחים ועל ידי הזכירה נשמתם מתחדשת, שיש תלייה לשם עם הנשמה… שכל שם מורה על מהות ועצמות האדם… והנה בהזכרת שמו מתחדשת שם מנוחתו ויהיה עתה במנוחה ודיוקן נשמתו מאירה.</p>
+<p>וכשמזכיר שמו במנוחה אחר מיתתו צריך כוונה מפני שדיבור התחתונים פועל בעליונים מאד בסוד הבל פה העולה, ובפרט אם יזכר המת מבנו או מקרובו ובבית הכנסת שהיה רגיל להתפלל בו וכל שכן אם בנה אותה או הקדיש בה הקדשות, שהכל מסייע להשכין נשמתו בענג שמתגלה באותו היום הקדוש על הנשמות הקדושות. וכמו שהקדוש ברוך הוא מקדש נשמות הצדיקים החיים, כל שכן שנשמות המתים יקבלו גם כן מנוחה וענג ובפרט על ידי התעוררות המזכירים אותם.</p>
+</div><p>מעבר יַבֹּק מאמר שפתי רננות פרק כג</p>
+<p>עיקרון יסודי בהזכרת נשמות הוא שהחיים יכולים להיטיב עם נשמות הנפטרים, עיקרון זה משותף גם לאמירת הקדיש. בתוך נוסח "יזכור" מופיעה ההתחייבות לנתינת צדקה, מפני שהתפילות הן חלק ממכלול של מעשי צדקה וחסד שמטרתם לגרום לעילוי נשמת הנפטר. כבר הוזכר לעיל שעל פי האמונה היהודית, כל מעשה טוב שהקרוב עושה לזכותו של הנפטר, מלמד עליו זכות בעולם האמת.</p>
+<p>הזכרת נשמות<em> </em>והשכבה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">נוהגים להזכיר נשמות בתפילת "אל מלא רחמים" בשנה הראשונה בשבתות של כל השנה, ובשאר השנים בשבת שלפני יום הזיכרון. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">עיקר התועלת הוא בנתינת הצדקה לעילוי הנשמה. יש להקפיד מאוד לתת את הצדקה שנדבו, ועדיף מייד<span class="footnote-ref" onclick="showFootnote('83', '83', event)">83</span>, והמובחר לתת תחילה ולומר "בעבור שנתתי"<span class="footnote-ref" onclick="showFootnote('84', '84', event)">84</span>. עדיף לומר "בעבור שמשפחתו נודבת" ולא "נודרת", כדי לא להתחייב התחייבות חמורה של נדר. מאידך, אין להימנע מעשיית השכבה לנפטר אפילו אם אין נודבים צדקה<span class="footnote-ref" onclick="showFootnote('85', '85', event)">85</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">בימים שאין אומרים בהם תחנון אין אומרים הזכרת נשמות, וכן אם יש חתן או ברית מילה בבית הכנסת. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">אין מזכירים נשמות בשבת מברכים אלא רק למי שחל יום השנה שלו באותו שבוע<span class="footnote-ref" onclick="showFootnote('86', '86', event)">86</span>; וכן אין מזכירים בארבע פרשיות<span class="footnote-ref" onclick="showFootnote('87', '87', event)">87</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">האשכנזים ובני תימן<span class="footnote-ref" onclick="showFootnote('88', '88', event)">88</span> נוהגים להזכיר את שם הנפטר (או הנפטרת) בשמו ושם אביו. עדות המזרח נוהגים להזכיר שם הנפטר בשמו ושם אביו, ואשה בשמה ושם אמה; ויש הנוהגים להזכיר תמיד שם האם, ואין דברים אלו מעכבים, ובכל מקום ינהגו כמנהגם<span class="footnote-ref" onclick="showFootnote('89', '89', event)">89</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">יש להזכיר את שם הנפטר כפי שהיה נקרא בפי רוב העולם. ולכן אפילו היה לו שם עברי ונשתקע, וקראו לו בשם הלועזי, גם בהשכבה יש להזכיר את השם הלועזי<span class="footnote-ref" onclick="showFootnote('90', '90', event)">90</span>. </span></div>
+<p>נוסח הזכרת נשמות מובא לקמן עמוד ____ @.</p>
+<p>נוסחי השכבה מובאים לקמן עמוד _____@.</p>
+<div class="sage-quote"><p>לכך רגילים להזכיר המתים בשבת, שלא ישובו לגיהנום. שכן כתוב בתורת כהנים: "<span style="font-size: 0.85rem">כַּפֵּר לְעַמְּךָ יִשְׂרָאֵל</span>" (דברים כא, ח) – אלו החיים, "<span style="font-size: 0.85rem">אֲשֶׁר פָּדִיתָ</span>" – אלו המתים. מכאן שהחיים פודים את המתים. לכך אנו נוהגים להזכיר את המתים ביום הכפורים ולפסוק עליהם צדקה.</p>
+<p>מדרש תנחומא פרשת האזינו</p>
+</div><p>יזכור </p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">האשכנזים נוהגים להתפלל תפילת "יזכור" כל אחד לעילוי נשמת הוריו וקרוביו בארבעה פרקים בשנה: ביום הכיפורים, בשמיני עצרת, בשביעי של פסח ובחג השבועות. עדות המזרח נהגו לעשות השכבות בליל יום הכיפורים<span class="footnote-ref" onclick="showFootnote('91', '91', event)">91</span> ושבוע לפני יום השנה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">אומרים יזכור גם בשנה הראשונה לפטירה<span class="footnote-ref" onclick="showFootnote('92', '92', event)">92</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">מזכירים נשמות גם ברגלים וביום הכיפורים כשחלו בשבת. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">נוהגים שכל מי שיש לו אב ואם יוצאים מבית הכנסת בזמן שאומרים יזכור, לכן נהגו שהשמש מכריז קודם לכן "יזכור".</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">עיקר אמירת יזכור והזכרת נשמות הוא בציבור, אבל גם יחיד יכול לאמרה בביתו או בבית הקברות כשאין מניין<span class="footnote-ref" onclick="showFootnote('93', '93', event)">93</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">אפשר לומר הזכרת  נשמות גם לקטנים<span class="footnote-ref" onclick="showFootnote('94', '94', event)">94</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">מותר לאדם להזכיר נשמת אשתו הראשונה גם כשנשא אשה אחרת, וכן אשה נשואה על בעלה הקודם. למרות שיש הסתייגות והגבלה לאדם שלא יעלה לקבר אשתו הראשונה לאחר שנישא בשנית, וגם לא ידליק נר נשמה ביום פטירתה בפני אשתו השנייה, בהזכרת נשמות התירו. הטעם הוא כיון שעלייה לקבר והדלקת הנר הן פומביות, ויש לאדם להתמקד בבניין ביתו הנוכחי, גם אם במידה מסוימת הדבר בא על חשבון זכרונות העבר. אבל הזכרת נשמות נאמרת ביחידות בין אדם לבוראו, ובאופן צנוע ואישי כזה היא לא אמורה להשפיע על בניין המשפחה הנוכחי.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">חייל דרוזי שנפל על משמרתו בצה"ל, מותר לומר השכבה לעילוי נשמתו בבית הכנסת. וכן מותר לומר השכבה לעילוי נשמת גוי שהציל יהודים בשואה<span class="footnote-ref" onclick="showFootnote('95', '95', event)">95</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">נוהגים להדליק נרות לעילוי נשמת ההורים והקרובים שמזכירים נשמותיהם בארבעה פרקים אלו. </span></div>
+<p>התייחסות מפורטת לנר נשמה מובאת לקמן באוצר המושגים.</p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " ואם נתאחרה קבורתו אחר שלושה ימים או יותר, יש מהאשכנזים הנוהגים בשנה הראשונה לקבוע את יום הזיכרון הראשון ביום הקבורה, ובשנים שלאחריו ביום המיתה. (משנה ברורה תקסח, סעיף קטן מד. שפתי כהן יורה דעה תב, סעיף קטן י . צרור החיים פיסקה רמא.) ", "2": " שלחן ערוך ורמ\"א, אורח חיים סימן תקסח, ז. רמ\"א יורה דעה סימן תב, יב. גשר החיים פרק לב, י.", "3": " משנה ברורה שם סעיף קטן מא.", "4": " גשר החיים פרק לב, יא; כמגן אברהם וכמשנה ברורה שם סעיף קטן מב. ", "5": " אגרות משה יורה דעה חלק ג סימן קנט. וטעמו שבכ\"ט היה עדיין חי ואי אפשר לקבוע אז, אבל בא' כבר נפטר.", "6": " אגרות משה הנ\"ל.", "7": " גשר החיים פרק לב, יב. ילקוט יוסף סימן ל, לג. ובסימן מ, ה, כתב שיש לקבוע את היום הראשון כדי לעורר זכויות על נפש הנפטר קודם יום הפטירה. גם בצרור החיים (פיסקה רמב) כתב שיום השנה ביום הראשון. ", "8": " שם סעיף יד.", "9": " כף החיים סימן תקסח סעיף קטן עח, מביא את הדעה הראשונה בשם חכמת אדם וסובר כדעה השניה. גם בילקוט יוסף (סימן ל, לד) הביא את שתי הדעות, ולמסקנתו יקבע ביום הראשון של החודש.", "10": " משנה ברורה שם סעיף קטן מב.", "11": " בילקוט יוסף (סימן מ, לא) הביא בשם האדמו\"ר מצאנז ובעל הקהילות יעקב, שלאחר יובל שנים הגיעה הנשמה למקומה ואין יותר תועלת בעלייה לקבר. אך על פי האריז\"ל יש עלייה לנשמה בכל שנה ושנה, ויש להמשיך את כל מנהגי יום השנה אפילו מאה שנה.", "12": " צרור החיים פיסקה רנא.", "13": " ילקוט יוסף סימן ל, ט. צרור החיים עמוד 105 סעיף 5.", "14": " הערת הרב נבנצל שליט\"א – ויש נמנעים, כדי שלא להניח שנשמות ההורים בגיהנום ח\"ו.  ", "15": " ילקוט יוסף סימן ל, ט.", "16": " ילקוט יוסף סימן מ, לו.", "17": " פני ברוך סימן לט, ד; בשם מטה אפרים ומשמרת שלום.", "18": " גשר החיים פרק לב, א, ב.", "19": " ילקוט יוסף סימן ל, מג.", "20": " צרור החיים פיסקה רמג על פי בן איש חי. ובילקוט יוסף (סימן ל, ז) כתב שאין צורך לערוך אזכרה שלישית ביום הפטירה, כיון שבשנה הראשונה המשמעות היא לחודשים ולא ליום השנה. וגם לשיטתו, המחמיר לערוך אזכרה נוספת גם ביום הפטירה, תבוא עליו ברכה. והוסיף שהאזכרה העיקרית היא בסיום שנים עשר חודש (סימן מ, ג).", "21": " ילקוט יוסף במבוא, עמוד ז. ובסימן מ, ג.", "22": " גשר החיים פרק כ, א, א.", "23": " ביאור הלכה לשלחן ערוך אורח חיים תקיד, ה. ילקוט יוסף סימן מ, מה. ובגשר החיים (פרק לב, א, ד) כתב בלילה להדליק בבית וביום להדליק רק בבית הכנסת. הטעם נתבאר לעיל ומובא גם באוצר המושגים.", "24": " ואין בזה משום \"אין עושין מצוות חבילות חבילות\", ילקוט יוסף סימן מ, לד. צרור החיים פיסקה רסב.", "25": " כל בו על אבלות עמוד 404. ", "26": " רמ\"א יורה דעה סימן שעו, ד. תב, יב.", "27": " צרור החיים פיסקה רמה.", "28": " בן איש חי שנה שניה, פרשת כי תצא, כג.", "29": " ילקוט יוסף סימן מ, טו.", "30": " שלחן ערוך אורח חיים תקסב, ה.", "31": " רמ\"א יורה דעה סימן תב, יב.", "32": " שלחן ערוך אורח חיים תקסח, ט.", "33": " ילקוט יוסף סימן מ, כד, על פי דברי האריז\"ל. והטעם כתב שם בהערה כדי להרבות זכות לנפטר עוד לפני הבאתו לדין ביום השנה לפטירתו, כדי להעלותו ממדרגה לממדרגה בגן עדן, ואם ידחה ליום ראשון – מה שהיה כבר היה.", "34": " צרור החיים פיסקה רמז.", "35": " גשר החיים פרק לב, ז.", "36": " רמ\"א יורה דעה סוף סימן תב. ועיין עוד פתחי תשובה שם סעיף קטן ח. ובילקוט יוסף (סימן מ, יז) כתב שאם נהג שלוש פעמים ורוצה לבטל מנהגו לגמרי צריך התרת נדרים. אך אם רוצה לבטל מנהגו באופן חד פעמי מסיבת חולי, אין צריך התרה. ", "37": " פני ברוך סימן לט, לד.", "38": " צרור החיים פיסקה רנז. ילקוט יוסף סימן מ, ב.", "39": " רמ\"א יורה דעה סוף סימן שצא, ופתחי תשובה שם אות ח.", "40": " ערוך השלחן יורה דעה סימן שצא, יד. וכתב שם דברי בעל הלבוש שלא ראה מנהג זה כלל, וזהו סניף נוסף להקל במקום הצורך.", "41": " צרור החיים פיסקה רנז.", "42": " ילקוט יוסף סימן מ, ב.", "43": " פני ברוך סימן לט, א. והטעם כדי לזכות את נשמת הנפטר קודם שתגיע לדין ביום השנה.", "44": " ילקוט יוסף סימן מ, לז – לח.", "45": " ילקוט יוסף סימן ל, ט. וגם בצרור החיים (פיסקה רנח) כתב שטוב לנהוג כך.", "46": " צרור החיים פיסקה קפו.", "47": " גשר החיים פרק לב, ה.", "48": " גשר החיים פרק כט, ו. וכתב שם שלאחר פסח או סוכות יש הממתינים עד לאחר השלושים.", "49": " צרור החיים פיסקה רנב. ובגשר החיים (שם, ז) כתב לאחר, אלא אם כן חל ביו\"ט ראשון של סוכות או פסח, שאז מקדימים.", "50": " צרור החיים פיסקה רנא.", "51": " ילקוט יוסף סימן מ, י. נטעי גבריאל חלק ב, פרק עו, ג בשם החזון איש. ובצרור החיים (פיסקה רמח) כתב שהעניין חשוב מספיק כדי לבטל תורה, אך אם מלמד תורה לרבים ובית הקברות רחוק, ירבה בלימוד תורה לעילוי נשמת הנפטר במקום לנסוע.", "52": " צרור החיים פיסקה רנב. ילקוט יוסף סימן לו, ה.", "53": " גשר החיים פרק לב, ה; פרק כט, ז.", "54": " ילקוט יוסף סימן מ, כה.", "55": " גשר החיים פרק כט, ה. וראה לקמן הלכה יח @.", "56": " צרור החיים פיסקה רנג. ובילקוט יוסף (סימן לה, י) כתב שאם חל היום השביעי לאבלות בראש חודש, ראוי לדחות את העלייה עד לאחר ראש חודש, כיון שבדרך כלל מתגבר עליהם הבכי. אבל אם האבלים יוכלו לשמור על איפוק ולא לבכות בעלייה לקבר, יכולים לעלות בראש חודש. ואם חל היום השביעי בחנוכה, יש לדחות את העלייה לקבר עד לאחר חנוכה.", "57": " ילקוט יוסף סימן לו, ד.", "58": " גשר החיים פרק כט, ה. צרור החיים פיסקה רנד.", "59": " צרור החיים פיסקה ריח.", "60": " המקור לכך הוא מצוואת רבי יהודה החסיד, סעיף יב. והטעם לכך כתב בדמשק אליעזר שבזה שהולך מגלה שבפעם הראשונה לא התפלל המת בעבורו, ויש ביזיון למת שמחשיבו לאכזר. ולכן אם התחדש לאדם צורך מסוים, יכול ללכת פעם נוספת, אפילו באותו היום; או אם חשב מראש ללכת פעמיים באותו יום, מותר (צרור החיים עמוד 129, ב). טעם נוסף הוא כדי שלא להטריד את מנוחת המת.", "61": " מגן אברהם על שלחן ערוך אורח חיים סוף סימן תקנט. ", "62": " ילקוט יוסף סימן י, כה.", "63": " פתחי תשובה על שלחן ערוך יורה דעה סימן קצה, סעיף קטן יט. גשר החיים פרק כט, יג בשם האר\"י. וכתב שאין לנשים לילך לבית העלמין בטרם טבלו. ובילקוט יוסף (סימן י, כד) כתב שהמניעה דווקא בזמן נידותן, אבל בימי ליבונה מותר אף בטרם טבלה. ", "64": " הערת הרב נבנצל שליט\"א – אין כולם מסכימים לזה, ואדרבה יש שמונעים אף כשאינן נידות.", "65": " צרור החיים פיסקה רצא.", "66": " רמ\"א יורה דעה סימן תא, ו. כל בו על אבלות עמוד 104. ", "67": " מגן אברהם על שלחן ערוך אורח חיים סימן תרצו, סעיף קטן ה.", "68": " משנה ברורה סימן תקמז, סעיף קטן ח.", "69": " ספר הלכות אבלות פרק ו, לו.", "70": " צרור החיים פיסקה רמט.", "71": " שלחן ערוך אורח חיים סימן כג וסימן מה, יורה דעה סימן שסז, ב – ג. בצרור החיים (פיסקה נ) הוסיף שאין ללכת עם ספר קודש בבית הקברות או בתוך ארבע אמות של מת אף על פי שלא קורא בו.", "72": " שלחן ערוך יורה דעה סימן שדמ, יז; שסז, ג.", "73": " עיין ברמב\"ם הלכות עבודה זרה א, א.", "74": " ישנו מושג של כיבוד אב ואם בחייהם ויש כיבוד אב ואם לאחר מותם, כגון אמירת הקדיש ועשיית מצוות ומעשים טובים לאחר מותם מתוך כוונה לזכותם ולעילוי נשמתם. ביקור קברם נתפש כחלק מכבוד הצאצאים כלפי אבותם. התפישה במנהג זה היא שעלולה להיות הקפדה על מי שלא הלך על קברם לכבדם פרק זמן כה ממושך. גם לפי תפיסה זו נראה שאם היה אנוס לא יקפידו עליו ויוכל לעלות לקברם גם אחרי הרבה שנים. פני ברוך עמוד תב, הערה מז. וראה עוד בילקוט יוסף סימן מ, יד בהערה, שהאריך בזה.", "75": " גשר החיים פרק כט, טז. כל בו על אבלות עמוד 180.", "76": " צרור החיים פיסקה רנה.", "77": " צרור החיים פיסקה ש. ובגשר החיים (פרק כט, ח) כתב שאם יודעת שאין זה נגד רצון בעלה יש להקל שתבקר את קבר בעלה הראשון, ואם אין זה לרוחו לא תבקר. וכך יש לנהוג לגבי אלמן לגבי עלייה לקבר אשתו הראשונה.", "78": " משנה ברורה סימן ד, סעיף קטן מב.", "79": " פני ברוך סימן לט, יג.", "80": " ישעיהו מב, כא; סיום פרקי אבות.", "81": " משנה מועד קטן ח, א. שלחן ערוך אורח חיים סימן תקמז, ג. יורה דעה סימן שמז", "82": " שלחן ערוך יורה דעה סימן שמז, ג. פני ברוך סימן ג, ט. הערת הרב נבנצל שליט\"א – צריך עיון לענ\"ד.", "83": " פני ברוך סימן לט, יז.", "84": " גשר החיים פרק לא, ב, ג.", "85": " ילקוט יוסף סימן לב, א.", "86": " מגן אברהם על שלחן ערוך אורח חיים סימן רפד סעיף קטן ז.", "87": " משנה ברורה סימן תרפה סעיף קטן יח.", "88": " שלחן ערוך המקוצר עיני יצחק, יורה דעה סימן קפז, יד.", "89": " גשר החיים פרק לא, ב, י. ילקוט יוסף סימן לב, ג. ויש מי שכתב שבעדות המזרח מזכירים שם אביו ושם אמו (ספר הלכות אבלות פרק ו, יח).", "90": "  ילקוט יוסף שם, ה. הערת הרב נבנצל שליט\"א – צריך עיון לענ\"ד; בני ישראל נגאלו ממצרים כיון שלא שינו את שמם. ", "91": " ילקוט יוסף סימן לב, ח.", "92": " גשר החיים פרק לא, ב, ז. ואף שיש שנתנו טעם לא להזכיר נשמות בשנה ראשונה, כבר נמנו וגמרו שהמנהג שלא להזכיר נשמות בשנה הראשונה אין לו טעם ויסוד, ואדרבה בשנה הראשונה יש יותר צורך בהזכרת נשמותיהם. כל בו על אבלות עמוד 404.", "93": " פני ברוך סימן לח, טז.", "94": " גשר החיים פרק לא, ב, ח.", "95": " ילקוט יוסף סימן ל, כו - כז."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

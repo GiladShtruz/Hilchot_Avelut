@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="sage-quote"><p><strong>על מי חלה האבלות</strong><strong> </strong>- מי מתאבל ועל מי מתאבלים</p>
+</div><p style="font-size: 0.85rem">אבלות נוהגת בשבעת סוגי הקרובים שיכולים להיות לאדם. קרובים אלו מוזכרים בפסוקים הבאים:  </p>
+<div class="sage-quote"><p style="font-size: 0.75rem">וַיֹּאמֶר ה' אֶל מֹשֶׁה אֱמֹר אֶל הַכֹּהֲנִים בְּנֵי אַהֲרֹן וְאָמַרְתָּ אֲלֵהֶם לְנֶפֶשׁ לֹא יִטַּמָּא בְּעַמָּיו: </p>
+<p style="font-size: 0.75rem">כִּי אִם לִשְׁאֵרוֹ הַקָּרֹב אֵלָיו לְאִמּוֹ וּלְאָבִיו וְלִבְנוֹ וּלְבִתּוֹ וּלְאָחִיו: </p>
+<p style="font-size: 0.75rem">וְלַאֲחֹתוֹ הַבְּתוּלָה הַקְּרוֹבָה אֵלָיו אֲשֶׁר לֹא הָיְתָה לְאִישׁ לָהּ יִטַּמָּא:</p>
+<p style="font-size: 0.75rem"><span style="font-size: 0.75rem">ויקרא </span><span style="font-size: 0.75rem">כא</span><span style="font-size: 0.75rem">, א - ג</span></p>
+</div><p>כללים לגבי שבעת הקרובים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">בפרק הדן בדיני הכהנים (ויקרא כא) אנו למדים על שבעת סוגי הקרובים, שעליהם גם הכהן חייב להיטמא כדי לעסוק בקבורתם ולהתאבל עליהם. והם: איש על אשתו<span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span> ואשה על בעלה, אב ואם, בן ובת, אח ואחות מאב - אחות רווקה בלבד. ומדברי סופרים החיוב להתאבל הוא גם על אח ואחות מאם, וגם על אחות נשואה, אף על פי שאין הכהן נטמא להם<span class="footnote-ref" onclick="showFootnote('2', '2', event)">2</span>.</span></div>
+<p>לפי הכללים דלעיל, יוצא שלא נוהגים דיני אבלות על סבא וסבתא, לא על נכדים; לא על דודים ולא על אחיינים.</p>
+<div class="sage-quote"><p>רמז לשבעה קרובים אלו מצאו חכמים במלה "<strong>אבל</strong>"</p>
+<p><strong>א</strong> – אב, אם, אח, אחות, אשה;</p>
+<p><strong>ב</strong> – בן, בת, בעל;</p>
+<p><strong>ל</strong> – בגימטריה שלושים, כלומר שלושים ימי אבלות.</p>
+<p>אמנם על אב ואם תקופת האבלות נמשכת שנים עשר חודש.</p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">בן שמעולם לא הכיר את אביו או את אמו, אף על פי כן כשנודע לו על פטירת אחד מהם, חייב להתאבל עליהם. </span></div>
+<p>דיני בן מאומץ יפורטו לקמן.</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">על אחיו ואחותו ועל בנו ובתו מתאבל אפילו אם הם פסולים מלבוא בקהל, בתנאי שהם יהודים<span class="footnote-ref" onclick="showFootnote('3', '3', event)">3</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">קטנים שלא הגיעו למצוות אינם חייבים להתאבל, אבל נוהג בהם דין קריעה. ומנהג בני תימן שקטן שהגיע לחינוך נוהג אבלות, וכל שכן כשהגדיל בימי השבעה <span class="footnote-ref" onclick="showFootnote('4', '4', event)">4</span>. </span></div>
+<p>התייחסות מיוחדת לקטן שהגיע למצוות תוך כדי תקופת האבל, מובאת לקמן בפרק @.</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">מי שנפטר קרובו שחייב להתאבל עליו, ולא נודע לו על כך, לא חלה עליו אבלות כלל. ומותר מעיקר הדין להזמינו לסעודת נישואין וכיוצא בזה<span class="footnote-ref" onclick="showFootnote('5', '5', event)">5</span>.</span></div>
+<p>איש ואשתו</p>
+<div class="sage-quote"><p style="font-size: 0.75rem">תנא: אין איש מת אלא לאשתו, ואין אשה מתה אלא לבעלה. </p>
+<p style="font-size: 0.75rem">אין איש מת אלא לאשתו - שנאמר <span style="font-size: 0.85rem">וַיָּמָת אֱלִימֶלֶךְ אִישׁ נָעֳמִי </span>(רות א, ג), </p>
+<p style="font-size: 0.75rem">ואין אשה מתה אלא לבעלה - שנאמר <span style="font-size: 0.75rem">וַאֲנִי בְּבֹאִי מִפַּדָּן מֵתָה עָלַי רָחֵל </span> (בראשית מח, ז). </p>
+</div><p style="font-size: 0.75rem">סנהדרין כב, ב</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">מתאבל על אשתו הנשואה לו כהלכה. אבל בארוסה, או בנשואה שלא כדין אינו צריך להתאבל<span class="footnote-ref" onclick="showFootnote('6', '6', event)">6</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">בני זוג הנמצאים בהליכי גירושין, נחשבים עדיין כקרובים וצריכים לנהוג אבלות זה על זו<span class="footnote-ref" onclick="showFootnote('7', '7', event)">7</span>, ויש אומרים שאין צריכים לנהוג אבלות זה על זו<span class="footnote-ref" onclick="showFootnote('8', '8', event)">8</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">אשה שמת בעלה ונתיאשו מלקברו, ונישאה שוב ולאחר מכן ניתן הראשון לקבורה, אינה מתאבלת עליו כיון שנישואי השני הפקיעו את קירבת הראשון<span class="footnote-ref" onclick="showFootnote('9', '9', event)">9</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">מי שנפטר בלי ילדים, ואשתו המתינה ליבום או לחליצה ובתוך זמן זה נפטרה, מעיקר הדין היבם חייב בקבורתה ומתאבל עליה<span class="footnote-ref" onclick="showFootnote('10', '10', event)">10</span>; אך יש פוסקים שאין היבם חייב להתאבל עליה, ובפרט בארץ ישראל שפשט המנהג להקל בזה<span class="footnote-ref" onclick="showFootnote('11', '11', event)">11</span>.</span></div>
+<p>כשאינם משבעת הקרובים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">על רבו שלימדו חוכמה מתאבל יום אחד<span class="footnote-ref" onclick="showFootnote('12', '12', event)">12</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">בן מאומץ מעיקר הדין אינו חייב לנהוג אבלות על הוריו המאמצים, אך יראה עצמו בצער על פטירתם. וראוי שיאמר קדיש על הוריו המאמצים, במיוחד אם אין בנים אחרים שיאמרו<span class="footnote-ref" onclick="showFootnote('13', '13', event)">13</span>. ויש שכתבו שיש לעודדו לנהוג אבלות על הוריו המאמצים מדין הכרת טובה, אך לא יקל בשל כך להיבטל מלימוד תורה<span class="footnote-ref" onclick="showFootnote('14', '14', event)">14</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">קרוב משפחה שאינו בכלל שבעת הקרובים, המרגיש צורך להתאבל ולנהוג חלק ממנהגי אבלות, רשאי לנהוג חלק ממנהגי האבלות<span class="footnote-ref" onclick="showFootnote('15', '15', event)">15</span>. ברם, אסור לו לשבת ממש שבעה ולנהוג בכל האיסורים<span class="footnote-ref" onclick="showFootnote('16', '16', event)">16</span>, אבל יכול לומר קדיש אם אביו מסכים<span class="footnote-ref" onclick="showFootnote('17', '17', event)">17</span>. כך למשל ילדים מאומצים על הוריהם המאמצים, וכן גם אדם על חמיו וחמותו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">ישנו כלל הלכתי "<strong>כל שמתאבל עליו מתאבל עמו</strong>"<span class="footnote-ref" onclick="showFootnote('18', '18', event)">18</span>. העיקרון הוא שמשום כבוד שבעת קרוביו נוהג בפניהם אבלות כשהם נוהגים באבלות. כגון שמת בן בנו שאינו חייב לנהוג עליו אבלות, בכל זאת קורע בפני בנו ונוהג אבלות בפניו. אבל שלא בפניו אינו נוהג אבלות. באשתו נוהג אבלות בפניה רק על אביה ואמה משום כבוד חמיו וחמותו ולא בשאר קרוביה, וכן האשה נוהגת אבלות בפני בעלה רק על חמיה וחמותה ולא על שאר קרובי בעלה.</span></div>
+<p>הרמ"א<span class="footnote-ref" onclick="showFootnote('19', '19', event)">19</span> מעיר שכעת נוהגים להקל באבלות זו שאין זה אלא משום כבוד המתאבלים, ועכשו נהגו כולם למחול. ונוהגים כעת שלא להתאבל כלל עם המתאבלים, וכל המחמיר בזה אינו אלא מן המתמיהים. ומכל מקום נהגו שקרובי המת, מראים לו קצת אבלות בעצמם כל שבוע הראשונה, דהיינו עד אחר שבת הראשון; שאין רוחצים ואין משנים קצת בגדיהם כמו בשאר שבת, ואין הולכים לסעודת מצוה<span class="footnote-ref" onclick="showFootnote('20', '20', event)">20</span>. ומי שרוצה להחמיר על עצמו להתאבל על מי שאינו צריך, אין מוחים בידו. ובדברים אלו הולכים אחר המנהג<span class="footnote-ref" onclick="showFootnote('21', '21', event)">21</span>. ויש מי שכתב שהיום אין נוהגים באבלות זו<span class="footnote-ref" onclick="showFootnote('22', '22', event)">22</span>.</p>
+<p>גרים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">גר או גיורת שהתגיירו עם קרוביהם, מצד עיקר הדין אינם חייבים להתאבל כיון שגר שהתגייר דומה לקטן שנולד, ולכן הקירבה הביולוגית לא נחשבת לקורבה<span class="footnote-ref" onclick="showFootnote('23', '23', event)">23</span>. אף על פי כן נהגו להחמיר ולהתאבל. מכל מקום לא נאסרים בלימוד תורה בזמן האבלות, וכן לא יברכו "דיין האמת"<span class="footnote-ref" onclick="showFootnote('24', '24', event)">24</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">גויים שקיבלו עליהם דת ישראל ומתו קודם שהספיקו לטבול, נספדים ונקברים כישראלים<span class="footnote-ref" onclick="showFootnote('25', '25', event)">25</span>.</span></div>
+<p>על תינוק </p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">אין נוהגים אבלות על תינוק שנפטר בתוך שלושים יום ללידתו. ואם ידוע שהשלים תשעה חודשי הריון גמורים מתאבלים עליו, אפילו הוא תינוק בן יומו<span class="footnote-ref" onclick="showFootnote('26', '26', event)">26</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ז.</span><span class="list-content">תאומים שאחד נפטר בתוך שלושים יום, והשני לאחר שלושים, על הראשון אין מתאבלים, ועל השני חייבים להתאבל כיון שיצא מכלל נפל<span class="footnote-ref" onclick="showFootnote('27', '27', event)">27</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ח.</span><span class="list-content">תינוק שנולד בזמנו וחי יותר משלושים יום על ידי מכשירי הנשמה, יש לנהוג עליו אבלות כיון שיצא מכלל נפל<span class="footnote-ref" onclick="showFootnote('28', '28', event)">28</span>. וכן הדין בתינוק שנולד עם מום המסכן את חייו ההגדרה ההלכתית היא "טריפה" ונפטר לאחר שלושים, שמתאבלים עליו, למרות שהאריכו את חייו באופן מלאכותי<span class="footnote-ref" onclick="showFootnote('29', '29', event)">29</span>. ויש אומרים שאין לנהוג עליו אבלות במקרה כזה<span class="footnote-ref" onclick="showFootnote('30', '30', event)">30</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ט.</span><span class="list-content">תינוק שנולד טרם זמנו ושהה באינקובטור למעלה מחודש, ונפטר, יש הסוברים שיש למנות לו שלושים יום מלידתו ולכן יש להתאבל עליו. ויש שכתבו שאין להתאבל עליו כיון שנתברר שמראש לא היה בן קיימא, והלכה כדברי המקל באבל<span class="footnote-ref" onclick="showFootnote('31', '31', event)">31</span>.</span></div>
+<p>הפורשים מדרכי ציבור</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ'.</span><span class="list-content">בזמן הזה מתאבלים כרגיל על מחללי שבתות ומי שאינם שומרי תורה<span class="footnote-ref" onclick="showFootnote('32', '32', event)">32</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"א.</span><span class="list-content">עבריין פוקר מפורסם שפרש מדרכי ישראל ושפרק מעליו כל עול ישראל - אין מתאבלים עליו, ואין אוננים עליו, ואין קורעים עליו, ואין קרוביו משנים בגדיהם, ואין מראים עליו עצבות ואין צריך לחלוק לו כבוד. אבל צריכים להתעסק בקבורתו ונקבר בקבר ישראל מן הצד<span class="footnote-ref" onclick="showFootnote('33', '33', event)">33</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ב.</span><span class="list-content">קרוביו של מי שמסר את גופו למדע, וצווה שלא לקברו, אינם צריכים לנהוג אבלות עליו. כיון שאז נכלל בגדר "הפורשים מדרכי ציבור" שפרק מעליו כל עול מצוות, ואין מתאבלים עליו כלל<span class="footnote-ref" onclick="showFootnote('34', '34', event)">34</span>. ויש אומרים שמי שציוה למסור גופו למדע, צריך לנהוג עליו אבלות, אף על פי שעשה מעשה חמור מאוד<span class="footnote-ref" onclick="showFootnote('35', '35', event)">35</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ג.</span><span class="list-content">מי שהיה נשוי לגויה ונפטר בלי שיחזור בו, או מי שהיתה נשואה לגוי, אין לקרוביהם לשבת עליהם שבעה, אלא יישבו עליהם שעה אחת בלבד<span class="footnote-ref" onclick="showFootnote('36', '36', event)">36</span>. אך נקברים בקברי ישראל ומתעסקים בקבורתם<span class="footnote-ref" onclick="showFootnote('37', '37', event)">37</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ד.</span><span class="list-content">מומר אין לקברו בקברי ישראל ויבואר דינו לקמן עמוד @. </span></div>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " על פי דרשת הגמרא \"כִּי אִם לִשְׁאֵרוֹ\" – שארו זו אשתו. וכתיב \"לֹא יִטַּמָּא בַּעַל בְּעַמָּיו לְהֵחַלּוֹ\" (לכאורה סתירה בין שני המקורות). הא כיצד? מיטמא הוא לאשתו כשרה ואינו מיטמא לאשתו פסולה. (יבמות כב, ב). ", "2": " שלחן ערוך יורה דעה סימן שעד, ד; וכך היא שיטת הרמב\"ן (תורת האדם עמוד ריג). אבל לפי הרמב\"ם (הלכות אבל פרק ב, א) אבלות של איש על אשתו ואשה על בעלה היא מדרבנן. הערת הרב נבנצל שליט\"א – ויש אומרים שכל אבלות היא מדרבנן.", "3": " אבל רבתי פרק ד, יז. שלחן ערוך שם.", "4": " שלחן ערוך המקוצר עיני יצחק, יורה דעה סימן קפו, יג. באר לחי רואי סימן ו – ז.", "5": " שלחן ערוך יורה דעה סימן תב, יב. ולפי זה מותר לאיש ולאשתו לשמש יחד, אם אחד מהם אבל, ולא ידוע לו על כך, למרות שלבן הזוג ידוע. חידושי הגרשוני שם בשם ספר חסידים, וכן בילקוט יוסף סימן לח, יג בהערה.", "6": " שלחן ערוך יורה דעה סימן שעד, ד.", "7": " צרור החיים פיסקה ג. ילקוט יוסף סימן יד, כ. כל בו על אבלות עמוד 314. (אמנם שם בעמוד 315 הביא דעות והוכחות שלא לנהוג אבלות).", "8": " הגהות רבי עקיבא איגר על שלחן ערוך יורה דעה סימן שעד, דיבור המתחיל \"ונשואה\" בשם ים של שלמה. גשר החיים פרק ו, ה, ד. ילקוט יוסף סימן יד, כ. נטעי גבריאל חלק א, פרק קכו, ב – ג. בספר פני ברוך (סימן ט, ד) הביא את שתי הדעות. ", "9": " ילקוט יוסף סימן יד, יט, בשם חתם סופר.", "10": " שלחן ערוך יורה דעה סימן שעג, ד; בשם תשובת הרשב\"א.", "11": " ילקוט יוסף סימן יד, ד. בספר פני ברוך (סימן ט, ג) הביא את שתי הדעות.", "12": " מועד קטן כה, ב. רמב\"ם פרק ט, יב. שלחן ערוך יורה דעה שעד, י.", "13": " ילקוט יוסף סימן יד, יח; ובסימן ל, כד.", "14": " במראה הבזק חלק ה, צא, בשם הרב שטרנבוך (תשובות והנהגות חלק ג, שעד) ונשמת אברהם (חלק ה, עמוד קמא).", "15": " רמ\"א יורה דעה סימן שעד, ו.", "16": " פתחי תשובה שם סעיף קטן ז.", "17": " צרור החיים פיסקה ב. פני ברוך סימן ט, י. ובילקוט יוסף סימן יד, ג, כתב שמנהג עדות המזרח שהחתן משתתף בתפילות בלימודים ובאזכרות לעילוי נשמת חמיו, ואם אין לחמיו ולחמותו בן יאמר עליהם קדיש אם הוריו אינם מקפידים. ומנהג ישראל תורה הוא.", "18": " מועד קטן כ, ב. נפסק להלכה ברמב\"ם הלכות אבל ב, ד - ה. תורת האדם לרמב\"ן עמוד קמא - קמד. שלחן ערוך יורה דעה שעד, ו. ראה באוצר המושגים ערך כל שמתאבל עליו מתאבל עמו.", "19": " בשלחן ערוך שם.", "20": " בית חדש שם, מובא גם בשפתי כהן ובטורי זהב.", "21": " שפתי כהן שם סוף סעיף קטן ז.", "22": " פני ברוך סימן ט הערה כו, בשם הרב צבי פסח פראנק. אך לא ברור לו אם רק בירושלים לא נהגו, או בכל מקום.", "23": " שלחן ערוך יורה דעה סימן שעד, ה.", "24": " צרור החיים פיסקה ה. הערת הרב נבנצל שליט\"א – לענ\"ד אם מצטער יכול לברך.", "25": " כל בו על אבלות עמ' 190. הערת הרב נבנצל שליט\"א – צריך עיון לענ\"ד, כיון שכל עוד לא טבלו, אינם יהודים.", "26": " שלחן ערוך יורה דעה סימן שעד, ח. וכתבו בתוספות יבמות (לו, ב) שאפילו נפל מהגג או אכלו ארי (כלומר שמת בתאונה) אין מתאבלים עליו, ולא הולכים בזה אחר הרוב (שרוב התינוקות נולדים לתשעה חודשים שלמים), כיון שלענין אבלות כל זמן שלא חי שלושים יום, ולא ידוע לנו שכלו לו חודשיו, מקילים לא להתאבל. והרמב\"ן (מועד קטן כ, א) כתב שאפילו למאן דאמר אבלות יום ראשון מדאורייתא - פטור, כיון שכל ספק בן קיימא אין לבו של אדם דוה עליו, ולכן אין מתאבלים עליו. והובאו דבריהם בפני ברוך סימן ט, הערה יא. כך גם הורה לי הרב יעקב רוז'ה שליט\"א (הרב הפנה לספר זכרון מאיר על אבלות, המביא מחלוקת אחרונים בענין), והוסיף שלמעשה גם לא נוהגים אנינות וקריעה בתינוק שמת מתאונה בתוך שלושים ללידתו. ", "27": " ילקוט יוסף סימן יד, ו.", "28": " שם, ז.", "29": " הערת הרב נבנצל שליט\"א – אדמו\"ר זללה\"ה (הגרש\"ז אויערבך זצ\"ל) פסק שגם על טריפה מתאבל אם חי שלושים יום לאחר שיצא מהאינקובטור.", "30": " צרור החיים פיסקה ד.", "31": " הדיון מובא בילקוט יוסף סימן יד, ח. ובהערה שם פירט את הדעות למנות מלידתו, כיון שהאינקובטור נחשב כמכשיר עזר לרפואת התינוק ולא כהמשך ההריון. והרב עובדיה יוסף עצמו סובר שאין להתאבל על תינוק כזה כיון שנתברר מראש שלא היה בר קיימא, וכן פסק בשבט הלוי, וכן כתב בנטעי גבריאל חלק א, פרק קכו, ה. הערת הרב נבנצל שליט\"א – וכן פסק אדמו\"ר זללה\"ה (הגרש\"ז אויערבך זצ\"ל).", "32": " ילקוט יוסף סימן יד, טז. והטעם כיון שדינם כתינוקות שנשבו ואינם כופרים ברבונו של עולם.", "33": " גשר החיים פרק כה, ד, א.", "34": " כך אמר לי הרב יעקב רוז'ה שליט\"א בשם הרב מרדכי אליהו שליט\"א, על פי שלחן ערוך יורה דעה סימן שמה, ה.", "35": " ילקוט יוסף סימן יד, יג.", "36": " ילקוט יוסף שם, יב. הרב יעקב אריאל שליט\"א הורה לא להתאבל עליהם כלל, ולא לומר עליהם קדיש כיון שפרשו מעם ישראל. (בתוך \"דרכה של היהדות במוות ובאבלות\" עמוד 358).", "37": " במראה הבזק חלק ג, סימן סה."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

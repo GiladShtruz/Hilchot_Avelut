@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p><strong>שכינה למעלה ממראשותיו של חולה</strong></p>
+<p style="font-size: 0.85rem">המקור לביטוי הוא בגמרא (מסכת שבת יב, ב) ונלמד מהפסוק "ה' יִסְעָדֶנּוּ עַל עֶרֶשׂ דְּוָי" (תהלים מא, ד). את הביטוי "שכינה למעלה ממראשותיו של חולה" מצינו כשיוסף הולך לבקר את יעקב אביו. שם מוזכר "וַיִּשְׁתַּחוּ יִשְׂרָאֵל עַל רֹאשׁ הַמִּטָּה", וגם שם למדו חכמים ששכינה למעלה ממראשותיו של חולה.</p>
+<p>מה פירוש הביטוי? מדוע ישנה השראת שכינה דווקא אצל החולה? מדוע דווקא למעלה ממראשותיו?</p>
+<p>ניתן לפרש על פי מענה אליהוא הראשון לאיוב (בפרק לב). עד מענה אליהוא היה ויכוח בין איוב לבין רעיו מדוע באו יסורים כה קשים על איוב. הרעים טענו שהיסורים באו על איוב עקב חטאיו, בעוד איוב טען שלא חטא ושהיסורים באו עליו לחנם. הויכוח התמשך באריכות ואף החריף, עד שהגיע לנקודה שבה לא הוסיפו הרעים להתווכח עם איוב כיון שהחזיק את עצמו צדיק בעיניו. בנקודת זמן זו, כשהויכוח הגיע למבוי סתום ולא היה אפשר להמשיכו, נכנס אליהוא והציע את דבריו לפני איוב ורעיו.</p>
+<p>מענהו של אליהוא מורכב ויכול להיות נתון לפרשנויות שונות. ניתן לפרשו באופן שאליהוא בא לתת כיוון אחר לגמרי ליסוריו של איוב. לא כפי הסברם המרשיע של רעי איוב, וגם לא כפי איוב שטען שאין משמעות וקשר בין היסורים לבין מעשיו. מהי אפוא דעתו של אליהוא, לשם מה באו יסורי איוב?</p>
+<div class="sage-quote"><p style="font-size: 0.85rem">כִּי בְאַחַת יְדַבֶּר אֵל וּבִשְׁתַּיִם לֹא יְשׁוּרֶנָּה:</p>
+<p style="font-size: 0.85rem">בַּחֲלוֹם חֶזְיוֹן לַיְלָה בִּנְפֹל תַּרְדֵּמָה עַל אֲנָשִׁים בִּתְנוּמוֹת עֲלֵי מִשְׁכָּב:</p>
+<p style="font-size: 0.85rem">אָז יִגְלֶה אֹזֶן אֲנָשִׁים וּבְמֹסָרָם יַחְתֹּם: ...</p>
+<p style="font-size: 0.85rem">וְהוּכַח בְּמַכְאוֹב עַל מִשְׁכָּבוֹ וְרוֹב עֲצָמָיו אֵתָן: ...</p>
+<p style="font-size: 0.85rem">וַתִּקְרַב לַשַּׁחַת נַפְשׁוֹ וְחַיָּתוֹ לַמְמִתִים:</p>
+<p style="font-size: 0.85rem">אִם יֵשׁ עָלָיו מַלְאָךְ מֵלִיץ אֶחָד מִנִּי אָלֶף לְהַגִּיד לְאָדָם יָשְׁרוֹ:</p>
+<p style="font-size: 0.85rem">וַיְחֻנֶּנּוּ וַיֹּאמֶר פְּדָעֵהוּ מֵרֶדֶת שָׁחַת מָצָאתִי כֹפֶר:</p>
+<p style="font-size: 0.85rem">רֻטֲפַשׁ בְּשָׂרוֹ מִנֹּעַר יָשׁוּב לִימֵי עֲלוּמָיו:</p>
+<p style="font-size: 0.85rem">יֶעְתַּר אֶל אֱלוֹהַּ וַיִּרְצֵהוּ וַיַּרְא פָּנָיו בִּתְרוּעָה וַיָּשֶׁב לֶאֱנוֹשׁ צִדְקָתוֹ:</p>
+<p> (איוב לג, יד – כו).</p>
+</div><p>הפסוקים קשים ומורכבים אך לצורך ענייננו נלמד מהם עיקרון מרכזי אחד:</p>
+<p>ה' מדבר עם האדם בשני אופנים – "<span style="font-size: 0.85rem">בַּחֲלוֹם חֶזְיוֹן לַיְלָה בִּנְפֹל תַּרְדֵּמָה עַל אֲנָשִׁים בִּתְנוּמוֹת עֲלֵי מִשְׁכָּב</span>". אך ה' מדבר עם האדם גם בדרך היסורים! "<span style="font-size: 0.85rem">וְהוּכַח בְּמַכְאוֹב עַל מִשְׁכָּבוֹ</span>". היסורים באים להעביר לאדם מסר, לעורר אותו לפעול, להעיר אותו מתרדמת חיי השיגרה, לזעזע אותו כדי להיות אדם חושב ופועל. גדול כוח היסורים בשבירת הכללים הרגילים והמקובלים. יש בשבירה זו קריאה לבניית כללים וכלים גדולים וטובים יותר, לפעולות גדולות ומשמעותיות יותר. אמנם יש ברכה רבה בשיגרה היומיומית המאפשרת לאדם התקדמות איטית והדרגתית העשויה להביא עם הזמן לתוצאות מבורכות. אולם לעתים האדם זקוק לזעזוע שעל ידו יוכל להעפיל בבת אחת, כהוראת שעה, לפעולות שקשה להגיע אליהן מתוך השלוה היומיומית והשגרתית. </p>
+<p>לפי זה יובן הביטוי "שכינה למעלה ממראשותיו של חולה". השכינה באה כעת לדבר עם החולה על ידי יסוריו. לפי דברי אליהוא יש בגילוי זה הקבלה לחלום חזיון לילה. כמו שחזיון, הארה וגילוי עשויים לעורר את האדם לפעול, כך היסורים. לפי זה אסור לו לאדם להחמיץ את יסוריו. לכן אמרו חז"ל שמי שרואה שבאו עליו יסורים יפשפש במעשיו וימשמש במעשיו. ומי שרגיש לצוננים לא יאלץ להיות נידון ברותחין. (התייחסות רחבה לעניין זה מובאת בספר "בסוד היחיד והיחד" של הרב יוסף סולוביצ'יק, מאמר "קול דודי דופק" מעמוד 333 ואילך).</p>
+<p>אמנם בתפילה מבקשים בכל יום ויום: אל תביאנו לא לידי ניסיון ולא לידי ביזיון. על השאלה "חביבין עליך יסורים"? ענה ר' אליעזר: "לא הן ולא שכרן" (ברכות ה, ב). האדם איננו חפץ ביסורים ובהתמודדויות מעבר למידה. הן בגלל הקושי הגדול שבהתמודדות והן מהחשש שלא יצליח לעמוד במשימה, ולכן מבקש לא לבוא לידי ניסיון ולא לידי ביזיון. אך לא שואלים את האדם אם הוא חפץ בהתמודדות, והיסורים, הקשיים והנסיונות לעתים מגיעים. המגמה במצב כזה היא לפעול מתוך הסתכלות על המציאות הקשה כאתגר להתמודדות. אתגר המאפשר לאדם לגלות בעצמו כוחות רדומים שלא היה מודע להם. </p>
+<p>מלבד הפעולות הנדרשות יש גם צורך בתפילה, שהפעולות תהיינה טובות מועילות וראויות:</p>
+<div class="sage-quote"><p> "י<span style="font-size: 0.85rem">ֶעְתַּר אֶל אֱלוֹהַּ וַיִּרְצֵהוּ וַיַּרְא פָּנָיו בִּתְרוּעָה וַיָּשֶׁב לֶאֱנוֹשׁ צִדְקָתוֹ</span>". </p>
+</div><p>ע"ע <strong>יסורים מכפרים.</strong></p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

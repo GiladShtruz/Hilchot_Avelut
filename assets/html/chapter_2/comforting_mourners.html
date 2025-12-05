@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="sage-quote"><p><strong>ניחום אבלים</strong></p>
+<p style="font-size: 0.75rem">אֶבֲחַר דַּרְכָּם וְאֵשֵׁב רֹאשׁ </p>
+<p style="font-size: 0.75rem">וְאֶשְׁכּוֹן כְּמֶלֶךְ בַּגְּדוּד </p>
+<p style="font-size: 0.75rem">כַּאֲשֶׁר אֲבֵלִים יְנַחֵם </p>
+<p style="font-size: 0.75rem">איוב כט, כה</p>
+<p style="font-size: 0.85rem">אמר רבי חמא ברבי חנינא: מאי דכתיב "אַחֲרֵי ה' אֱלֹהֵיכֶם תֵּלֵכוּ"? וכי אפשר לו לאדם להלך אחר שכינה, והלא כבר נאמר "כִּי ה' אֱלֹהֶיךָ אֵשׁ אֹכְלָה הוּא"?! אלא הלך אחר מדותיו של הקדוש ברוך הוא … הקדוש ברוך הוא ניחם אבלים דכתיב "וַיְהִי אַחֲרֵי מוֹת אַבְרָהָם וַיְבָרֶךְ אֱלֹהִים אֶת יִצְחָק בְּנוֹ", אף אתה נחם אבלים.</p>
+<p>סוטה יד, א</p>
+<p style="font-size: 0.85rem">כשמת בנו של רבן יוחנן בן זכאי, נכנסו תלמידיו לנחמו. נכנס רבי אליעזר וישב לפניו ואמר לו: רבי, רצונך שאומר דבר אחד לפניך? אמר לו: אמור. אמר לו: אדם הראשון היה לו בן ומת, וקיבל עליו תנחומין. ומנין שקיבל עליו תנחומין? שנאמר "וַיֵּדַע אָדָם עוֹד אֶת אִשְׁתּוֹ" (בראשית ד, כה), אף אתה קבל תנחומין. אמר לו: לא די לי שאני מצטער בעצמי, אלא שהזכרת לי צערו של אדם הראשון?! </p>
+<p>נכנס רבי יהושע ואמר לו: רבי, רצונך אומר דבר אחד לפניך? אמר לו: אמור. אמר לו: איוב היו לו בנים ובנות ומתו כולם ביום אחד וקיבל עליהם תנחומין, אף אתה קבל תנחומין. ומנין שקיבל איוב תנחומין שנאמר "ה' נָתַן וַה' לָקָח יְהִי שֵׁם ה' מְבֹרָךְ" (איוב א, כא). אמר לו: לא די לי שאני מצטער בעצמי אלא שהזכרת לי צערו של איוב?!  </p>
+<p style="font-size: 0.85rem">נכנס רבי יוסי וישב לפניו, אמר לו: רבי, רצונך אומר דבר אחד לפניך? אמר לו: אמור. אמר לו: אהרן היו לו שני בנים גדולים ומתו שניהם ביום אחד וקיבל עליהם תנחומין שנאמר "וַיִּדֹּם אַהֲרֹן" (ויקרא י, ג). אין שתיקה אלא תנחומין, ואף אתה קבל תנחומין. אמר לו: לא די לי שאני מצטער בעצמי אלא שהזכרתני צערו של אהרן?!  </p>
+<p style="font-size: 0.85rem">נכנס רבי שמעון ואמר לו: רבי, רצונך אומר דבר אחד לפניך? אמר לו: אמור. אמר לו: דוד המלך היה לו בן ומת וקיבל תנחומין, ואף אתה קבל תנחומין. ומנין שקיבל דוד תנחומין? שנאמר "וַיְנַחֵם דָּוִד אֵת בַּת שֶׁבַע אִשְׁתּוֹ וַיָּבֹא אֵלֶיהָ וַיִּשְׁכַּב עִמָּהּ וַתֵּלֶד בֵּן וַתִּקְרָא אֶת שְׁמוֹ שְׁלֹמֹה וַה' אֲהֵבוֹ" (שמואל ב, יב, כד). אף אתה רבי קבל תנחומין. אמר לו: לא די שאני מצטער בעצמי אלא שהזכרתני צערו של דוד המלך?! </p>
+<p>נכנס רבי אלעזר בן ערך. כיון שראהו אמר לשמשו טול כלי ולך אחרי לבית המרחץ לפי שאדם גדול הוא ואיני יכול לעמוד בו. נכנס וישב לפניו ואמר לו: אמשול לך משל למה הדבר דומה, לאדם שהפקיד אצלו המלך פיקדון. בכל יום ויום היה בוכה וצועק ואומר: אוי לי אימתי אצא מן הפיקדון הזה בשלום. אף אתה רבי, היה לך בן שקרא תורה מקרא נביאים וכתובים משנה הלכות ואגדות ונפטר מן העולם בלא חטא, ויש לך לקבל תנחומין כשהחזרת פקדונך שלם. אמר לו: רבי אלעזר בני, נחמתני כדרך שבני אדם מנחמין.</p>
+<p>אבות דרבי נתן פרק יד</p>
+</div><p>מצות ניחום אבלים מתחילה כבר בבית הקברות לאחר סתימת הגולל. המנחמים עומדים בשתי שורות ואומרים את מילות הניחום בזמן שהאבלים עוברים ביניהם. המשך המצוה הוא בביקור המנחמים בבית האבלים.  </p>
+<p>מצות ניחום אבלים היא מצוה חברתית. יש בה הבעת השתתפות בצער האבלים ובכך היא עשויה להקל על האבלים. הן מצד עצם ההגעה לבית האבלים וההתייחסות אליהם, המביעה הזדהות עם רגשותיהם. הן מצד ההתייחסות המכובדת לנפטר והדיבור בשבחו. </p>
+<p>ההשתתפות החברתית והקהילתית סביב בית האבלים נותנת מסגרת של תמיכה נפשית ועידוד המסייעים לאבלים לעבור את פרק האבלות. היחיד מרגיש שאינו נעזב לנפשו ושאינו מתמודד לבד עם צערו, הרגשה שהיא חיונית במיוחד בשעת משבר. בניחום אבלים יורדות מחיצות חברתיות של מעמד ושל כבוד, המכובד מנחם את הפשוט והפשוט מנחם את המכובד. גם אבלים שביקורי תנחומים מטרידים אותם בשעת מעשה, מגלים לאחר מעשה שהביקורים משמשים מקור לסיפוק ולכבוד. </p>
+<p>התמיכה החברתית היא גם פיזית ממשית – יש קהילות שבהן החברים והמנחמים מביאים אתם אוכל, עוזרים בסידור הבית ובנקיונו, במיוחד כאשר הבית מלא מבקרים, דואגים לטפל בילדים, בקניות ובסידורים הכרחיים לאבלים שהאבלים לא יכולים לטפל בהם בעצמם. </p>
+<p>בנוסף לתמיכה באבלים, גם הקהילה התומכת מקבלת הרגשה של אחדות, ליכוד חברתי וסיפוק<span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span>.</p>
+<p>התיחסות נוספת לניחום אבלים מובאת בפרק @סו <strong>החוכמה הנשכחת של הנחמה.</strong></p>
+<p>כיצד מנחמים</p>
+<div class="sage-quote"><p style="font-size: 0.75rem">דְּרָכָיו רָאִיתִי </p>
+<p style="font-size: 0.75rem">וְאֶרְפָּאֵהוּ </p>
+<p style="font-size: 0.75rem">וְאַנְחֵהוּ </p>
+<p style="font-size: 0.75rem">וַאֲשַׁלֵּם נִחֻמִים </p>
+<p style="font-size: 0.75rem">לוֹ וְלַאֲבֵלָיו </p>
+</div><p style="font-size: 0.75rem">ישעיהו נז, יח</p>
+<div class="sage-quote"><p>עיקר התנחומין הוא כשיתן החי אל לבו, שזה המת זכה לרב טוב הצפון לצדיקים, וכי הוא נעתק מן עולם האפל </p>
+<p>אל האור הנצחי</p>
+</div><p>כלי יקר על בראשית לז, לה</p>
+<p>לא תמיד פנוי האבל לשיחת רעים. לעתים רבות העומס הרגשי הרב מעיק עד כדי חוסר אפשרות לשיחה ספונטנית. לכן ממתינים שהאבל יפתח ראשון בשיחה. יזמתו של האבל מראה את רצונו ליצור קשר של שיחה עם המנחם. למעשה, גם אנחה או רמיזה מצד האבל כלפי המנחמים עשויה להספיק כדי להתחיל בשיחה.</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">מצוה גדולה לנחם אבלים, והיא גמילות חסדים עם החיים ועם המתים<span class="footnote-ref" onclick="showFootnote('2', '2', event)">2</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">אין המנחמים רשאים לפתוח בדברים עד שיפתח האבל<span class="footnote-ref" onclick="showFootnote('3', '3', event)">3</span>. לומדים זאת מרעי איוב שבאו לנחמו, "<span style="font-size: 0.85rem">וַיֵּשְׁבוּ אִתּוֹ לָאָרֶץ שִׁבְעַת יָמִים וְשִׁבְעַת לֵילוֹת וְאֵין דֹּבֵר אֵלָיו דָּבָר כִּי רָאוּ כִּי גָדַל הַכְּאֵב מְאֹד:</span><span style="font-size: 0.85rem"> </span><span style="font-size: 0.85rem">אַחֲרֵי כֵן פָּתַח אִיּוֹב אֶת </span><span style="font-size: 0.85rem">פִּיהו</span><span style="font-size: 0.85rem">ּ"</span>, רק לאחר מכן הרעים מדברים (איוב ב, יג)<span class="footnote-ref" onclick="showFootnote('4', '4', event)">4</span>. גם לשתיקה עשויה להיות משמעות חזקה של הזדהות והשתתפות בצער, באין מילים להביע את עומק הרגשות. אם ניכר למנחמים שאין באפשרות האבל לפתוח בדיבור, מתחילים הם לדבר בשבח הנפטר<span class="footnote-ref" onclick="showFootnote('5', '5', event)">5</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">אין אומרים "שלום" לאבל, לא בתחילת השיחה ולא בסופה, שלום הוא לשון שלמות. אי אפשר לומר שלום לאבל <span style="font-size: 0.75rem">כיון שהאבל אינו בשלום אלא בצער. הרחבה ופירוט בעניין זה מובאים לקמן עמוד @</span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">האבל יושב על שרפרף, כסא נמוך, או על מזרון ולא על כסא רגיל. והמנחמים יושבים על כסא כרגיל. גם גילוי זה של צער מופיע בפסוק שצוטט לעיל לגבי איוב ורעיו: "<span style="font-size: 0.75rem">וַיֵּשְׁבוּ אִתּוֹ לָאָרֶץ</span>". ובאמת מצד עיקר הדין גם המנחמים צריכים היו לשבת על גבי קרקע, וכמו שמופיע בפסוק. אך אם אמר להם האבל לשבת על ספסלים, רשאים כיון שהאבל מחל על כבודו. ולכן כעת המנחמים לא יושבים על הקרקע, שמסתמא מחל להם האבל<span class="footnote-ref" onclick="showFootnote('6', '6', event)">6</span>.<span style="font-size: 0.75rem"> הרחבה ופירוט בעניין זה מובאים לקמן עמוד @</span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">צריך להקפיד לא להכביד על האבלים, בפרט במצבים שבהם באים מנחמים רבים במשך היום והלילה. לכן מוטב להיות רגישים מתי לבוא ועד כמה להישאר. אם המבקרים מכבידים על האבל, אינם רשאים להישאר שם<span class="footnote-ref" onclick="showFootnote('7', '7', event)">7</span>. ניחום אבלים מעודד ותומך, אך לעתים עלול להתיש. במיוחד כשיש הרבה מנחמים במשך היום וגם עד מאוחר בלילה. מותר לאבלים ללכת לנוח מדי פעם, ולעשות תורנות ביניהם מי יקבל את המנחמים. יש גבול עדין, בו מחד גיסא יש לכבד את המנחמים שטרחו ובאו במיוחד לנחם, ומאידך גיסא יש לאפשר לאבלים הפוגות הכרחיות למנוחה, מנוחת הנפש ומנוחת הגוף. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">כשנפרדים מהאבלים, אומרים משפט נחמה. מנהג עדות המזרח לומר: "מן השמים תנוחמו". מנהג בני תימן לומר: "תנוחמו מן השמים". האשכנזים נהגו לומר: "המקום<span class="footnote-ref" onclick="showFootnote('8', '8', event)">8</span> ינחם אתכם בתוך שאר אבלי ציון וירושלים" (ולא תוסיפו לדאבה עוד<span class="footnote-ref" onclick="showFootnote('9', '9', event)">9</span>)<span class="footnote-ref" onclick="showFootnote('10', '10', event)">10</span>. האבלים יכולים לענות "אמן". </span></div>
+<div class="sage-quote"><p style="font-size: 0.85rem">יש זיקה קבועה בין היחיד מישראל לבין הכלל. בשיא השמחה הפרטית של חתן וכלה, אנו מצהירים "אִם אֶשְׁכָּחֵךְ יְרוּשָׁלִָם תִּשְׁכַּח יְמִינִי", ושוברים כוס לזכר החורבן. </p>
+<p>גם באבלות היחיד אנו מעלים את זכר ירושלים – "המקום ינחם אתכם בתוך שאר אבלי ציון וירושלים".</p>
+<p>יש יסוד סמלי עמוק בקישור בין הממד הלאומי בעם ישראל לבין הממד האישי. כל בניין <u>אישי</u> – כמו חופה וקידושין, נתפס כחלק ממימוש בניין הבית <u>הלאומי</u> – גאולה וקיבוץ גלויות. על כן אמרו חז"ל שכל המשמח חתן וכלה כאילו בנה אחת מחורבות ירושלים. כך הם דברי הגמרא<span class="footnote-ref" onclick="showFootnote('11', '11', event)">11</span> על פי פסוקי ירמיהו<span class="footnote-ref" onclick="showFootnote('12', '12', event)">12</span>:</p>
+<p style="font-size: 0.85rem">כֹּה אָמַר ה' עוֹד יִשָּׁמַע בַּמָּקוֹם הַזֶּה אֲשֶׁר אַתֶּם אֹמְרִים חָרֵב הוּא מֵאֵין אָדָם וּמֵאֵין בְּהֵמָה בְּעָרֵי יְהוּדָה וּבְחֻצוֹת יְרוּשָׁלִַם הַנְשַׁמּוֹת מֵאֵין אָדָם וּמֵאֵין יוֹשֵׁב וּמֵאֵין בְּהֵמָה: קוֹל שָׂשׂוֹן וְקוֹל שִׂמְחָה קוֹל חָתָן וְקוֹל כַּלָּה קוֹל אֹמְרִים הוֹדוּ אֶת ה' צְבָאוֹת כִּי טוֹב ה' כִּי לְעוֹלָם חַסְדּוֹ מְבִאִים תּוֹדָה בֵּית ה' כִּי אָשִׁיב אֶת שְׁבוּת הָאָרֶץ כְּבָרִאשֹׁנָה אָמַר ה'.</p>
+<p>הפסוק, ובעקבותיו גם חז"ל, קושרים בין הבניין הפרטי לבניין הלאומי.</p>
+<p>לא רק בשמחה יש שיתוף, אלא גם באבלות. כל חורבן אישי הוא חלק מן החורבן הלאומי. ועל כן מנחמים את האבלים על מת פרטי – "המקום ינחם אתכם בתוך שאר אבלי ציון וירושלים". הקישור הוא קבוע, בעת שמחה ובעת צער. </p>
+<p>במיוחד בא  קישור זה לידי ביטוי אצל מי שנפל בקרב או נהרג באירוע על רקע לאומי, מפני היותו שייך לעם ישראל. האבלות נתפסת אז, לא רק בממד האישי – המשפחתי, אלא בהתייחסות לאומית רחבה וכוללת.</p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">אמנם מצד עיקר הדין אין יוצאים ידי חובת ניחום בטלפון, במכתב או במברק. אך אם אי אפשר להגיע, הרי שעדיף לפחות להביע תנחומים באופנים אלו<span class="footnote-ref" onclick="showFootnote('13', '13', event)">13</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">לא ינחם אבל שהוא שונאו, שלא יחשוב ששמח לאידו<span class="footnote-ref" onclick="showFootnote('14', '14', event)">14</span>. מאידך, יש לבחון כל מקרה לגופו. לעתים, לאחר הכנה מתאימה על ידי גורם שלישי שיברר מראש אצל האבל אם ניחא לו בניחום כזה, דווקא מחווה מצד המנחם עשויה לקרב לבבות. והדברים עדינים ומורכבים ויש לברר היטב מצבים כאלו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">מנחמים אבלים גויים מפני דרכי שלום<span class="footnote-ref" onclick="showFootnote('15', '15', event)">15</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">לעתים משפחות כותבות "נא להימנע מביקורי תנחומים", והמבוכה רבה. מחד גיסא, החברים רוצים לכבד את רצון המשפחה, ולא רוצים לכפות את עצמם על האבלים. מאידך גיסא, לרוב בני האדם ניחום בזמן האבלות הוא צורך חיוני, העשוי לסייע מאוד לאבלים להתגבר על כאבם וצערם, לנסות לחזור למסלול החיים התקין, ולא לשקוע באבל ובצער מעבר למידה. ככלל ניתן גם לומר, שלעתים דווקא אלו הכותבים להימנע מביקורי תנחומים, הם אלה הזקוקים לכך ביותר; וחוסר האפשרות הנפשית להתמודד עם המצב הקשה, בא לידי ביטוי גם בחוסר יכולת ורצון לפגוש מנחמים, ומכתיב בסופו של דבר את ההודעה להימנע מביקורי תנחומים. אך כשמגיעים המנחמים בכל זאת, מתברר שהביקור והניחום מתקבלים ברצון, באופן שהוא ממש חיוני לאבלים. לפעמים מצהירים להימנע מביקורי תנחומים, כדי לסנן מבקרים פחות מקורבים, ולראות מי בכל זאת יגיע. אפשר לגשש בזהירות וברגישות דרך המקורבים לאבלים, אם ניתן להתקרב אליהם בכל זאת. אולי לאחר יום או יומיים, האבלים נמלכו בדעתם, ואז חשוב מאוד לבקרם ולקיים מצות ניחום אבלים. ניתן גם לנסות ולבקר את האבלים באופן בלתי פורמלי לאחר שעברו ימי השבעה, כדי לחזקם ולתמוך בהם. אפשר גם לכתוב מכתב תנחומים קצר לאבלים כדי להביע הזדהות, כבוד ורגישות, השתתפות ותמיכה.</span></div>
+<p>זמן הניחום</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">יש נוהגים שאין מנחמים בשלושת הימים הראשונים<span class="footnote-ref" onclick="showFootnote('16', '16', event)">16</span>, ויש שאין מקפידים בכך. הטעם, שאז עיקר הצער בשיא עצמתו. והוא מעין מה שאמרו חכמים במסכת אבות (פרק ד, כג) "אל תרצה את חברך בשעת כעסו ואל תנחמהו בשעה שמתו מוטל לפניו". אמנם כבר אין מתו מוטל לפניו, אבל בגלל חריפות ועזות הרגש באותם הימים, יש הממתינים לאחר שיעברו שלושה ימים; ובאותם הימים מתיחדים האבלים עם עצמם ועם יגונם רק במחיצת אנשים קרובים ביותר או עם בני המשפחה. </span></div>
+<div class="sage-quote"><p style="font-size: 0.85rem">נראה שיש להתייחס לכל מקרה לגופו, ונודעת משמעות רבה גם לטיב הקשר בין האבלים לבין מי שרוצים לבוא ולנחמם. יש אבלים הזקוקים לתמיכה ולתנחומים דווקא בשעות הקשות ביותר, ובפרט מקרובי משפחה ומחברים קרובים.</p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">לכתחילה לא נהגו לנחם בשבת וביום טוב, אך במקום צורך מותר לבוא לביקור אצל האבלים, כדי להרגיע את לבם בדברי נחמה<span class="footnote-ref" onclick="showFootnote('17', '17', event)">17</span>. בשבת אומרים "שבת היא מלנחם ונחמה קרובה לבוא".</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">אם לא ניחמֹו תוך שבעה יכול תוך שלושים, ועל אביו ואמו עד שנים עשר חודש. לאחר זמן זה אין מדבר עמו תנחומים כדרכו אלא רק אומר לו בקיצור "תתנחם"<span class="footnote-ref" onclick="showFootnote('18', '18', event)">18</span>. לרוב, כשנפגשים עם מי שלא ניחמוהו בשבעה, פותחים בהתנצלות על אי ההגעה. אפשר במקום זאת לפתוח בדברי ניחומים, ולקיים תחילה מצות ניחום אבלים.</span></div>
+<p>עצות למתנחמים</p>
+<p>כדאי להכין מחברת למנחמים בה יוכלו לכתוב תנחומים וזכרונות. יש משפחות שירצו לשמור מכתבים, מברקים, מודעות אבל וקטעי עתונות למזכרת. יש כאלו שירצו להקליט סיפורים על הנפטר מפי חברים ומכרים. לעתים אין מודעות לכך בתוך השבעה ולאחר השבעה מתעוררים לכך ומנסים לשחזר וללקט את שנאמר ונשלח. כאן גם המקום של החברים לחשוב ולסייע לאבלים בעניין זה.</p>
+<div class="sage-quote"><p>כשנפטר בנו של ריש לקיש, הלכו לבית האבל לנחמו. אמר רב חייא בר אבא למתורגמן: קום אמור דברים כנגד שבחו של הקב"ה, פתח ואמר: האל הגדול ברוב גדלו, אדיר וחזק ברוב נוראות, מחיה מתים במאמרו, עושה גדולות עד אין חקר ונפלאות עד אין מספר, ברוך אתה ה' מחיה המתים. </p>
+<p>אמר לו: קום אמור דברים כנגד האבלים, פתח ואמר: אחינו המיוגעים המדוכאין באבל הזה, תנו לבבכם לחקור את זאת, זאת היא עומדת לעד, נתיב הוא מששת ימי בראשית, רבים שתו רבים ישתו, כמשתה ראשונים כך משתה אחרונים, אחינו, בעל נחמות ינחם אתכם, ברוך מנחם אבלים. </p>
+<p>אמר לו: קום אמור דברים כנגד מנחמי אבלים, פתח ואמר: אחינו גומלי חסדים בני גומלי חסדים, המחזיקים בבריתו של אברהם אבינו. אחינו, בעל הגמול ישלם לכם גמולכם, ברוך אתה משלם הגמול. </p>
+<p>אמר לו: קום אמור דברים כנגד כל ישראל, פתח ואמר: ריבון העולמים, פדה והצל, מלט, הושע את עמך ישראל מן הדבר ומן החרב ומן הביזה, ומן השדפון ומן הירקון, ומכל מיני פורעניות המתרגשות ובאות לעולם, טרם נקרא ואתה תענה, ברוך אתה עוצר המגפה. </p>
+<p>כתובות ח, ב</p>
+</div>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " על פי ספר קץ החיים (מעמוד 213 ואילך).", "2": " לכן ניחום אבלים קודם לביקור חולים כשאי אפשר לקיים שניהם. אבל כשאפשר לקיים שניהם, ביקור חולים קודם שעל ידי כך מחייה את החולה (רמ\"א יורה דעה סוף סימן שלה, ושפתי כהן שם).", "3": " שלחן ערוך יורה דעה סימן שעו, א.", "4": " מועד קטן כה, ב.", "5": " ילקוט יוסף סימן כו, ו. תשובת הרב וולדנברג  שהביא גם מעשה רב מהחזון איש שהיה פותח בדברים כשהבחין שקשה לאבל לדבר מעוצר יגון ומיראת הכבוד. (קונטרס אהל חנה בסוף ספר פני ברוך עמוד תעב). ", "6": " דרישה על טור יורה דעה סימן שפז. מובא בשפתי כהן שם.", "7": " שלחן ערוך יורה דעה סימן שעו, א.", "8": " אפשר לבאר ש\"המקום\" הוא המקום הרוחני בו נמצא הנפטר בעולם העליון, המקום והמדרגה הרוחנית שהנפטר זכה להגיע אליהם בזכות מעשיו ופעולותיו הטובות; מקום זה הוא מקור הנחמה שיש לאבלים. (על פי ילקוט יוסף סימן כו הערה ג).", "9": " הכנסנו משפט זה בתוך סוגריים מפני הערת הרב נבנצל שליט\"א שאין לזה מקור.", "10": " המנהג העממי לומר \"שלא תדעו עוד צער\", אין לו מקור. וראוי לומר את הניחום היהודי המזכיר שם שמים. כיון שיש מנחמים שאינם יודעים לומר את הנוסח ועלולה להגרם מבוכה, יש בתי אבלים שבהם כותבים את הנוסח באופן שבו המנחמים יוכלו לראותו ולאמרו.", "11": " ברכות ו, א.", "12": " ל\"ג, י'- י\"א.", "13": " צרור החיים פיסקה קמה. ובילקוט יוסף (סימן כו, ט) כתב שאם הניחום הוא מדין יקרא דשכבי, לא יועיל ניחום דרך הטלפון, אבל אם הניחום הוא יקרא דחיי – מועיל. ולכן אם אינו יכול להגיע, לפחות ינחם את האבלים דרך הטלפון, ויקיים בזה יקרא דחיי.", "14": " רמ\"א יורה דעה סימן שלה, ב.", "15": " שלחן ערוך יורה דעה סימן שסז, א. וראה באוצר המושגים ערך דרכי שלום.", "16": " גשר החיים פרק כ, ה, ה. הערת הרב נבנצל שליט\"א – אדמו\"ר זללה\"ה (הגרש\"ז אויערבך זצ\"ל) אמר שאין לכך מקור. על כל פנים גם הנמנעים מלבוא סתם, באים לתפילות.", "17": " שלחן ערוך אורח חיים סימן רפז, על פי הגמרא במסכת שבת (יב, ב) \"בקושי התירו לנחם אבלים בשבת\". ילקוט יוסף סימן כו, ב. הערת הרב נבנצל שליט\"א – נהגו שבשבת באים רק המקורבים.", "18": " שלחן ערוך יורה דעה סימן שפה, ב."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

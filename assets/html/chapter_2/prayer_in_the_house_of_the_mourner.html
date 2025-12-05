@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="sage-quote"><p><strong>תפילה בבית האבל</strong></p>
+</div><p>המקור להתפלל בבית האבל נסמך על מה שאמר רב יהודה (מסכת שבת קנב, א–ב): מת שאין לו מנחמים, באים עשרה בני אדם ויושבין במקומו כל שבעת ימי האבלות. בהמשך הגמרא שם מסופר על אדם שהיה בשכנות לרב יהודה ונפטר, ולא היו לו מנחמים. כל שבעת ימי האבלות אסף רב יהודה עשרה אנשים וישבו במקומו. לאחר שבעה ימים נראה המת בחלום לרב יהודה ואמר לו: תנוח דעתך שהנחת את דעתי. וכתב בספר מעבר יַבֹּק<span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span> שמסתבר שאסף עשרה כדי להתפלל במניין. בפשטות, כיון שהאבל אינו יוצא מביתו כל שבעה, מתפללים בבית האבל.</p>
+<p>כללים:</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">מצוה להתפלל במניין בבית שנפטר בו המת, והוא חסד עם הנפטר ועם האבלים. וכשאין אפשרות להתפלל שם כגון אם נפטר בבית החולים, נוהגים להתפלל במקום שהאבלים יושבים בו שבעה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">מצוה לקיים מניין במקום שהאבלים יושבים כדי לאפשר להם להתפלל בציבור ולומר קדיש בלי שיצטרכו לצאת מביתם.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">אם אין אפשרות לקיים מניין בבית הנפטר, עדיף לשבת שבעה במקום אחר שבו יוכלו לקיים מניין<span class="footnote-ref" onclick="showFootnote('2', '2', event)">2</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">כיום נהגו האבלים שאין להם מניין בביתם, ללכת לבית הכנסת גם בימי חול<span class="footnote-ref" onclick="showFootnote('3', '3', event)">3</span>, כדי להתפלל במניין ולומר קדיש<span class="footnote-ref" onclick="showFootnote('4', '4', event)">4</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">יש מי שכתב שבישוב קטן אין לקיים מניין בבית האבל אם הדבר יגרום לביטול המניין בבית הכנסת<span class="footnote-ref" onclick="showFootnote('5', '5', event)">5</span>. ויש מי שכתב שבכל זאת עדיף לקיים את המניין בבית האבלים<span class="footnote-ref" onclick="showFootnote('6', '6', event)">6</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">האבל מצטרף למניין גם ביום הראשון לאבלות למרות שאינו מניח תפילין.</span></div>
+<p>פרטי הלכות לתפילת הציבור:</p>
+<p>ברכת כהנים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">לפי מנהג האשכנזים, הכהנים אינם נושאים כפיהם בבית האבל. והטעם, כיון שהכהן<span style="font-size: 0.75rem"> </span>המברך צריך להיות בשמחה כשמברך, ובית האבל הוא מקום צער ועצבות. והחזן אומר "אלהינו ואלהי אבותינו ברכנו בברכה המשולשת" וכו'. הכהנים יוצאים לפני "רצה"<span class="footnote-ref" onclick="showFootnote('7', '7', event)">7</span>, ואם בכל זאת קראו להם "כהנים" – עולים לדוכן.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">מנהג עדות המזרח שהכהנים נושאים את כפיהם בבית האבל, אבל האבל עצמו אינו נושא את כפיו<span class="footnote-ref" onclick="showFootnote('8', '8', event)">8</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">מנהג יש בירושלים שאפילו האבל עצמו עולה לדוכן לברך, אפילו ביום חול ובפרט בשבת.  במיוחד יש לכך מקום אם אין כהן אחר שיברך והמצוה עלולה להתבטל, או במקרה שיש רק כהן אחד והאבל מצטרף אליו לברך, כיון שיש דעה שהמצוה מתקיימת רק כאשר שני כהנים מברכים<span class="footnote-ref" onclick="showFootnote('9', '9', event)">9</span>.</span></div>
+<p>תחנון</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">אין אומרים "תחנון" (וידוי) בבית האבל, גם אם האבלים לא מתפללים שם באותו זמן<span class="footnote-ref" onclick="showFootnote('10', '10', event)">10</span>. הטעם שאין אומרים תחנון, משום ששבעת ימי האבל הושוו לשבעת ימי החג, כמו שכתוב "<span style="font-size: 0.85rem">וְהָפַכְתִּי חַגֵּיכֶם לְאֵבֶל</span>" (עמוס ח, י). וכמו שאין אומרים תחנון בחג, כך אין אומרים בבית האבל<span class="footnote-ref" onclick="showFootnote('11', '11', event)">11</span>. טעם נוסף הוא כדי שלא לעורר את מידת הדין בבית האבל<span class="footnote-ref" onclick="showFootnote('12', '12', event)">12</span>. כלומר, יש בתפילה חלקים המסמלים חסד, כגון השבח לה' המוזכר בתפילה, וכן הבקשות בתפילה שהן בקשת חסד מריבונו של עולם. התחנון לעומת זאת, הוא וידוי של האדם על חטא או על שגיאות שעשה; והוא עלול לגרום לאדם הנמכה מסוימת, החיונית בזמנים רגילים לצורך בדיקה עצמית ותיקון המעשים. אך לאבלים, הנמצאים ממילא בזמן קשה של שפלות רוח, אין לעורר אצלם תחושות כאלה מעבר למידה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">אם האבל בא לבית הכנסת בתוך השבעה, הציבור אומר תחנון והאבל אינו אומר<span class="footnote-ref" onclick="showFootnote('13', '13', event)">13</span>. ואם האבל שליח ציבור בבית הכנסת, גם הציבור אינו אומר תחנון<span class="footnote-ref" onclick="showFootnote('14', '14', event)">14</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">אין אומרים "אל ארך אפים" וכן "למנצח מזמור לדוד יענך ה' ביום צרה" בבית האבל, גם אין אומרים ב"ובא לציון" פסוק "ואני זאת בריתי". מהטעם הקודם שאין לעורר מידת הדין בבית האבל, לכן אין מזכירים "ביום צרה". אין מזכירים "ואני זאת בריתי" בבית האבל, שלא יראה ככורת ברית על הצער והאבלות. עוד כתבו שהטעם כיון שהאבל אסור בדברי תורה הנקראת ברית – "אם לא בריתי יומם ולילה", לכן אין אומרים פסוק זה<span class="footnote-ref" onclick="showFootnote('15', '15', event)">15</span>. ובשבת אומרים אותו כדי לא להראות אבלות בפרהסיה, והאבלים עצמם ידלגו בלחש<span class="footnote-ref" onclick="showFootnote('16', '16', event)">16</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">אומרים "יהי רצון" אחרי קריאת התורה.</span></div>
+<p>קריאת התורה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">מותר להביא ספר תורה לבית האבל לצורך קריאת התורה. יש בתי כנסת שאפשר לשאול מהם ספר תורה, וצריך לבקש רשות מן הגבאים או מן הרב. יש לדאוג מראש למקום מכובד ויציב, שאליו יובא הספר עוד לפני הקריאה ולשם יוחזר לאחר הקריאה, מיקום הספר יהיה גבוה לפחות עשרה טפחים <span style="font-size: 0.75rem">(80 – 96 ס"מ) </span>ועדיף להביאו בתוך ארון קודש נייד.  </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">אפשר להביא את הספר ביום הקריאה, וישהה שם הספר יום או יומיים<span class="footnote-ref" onclick="showFootnote('17', '17', event)">17</span>, והמנהג לדקדק שיקראו בו לפחות שלוש פעמים<span class="footnote-ref" onclick="showFootnote('18', '18', event)">18</span>. יש להתנהג במקום שנמצא בו ספר התורה בכבוד ובאופן הולם. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">כשאין ספר תורה בבית האבל נהגו ללכת לאחר התפילה לבית הכנסת כדי להשלים את הקריאה בתורה, ואין האבל הולך עמהם<span class="footnote-ref" onclick="showFootnote('19', '19', event)">19</span>.</span></div>
+<p>סיום התפילה והוספות לתפילה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ז.</span><span class="list-content">נוהגים לומר "תתקבל צלותהון" וכו' בבית האבל, גם כאשר האבל הוא שליח הציבור<span class="footnote-ref" onclick="showFootnote('20', '20', event)">20</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ח.</span><span class="list-content">בסוף תפילת שחרית ומעריב (ויש הנוהגים אחרי שחרית ומנחה), נוהגים לומר מזמור מ"ט שבתהילים, במזמור זה מובאת התייחסות לגורל האדם לאחר מותו, והשתדלותו להגיע לחיי  נצח. המשורר מנגיד את העשיר הבוטח ומתהלל בחילו וחושב שעושרו יצילנו לאחר מותו, לאדם המאמין הבוטח בה' ואינו מתירא מן המיתה, והוא מודה ומברך את ה' על כך.  </span></div>
+<p style="font-size: 0.85rem">לַמְנַצֵּחַ לִבְנֵי קֹרַח מִזְמוֹר:</p>
+<p style="font-size: 0.85rem">שִׁמְעוּ זֹאת כָּל הָעַמִּים הַאֲזִינוּ כָּל יֹשְׁבֵי חָלֶד:</p>
+<p style="font-size: 0.85rem">גַּם בְּנֵי אָדָם גַּם בְּנֵי אִישׁ יַחַד עָשִׁיר וְאֶבְיוֹן:</p>
+<p style="font-size: 0.85rem">פִּי יְדַבֵּר חָכְמוֹת וְהָגוּת לִבִּי תְבוּנוֹת:</p>
+<p style="font-size: 0.85rem">אַטֶּה לְמָשָׁל אָזְנִי אֶפְתַּח בְּכִנּוֹר חִידָתִי:</p>
+<p style="font-size: 0.85rem">לָמָּה אִירָא בִּימֵי רָע עֲוֹן עֲקֵבַי יְסוּבֵּנִי:</p>
+<p style="font-size: 0.85rem">הַבֹּטְחִים עַל חֵילָם וּבְרֹב עָשְׁרָם יִתְהַלָּלוּ:</p>
+<p style="font-size: 0.85rem">אָח לֹא פָדֹה יִפְדֶּה אִישׁ לֹא יִתֵּן לֵאלֹהִים כָּפְרוֹ:</p>
+<p style="font-size: 0.85rem">וְיֵקַר פִּדְיוֹן נַפְשָׁם וְחָדַל לְעוֹלָם:</p>
+<p style="font-size: 0.85rem">וִיחִי עוֹד לָנֶצַח לֹא יִרְאֶה הַשָּׁחַת:</p>
+<p style="font-size: 0.85rem">כִּי יִרְאֶה חֲכָמִים יָמוּתוּ יַחַד כְּסִיל וָבַעַר יֹאבֵדוּ וְעָזְבוּ לַאֲחֵרִים חֵילָם:</p>
+<p style="font-size: 0.85rem">קִרְבָּם בָּתֵּימוֹ לְעוֹלָם מִשְׁכְּנֹתָם לְדֹר וָדֹר קָרְאוּ בִשְׁמוֹתָם עֲלֵי אֲדָמוֹת:</p>
+<p style="font-size: 0.85rem">וְאָדָם בִּיקָר בַּל יָלִין נִמְשַׁל כַּבְּהֵמוֹת נִדְמוּ:</p>
+<p style="font-size: 0.85rem">זֶה דַרְכָּם כֵּסֶל לָמוֹ וְאַחֲרֵיהֶם בְּפִיהֶם יִרְצוּ סֶלָה:</p>
+<p style="font-size: 0.85rem">כַּצֹּאן לִשְׁאוֹל שַׁתּוּ מָוֶת יִרְעֵם וַיִּרְדּוּ בָם יְשָׁרִים לַבֹּקֶר וְצוּרָם לְבַלּוֹת שְׁאוֹל מִזְּבֻל לוֹ:</p>
+<p style="font-size: 0.85rem">אַךְ אֱלֹהִים יִפְדֶּה נַפְשִׁי מִיַּד שְׁאוֹל כִּי יִקָּחֵנִי סֶלָה:</p>
+<p style="font-size: 0.85rem">אַל תִּירָא כִּי יַעֲשִׁר אִישׁ כִּי יִרְבֶּה כְּבוֹד בֵּיתוֹ:</p>
+<p style="font-size: 0.85rem">כִּי לֹא בְמוֹתוֹ יִקַּח הַכֹּל לֹא יֵרֵד אַחֲרָיו כְּבוֹדוֹ:</p>
+<p style="font-size: 0.85rem">כִּי נַפְשׁוֹ בְּחַיָּיו יְבָרֵךְ וְיוֹדֻךָ כִּי תֵיטִיב לָךְ:</p>
+<p style="font-size: 0.85rem">תָּבוֹא עַד דּוֹר אֲבוֹתָיו עַד נֵצַח לֹא יִרְאוּ אוֹר:</p>
+<p style="font-size: 0.85rem">אָדָם בִּיקָר וְלֹא יָבִין נִמְשַׁל כַּבְּהֵמוֹת נִדְמוּ:</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ט.</span><span class="list-content">בימים שאין אומרים תחנון אומרים במקומו מזמור ט"ז. המזמור מבטא את ביטחונו של האדם בה' גם לאחר פטירתו מן העולם. יש במזמור ביטויי שמחה: "לכן שמח לבי", "שובע שמחות"; ביטויים היכולים להאמר דווקא בימים שיש בהם ממד מסוים של שמחה, ימים שאין אומרים בהם תחנון.</span></div>
+<p style="font-size: 0.85rem">מִכְתָּם לְדָוִד שָׁמְרֵנִי אֵל כִּי חָסִיתִי בָךְ:</p>
+<p style="font-size: 0.85rem">אָמַרְתְּ לַה’ אֲדֹנָי אָתָּה טוֹבָתִי בַּל עָלֶיךָ:</p>
+<p style="font-size: 0.85rem">לִקְדוֹשִׁים אֲשֶׁר בָּאָרֶץ הֵמָּה וְאַדִּירֵי כָּל חֶפְצִי בָם:</p>
+<p style="font-size: 0.85rem">יִרְבּוּ עַצְּבוֹתָם אַחֵר מָהָרוּ בַּל אַסִּיךְ נִסְכֵּיהֶם מִדָּם וּבַל אֶשָּׂא אֶת שְׁמוֹתָם עַל שְׂפָתָי:</p>
+<p style="font-size: 0.85rem">ה’ מְנָת חֶלְקִי וְכוֹסִי אַתָּה תּוֹמִיךְ גּוֹרָלִי:</p>
+<p style="font-size: 0.85rem">חֲבָלִים נָפְלוּ לִי בַּנְּעִמִים אַף נַחֲלָת שָׁפְרָה עָלָי:</p>
+<p style="font-size: 0.85rem">אֲבָרֵךְ אֶת ה’ אֲשֶׁר יְעָצָנִי אַף לֵילוֹת יִסְּרוּנִי כִלְיוֹתָי:</p>
+<p style="font-size: 0.85rem">שִׁוִּיתִי ה’ לְנֶגְדִּי תָמִיד כִּי מִימִינִי בַּל אֶמּוֹט:</p>
+<p style="font-size: 0.85rem">לָכֵן שָׂמַח לִבִּי וַיָּגֶל כְּבוֹדִי אַף בְּשָׂרִי יִשְׁכֹּן לָבֶטַח:</p>
+<p style="font-size: 0.85rem">כִּי לֹא תַעֲזֹב נַפְשִׁי לִשְׁאוֹל לֹא תִתֵּן חֲסִידְךָ לִרְאוֹת שָׁחַת:</p>
+<p style="font-size: 0.85rem">תּוֹדִיעֵנִי אֹרַח חַיִּים שֹׂבַע שְׂמָחוֹת אֶת פָּנֶיךָ נְעִמוֹת בִּימִינְךָ נֶצַח:</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ'.</span><span class="list-content">עדות המזרח נהגו לומר צידוק הדין והשכבה לנפטר לאחר התפילה בכל יום שאומרים בו תחנון, ויש אומרים גם אחרי תפילת מנחה לפני השקיעה. יש שאומרים צידוק הדין גם ביום שלא אומרים בו תחנון, וכל מקום יעשה כמנהגו<span class="footnote-ref" onclick="showFootnote('21', '21', event)">21</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"א.</span><span class="list-content">נוהגים ללמוד משניות במשך ימי השבעה בבית האבל לעילוי נשמת הנפטר, בעיקר בין מנחה למעריב. נוהגים ללמוד פרקי משניות המתחילות באותיות שמו של הנפטר, ראה באוצר המושגים ערך <strong>אלפא ביתא</strong>. יש נוהגים ללמוד לאחר מכן ארבע משניות ממסכת מקוואות בפרק ז' (משניות ד – ה – ו - ז שסדרן אותיות נשמ"ה) ואומרים תפילת "אנא" לקמן עמוד @ והאבל אומר קדיש דרבנן לקמן עמוד @. ישנם ספרים מיוחדים עם משניות מסודרות לפי סדר א-ב לצורך לימוד בבית האבל. יש קהילות שבהן מחזיקים באופן קבוע ערכה של "גמ"ח ניחומים" עם ספרי המשניות וספרי הלכה בענייני אבלות, ומשאילים ערכות כאלו לבתי האבלים. אם קשה להם ללמוד פרקי משניות אלו, יכולים ללמוד משניות אחרות כי כולן מסוגלות לעילוי נשמה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ב.</span><span class="list-content">כל לימוד תורה מסוגל לעילוי נשמה. לכן נהגו שאם בא תלמיד חכם לבית האבלים, יאמר דברי תורה לעילוי נשמת הנפטר.</span></div>
+<p>בשבת ובמועדים </p>
+<p>אמנם בארץ בדרך כלל לא נהגו לארגן מניין בשבת בבית האבל, כי אין אבלות בפרהסיה בשבת והאבלים יכולים לבוא לבית הכנסת<span class="footnote-ref" onclick="showFootnote('22', '22', event)">22</span>. אך בכל זאת הבאנו את ההלכות לצורך המקומות שנהגו להתפלל גם בשבת בבית האבל. אם האבל מתפלל בבית הכנסת, מובאות ההלכות לקמן, פרק 'שבת לאבלות', עמוד @.</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ג.</span><span class="list-content">אומרים קבלת שבת גם בבית האבל. יש שנהגו שהאבל עצמו מתחיל רק מ"מזמור שיר ליום השבת"<span class="footnote-ref" onclick="showFootnote('23', '23', event)">23</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ד.</span><span class="list-content">אין אומרים ברכה מעין שבע בבית האבלים בערב שבת<span class="footnote-ref" onclick="showFootnote('24', '24', event)">24</span>, ויש מי שכתב שבירושלים נהגו לאמרה<span class="footnote-ref" onclick="showFootnote('25', '25', event)">25</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ה.</span><span class="list-content">אחר קריאת התורה בבית האבל מזכירים נשמת הנפטר בתפילת "א-ל מלא רחמים" אפילו בשבת מברכים, שאז אין מזכירים נשמות שאר מתים <span class="footnote-ref" onclick="showFootnote('26', '26', event)">26</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ו.</span><span class="list-content">בשחרית אומרים שם "אב הרחמים" ובמנחה אומרים "צדקתך צדק"<span class="footnote-ref" onclick="showFootnote('27', '27', event)">27</span>. יש שבמנחה אין אומרים "ואני תפילתי".</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ז.</span><span class="list-content">בשבת, בחול המועד ובפורים אין אומרים את המזמורים המיוחדים לבית האבל<span class="footnote-ref" onclick="showFootnote('28', '28', event)">28</span>. במוצאי שבת לאחר מעריב אומרים מזמור ט"ז.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ח.</span><span class="list-content">במוצאי שבת אומר "המבדיל בין קודש לחול" וחולץ מנעליו, ועובר לפני התיבה<span class="footnote-ref" onclick="showFootnote('29', '29', event)">29</span>. ויש נוהגים שחולץ אחר תפילת מעריב<span class="footnote-ref" onclick="showFootnote('30', '30', event)">30</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ט.</span><span class="list-content">בראש חודש לפי מנהג האשכנזים אין אומרים "הלל" בבית האבל. וטעם הדבר מפני שכל מהותו של ההלל היא הודאה על אותו הזמן, ולכן אומרים בהלל "זֶה הַיּוֹם עָשָׂה ה' נָגִילָה וְנִשְׂמְחָה בוֹ", והאבלים נמצאים בזמן שלא מתאים לומר בו הלל. טעם נוסף שמובא הוא בגלל הפסוק "לֹא הַמֵּתִים יְהַלְלוּ יָהּ", שלא ישמע כלעג לרש – למתים שלא יכולים להלל. המתפללים שאינם אבלים ישלימו קריאת ההלל לאחר התפילה מחוץ לבית האבל, ועדיף להשלים בבית הכנסת<span class="footnote-ref" onclick="showFootnote('31', '31', event)">31</span>. מנהג עדות המזרח לומר הלל בראש חודש בבית האבל, חוץ מאשר האבל עצמו שאינו אומר<span class="footnote-ref" onclick="showFootnote('32', '32', event)">32</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל'.</span><span class="list-content">אם חל ראש חודש ביום השביעי לאבלות, יכולים לומר לאבל את פסוקי הנחמה לאחר חזרת הש"ץ, ויקום מאבלותו, ואז יוכל האבל לומר את ההלל כדרכו<span class="footnote-ref" onclick="showFootnote('33', '33', event)">33</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"א.</span><span class="list-content">בחנוכה אין אומרים הלל בבית האבל, אבל הציבור צריכים לאומרו אחר כך בביתם<span class="footnote-ref" onclick="showFootnote('34', '34', event)">34</span>. ויש אומרים שהציבור יאמרו בבית האבל חוץ מאשר האבל שאינו אומר<span class="footnote-ref" onclick="showFootnote('35', '35', event)">35</span>. ויש אומרים שגם האבל יאמר הלל בברכה כדרכו<span class="footnote-ref" onclick="showFootnote('36', '36', event)">36</span>. וטעם הדבר כיון שהלל בראש חודש הוא מנהג, אבל הלל בחנוכה הוא מעיקר הדין ולכן יש לאמרו גם בבית האבל.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ב.</span><span class="list-content">אומרים "אבינו מלכנו" בעשרת ימי תשובה, אף על פי שאין אומרים תחנון. בסליחות מקצרים ואין אומרים מ"זכור רחמיך" עד "שמע קולנו" ואומרים שלושה פסוקים ראשונים מ"שמע קולנו" ומפסיקים"<span class="footnote-ref" onclick="showFootnote('37', '37', event)">37</span>.</span></div>
+<p>פרטי הלכות לאבל עצמו</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ג.</span><span class="list-content">האבל, אף על פי שאסור בנעילת הסנדל, מברך ברכת "שעשה לי כל צרכי".</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ד.</span><span class="list-content">מעיקר הדין אבל כהן אינו נושא את כפיו בתוך השבעה, בין בחול בין בשבת, אלא יצא חוץ לחדר קודם ברכת כהנים<span class="footnote-ref" onclick="showFootnote('38', '38', event)">38</span>. ויש אומרים שבשבת נושא את כפיו כדי לא להראות אבלות בפרהסיה<span class="footnote-ref" onclick="showFootnote('39', '39', event)">39</span>. וכבר הוזכר לעיל <span style="font-size: 0.85rem">עמוד @</span> שמנהג ירושלים שיש כהנים אבלים הנושאים כפיהם גם בימי החול שבתוך השבעה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ה.</span><span class="list-content">האבל אינו עולה לתורה גם אם הוא כהן או לוי ואין אחר<span class="footnote-ref" onclick="showFootnote('40', '40', event)">40</span>, ואפילו אם קראו לו בשמו לעלות לא יעלה. ואינו צריך לצאת מהחדר אף אם הוא כהן יחיד<span class="footnote-ref" onclick="showFootnote('41', '41', event)">41</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ו.</span><span class="list-content">מותר לאבל להוציא ולהכניס ספר תורה, וכן מותר לכבדו בהגבהה או בגלילה. וכשמכבדים אותו בהגבהה מותר לו אחר כך לשבת על כסא עם ספר התורה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ז.</span><span class="list-content">מותר לו לברך ברכת "הגומל", וכן מותר לו לברך ברכת "שהחיינו" על פרי חדש אם לא יוכל למצאו לאחר השבעה, וכן הדין לגבי ברכת "הטוב והמטיב"<span class="footnote-ref" onclick="showFootnote('42', '42', event)">42</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ח.</span><span class="list-content">אין לאבל לקדש את הלבנה אם יוכל לקדשה אחר ימי אבלו, ואם לא ישאר זמן מותר לו לצאת מביתו ולקדש, אבל יאמר רק את הברכה ולא יאמר "שלום עליכם" ואת שאר התוספות<span class="footnote-ref" onclick="showFootnote('43', '43', event)">43</span>, ויש אומרים שמותר לאחרים לומר "שלום עליכם" לאבל בקידוש לבנה<span class="footnote-ref" onclick="showFootnote('44', '44', event)">44</span>. קידוש לבנה בא לתאר את שמחת ההתחדשות בבריאה, והשמחה עלולה לבוא בניגוד גמור לרגשי האבלות וסיום החיים. לכן אם ניתן הדבר, ממתינים עד חלוף השבעה כדי לקדש את הלבנה.  </span></div>
+<p>האבל כשליח ציבור</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ט.</span><span class="list-content">האשכנזים וחלק מעדות המזרח נוהגים שאבל על אביו ואמו מתפלל כשליח ציבור במשך כל שנת האבל. גם על שאר קרובים יכול להיות שליח ציבור אם אין אחר שיתפלל<span class="footnote-ref" onclick="showFootnote('45', '45', event)">45</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ'.</span><span class="list-content">לפי מנהג האשכנזים, האפשרות המובחרת היא שאבל על אב ואם יעבור לפני התיבה ויתפלל כשליח ציבור<span class="footnote-ref" onclick="showFootnote('46', '46', event)">46</span>. אם אינו יודע לעבור לפני התיבה במשך כל התפילה, יכול לעבור לפני התיבה רק מ"אשרי" "ובא לציון" ואז יכול לומר קדיש תתקבל, בתנאי שיאמר בקול רם באופן שהציבור יענו אחריו יחד "קדוש קדוש קדוש" וגם "ברוך כבוד ה' ממקומו"<span class="footnote-ref" onclick="showFootnote('47', '47', event)">47</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"א.</span><span class="list-content">מצד הדין אין חובה על האבל להיות שליח ציבור. לכן אם קשה לו לכוון בתפילתו כשהוא שליח ציבור, או שאין לו כוח לעבור לפני התיבה, אינו מחויב בכך. מאידך, יש בכך מעלה גדולה אם הוא מסוגל לכך. ולכן ישקול כיצד הוא רוצה לנהוג. אפילו אם יזדמן לו מדי פעם, תבוא עליו ברכה<span class="footnote-ref" onclick="showFootnote('48', '48', event)">48</span>.  </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ב.</span><span class="list-content">אם אינו עובר כלל לפני התיבה, מסתפק בקדיש יתום. גם מי שעובר לפני התיבה אומר קדיש יתום.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ג.</span><span class="list-content">כשיש כמה אחים אבלים בבית האבל, אין צורך לסדר מניין עבור כל אחד מהם כדי שיוכל לשמש כשליח ציבור, אלא יעשו ביניהם תורנות. כשיש שני אבלים בבית הכנסת, מותר לציבור להתחלק לשני מניינים באופן מכובד ומסודר, כדי לאפשר לשני האבלים לעבור לפני התיבה<span class="footnote-ref" onclick="showFootnote('49', '49', event)">49</span>. ואם רוצים, מותר לחלק את המניינים גם בבית האבל, כדי לאפשר לשני אבלים לשמש כשליחי ציבור<span class="footnote-ref" onclick="showFootnote('50', '50', event)">50</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ד.</span><span class="list-content">אין האבל צריך לשנות את מקום תפילתו הקבוע כדי לחזר אחר מקום שיוכל לעבור לפני התיבה, אלא יעבור לפני התיבה במניינו הקבוע כשיזדמן לו. חוץ מיום השנה שאז יחזר אחר מקום אחר שיוכל לעבור שם לפני התיבה. וכן אם כדי לעבור לפני התיבה יצטרך להתפלל במהירות ותיגרע כוונתו, יתפלל במתינות כהרגלו ולא יעבור לפני התיבה<span class="footnote-ref" onclick="showFootnote('51', '51', event)">51</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ה.</span><span class="list-content">סדר עדיפויות לעבור לפני התיבה לפי מנהג האשכנזים: אבל בתוך שבעה קודם לכל השאר. אבל בתוך שלושים קודם לאבל תוך השנה. בעל יארצייט (יום השנה) קודם לאבל בתוך השנה.<span class="footnote-ref" onclick="showFootnote('52', '52', event)">52</span> מתפלל קבוע בבית הכנסת קודם לאורח, גם אם האורח בעדיפות מבחינת האבל (למשל אבל בתוך השנה קודם לאורח בתוך השלושים). </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ו.</span><span class="list-content">מי שמתפלל בדרך כלל בנוסח אחד ומשמש כשליח ציבור בבית כנסת שמתפללים בו בנוסח אחר, יתפלל בלחש בנוסח שרגיל בו ובחזרת הש"ץ יתפלל מתוך הסידור בנוסח בית הכנסת ויש חולקים<span class="footnote-ref" onclick="showFootnote('53', '53', event)">53</span>. אבל הנכנס לבית כנסת שאינו מכיר, כדאי שיברר מראש מהו הנוסח ומהו הסידור לפיו מתפללים. כמו כן כדאי לברר, מהו מנהג המקום לגבי נוסחים שונים או שליחי ציבור הרגילים להתפלל בדרך כלל בנוסח אחר מהמקובל באותו בית כנסת. אם יש "מנהג המקום" שיש לו בסיס הלכתי, יש ללכת לפיו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ז.</span><span class="list-content">יש להיזהר מאוד שלא להגיע  לריב ומחלוקת בכלל, ולעניין קדיש ולעבור לפני התבה בפרט. שהרי מחלוקת וריב גורמים לחילול השם, ומטרת התפילה והקדיש היא לקדש את השם ולהוסיף בכבוד שמים. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ח.</span><span class="list-content">נהגו שאין האבל עובר לפני התיבה בשבת ויום טוב בתוך השנה, למרות שאין איסור בדבר<span class="footnote-ref" onclick="showFootnote('54', '54', event)">54</span> יפורט לקמן מעמוד 110 @, אבל אומר קדיש יתום. לפי מנהג עדות המזרח האבל יכול לעבור לפני התיבה גם בחגים ובשבתות<span class="footnote-ref" onclick="showFootnote('55', '55', event)">55</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"ט.</span><span class="list-content">נהגו שהאבל עובר לפני התיבה במוצאי שבת הוא הזמן בו הנשמות חוזרות לגיהנום לאחר הפוגת השבת, וכשהבן מתפלל ומקדש שם ה' ברבים, יכול לפדות אביו ואמו מן הגיהנום.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ'.</span><span class="list-content">יש מי שכתב שיש להשתדל בכל תפילת מעריב לעבור לפני התיבה, שאז יש התגברות הדינים<span class="footnote-ref" onclick="showFootnote('56', '56', event)">56</span>. יש מי שכתב שאין לעבור לפני התיבה בכל שלוש התפילות של כל יום ויום, אלא די באחת מהן. ועדיף בתפילת מעריב מהטעם הנ"ל<span class="footnote-ref" onclick="showFootnote('57', '57', event)">57</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"א.</span><span class="list-content">יש שנהגו שהאבל ישתדל לעלות למפטיר בשנת האבל<span class="footnote-ref" onclick="showFootnote('58', '58', event)">58</span>, אם יודע לקרוא בטעמים כראוי. ויש להיזהר ממחלוקות בשל כך, וראוי לוותר כדי למנוע מחלוקת<span class="footnote-ref" onclick="showFootnote('59', '59', event)">59</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">נ"ב.</span><span class="list-content">הלכות שליח ציבור במועדים מפורטות לקמן בפרק מ עמוד @.</span></div>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " מאמר עתר ענן הקטרת פרק א", "2": " צרור החיים פיסקה עט.", "3": " הערת הרב נבנצל שליט\"א – וישתדלו לילך בצנעה ועם שומר.", "4": " ילקוט יוסף סימן כט, ג, בשם הריטב\"א (מועד קטן כג, א). ", "5": " צרור החיים פיסקה קמח.", "6": " חיים וחסד פרק י, יח, בשם רבי דוד פרדו. ", "7": " ביאור הלכה על שלחן ערוך אורח חיים סימן קכח, מג, דיבור המתחיל יצא. אמנם בגשר החיים (פרק כ, ג, ה) כתב שיצאו לפני \"הטוב שמך\" (כלומר לפני שקראו להם \"כהנים\").", "8": " ילקוט יוסף סימן כט, ח.", "9": " גשר החיים שם; צרור החיים פיסקה קנא; שמירת שבת כהלכתה חלק ב, פרק סה, לא.", "10": " צרור החיים פיסקה קנד.", "11": " בית יוסף על אורח חיים קלא, (ד).", "12": " משנה ברורה סימן קלא, סעיף קטן כ.", "13": " משנה ברורה שם.", "14": " גשר החיים פרק כ, ג, יא. צרור החיים פיסקה קנה.", "15": " מעבר יַבֹּק מאמר עתר ענן הקטרת פרק א.", "16": " ילקוט יוסף סימן כט, יז.", "17": " רמ\"א אורח חיים סימן קלה, יד; ומשנה ברורה שם. ובילקוט יוסף (סימן כט, יב) כתב להקל להביאו אף באותו יום.", "18": " ערוך השלחן אורח חיים סימן קלה, לב. פני ברוך סימן י, כד. בקונטרס אהל חנה, בסוף ספר פני ברוך (עמוד תסה), כתב הרב הורוויץ שאין להקפיד לקרות שלש פעמים בספר התורה. אך יש להקפיד מאוד לנהוג בכבוד ספר התורה כראוי. גם בצרור החיים (פיסקה קנב) לא הצריך שיקראו בו שלש פעמים. אם כי לשיטתו צריך שילוו את ספר התורה עשרה אנשים ממקום למקום.", "19": " ילקוט יוסף סימן כט, יג.  והוסיף שם שמי שיש לו אונס, כגון שממהר לעבודתו, פטור מלשמוע ספר תורה.  ", "20": " למרות שיש דעות שאם האבל שליח ציבור, לא יאמר תתקבל. גשר החיים פרק כ, ג, ח; ילקוט יוסף סימן כט, יא; פני ברוך סימן י, כג.", "21": " סידור קול אליהו עמוד 940.", "22": " הערת הרב יעקב אריאל שליט\"א, בתוך \"דרכה של היהדות במוות ובאבלות\", עמוד 357.", "23": " גשר החיים פרק כ, ג, ט. פני ברוך סימן כג, ו. שמירת שבת כהלכתה שם, הלכה יג.", "24": " שלחן ערוך אורח חיים סימן רסח, י.", "25": " ילקוט יוסף סימן כט, טז.", "26": " מגן אברהם על שלחן ערוך אורח חיים סימן רפד, ז.", "27": " שמירת שבת כהלכתה שם, טז. ", "28": " שם, יח.", "29": " רמ\"א על שלחן ערוך אורח חיים סימן תקנג, ב; גשר החיים פרק כ, ג, ט; שמירת שבת כהלכתה חלק ב, פרק סה, לג.", "30": " ילקוט יוסף סימן לד, ח.", "31": " צרור החיים פיסקה קנ.", "32": " ילקוט יוסף סימן כט, יד. והוסיף שם שלפי מנהג ירושלים, אם מתפללים במקום שנפטר המת, הציבור יוצא לחדר אחר לקרות את ההלל וחוזר לאחר מכן. ואם נפטר בבית חולים או בבית אחר, אינם צריכים לצאת כלל. ", "33": " ילקוט יוסף שם.", "34": " מגן אברהם על שלחן ערוך אורח חיים קלא, סעיף קטן י.", "35": " משנה ברורה סימן תרפג ושערי תשובה שם. ובגשר החיים (פרק כ, ג, ז) הביא דעות שגם האבל יאמר אחר כך לבדו את ההלל.", "36": " ילקוט יוסף סימן כט, יד.", "37": " גשר החיים פרק כ, ג, ד.", "38": " שלחן ערוך אורח חיים סימן קכח, מג.", "39": " ילקוט יוסף סימן כט, ח.", "40": " שלחן ערוך יורה דעה סימן שפד, ב.", "41": " ילקוט יוסף סימן כב, יח.", "42": " כל בו על אבלות עמוד 281. ילקוט יוסף סימן לח, י.", "43": " משנה ברורה סימן תכו, סעיף קטן יא. שמירת שבת כהלכתה חלק ב, פרק סה, לו. ", "44": " ילקוט יוסף סימן כג, ז. צרור החיים פיסקה קמט. ", "45": " שלחן ערוך יורה דעה סימן שפד, ג. גשר החיים פרק כ, ג, ב. ילקוט יוסף סימן כט, ד; ובסימן לא, ו. פני ברוך סימן י, יט. בספר צרור החיים עמוד 75  ובפיסקה רטו כתב שמנהג עדות המזרח שאין האבל על אב ואם מתפלל כשליח ציבור, אלא אם כן אין אחר שיוכל לשמש כשליח ציבור, כפשטות לשון השלחן ערוך. ", "46": " הגהות הרמ\"א על שלחן ערוך יורה דעה סימן שעו, ד.", "47": " גשר החיים פרק ל, ח, ג.", "48": " על פי צרור החיים פיסקה רטו. ", "49": " ילקוט יוסף סימן לא, ז - ח; בשם הגרש\"ז אויערבך (הליכות שלמה, תפילה עמוד רכג ועמוד ס).", "50": " צרור החיים פיסקה קנג.", "51": " ספר הלכות אבלות פרק ג, רלח; בשם הגרש\"ז אויערבך.", "52": " גשר החיים פרק ל, י . ומשמע ממנו שבעל היארצייט קודם לאבל תוך שלושים. צרור החיים פיסקה רטז.", "53": " פני ברוך סימן לה, ג, בשם שו\"ת שואל ומשיב והנצי\"ב. ובאגרות משה (אורח חיים חלק ב, כט) כתב שאין לשליח הציבור לשנות בין הנוסח בלחש ובין מה שיתפלל בקול רם. עיין שם בפני ברוך בהערה.", "54": " רמ\"א יורה דעה סימן שעו, ד. ", "55": " צרור החיים פיסקה רטו. ", "56": " קיצור שלחן ערוך סימן כו, א.", "57": " האדמו\"ר ממונקץ' בספר נשמת ישראל דף תקעג. מצוטט באוצרות התורה חלק שני, מנהגי אבלות עמוד 1026.", "58": " רמ\"א יורה דעה סימן שעו, ד. צרור החיים עמוד 88, סעיף 5. ובפיסקה רטו. בשמירת שבת כהלכתה (חלק ב, פרק סה הערה קלז*) נתן טעם שברכות ההפטרה יש בהן מעין צידוק הדין. הערת הרב נבנצל שליט\"א – וגם מזכה את הציבור בעניית אמן.", "59": " ילקוט יוסף סימן מ, לז – לח."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

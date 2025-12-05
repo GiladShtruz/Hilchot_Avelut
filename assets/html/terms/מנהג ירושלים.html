@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p><strong>מנהג ירושלים</strong></p>
+<p>נוסף על ההלכות והדינים שנפסקו, יש הרבה חילוקי מנהגים באבלות. בירושלים ישנם מנהגים מיוחדים, ולתועלת המעיינים אספנום כאן.</p>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">מנהג ירושלים לקבור את הנפטר ביום פטירתו ולא להלין את המת כלל, אפילו לכבודו. כלל זה נוהג בירושלים העתיקה שבין החומות. <strong>הערת הרב נבנצל שליט"א</strong> – ולהלינו בין החומות אסור מצד הדין (חוץ מבשבת).</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">מטת המת הנהוגה בירושלים עשויה משני מוטות ושמונה עשרה אונקלאות (חוליות), מקובלת בירושלים ובצפת משנות דור (גשר החיים חלק ב פרק ז, א). ע"ע <strong>כליבה.</strong></span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">מנהג ירושלים – על פי הקבלה – שצאצאיו של נפטר זכר (בניו ובנותיו נכדיו וניניו) לא הולכים אחר מיטתו. על פי מנהג זה, יש שאינם מגיעים כלל לבית הקברות - האפשרות המועדפת לפי מנהג זה; או - אם בכל זאת הצאצאים משתתפים בלוויה - שהצאצאים יגיעו לקבר עוד לפני הנפטר, כך לפחות לא ילכו אחר המיטה אלא לפניה. ע"ע <strong>חרם - "זרעו לא ילך אחריו".</strong></span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">מנהג ירושלים ומנהג חסידים לערוך "<strong>הקפות</strong>" סביב הנפטר קודם קבורתו. מטרת ההקפות היא לשמור את גוף הנפטר ונשמתו מכוחות הטומאה שעלולים להדבק בהם. ע"ע <strong>הקפות.</strong></span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">מנהג ירושלים ועדות המזרח שהכהנים נושאים את כפיהם בבית האבל. אבל האבל עצמו לא ישא כפיו ביום חול, ובשבת ישא כפיו כדי לא להראות אבלות בפרהסיה (גשר החיים פרק כ, ג, ה. צרור החיים פיסקה קנא). <strong>הערת הרב נבנצל שליט"א</strong> – ויש שנהגו שגם האבל נושא כפיו, גם בחול.</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">מקילים לאבל לומר <strong>קדיש</strong> גם לפני הקבורה (גשר החיים פרק יח, ב, ג). אמנם בספר צרור החיים (פיסקה יז) כתב שאין דין קדיש לפני הקבורה, אבל מנהג ירושלים לומר קדיש לפני הקבורה (שם בהקדמה לפרק ה). ע"ע <strong>אנינות</strong>.</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">יולדת שנפטרה בלידתה, מנהג ירושלים להלבישה תכריכים. אם יש בגדים הבלועים מדם הנפש, נקברים עמה (גשר החיים פרק יא, ו). ע"ע <strong>דם הנפש</strong>.</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content"><strong>צידוק הדין</strong> - עדות המזרח אומרים בכל הימים וגם בלילה. עדות המזרח שנוהגים על פי בן איש חי אין אומרים צידוק הדין בלילה. האשכנזים אין אומרים צידוק הדין בלילה, ולא בימים שאין אומרים בהם תחנון. ומנהג ירושלים שלא לומר גם בערב יום שאין אומרים בו תחנון, לאחר חצות היום (כגון בערב ראש חודש).</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">בשבת וביום טוב אין קורעים. בחול המועד יש מנהגים שונים, ובמקום שאין מנהג ברור יש לקרוע על כל הקרובים. מנהג ירושלים לקרוע בחול המועד רק על אב ואם, ועל שאר קרובים יקרעו רק במוצאי הרגל כשמתחילים לנהוג אבלות (ילקוט יוסף סימן ט, כה). ע"ע <strong>קריעה.</strong></span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">מנהג ירושלים לערוך <strong>סעודת הבראה</strong> לחברה קדישא לאחר שסיימו לקבור את הנפטר, כדי להראות שהאחראים לקבורה אסור להם לאכול סעודת קבע קודם הקבורה (גשר החיים פרק לג, ב, ב).</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">בחול המועד מברים בקפה ועוגות ולא בביצים ועדשים. ומברים על כסאות ולא על הקרקע. ומנהג ירושלים שבחול המועד רק אבלים על הורים אוכלים <strong>סעודת הבראה</strong>, אבל לא על שאר קרובים (ילקוט יוסף סימן יג, י; פני ברוך סימן כח, יא). אמנם בספר גשר החיים (פרק כ, ב, י) הזכיר מנהג זה בשם ספר מזבח אדמה וכתב שלא נתברר לנו מנהג זה ואין לנו מקור על זה<span style="font-size: 0.75rem">.</span> (ובילקוט יוסף (סימן מג, פורים, א) העתיק מנהג זה גם לפורים כמו בחול המועד, ודבריו סותרים למה שכתב בסימן יג, ז, ששם כתב שאין חילוק בין אב ואם לשאר קרובים).</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">מנהג ירושלים שאין מנגבים את הידיים אחר הנטילה ביציאה מבית הקברות (גשר החיים פרק יד, כא). <strong>הערת הרב נבנצל שליט"א</strong> – והורה אדמו"ר זללה"ה (הגרש"ז אויערבך זצ"ל) שאם נטל ידיים ב' פעמים על כל יד, יכול לנגבן. </span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">אם נקבר יום לאחר המיתה, מנהג ירושלים שהאבל מניח בו תפילין בצנעה בלי ברכה. אבל אם נפטר בשבת ונקבר במוצאי שבת, האבל לא מניח תפילין ביום ראשון (ילקוט יוסף סימן ז, כה. וכעין זה כתב בצרור החיים פיסקה קכה). ע"ע <strong>תפילין ביום הראשון.</strong></span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">אין אומרים ברכה מעין שבע בבית האבלים בערב שבת (שלחן ערוך אורח חיים סימן רסח, י), ויש מי שכתב שבירושלים נהגו לאמרה (ילקוט יוסף סימן כט, טז).</span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content"><span style="font-size: 0.85rem">מנהג ירושלים לומר שבת שלום לאבלים, כדברי הרמב"ם, שהוא מכלל דברים שבפרהסיה. (ילקוט יוסף סימן כג, ו).</span></span></div>
+<div class="list-item checkbox" style="margin-right: 0px"><span class="marker checkbox-marker">☑</span><span class="list-content">מנהג עדות המזרח לומר הלל בראש חודש בבית האבל חוץ מאשר האבל עצמו שאינו אומר (ילקוט יוסף סימן כט, יד). והוסיף שם שלפי מנהג ירושלים, אם מתפללים במקום שנפטר המת, הציבור יוצא לחדר אחר לקרות את ההלל וחוזר לאחר מכן. ואם נפטר בבית חולים או בבית אחר, אינם צריכים לצאת כלל.</span></div>
+<p>אסור להכניס מת לפנים מן החומה בירושלים. המקור הוא במשנה (כלים א, ז) "... מסבבין לתוכה מת עד שירצו. יצא – אין מחזירין אותו". לפי זה, אם מת לפנים מן החומה, מותר להוליכו לכבודו כמה שירצו. הגבלה זו נוהגת מחמת קדושת ירושלים. (הפרטים והגבולות המקודשים מובאים בגשר החיים פרק יד פיסקה ד, וביתר פירוט בספר "עיר הקדש והמקדש" של הרב טוקצינסקי חלק ב פרק יב).    </p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

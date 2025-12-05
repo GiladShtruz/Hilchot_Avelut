@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content"><strong>החוכמה הנשכחת של הנחמה </strong>– נחי אלון ופרופסור חיים עומר<span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span></span></div>
+<div class="sage-quote"><p style="font-size: 0.75rem">וַיִּשְׁמְעוּ שְׁלֹשֶׁת רֵעֵי אִיּוֹב אֵת כָּל הָרָעָה הַזֹּאת הַבָּאָה עָלָיו וַיָּבֹאוּ אִישׁ מִמְּקֹמוֹ, אֱלִיפַז הַתֵּימָנִי וּבִלְדַּד הַשּׁוּחִי וְצוֹפַר הַנַּעֲמָתִי, וַיִּוָּעֲדוּ יַחְדָּו לָבוֹא לָנוּד לוֹ וּלְנַחֲמוֹ: וַיִּשְׂאוּ אֶת עֵינֵיהֶם מֵרָחוֹק וְלֹא הִכִּירֻהוּ וַיִּשְׂאוּ קוֹלָם וַיִּבְכּוּ וַיִּקְרְעוּ אִישׁ מְעִלוֹ וַיִּזְרְקוּ עָפָר עַל רָאשֵׁיהֶם הַשָּׁמָיְמָה: וַיֵּשְׁבוּ אִתּוֹ לָאָרֶץ שִׁבְעַת יָמִים וְשִׁבְעַת לֵילוֹת וְאֵין דֹּבֵר אֵלָיו דָּבָר כִּי רָאוּ כִּי גָדַל הַכְּאֵב מְאֹד: </p>
+<p style="font-size: 0.75rem">איוב ב, יא – יג</p>
+</div><p>מאז ומעולם נחשב מעשה הניחום למצווה. בעולם המודרני ירדה הנחמה מגדולתה. ביטויים עכשוויים כגון 'נחמה זולה' משקפים את ירידת ערכה. אפילו נוסחי הנחמה המסורתיים איבדו מכוחם בעידן המודרני, והם נאמרים במגומגם, אם הם בכלל נאמרים. מתמיהה במיוחד העובדה, שמיומנויות נחמה כמעט ואינן תופסות מקום בהכשרתם של מטפלים. מדוע? יתכן שמטפלים סבורים שמיומנויות אלה אינן ניתנות ללמידה, או שמטפלים השואפים ל'ריפוי אמיתי' רואים את הנחמה כמשנית בחשיבותה, או שמטפלים אינם מכירים בחשיבותה כיון שהם נכנסים לפעולה רק לאחר שמאמצי הנחמה נכשלו. מכל מקום, בעיני מטפלים רבים משתרע תחום הטיפול הנפשי 'האמיתי' הרחק אל מעבר לתחום הנחמה, שהיא תחומם של אנשי הדת והדיוטות. כך היתה הנחמה לחוכמה נשכחת. </p>
+<p>הנחמה, כאחותה התאומה הקבלה, היא מידה טרגית. בחברה המייחסת ערך מרכזי לשליטה, לא נודע ערך רב לפתרונות שאינם שלמים. לעומת זאת, נקודת המוצא של הראייה הטרגית היא שהמצוקה מצויה בכל. באשר יש חיים, שם ישנה מצוקה, ועל כן אין פתרון שלם. הראייה הטרגית חותרת לבקש אושר צנוע בעולם קשה. ולכן היא נוטה לקבלה ולהקלה יותר מאשר לריפוי. תקוות הריפוי שואפת למטרה אחת – היעלמות הסבל. ואילו לנחמה שתי פנים: פנים מקבלות ופנים מעודדות. הקבלה מופנית אל הסבל, ואילו העידוד – אל האפשרות לצמצם את הסבל או להיטיב לשאתו. הסבל והאובדן אמנם אינם נעלמים, אבל האדם יכול להתבונן בהם אחורנית בעודו צועד קדימה. פנים אלו של הנחמה קשורים זה בזה, שכן הנכונות לחתור להקלה דורשת להסתלק מן החלומות של ריפוי שלם. הנחמה היא אפוא גלולה מרה – מתוקה: מידת העידוד שבה היא כמידת נכונותו של האדם לקבל את מצוקתו. יש רק אופן אחד של עידוד שאין עמו קבלה כלל: העידוד הנגזר מן הגירסה הפופולרית של 'החשיבה החיובית', הרואה כל תלונה כחבלה ב'עמדה הנכונה של אופטימיות'. אנו סבורים, כי אופן זה של עידוד אינו מעודד ביותר: בדחותו את זכותו של הסובל לסבול הוא קרוב יותר לגינוי מאשר לנחמה.  </p>
+<p>נחמה אפשר להושיט, לא לכפות. ניסיון לאלץ את הסובל להתנחם נידון בהכרח לכישלון. יתכן שנכונות הסובל להתנחם תופיע ויתכן שלא, הכל על פי צרכיו של הסובל. בסיפור המקראי ממאן יעקב להתנחם על אובדן יוסף. יהיה זה אבסורד לטעון שיעקב 'מרחם על עצמו' או ש'הוא סובל מאבל פתולוגי'. אילו השתכנע יעקב שעליו לחדול מאבלו היה מן הסתם מרגיש לאחר מכן שבגד ביקר לו ביותר. ניתן להבין את הכעס שהסובלים מבטאים לעתים כלפי המנחמים אותם: לעתים רומזת הנחמה שעל הסובל להניח לסבל. בחווית האדם הסובל רמיזה זו כמוה כשלילת זכותו למחות על אכזריות הגורל שפגעה בו. הטעות השכיחה של האצה בסובל נעשית תכופות מתוך חוסר רגישות ובחוסר מודעות. </p>
+<p>לעתים יוצר המנחם את הרושם שהוא חושש מן המגע עם הסובל כמי שחושש מהידבקות. הפסיכולוגית מריאנה אמיר המנוחה, שחלתה בסרטן שלימים נפטרה ממנו, כתבה מאמר בשם 'נוס על נפשך' שבו תיארה את השפעתה של עמדת הימנעות זו על הסובל. אחת מחברותיה נהגה להתקשר בשעה שידעה שאין איש בבית ולהשאיר הודעה מוקלטת: "רציתי לדעת איך את מרגישה, אבל לא רציתי להפריע. אין צורך שתתקשרי חזרה". אחר השאיר זר פרחים ליד הדלת. שלישית קיצרה את ביקורה והיתה נפרדת בנימה עליזה: "הכל יהיה בסדר". בין עמיתיה היו שמתחו ביקורת על עצבונה ועל התייחסותה אל המחלה, באמרם שהיא איננה עוזרת לעצמה להחלים. עמדה זו היתה לה הגרועה ביותר מכל עמדות העידוד. אפשר כמובן להבין את הקושי שחווים במצבים כאלו חברים, עמיתים ורופאים, בהיותם מוצפים בחרדה ובחוסר אונים. עם זאת,עמדת הימנעות איננה מאפשרת לנחם. </p>
+<p>האצה נטולת סבלנות משקפת היבט נוסף ביחסי הניחום: המידה שבה מרגיש המנחם שהוא דומה לסובל. העוזר חסר הסבלנות מעביר מסר של הבדל בין השניים: "איננו באותה הסירה: אתה שט לדרכך ואני לדרכי!" לא פלא שהסובל מרגיש נטוש. פוטנציאל סיוע גדול יותר יש לניסיון נחמה המבטא לא רק קרבה אלא גם דמיון בסיסי בין המנחם למנוחם: "מה שקרה לך יכול לקרות גם לי". אין הכרח, כמובן, שמסר זה יאמר ישירות. די אם הוא מצטייר מתוך עמדתו של המנחם.</p>
+<p>הנחמה כרוכה גם בהסרת המחיצה בין המנחם לבין המנוחם. כאשר הנחמה מתקבלת הופך גם הנותן למקבל. הנחמה, כמו החמלה, מבליטה את הדמיון הבסיסי שבין הצדדים ואת זיקת הגומלין שביניהם.</p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " נחי אלון הוא פסיכולוג קליני. פרופסור חיים עומר הוא מרצה לפסיכולוגיה באוניברסיטת תל אביב. פרק זה בנוי מציטוטים מתוך ספרם \"השטן שבינינו\", בהוצאת \"ספרים, הוצאה לאור\", פרק חמישי מעמוד 153 ואילך. ברצוני להודות להם ולהוצאה לאור על נכונותם ורשותם לצטט מתוך הספר."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p><strong>נשמה</strong></p>
+<p>ישות רוחנית נצחית השוכנת במשך תקופת חיי האדם בתוך הגוף ובמותו היא עוזבת את הגוף ועוברת לחיי עולם בעולם האמת. </p>
+<p>על גופם של צדיקים הוא אומר: "<span style="font-size: 0.85rem">יָבוֹא שָׁלוֹם יָנוּחוּ עַל מִשְׁכְּבוֹתָם הֹלֵךְ נְכֹחוֹ</span>" (ישעיהו נז, ב) ועל נשמתם הוא אומר: "<span style="font-size: 0.75rem">וְהָיְתָה נֶפֶשׁ אֲדֹנִי צְרוּרָה בִּצְרוֹר הַחַיִּים אֵת ה' אֱלֹהֶיךָ</span>" (שמואל א', כה, כט). על גופם של רשעים הוא אומר: "<span style="font-size: 0.85rem">אֵין שָׁלוֹם אָמַר אֱלֹהַי לָרְשָׁעִים</span>" (ישעיהו נז, כא) ועל נשמתם הוא אומר: "<span style="font-size: 0.75rem">וְאֵת נֶפֶשׁ אֹיְבֶיךָ יְקַלְּעֶנָּה בְּתוֹךְ כַּף הַקָּלַע</span>" (שמואל א', שם). </p>
+<p>תניא רבי אליעזר אומר: נשמתם של צדיקים גנוזות תחת כסא הכבוד, שנאמר "<span style="font-size: 0.75rem"> וְהָיְתָה נֶפֶשׁ אֲדֹנִי צְרוּרָה בִּצְרוֹר הַחַיִּים</span>", ושל רשעים זוממות והולכות. ומלאך אחד עומד בסוף העולם ומלאך אחר עומד בסוף העולם ומקלעין נשמתם זה לזה, שנאמר "<span style="font-size: 0.75rem">וְאֵת נֶפֶשׁ אֹיְבֶיךָ יְקַלְּעֶנָּה בְּתוֹךְ כַּף הַקָּלַע</span>" (שבת קנב, ב).</p>
+<p style="font-size: 0.85rem">ומה יהיה מצבה (של הנשמה) אחר יציאתה מן הגוף? ואשיב שהיא משתמרת עד עת הגמול, כאמרו "וְנֹצֵר נַפְשְׁךָ הוּא יֵדָע וְהֵשִׁיב לְאָדָם כְּפָעֳלוֹ" (משלי כד, יב). ויהיה מקום שמירת הזכות שבהן למעלה, והדעוכות בתחתיות… וכמו שאמרו הראשונים "נשמתם של צדיקים גנוזה תחת כסא הכבוד ושל רשעים משוטטת בעולם".</p>
+<p style="font-size: 0.85rem">ובתחילת זמן הפירוד תשאר זמן מסוים בלתי נחה במנוחתה עד אשר יבלה הגוף, ועניין דבר זה עד שיתפרדו חלקיו, ובמשך זמן זה יקשה עליה מה שתדע ממה שעובר על הגוף מן התולעת והרמה וכדומה לכך, כמו שיקשה על האדם ידיעתו שהבית שהיה גר בו נחרב וצומחים בו קוץ ושמיר, וצער זה יהיה לנפש פחות או יותר כפי שהיא ראויה לו, כשם שעל ביתו שבעולם השפל יהיה פחות או יותר קשה עליו לפי הראוי לו. ועל כך אומרים קדמונינו "קשה רמה למת כמחט בבשר החי" (ברכות יח, ב). והסכימו את זה למה שאמר הכתוב "אַךְ בְּשָׂרוֹ עָלָיו יִכְאָב וְנַפְשׁוֹ עָלָיו תֶּאֱבָל" (איוב יד, כב). וזה מה שאני יודע ממה שנקרא דין הקבר או חיבוט הקבר (הנבחר באמונות ודעות, רבי סעדיה גאון. המאמר השישי פרק ז). ע"ע <strong>חיבוט הקבר. נפש. תחיית המתים. </strong></p>
+<p><strong>מסעות הנשמה והנפש בהפרדן מן הגוף</strong></p>
+<p>על פי הקבלה הנשמה נפרדת מן הגוף בשבעה מסעות, כנגד שבעה דינים שאדם נידון בצאתו מן העולם. פרקי זמן אלו מקבילים לשלבי האבלות המדורגים בהלכה. הסילוק הרוחני של הנשמה בא לידי ביטוי מעשי באופני האבלות המשתנים עם הזמן. בהקשר זה ניתן לציין שגם סילוק שכינה מן המקדש היה בשלבים, ובמקביל היתה גם גלות הסנהדרין. הסילוק הרוחני של השכינה, בא לידי ביטוי מעשי בגלות הסנהדרין. כמו שמתואר בגמרא – "<span style="font-size: 0.85rem">עשר מסעות נסעה שכינה, מקראי. וכנגדן גלתה סנהדרין, מגמרא. עשר מסעות נסעה שכינה, מקראי: מכַּפֹרֶת לכרוב, ומכרוב לכרוב ומכרוב למפתן, וממפתן לחצר, ומחצר למזבח, וממזבח לגג, ומגג לחומה, ומחומה לעיר, ומעיר להר, ומהר למדבר, וממדבר עלתה וישבה במקומה" </span>(ראש השנה לא, א).</p>
+<p> (כל הקטע הבא עוסק בסתרי תורה, ונסתפקתי אם לכלול אותו בספר, כשם שנסתפקתי לגבי קטעים אחרים, כיון שאין לנו עסק בנסתרות. בכל זאת, בעקבות שאלות רבות שנשאלות בעניין, הובאו הדברים מספר גשר החיים (חלק שני פרק כז) כציטוט, לא מתוך ידיעה או הבנה, אלא רק כדי לקבל מושג ראשוני).  </p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">שלושים יום לפני פטירתו מתחילה הנשמה להפרד פירוד חלקי והצלם עובר ממנו (זוהר ויחי רכז). </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">בשעות האחרונות עוזב את האדם צלם אלקים שבו (יש באדם שני סוגי צלם), והאדם רואה את מלאך המוות, מפריד אברים קשורים ומקשר מפורדים (זוהר אמור פה).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">יציאת הנפש. אדם אינו עוזב את העולם עד שרואה את השכינה, ונפשו נמשכת אל אור השכינה כמו אל מגנט עצום, ועוזבת את העולם. באותו יום עיקר האנינות על הסתלקותו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">אחרי שלושה ימים לפטירתו מזניחה הנפש את הגוף. "כל תלתא יומין נפשא טייסא על גופה, סברה דהיא חזרה לגבה. כיון דחזיא (אחרי שלושה ימים) דאישתני זיווי דאנפוי, שבקה לה ואזלא" (ירושלמי מועד קטן פרק ג, ה). במקביל בשלושת הימים הראשונים עיקר תוקף האבלות, בגמרא (מועד קטן כז, ב) מוזכרים "שלֹשה ימים לבכי". גם לגבי זיהוי הנפטר, מעידים עליו עד שלושה ימים (יבמות קכ, א).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">אחרי שבעה – פרידה נוספת. "כל שבעה יומין נשמתא אזלא מביתא לקברא ומקברא לביתא..., בתר שבעה יומין נשמתא אעלית לדוכתא דאעלת לאתר דאעלת" (זוהר ויחי ריט). במקביל, עיקר דין האבלות שבעה ימים. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">אחרי שלושים יום מוסיפה הנשמה להסתלק ולהתעלות, "כל אינון תלתין יומין אתדנו נפשא וגופא כחדא..., לבתר נשמתא סלקא וגופא אתבלי בארעא" (זוהר ויקהל קצט). לפיכך נוהג גם בשלושים מקצת דיני אבלות.</span></div>
+<p>אחר שנים עשר חודש נפרדת הנשמה מכל ענייני העולם הגשמי, מתעלה למקורה העליון ואין לה עניין להשגות הגשמיות הפעוטות. כמו שכתוב בגמרא (שבת קנב, ב) - "כל שנים עשר חודש גופו קיים (עדיין) ונשמתו עולה ויורדת. לאחר שנים עשר חודש גופו בטל ונשמתו עולה ושוב אינה יורדת". משום כך יש כל שנים עשר חודש ענייני אבלות על אב ואם.</p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

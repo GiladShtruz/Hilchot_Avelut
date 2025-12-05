@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p>הלכות עד הקבורה</p>
+<p><strong>ביקור חולים</strong><span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span></p>
+<p>אמר רבי חמא ברבי חנינא: מאי דכתיב "אַחֲרֵי ה' אֱלֹהֵיכֶם תֵּלֵכוּ"? וכי אפשר לו לאדם להלך אחר שכינה, והלא כבר נאמר "כִּי ה' אֱלֹהֶיךָ אֵשׁ אֹכְלָה הוּא"?! אלא הלך אחר מדותיו של הקדוש ברוך הוא … הקדוש ברוך הוא ביקר חולים דכתיב "וַיֵּרָא אֵלָיו ה' בְּאֵלֹנֵי מַמְרֵא" (בראשית יח, א), אף אתה בקר חולים.</p>
+<p>סוטה יד, א</p>
+<p>שישה דברים אדם אוכל פירותיהם בעולם הזה והקרן קיימת לו לעולם הבא, ואלו הן … ביקור חולים…</p>
+<p>שבת קכז, א</p>
+<p>מצות עשה של דבריהם לבקר חולים… ואלו הן גמילות חסדים שאין להם שיעור. אף על פי שכל מצוות אלו מדבריהם, הרי הן בכלל "וְאָהַבְתָּ לְרֵעֲךָ כָּמוֹךָ". כל הדברים שאתה רוצה שיעשו אותם לך אחרים, עשה אתה אותן לאחיך בתורה ובמצוות.</p>
+<p>רמב"ם הלכות אבל  יד, א</p>
+<p>הדרכה למבקרים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">מצוה גדולה לבקר את החולה<span class="footnote-ref" onclick="showFootnote('2', '2', event)">2</span>, ורמוזה היא במקראות "וְהוֹדַעְתָּ לָהֶם אֶת הַדֶּרֶךְ יֵלְכוּ בָהּ" - זה ביקור חולים<span class="footnote-ref" onclick="showFootnote('3', '3', event)">3</span>. שמתוך כך יבקש עליו רחמים וגם יוכל לעיין בענייניו ובצרכיו ולסייע לו, ונמצא שמחייהו. שמצות ביקור חולים מצד המבקר היא בגוף ובנפש: בגוף – בטיפול בחולה ובצרכיו, משמעות הביטוי "ביקור חולים" כוללת גם ביקורת על צרכי החולה ואם יש לחולה את כל הדרוש לו; ובנפש – להתפלל עבורו. וכל שביקר ולא ביקש עליו רחמים, לא קיים את המצוה כראוי<span class="footnote-ref" onclick="showFootnote('4', '4', event)">4</span>. מעבר לכך, לכוח הרצון של החולה יש תפקיד משמעותי ומרכזי מבחינת הריפוי, כי הרצון הוא שנותן את התקוה והסיכוי להתגבר על המחלה. לכן יש משמעות רבה לעידוד, לחיזוק ולתמיכה נפשית בחולה, החיוניים כדי לעזור לו להתרפא. ביקור חולים המסייע פיזית ונפשית לחולה להרפא, יש בו גם ממצות ריפוי החולה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">יש להיזהר לא להכביד על החולה. חולה שאינו דורש עזרה או צוותא, יבוא המבקר לזמן קצר, ישאל בשלומו, יתפלל עבורו ויצא. חולה שקשה לו גם הביקור הקצר, אין נכנסים כלל לחדרו אלא דורשים בשלומו על ידי בני ביתו. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">אם יש שני חולים אחד עני ואחד עשיר, ורבים הולכים לעשיר – תלך אתה אצל העני; ועל זה נאמר "אשרי משכיל אל דל"<span class="footnote-ref" onclick="showFootnote('5', '5', event)">5</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">המבקר חולה לא ישב למראשותיו, ששכינה למעלה ממראשותיו של חולה. לכן אם החולה שוכב על הארץ, לא ישב המבקר על כסא למעלה ממשכב החולה. ראה באוצר המושגים ערך "שכינה למעלה ממראשותיו של חולה". אם יש צורך לחולה, ודאי שמצוה ומותר לשבת למראשותיו או לרגליו או למעלה ממנו<span class="footnote-ref" onclick="showFootnote('6', '6', event)">6</span>. כיום שהחולים שוכבים על גבי מיטות אפשר לשבת על גבי כסא וספסל.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">מי שאינו רגיל להיכנס לביתו של החולה בדרך כלל, אינו נכנס לבקרו בשלושת הימים הראשונים של חוליו. ואם הכביד עליו חוליו בבת אחת נכנס לבקרו מיד.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">אומרים לו שיתן דעתו על ענייניו, אם הלוה או הפקיד אצל אחרים, או אחרים הלוו או הפקידו אצלו, ואל יפחד מפני זה מהמוות<span class="footnote-ref" onclick="showFootnote('7', '7', event)">7</span>. לא בכל מקרה ולא אצל כל אדם ניתן לומר משפטים כאלו. מאידך, יכולה להיות הקלה גדולה לאדם החולה כשירגיש שמשאיר את ענייניו מסודרים וברורים. לכן יש לשקול בדעת מתי לומר ומתי להחריש, והחכם עיניו בראשו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">יש מי שכתב שראוי לאדם שלפני פטירתו יסדר צוואה לביתו בכל ענייניו, ויש לעוררו על כך. אך אם נראה שתחלש דעתו של החולה עקב כך, לא ידברו איתו על כך<span class="footnote-ref" onclick="showFootnote('8', '8', event)">8</span>.</span></div>
+<p>מה אומרים לחולה על מחלתו </p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">המטרה העיקרית ביחסנו לחולה היא לעודדו ולחזקו. לכן חולה שנפטר לו קרוב, אין מספרים לו על כך, אם יש חשש שהידיעה תשבור את רוחו<span class="footnote-ref" onclick="showFootnote('9', '9', event)">9</span>. לפי זה יש גם להימנע מלספר את המצב הרפואי באופן בוטה מחשש שיפול ליאוש ולדיכאון. ניתן לומר לו בעדינות וברגישות שמחלתו מסוכנת ושראוי להרבות בתפילה ובתשובה. בכל מצב אין לומר לחולה שאבדו סיכויו, ותמיד יש להשאיר פתח של תקוה. גם מפני שאיננו יכולים לדעת בוודאות, וגם כדי שלא לשבור את לבו של החולה<span class="footnote-ref" onclick="showFootnote('10', '10', event)">10</span>. </span></div>
+<p>תפילות עבור חולה</p>
+<p>בני, הוי זהיר לבקר את החולה, כי המבקרו מקל חוליו. השתדל עמו לשוב לקונו והתפלל עליו וצא. אל תכביד עליו ישיבתך כי די לו מכובד חוליו. כשתכנס לחולה, תכנס אצלו בשמחה, כי לבו ועיניו על הנכנסים אליו.</p>
+<p>צוואת רבי אליעזר הגדול<span class="footnote-ref" onclick="showFootnote('11', '11', event)">11</span></p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">כשמתפללים עבור החולה בפניו, אין צריך להזכיר שמו שהרי משה התפלל על מרים ואמר "אל נא, רפא נא לה", ולא הזכיר שמה; ואפשר להתפלל גם בלעז. ושלא בפניו מתפללים בעברית דווקא וצריך להזכיר שמו. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">בתפילות עבור חולה מזכירים שמו ושם אמו<span class="footnote-ref" onclick="showFootnote('12', '12', event)">12</span>. אם לא יודעים שם אמו יזכירו שם אביו<span class="footnote-ref" onclick="showFootnote('13', '13', event)">13</span>, ואם לא יודעים נהגו לומר בן חוה<span class="footnote-ref" onclick="showFootnote('14', '14', event)">14</span>. מנהג בני תימן להזכיר שמו ושם אביו<span class="footnote-ref" onclick="showFootnote('15', '15', event)">15</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">בתפילה לרפואת החולה יש לכלול אותו בתוך שאר חולי ישראל שמתוך כך נמצא מתפלל גם על שאר החולים וזו גם זכות לחולה שבגללו מתפללים גם על חולים אחרים. ככלל, יש לציבור זכויות מעבר לזכויות היחיד, ולכן בכלל צריך אדם להשתתף עם הציבור, ובפרט חיוני הדבר בזמן שהיחיד צריך עזרה ותמיכה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">בשבת אומרים "שבת היא מלזעוק ורפואה קרובה לבוא".  </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">טוב להתפלל עליו בפסוקים אלו<span class="footnote-ref" onclick="showFootnote('16', '16', event)">16</span>: </span></div>
+<p>וְהֵסִיר ה' מִמְּךָ כָּל חֹלִי וְכָל מַדְוֵי מִצְרַיִם הָרָעִים אֲשֶׁר יָדַעְתָּ לֹא יְשִׂימָם בָּךְ וּנְתָנָם בְּכָל שֹׂנְאֶיךָ (דברים ז, טו).</p>
+<p>וַיֹּאמֶר אִם שָׁמוֹעַ תִּשְׁמַע לְקוֹל ה' אֱלֹהֶיךָ וְהַיָּשָׁר בְּעֵינָיו תַּעֲשֶׂה וְהַאֲזַנְתָּ לְמִצְוֹתָיו וְשָׁמַרְתָּ כָּל חֻקָּיו כָּל הַמַּחֲלָה אֲשֶׁר שַׂמְתִּי בְמִצְרַיִם לֹא אָשִׂים עָלֶיךָ כִּי אֲנִי ה' רֹפְאֶךָ (שמות טו, כו). </p>
+<p>בּוֹרֵא נִיב שְׂפָתָיִם שָׁלוֹם שָׁלוֹם לָרָחוֹק וְלַקָּרוֹב אָמַר ה' וּרְפָאתִיו (ישעיהו נז, יט).  </p>
+<p>לֹא תְאֻנֶּה אֵלֶיךָ רָעָה וְנֶגַע לֹא יִקְרַב בְּאָהֳלֶךָ: כִּי מַלְאָכָיו יְצַוֶּה לָּךְ לִשְׁמָרְךָ בְּכָל דְּרָכֶיךָ (תהלים צא, י – יא).</p>
+<p>רְפָאנו ה' ונֵרָפֵא הוֹשִׁיעֵנו ונִוָּשֵׁעָה כִּי תְהִלָּתנוּ אָתָּה (מתפלת העמידה. מבוסס על ירמיהו יז, יד).</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">אומרים תהלים לרפואת החולה. נהגו לומר ח"י (18) מזמורים אלו: ב, ו, יג, כב, כה, ל, לב, לח, סט, פח, קב, קג, קז, קטז, קיח, קמב, קמג, קל. אם רוצים להרבות בתפילה מוסיפים ח"י מזמורים נוספים: ט, טז, יז, יח, כג, לא, לג, לו, לט, מא, מט, נה, נו, פו, פט, צ, צא, קד. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">לאחר מכן אומרים את הפסוקים ממזמור קיט בתהלים המרכיבים את שמו של החולה (עיין באוצר המושגים ערך אלפא ביתא), ופסוקי קר"ע שט"ן ויהי רצון שאומרים לחולה </span></div>
+<p>שינוי והוספת שם</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">רבים נוהגים לשנות שם של חולה מסוכן, דהיינו שמוסיפים לו שם חדש. שינוי השם מבטא את התפילה והרצון לבטל את רוע הגזרה שנגזרה על האדם. כיון שלעתים אי אפשר לשנות את הגזרה, משנים את שמו של האדם כדי שהגזרה לא תחול עליו. וכמו שאומרים בתפילה לשינוי השם, שאם נגזרה גזרה על פלוני, על אדם אחר לא נגזרה הגזרה. כשמוסיפים לחולה שם מתפללים ואומרים תהלים בעשרה<span class="footnote-ref" onclick="showFootnote('17', '17', event)">17</span>, מי שברך לחולה, שלוש עשרה מדות, ויהי רצון של הוספת השם </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ז.</span><span class="list-content">השם הנוסף יתווסף בראש<span class="footnote-ref" onclick="showFootnote('18', '18', event)">18</span>. כגון אם נקרא משה והוסיפו לו רפאל, יקרא רפאל משה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ח.</span><span class="list-content">אם הבריא מחוליו, אפילו מעט, ונתחזק בשמו החדש בחזקת 'קם מחוליו' שלושים יום, גם אם נפטר לאחר מכן  – נשאר בשמו החדש לעד (לעניין כיתוב על המצבה והזכרת שמו בלימוד ותפילה לעילוי נשמה). אבל אם לא נתחזק בשמו החדש ולא קם מחוליו למשך שלושים יום, נזכר רק בשמו הקודם.</span></div>
+<p>כיצד להתפלל על חולה המתייסר</p>
+<p>אותו יום שנפטר רבי יהודה הנשיא גזרו חכמים תענית וביקשו רחמים. אמרו: כל מי שיאמר "רבי מת" – ידקר בחרב. עלתה שפחתו של רבי לגג ואמרה: עליונים מבקשים את רבי, ותחתונים מבקשים את רבי; יהי רצון שיכופו תחתונים את העליונים. כיון שראתה את רבי שהוא מצטער הרבה, אמרה: יהי רצון שיכופו עליונים את התחתונים. לא פסקו חכמים מלבקש רחמים. נטלה כד וזרקה מן הגג לארץ; נשתתקו חכמים, ויצאה נשמתו של רבי.</p>
+<p>כתובות קד, א</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ט.</span><span class="list-content">חולה המתיסר ואין תקוה וסיכוי לרפואתו, מותר וראוי להתפלל עליו שימות במיתה קלה ולא יתארכו יסוריו<span class="footnote-ref" onclick="showFootnote('19', '19', event)">19</span>. באופן זה אין להאריך את ימיו ביסורים, אבל גם אסור לקצרם. מותר ומצוה לתת לחולה כזה משככי כאבים כדי להקל על יסוריו. אלו העקרונות הכלליים, התייחסות מפורטת יותר לענייני טיפול בחולים חורגת ממסגרת ספר זה. יש לברר ברגישות ובכובד ראש כל מקרה לגופו עם מורה הוראה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ'.</span><span class="list-content">ניתן להתפלל לה' שיעשה את הטוב בעיניו עבור החולה. לעתים טוב לחולה שיתייסר כדי לזכך עוונותיו, ואיננו יכולים לדעת. לכן אנו משליכים על ה' יהבנו שיעשה את הטוב בעיניו. </span></div>
+<p>התיתכן תועלת בחולי</p>
+<p>עד יעקב אבינו לא היתה מחלה בעולם. בא יעקב והתפלל ונהיתה מחלה בעולם, שנאמר "וַיֹּאמֶר לְיוֹסֵף הִנֵּה אָבִיךָ חֹלֶה".</p>
+<p>בבא מציעא פז, א.</p>
+<p>ככלל, אנו מיחלים ומתפללים שה' יברכנו בחיים טובים ובריאים, וימנע מאיתנו מחלות ופגעים. כמו שכתוב בפסוק "והסיר ה' ממך כל חולי" (דברים ז,טו), אך לעתים באים על בני האדם קשיים ומחלות ויסורים. כשכבר מגיע מצב כזה, יש להתבונן אם ניתן להגיע לתובנות למסקנות ולמעשים דווקא מתוך המשבר והקושי. להלן מובאים דברים מתוך ספר גשר החיים המבוססים על הגמרא והמדרש, שבקריאה ראשונה אינם מובנים כלל. כיצד יתכן שיעקב אבינו ביקש שיהיה חולי בעולם?!</p>
+<p>מיום שנבראו שמים וארץ לא היה אדם מתעטש וחי, אלא בכל מקום שהיה הולך אם בדרך ואם בשוק היתה נפשו יוצאת. עד שבא יעקב אבינו וביקש רחמים על כך. אמר לפניו: ריבונו של עולם, אל תקח נפשי עד שאצוה את בני, ונעתר לו שנאמר "וַיֹּאמֶר לְיוֹסֵף הִנֵּה אָבִיךָ חֹלֶה"…</p>
+<p>ילקוט שמעוני  איוב תתקכז<span class="footnote-ref" onclick="showFootnote('20', '20', event)">20</span> </p>
+<p>חסד עשה קדוש ברוך הוא עם בני אדם שיהא חולי בעולם, ולא יהא אדם הולך בשוק וגווע בפתאומיות, כאשר ביקש יעקב אבינו עליו השלום, ועל ידי החולי עשוי להתעורר לתשובה ולצוות על ענייניו. ואם החולי הוא חסד מהקדוש ברוך הוא, אף אתה השתדל שיהא החולי של חברך לחסד ולברכה ולא רק למכאוב ולדאבון שלא לתועלת.</p>
+<p>בזמן שאדם הולך על רגליו ומשוקע בשאון החיים, מסיח דעתו מכך שכל החיים עתידים למות. גם כשמזכירים לו על כך, האדם חושב:"הלא יש עוד זמן לזה…". כל ימי חייו הוא חי, רואה שאנשים אחרים מתים ולא הוא, ומה כל החרדה, הרי יש לו זמן…</p>
+<p>ורוב בני האדם אינם גומרים את חשבונותיהם ומשאירים אותם באמצע. מעטים הם הפקחים אשר עיניהם פקוחות ורואים את הנולד מראש לסדר את ענייניהם מדי שנה בשנה או מדי פעם בפעם, בין אדם לחברו ובין אדם למקום. ומי שאיננו שוטה מתעורר על כך לכל הפחות כשיחלה, בטרם יגיע לסכנה ח"ו.</p>
+<p>וזה שאינו יודע לשאול גם בעת חוליו – את פתח לו, ועשה אתו חסד לעוררו על כך שיצוה על ענייניו: א - בנוגע לרכושו ומה שרוצה לצוות על כך. ב - אם חייב למישהו או שיש לו פקדונות של אחרים. ג - בנוגע לצדקה שרוצה לתת. ד - על וידוי דברים של תשובה. </p>
+<p>המעורר לחולה על כך ישקול דבריו בדעת ובהשכל, ואם אינו יכול יציע דבריו לפני מי שיודע לדבר עניינים כאלו<span class="footnote-ref" onclick="showFootnote('21', '21', event)">21</span>. </p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " קיימת התלבטות האם להכניס הלכות ביקור חולים בספר על הלכות אבלות. בסופו של דבר הוכנסו בקיצור הלכות ביקור חולים המבוססות בעיקר על ספר גשר החיים הפותח בהלכות אלו, כך גם סדר ההלכות בשלחן ערוך.", "2": " לדעת הרמב\"ם זו מצוה דרבנן, ולדעת רבנו יונה (ברכות פרק ג) היא מצוה מהתורה. וראה בילקוט יוסף (סימן א, א) שהביא מספר סיבות מדוע אין מברכים עליה.", "3": " בבא קמא ק, א; בבא מציעא ל, ב.", "4": " תורת האדם לרמב\"ן עמוד יז, מובא בבית יוסף וברמ\"א סימן שלה, ד.", "5": " גשר החיים פרק א, א, ד; בשם ספר חסידים (סימן שסא).", "6": " גשר החיים פרק א, א, ה.", "7": " שלחן ערוך יורה דעה סימן שלה, ז.", "8": " נטעי גבריאל חלק א, פרק א, א - ב.", "9": " שלחן ערוך יורה דעה סימן שלז, א.", "10": " על פי פניני הלכה חלק ג עמוד 262.", "11": " מובא בסוף פרקי דרבי אליעזר.", "12": " אמנם לגבי נפטר האשכנזים מזכירים שמו ושם אביו ועדות המזרח מזכירים שמו ושם אמו, אבל על חולה לכל הדעות יש להזכיר שמו ושם אמו. המקור הוא בספר הזהר (פרשת לך לך דף פד) \"והושיעה לבן אמתך... אדכר לאמא\". גשר החיים פרק לא, ב, י.", "13": " הערת הרב נבנצל שליט\"א – יש נוהגים שאין מזכירים שם האב, וגם לא בן חוה, אלא בן שרה. במקרה של חולה ששמה שרה, אפשר לומר בת רבקה.", "14": " ילקוט יוסף סימן א, כ.", "15": " שלחן ערוך המקוצר עיני יצחק, יורה דעה חלק ב סימן קעה, ד.", "16": " גשר החיים פרק א, ג, א.", "17": " הערת הרב נבנצל שליט\"א – ואין זה לעיכובא, ואפשר להוסיף שם גם ביחידות.", "18": " גשר החיים פרק א, ג, ה.", "19": " ערוך השלחן יורה דעה סימן שלה, ג; אגרות משה חושן משפט חלק ב, עג, א, על פי הגמרא בנדרים מ, א, שממנה משמע שלעתים יש להתפלל על החולה שימות. גם במקרים כאלו אין ראוי שבני משפחתו יתפללו עליו שימות, שמא תיכנס בלבם כוונה זרה לטובת עצמם להקל מעליהם את המעמסה של הטיפול בחולה. הערת הרב נבנצל שליט\"א – ויש חולקים, ולענ\"ד טוב להתפלל שהקב\"ה יעשה הטוב בשבילו, כדלקמן.", "20": " סיום המדרש: לפיכך חייב אדם להודות כשמתעטש ונהפך ממות לחיים שנאמר \"עטישותיו תהל אור\" (איוב מא, ט). לכן אומרים \"לבריאות\" או \"אסותא\" (רפואה) למי שמתעטש. ", "21": " גשר החיים פרק א פיסקה ד."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

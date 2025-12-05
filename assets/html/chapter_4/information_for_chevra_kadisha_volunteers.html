@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content"><strong>מידע למתנדבי חברה קדישא</strong></span></div>
+<p>בישובים פועלים לעתים צוותים של חברה קדישא כמתנדבים לפי הצורך. מתנדבי החברה קדישא צריכים ייעוץ ומידע איך כדאי להערך מראש ואיך לנהל את הלוויה. מצ"ב נהלי חברא קדישא מטה בנימין. הרשימות דלהלן הן הצעה לאנשי החברה קדישא לפי ניסיון מצטבר, וכמובן יש להתאימן לפי הצורך והשעה בכל מקום ומקום.</p>
+<p>מטרות</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content"> לטפל בנפטר ולהביאו לקבורה בכבוד לפי כללי ההלכה היהודית.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content"> לטפל במשפחת הנפטר בכבוד וברגישות, לסייע ולהדריך.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content"> לדאוג לסדרי הלוויה נאותים.</span></div>
+<p>היערכות מוקדמת </p>
+<p>יש להכין <strong>רשימה עדכנית של כל חברי החברה קדישא </strong>בפועל כולל טלפונים, סלולריים, ביפרים וכו' לשם איתור מיידי. רשימה כזאת אפשר להדפיס על כרטיס קומפקטי כדי שכל חבר יוכל להחזיקו בכיסו. </p>
+<p>יש לקבוע מי <strong>אחראים</strong> ומי ממלאי מקומם בהעדרם.</p>
+<p><strong>מיפוי קברים</strong> בתוך בית העלמין. על כל קבר רישום: פנוי / שמור / קבור. </p>
+<p><strong>"גמ"ח ניחומים</strong><strong>"</strong> - ערכה לבית האבלים הכוללת <strong>סידורים, ספרי הלכה</strong>, <strong>כיפות,</strong> <strong>נרות נשמה. </strong>אפשר להוסיף פריטים לפי הרשימה דלקמן.</p>
+<p>הגדרת תחומי הפעילות</p>
+<p>את עבודת החברה קדישא עד הלוויה, ניתן לחלק לארבעה תחומי פעילות עיקריים:</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">1.</span><span class="list-content">הטיפול בנפטר עצמו. טהרה. הסעה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">2.</span><span class="list-content"> רישוי מנהלי. הודעת פטירה. רשיון קבורה. במקרה של מוות לא טבעי גם אישור המשטרה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">3.</span><span class="list-content"> הכנת הקבר. חפירה. יש להקפיד על המיקום.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">4.</span><span class="list-content"> טיפול במשפחה. הדרכה הלכתית, קריעה, הספד.</span></div>
+<p>אחרי הלוויה יש צורך בפעולות נוספות כפי שיפורט לקמן.</p>
+<p>פירוט תחומי הפעילות</p>
+<p>1.<strong> טיפול בנפטר</strong> - סוגרים את עיניו ואת פיו. משאירים את הנפטר במיטה כעשרים דקות, ואין לנגוע בו. אחרי כן מורידים  אותו על הרצפה - לא על סדין ולא על שטיח, כשרגליו לצד הדלת. בכל פעם לפני שמזיזים אותו מבקשים ממנו מחילה. מדליקים שני נרות למראשותיו. אומרים מזמורי תהילים כ"ג  וצ"א. מכסים את הנפטר בסדין לבן. חולצים את נעליו, ומפשיטים את בגדיו כשמקפידים כל הזמן שהפנים והערווה יהיו מכוסים. גברים יטפלו בנפטר, ונשים בנפטרת. אם אין כוחות נפש לעשות זאת, יש לחכות לאנשי החברה קדישא הקבועים שיעשו זאת בבית הלוויות. <strong>הרוג</strong> קוברים בבגדיו. <strong>בשבת </strong>אי אפשר לטלטל את הנפטר באופן הרגיל. במקרים של המתנה ארוכה צריך <strong>לקרר</strong> <strong>את הנפטר</strong>, במיוחד בקיץ. יש צורך ב<strong>שמירה</strong> על הנפטר. לעתים צריך לשמור גם בבית החולים כדי למנוע נתיחה בניגוד לרצון המשפחה.</p>
+<p><strong>טהרה -</strong> הטהרה מתבצעת בדרך כלל על ידי החברה קדישא. יש לקבוע מראש נוהל – היכן תתבצע הטהרה, מי מוביל את הנפטר לשם ומשם.  </p>
+<p><strong>הסעת הנפטר</strong> – בדרך כלל יש <strong>רכב</strong> מיוחד להסעת הנפטר, בפועל אין זה מעכב וניתן להשתמש בכל רכב שמתאים לעניין מבחינה טכנית. יש <strong>אלונקה </strong>מיוחדת ואפשר גם להשתמש באלונקה רגילה. יש לדאוג <strong>לכיסוי הנפטר</strong> במשך הסעתו ברכב ובמהלך הלוויה עד הקבורה. יש אנשים המכינים לעצמם מראש <strong>תכריכים.</strong> לברר מראש, ואם ישנם – למסרם לאנשי החברה קדישא לפני הטהרה.</p>
+<p>2.<strong> רישוי מנהלי. הודעת פטירה</strong> - חתומה על ידי רופא. <strong>רשיון</strong><strong> קבורה</strong> - ממשרד הבריאות. </p>
+<p>במקרה של מוות לא טבעי יש לקבל את <strong>אישור</strong> <strong>המשטרה</strong>, עוד לפני רשיון הקבורה.</p>
+<p>כל הפרטים מופיעים לעיל בפרק @. רשימת חברות קדישא מופיעות לקמן עמוד @.</p>
+<p>3. <strong>חפירת הקבר. </strong>צריך נוהל מסודר וקבוע לגבי עבודות החפירה כדי שיתבצעו בצורה יעילה וזמינה. יש להקפיד מאוד על <strong>מיקום </strong>הקבר. בבתי העלמין יש לעתים מקומות שמורים. מפה צריכה להיות אצל האחראי, וכן גיבוי של מפות נוספות המתעדכנות לפי הנתונים בשטח.</p>
+<p><strong>מידות הקבר</strong> עומק 1.20 מטר. אורך 2.00 מטר. רוחב 0.50 מטר. בתוך הקבר יש לבנות מסגרת מלבנים או בלוקים בגובה 40 ס"מ. עובי הבלוקים 15 ס"מ. כמו כן יש לדאוג <strong>לפלטות כיסוי.</strong> את הבלוקים והפלטות ניתן בדרך כלל להשיג במועצה הדתית. כדאי להכין מראש מלאי נוסף למקרה שפלטה תישבר או תחסר. כדאי גם להשתמש ב<strong>ארבעה מקלות</strong> באורך כ-2 מטר כל אחד, שיושמו בארבע פינות הקבר בתום הקבורה ולפני הכיסוי בעפר, כדי לסמן את מיקום הקבר לאחר מילויו בעפר לצורך הקמת המצבה (אלא אם הקברים חפורים מראש עם פלטת בטון מלמעלה).</p>
+<p>בדרך כלל <strong>המרחק בין הקברים</strong> כ 50 – 60 ס"מ. (בבתי עלמין בערים רווח זה הוא בין הנפטרים, בעוד שהרווח בין המצבות למעלה מצומצם יותר). ל<strong>כהנים</strong> יש להקצות קברים בהיקף החיצוני כדי לאפשר גישה לקרובי המשפחה. יש להשאיר רווח של שלושה מטרים לפחות בין הקברים החיצוניים לבין גדר בית העלמין.</p>
+<p>בשביל <strong>נפטרים גבוהים </strong>מאוד יש להיערך למידה ארוכה יותר ויש להודיע זאת מראש לחופרים.</p>
+<p><strong>כשחופרים קבר מראש</strong>, יש להיזהר לא להניחו פתוח אלא לכסותו באותו יום. לעתים אנשי החברה קדישא מקילים וחופרים קברים מראש כדי להיות מוכנים, ולא מסיימים את החפירה ואז אין הקפדה בעניין; ובאותו יום שרוצים לקבור, משלימים את החפירה. באזורים שבהם האדמה קשה, אפשר ועדיף לחפור ולהכין מראש קברים ולמלאם בחול ים כדי להקל על החפירה בשעת הצורך.</p>
+<p>4. <strong>טיפול במשפחה.</strong> המשפחה זקוקה לתמיכה חברתית ומשפחתית. בנוסף לכך הם צריכים הדרכה הלכתית מיידית. ההדרכה תשתנה לפי המשפחה ותלויה במשתנים רבים: שמירת מצוות, עדה, מנהגים, שאלות נקודתיות במצבים מיוחדים. אם רב המקום לא נמצא אפשר להיעזר בתלמידי חכמים הגרים בישוב או הקשורים למשפחה. </p>
+<p><strong>קריעה, ברכת דיין האמת, לוויה, הספדים, קבורה, ניחום אבלים </strong>– עדיף להעזר באנשי חברה קדישא או ברב.</p>
+<p>לצורך ה<strong>קריעה</strong> יש להכין מראש <strong>מספריים</strong>, לנשים צריך להכין גם<strong> סיכות ביטחון</strong>. רצוי להכין מראש גם בגד עליון רזרבי למקרה שבגד האשה נקרע יותר מדי. לפי חלק מהמנהגים בתחילת הלוויה שוברים <strong>חרס,</strong> אפשר להשתמש בקרמיקה פשוטה לצורך כך.</p>
+<p><strong>ציוד טכני לצורך הלוויה </strong></p>
+<p><strong>מים</strong> - אם הולכים ברגל מרחק ניכר מן הישוב רצוי להכין <strong>עוקב מים</strong> או נקודות מים בדרך, בעיקר במזג אויר חם ובמסלול הליכה ארוך יחסית. יש לדאוג למים גם ביציאה מבית העלמין לצורך נטילת ידיים, לעתים יש <strong>לפתוח ברזי מים</strong> ליד בית העלמין או לבדוק שהם פעילים. <strong>מעדרים ואתים</strong> לכיסוי הקבר. כמו כן צריך להכין <strong>שלט עם שם הנפטר.</strong> לעתים צריך להכין <strong>אמבולנס </strong>במצב הכן עם צוות רפואי מתאים. בלוויות גדולות יש צורך ב<strong>מערכת הגברה.</strong></p>
+<p><u>אחרי הלוויה</u> יש לדאוג ל<strong>סעודת הבראה</strong>. כלומר הסעודה הראשונה שאוכלים האבלים לאחר הלוויה, שמכינים להם שכניהם. נהגו לאכול ביצים קשות ודברים עגולים.<strong> </strong></p>
+<p>נהגו להדליק <strong>נר נשמה</strong> בבית האבל.  יש להכין מראש את המקום שהאבלים ישבו בו. נהגו לשבת נמוך על גבי <strong>מזרונים או כסאות נמוכים</strong>. כדאי לתכנן מראש את הישיבה בבית. יש להכין <strong>ספסלים וכסאות </strong>למנחמים. בזרם מבקרים גדול יש המכינים מחוץ לבית <strong>סוכת אבלים</strong> כדי להצליח לקלוט את כל המנחמים. אם כך צריך להכין גם <strong>תאורה</strong> מתאימה.</p>
+<p>בחלק מעדות ישראל מקובל להגיש כיבוד ושתייה לאורחים. הנוהגים כך צריכים לדאוג ל<strong>כיבוד</strong> ולעתים יעדיפו להיעזר ב<strong>כלים וכוסות חד פעמיים</strong>. רצוי גם <strong>מיחם</strong>.</p>
+<p>בחלק מהמקומות מעמידים <strong>קופת צדקה</strong> לעילוי נשמת הנפטר.</p>
+<p>תפילה בבית האבלים  - לפי רצון המשפחה. אפשר ורצוי להיעזר בגבאים של בית הכנסת הסמוך. יש לדאוג ל<strong>סידורים וכיפות,</strong> אם יתקיימו תפילות בבית האבל, ואם אפשר גם <strong>ספר תורה</strong> לצורך קריאת התורה. יש קהילות המחזיקות <strong>ארון קודש נייד</strong> קטן לצורך כך. אם יתפללו בשבת - גם <strong>חומשים. </strong>יש לקבוע <strong>שעות תפילה</strong>. נהגו ללמוד <strong>משניות</strong> או לומר פרקי תהלים לעילוי נשמת הנפטר. יש המחלקים פרקי משנה בין המבקרים המוכנים ללמוד לעילוי נשמה. כדאי להכין גם <strong>תהלים לבית העלמין. </strong>אפשר <strong>עמוד לחזן.</strong></p>
+<p style="font-size: 1.15rem">בִּלַּע הַמָּוֶת לָנֶצַח, וּמָחָה ה' אֱלֹהִים דִּמְעָה מֵעַל כָּל פָּנִים</p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

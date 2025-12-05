@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p style="font-size: 1.3rem"><strong>מבוא להלכות אבלות</strong></p>
+<div class="sage-quote"><p>צריך האדם להתעשר בפרטים תחילה, כדי שיוכל לתן לרוחו חופש והרווחה לסקירות כלליות, שזהו כל עונג רוח האדם, השואף להרחבת הנהר של הבינה העליונה.</p>
+<p>אחר שבא למדרגה הוגנת של רכישת פרטים, אז הולך הרוח ויוצר לו ערכים כלליים, שהם הולכים ומתנשאים מעל כל הפרטים. וכשהם משתלמים בצביונם, מרחפים הערכים של הבינה העליונה על הפרטים הרבים, כיונה זו שמרחפת על קנה, להוציא מן הכח אל הפועל את החיים והאור הגנוז בכל פרט ופרט, על ידי תבונה חודרת, השואבת מהבינה העליונה, ומענקת עושר לפרטים רבים, בהמון שינויי גווניהם.</p>
+<p>אז מגיע תור הגדלות לאדם, שתובע ממנו שלא תהיינה פעולותיו מצות אנשים מלומדה, אלא שכל פעולה וכל הרגל, כל עבודה וכל מצוה, כל רגש וכל רעיון, כל תורה וכל תפילה, תהיה מוארה באור הגנוז, באור הכללי, הגנוז בנשמה העליונה, לפני הופעת פעולתם.</p>
+<p>הראי"ה קוק, אורות הקדש חלק א, חכמת הקדש פיסקה לח</p>
+</div><p>ההלכה היהודית מדריכה את האדם בכל צעד ושעל מחייו, עד לפרטי פרטים. הלימוד הכולל של הפרטים עשוי לגרום לאדם להתעלות ולהבין כיצד פרטי הפרטים מרכיבים יחד ערכים ועקרונות כלליים נשגבים. הבנה כוללת כזו של העקרונות עשויה לחזור שוב אל הפרטים שנלמדו ולהאירם מחדש באור נעלה ועליון, להעשיר את האדם מבחינה רוחנית, ולגרום לו להתייחס באופן שונה אל הפרטים, מתוך ההבנה המחודשת כיצד הפרטים משפיעים על העקרונות הגדולים והכוללים. </p>
+<div class="sage-quote"><p><strong>תהליך האבלות</strong><strong> מבחינה רעיונית</strong></p>
+</div><p>מעבר ללימוד הלכות אבלות, נודעת חשיבות רבה גם להבנת תהליך האבלות בכלל. המגמה הכללית כאן היא להראות שהאבלות היא תהליך הדרגתי, מהזמן הקשה מאוד של תחילת האבלות, ועד לחזרה למסלול חיים שגרתי ונורמלי במידת האפשר. יש להדגיש שתהליך האבל הוא אישי ומשתנה מאדם לאדם, אך בכל זאת יש תהליך כולל המשותף לכלל בני האדם.</p>
+<p>לצורך העניין נעזר במודל גרפי פשוט: <span style="font-size: 0.75rem">להשלים גרפיקה#</span></p>
+<p>        ציר הזמן      אבלות חדשה    אבלות ישנה</p>
+<p>אבלות ישנה היא אבלות על חורבן המקדש וירושלים. אבלות חדשה היא על קרוב משפחה שנפטר. בשניהם יש תהליך מגמתי, אך התהליכים בשני המקרים מהופכים. </p>
+<p>המודל בא לסמל את התהליכים. בסיס המשולש מסמל את המצב היומיומי הרגיל, ללא רגשות או אירועים מיוחדים. קדקוד המשולש מסמל את המצב הרוחני הטעון והרגשי ביותר, השיא הנפשי של התהליך. באבלות ישנה התהליך הוא מהיומיום אל השיא. באבלות חדשה התהליך הוא מהשיא אל היומיום.</p>
+<p>באבלות ישנה אנו מעוניינים להכניס את האדם לתחושת אבלות אבדן וצער על החורבן. האדם הרגיל טרוד בדרך כלל בענייניו היומיומיים ואינו פנוי דיו להצטער על החורבן. </p>
+<p>כדי למנוע מצב של הגעה פתאומית לתשעה באב כשרגשות האדם אינם מופנים כלל לצער החורבן, תקנו חכמים הדרגתיות הלכתית שיש לה גם משמעות של הדרגתיות רגשית.</p>
+<p>כך למשל זמן בין המצרים המתחיל בשבעה עשר בתמוז כולל בתוכו הגבלות הלכתיות ההולכות ומחמירות בראש חודש אב, בשבוע שחל בו תשעה באב ויותר מכך בערב תשעה באב. השיא מבחינה הלכתית ורגשית הוא כמובן ביום תשעה באב עצמו. המהלך מתוכנן מראש כך שאדם המגיע לתשעה באב עבר כבר תהליך הדרגתי שהכין אותו מבחינה הלכתית וגם רגשית לצער על החורבן, אותו רצו חכמים להדגיש.</p>
+<p>תהליך הפוך לחלוטין מייצגות ההלכות באבלות חדשה, כאן מתחילים מהשיא. הצער והכאב הקשים ביותר, המלווים פעמים רבות ברגשות עזים של תסכול הלם וכעס, הם בשיאם מיד לאחר המיתה. גם מבחינה הלכתית ההגבלות והכללים החמורים ביותר הם דווקא בתחילת התהליך. </p>
+<p style="font-size: 0.75rem">האנינות אינה חלק מהמודל שתיארנו. האונן הוא מי שמתו מוטל לפניו, והוא פטור מכל המצוות. הטעמים שנאמרו בעניין זה הם מפני כבודו של המת וגם כדי שיוכלו לעסוק בצרכי הקבורה. בזמן האנינות עדיין אין כלל התחלה של תהליך האבלות, וממילא גם לא שייכים תנחומי אבלים. רק לאחר הקבורה אפשר להתחיל תהליך - הלכתי ונפשי - של ניחום אבלים. המגמה בהדרכה כאן היא לנסות ולהגיע לתהליך נפשי פנימי של צעידה איטית ומדורגת, מתוך הזעזוע הראשוני, לקראת השלמה עם המצב החדש. בפרט אמורים הדברים באנשים צעירים שנפטרו או נרצחו בפתאומיות, שם עלולות להווצר תופעות קשות שתדרושנה לעתים גם התערבות מקצועית. אולם גם במקרים של קרובים אהובים שהלכו לעולמם בשיבה טובה ובמיעוט יסורים,  גם אז יש רגשות עזים וצורך משמעותי בהדרכה בליווי ובתמיכה.</p>
+<p><u>חמשת סוגי זמני האבלות</u></p>
+<p>את האבלות עצמה ניתן לחלק לחמשה זמנים, השונים זה מזה בדיניהם ובחומרתם<span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span>:</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">1.</span><span class="list-content">יום ראשון לאבלות, עיקרו מהתורה<span class="footnote-ref" onclick="showFootnote('2', '2', event)">2</span>. אין מניחים בו תפילין אף לאחר הקבורה, ואינו אוכל משלו סעודה ראשונה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">2.</span><span class="list-content">שלושה ימים ראשונים הנקראים שלושה ימים לבכי, שבהם האבלות חמורה יותר.<span class="footnote-ref" onclick="showFootnote('3', '3', event)">3</span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">3.</span><span class="list-content">שבעת ימי אבלות (דהיינו ארבעה נוספים על השלושה הנ"ל), הם הידועים והמפורסמים, הקבועים לכל דיני האבלות.<span class="footnote-ref" onclick="showFootnote('4', '4', event)">4</span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">4.</span><span class="list-content">השלושים, בהם נוהג בקצת דיני אבלות.<span class="footnote-ref" onclick="showFootnote('5', '5', event)">5</span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">5.</span><span class="list-content">שנים עשר חודש הנוהגים אך ורק על אביו ואמו, שנים עשר חודש ולא שנה.</span></div>
+<p>כיום למעשה עיקר המושגים הידועים והמשמעותיים הם השבעה, השלושים ושנים עשר חודש, בפרט השבעה לעניין מה שנקרא בפי העם "לשבת שבעה", שלושים לגילוח ותספורת, ושנים עשר חודש לעניין הקדיש. סקירה של כל הזמנים שהוזכרו לעיל יכולה לתאר תהליך שלם, ארוך טווח, מובנה ומדורג, שתכליתו אפשרות להגיע חזרה למצב הנורמלי, לחיי היומיום. </p>
+<p>ניתן להשוות את האבלות החדשה למכה גופנית פתאומית קשה וכואבת, הגורמת לפצע עמוק בגוף. הטיפול הראשוני הוא תחבושת גדולה ומסורבלת המתחלפת עם הזמן בתחבושת קטנה יותר, ולאחר מכן ברטייה מינימלית. כך גם העוצמה ההלכתית המקבילה לעוצמה הרגשית, אמורה ללכת בכיוון של פוחת והולך. אבל יש להדגיש, שגם בסופו של התהליך כשכבר מורידים את כל התחבושות – עדיין נשארת צלקת. כך גם מבחינה רגשית, גם לאחר התהליך הממושך של האבלות שמטרתה להחזיר את האבל לסדר יום רגיל, לכאורה כמו המצב שהאבל היה נתון בו לפני פטירת האדם היקר והאהוב לו, גם כאן תשאר צלקת נפשית. לעולם לא תהיה חזרה מוחלטת למצב הקודם. כמו שתהליך של ריפוי נכון יכול לסייע באופן משמעותי מבחינה גופנית, כך גם תהליך נכון של אבלות יכול לסייע בצורה משמעותית לאבלים להגיע למצב של חזרה לשיגרה. מודעות עצמית לתהליך נפשי זה, יכולה לסייע לעצם התהליך ולהצלחתו.</p>
+<p>חכמים התייחסו לעניין גם במדרש המתאר את מידת הדין המתוחה על האבלים, המעבירה מסר של צורך בזהירות ושמירה יתרה מצד האבלים על עצמם, ועל התהליך של חזרה הדרגתית למצב הרגיל והנורמלי:</p>
+<p>כל שבעה החרב שלופה, עד שלושים היא רופפת, לאחר שנים עשר חודש היא חוזרת לתערה.</p>
+<p>למה הדבר דומה? לכיפה של אבנים, כיון שנתערערה אחת מהן, נתערערו כולן<span class="footnote-ref" onclick="showFootnote('6', '6', event)">6</span>.</p>
+<p>ובגירסה אחרת:</p>
+<p>כל שלושה ימים יראה האבל כאילו חרב מונחת לו בין כתפיו</p>
+<p>משלושה ועד שבעה כאילו זקופה נגדו בקרן זוית</p>
+<p>משבעה ועד שלושים כאילו עוברת לפניו בשוק<span class="footnote-ref" onclick="showFootnote('7', '7', event)">7</span></p>
+<p>וכל אותה שנה מידת הדין מתוחה כנגד אותה משפחה</p>
+<p>ואם נולד בן זכר – נתרפאת כל המשפחה כולה<span class="footnote-ref" onclick="showFootnote('8', '8', event)">8</span>.</p>
+<p>לא רק על משפחת האבלים מוטלת האחריות לכובד ראש ולזהירות, גם הקהילה והחבורה סביב הנפטר אמורה לקבל מהמוות הסתכלות אחרת על החיים. לעתים רבות ההתייחסות לאירועים בחיים משתנה בעקבות פטירה של אדם קרוב. היחס והפרופורציה מתאזנים, ופתאם לומדים להעריך דברים באופן אחר; לומדים שדברים רבים בחיים לא מובנים מאליהם, אפילו עובדת היותנו חיים. דברים פשוטים כמו בריאות, משפחה ופרנסה מקבלים משמעות אחרת. הרהורים אלו עשויים להאיר באור אחר את האנשים הקרובים לנו שאנו חולקים אתם את חיינו, להוסיף אליהם אהבה והערכה. גם מחשבות והרהורי תשובה עשויים לעלות – האם אנו מנהלים את חיינו באמת לפי העקרונות בהם אנו מאמינים? האם אנו מקדישים את הזמן הראוי ומתייחסים באופן נכון ואמיתי לאנשים ולעקרונות החשובים לנו?  </p>
+<p>חז"ל ביטאו את הצורך בהרהורים ובמחשבות אלו במשפט קצר ותמציתי:</p>
+<p>"אחד מהחבורה שמת, תדאג כל החבורה כולה"<span class="footnote-ref" onclick="showFootnote('9', '9', event)">9</span>.</p>
+<p>אין הכוונה לדאגה במובנה השלילי, המשתק והמדאיב, אלא במובן של הסתכלות וחשבון נפש העשוי להביא לעשייה ולהתחדשות, וכדאמרן לעיל. </p>
+<p><u>המינון הראוי לאבלות</u></p>
+<p>על פי השקפת היהדות, עם כל הצער על הפטירה, אין להתקשות ולבכות על המת יותר מן המידה שקבעו חז"ל. חז"ל מביאים מעשה נורא בהקשר זה:</p>
+<p>אמר רב יהודה אמר רב: כל המתקשה על מתו יותר מדי, על מת אחר הוא בוכה. </p>
+<p>אשה אחת היתה בשכונתו של רב הונא. היו לה שבעה בנים, </p>
+<p>מת אחד מהם. </p>
+<p>היתה בוכה עליו יותר מדי. </p>
+<p>שלח לה רב הונא: לא תנהגי כך. </p>
+<p>לא השגיחה בו. </p>
+<p>שלח לה: אם תשמע – מוטב, ואם לא – <span style="font-size: 0.75rem">(עלולה להגיע למצב בו) </span>תתקן תכריכים לשאר בניה, </p>
+<p>ומתו כולם. </p>
+<p>היתה בוכה.</p>
+<p> לבסוף שלח לה: תתקן תכריכים לעצמה, </p>
+<p>ומתה<span class="footnote-ref" onclick="showFootnote('10', '10', event)">10</span>.</p>
+<p>חכמים נתנו את השיעור החיוני והמדורג, בהתאמה לתהליך הנפשי שעוברים האבלים:</p>
+<p>"אַל תִּבְכּוּ לְמֵת וְאַל תָּנֻדוּ לוֹ"<span class="footnote-ref" onclick="showFootnote('11', '11', event)">11</span>. אל תבכו למת – יותר מדי, ואל תנודו לו – יותר מכשיעור. הא כיצד? שלושה ימים לבכי, ושבעה להספד, ושלושים לגיהוץ ולתספורת. </p>
+<p>מכאן ואילך אמר הקדוש ברוך הוא: אין אתם רחמנים יותר ממני<span class="footnote-ref" onclick="showFootnote('12', '12', event)">12</span>. </p>
+<p>כך גם נפסק להלכה:</p>
+<p>"אין מתקשים על המת יותר מדי, וכל המתקשה עליו יותר מדי – על מת אחר הוא בוכה. אלא שלושה ימים לבכי, שבעה להספד, שלושים לגיהוץ ולתספורת"<span class="footnote-ref" onclick="showFootnote('13', '13', event)">13</span>.</p>
+<p>כאשר האדם מצטער יתר על המידה, עלולה להשתמע מכך התרסה ועלבון כלפי שמיא. האמונה היהודית העמוקה בהישארות הנפש גם היא גורם העשוי למתן את הצער<span class="footnote-ref" onclick="showFootnote('14', '14', event)">14</span>, שהרי הנשמה לא אובדת אלא עוברת לעולם רוחני.</p>
+<p>מאידך, חכמים הצריכו את האדם להתאבל ולהצטער על פטירת קרובו. וכל מי שאינו מתאבל הרי זה אכזר<span class="footnote-ref" onclick="showFootnote('15', '15', event)">15</span>. כליון החיים הוא סיבה לצער לאבל ולחשבון נפש, ומי שאינו מצטער נחשב לאכזרי. </p>
+<div class="sage-quote"><p>כל מי שאינו מתאבל כמו שצוו חכמים הרי זה אכזרי, אלא יפחד וידאג ויפשפש במעשיו ויחזור בתשובה<span class="footnote-ref" onclick="showFootnote('16', '16', event)">16</span>.</p>
+<p>כל המוריד דמעות על אדם כשר, הקדוש ברוך הוא סופרן ומניחן בבית גנזיו<span class="footnote-ref" onclick="showFootnote('17', '17', event)">17</span>.</p>
+<p>והבוכה ומתאבל ומוריד דמעות על קרובים, וכל שכן על אדם כשר, מידת חסידים ונביאים ואנשי מעשה היא, ומורה על טהרת נפשו והכנעת לבו לפני קונו<span class="footnote-ref" onclick="showFootnote('18', '18', event)">18</span>.</p>
+<p>בכל אסון שקורה לאדם, עליו להרהר בתשובה ולתקן דרכיו ומדותיו. אין זאת אומרת שעליו להאשים את עצמו במה שקרה, אלא שעליו להתעמק בתוכן חייו<span class="footnote-ref" onclick="showFootnote('19', '19', event)">19</span>.</p>
+<p style="font-size: 0.75rem">תנו רבנן: כשחרב הבית באחרונה רבו פרושים בישראל שלא לאכול בשר ושלא לשתות יין. </p>
+<p style="font-size: 0.75rem">נטפל להם ר' יהושע בן חנניא, אמר להם: בני מנין לכם? </p>
+<p style="font-size: 0.75rem">אמרו לו: נאכל בשר שהיו מקריבין על גבי המזבח ועכשיו בטל?! </p>
+<p style="font-size: 0.75rem">נשתה יין שהיו מנסכין ע"ג המזבח ועכשיו בטל?! </p>
+<p style="font-size: 0.75rem">אמר להם: אם כן לחם לא נאכל שכבר בטלו מנחות? </p>
+<p style="font-size: 0.75rem">אמרו לו: אפשר בפירות. </p>
+<p style="font-size: 0.75rem">- פירות לא נאכל שכבר בטלו בכורים? </p>
+<p style="font-size: 0.75rem">אמרו לו: אפשר בפירות אחרים. </p>
+<p style="font-size: 0.75rem">אמר להם: מים לא נשתה שכבר בטל נסוך המים? </p>
+<p style="font-size: 0.75rem">שתקו. </p>
+<p style="font-size: 0.75rem">אמר להם: בני בואו ואומר לכם, שלא להתאבל כל עיקר אי אפשר שכבר נגזרה גזרה. </p>
+<p style="font-size: 0.75rem">להתאבל יותר מדאי אי אפשר שאין גוזרין גזרה על הציבור אלא אם כן רוב הציבור יכולין לעמוד בה. </p>
+<p style="font-size: 0.85rem"><span style="font-size: 0.75rem">אלא כך אמרו חכמים: סד אדם את ביתו בסיד ומשייר בה דבר מועט - אמה על אמה וכנגד הפתח. עושה אדם כל צרכי סעודה ומשייר בה דבר מועט... עושה </span><span style="font-size: 0.75rem">אשה</span><span style="font-size: 0.75rem"> תכשיטיה ומשיירת דבר מועט... שנאמר "</span>אִם אֶשְׁכָּחֵךְ יְרוּשָׁלִָם תִּשְׁכַּח יְמִינִי, תִּדְבַּק לְשׁוֹנִי לְחִכִּי אִם לֹא אֶזְכְּרֵכִי אִם לֹא אַעֲלֶה אֶת יְרוּשָׁלִַם עַל רֹאשׁ שִׂמְחָתִי<span style="font-size: 0.75rem">"</span><span class="footnote-ref" onclick="showFootnote('20', '20', event)">20</span><span style="font-size: 0.75rem">. </span></p>
+</div>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": "גשר החיים פרק כא, א; וחלק ב פרק כח. ", "2": " אמנם בשלחן ערוך (יורה דעה סימן שצח) מביא גם דעה שאבלות מדרבנן. יש גם משמעות על מי נוהגים אבלות, יפורט לקמן בפרק \"על מי חלה האבלות\", מעמוד 128@ ואילך.", "3": " כגון איסור מלאכה בעצמו, ושאינו משיב שלום גם למי שאמר לו, ושלא יוצא מביתו כלל. בירושלמי (מועד קטן פרק ג, ה) כתוב ששלושה ימים ראשונים הנפש מרחפת על הגוף וסוברת לחזור לתוכו, כיון שרואה שנשתנה פרצוף הפנים שלו היא מניחתו והולכת לה.", "4": " היינו – איסור מלאכה ומשא ומתן. רחיצה וסיכה. תספורת. כיבוס וגיהוץ. תלמוד תורה. שאילת שלום. שמחה. נישואין. נעילת הסנדל. חיי אישות. ואינו יושב על כסא.", "5": " תספורת. גיהוץ. נישואין. שמחה. לילך לסחורה ממדינה למדינה.", "6": " ירושלמי מועד קטן פרק ג הלכה ג", "7": " מועד קטן כז, ב.", "8": " ירושלמי מועד קטן פרק ג הלכה ז. כך גם נפסק להלכה בשלחן ערוך יורה דעה סימן שצד, ד.", "9": " שבת קו, א. שלחן ערוך יורה דעה סימן שצד, ה.", "10": " מועד קטן כז, ב.", "11": " ירמיהו כב, י", "12": " מועד קטן, שם.", "13": " שלחן ערוך יורה דעה סימן שצד, א.", "14": " רמב\"ן על התורה, דברים יד, א.", "15": " רמב\"ם פרק יג מהלכות אבל הלכה יב.", "16": " שלחן ערוך יורה דעה סימן שצד, ו.", "17": " שבת קה, ב.", "18": "שו\"ת הרדב\"ז חלק ג, סימן תקנ\"ה", "19": " שאילת שלמה חלק שביעי עמ' 236", "20": " בבא בתרא ס, ב."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

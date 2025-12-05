@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="sage-quote"><p><strong>תרומת אברים והשתלות</strong></p>
+</div><p>תרומת אברים והשתלות אברים, מלבד חשיבותם הרפואית וההלכתית, משמשים גם סמל ודוגמא ליכולת השילוב בין הלכה לרפואה בכלל. שילוב זה מתבקש ואף הכרחי בקרב העוסקים בריפוי ובהדרכה, בעצה ובעידוד, בתמיכה ובהטבת איכות החיים האנושית. היכולת לשלב בין ההלכה לרפואה תלויה בראש ובראשונה במי שהקדישו את חייהם ועוסקים בנושאים אלו – הפוסקים והרופאים, והציבור מצפה לאמירות ברורות ובהירות בנושא כה רגיש ומשמעותי. להלן תובא עמדתה הרשמית של הרבנות הראשית לישראל, וכן שתי עמדות מנוגדות של פוסקי זמננו, הנובעות בין השאר גם כתוצאה מחוסר שיתוף הפעולה הראוי בין המערכת הרפואית למערכת ההלכתית. לכן יש לעודד ולקדם בברכה כל הידברות ושיתוף פעולה בין הרופאים לבין הפוסקים, שיתוף פעולה שאינו בגדר מותרות אלא הוא נצרך וחיוני להצלת חיים.  </p>
+<p style="font-size: 1.15rem"><u>השתלות לב - עמדת הרבנות הראשית לישראל</u><span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span></p>
+<p>הנוסח המלא של החלטת מועצת הרבנות הראשית בנושא ההשתלות:</p>
+<p>מועצת הרבנות הראשית בישיבתה היום, א' דראש חודש מרחשון תשמ"ז, אישרה פה אחד את המלצות ועדת ההשתלות כדלקמן:</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">1.</span><span class="list-content">הרבנות הראשית לישראל נתבקשה על ידי משרד הבריאות לקבוע את עמדת ההלכה ביחס להשתלות לב בישראל. לשם כך מינתה הרבנות הראשית ועדה משותפת של רבנים ורופאים, אשר למדה בעיון את ההיבטים הרפואיים וההלכתיים הנוגעים לשאלה. הועדה נעזרה בייעוץ וחוות דעת של גדולי הרופאים בתחום זה בבתי החולים הדסה ושערי צדק בירושלים. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">2.</span><span class="list-content">בתחילת עידן השתלות הלב (לפני 17 שנה) נפסק על ידי הגאון הרב משה פיינשטיין זצ"ל והרה"ר לישראל הגרא"י אונטרמן זצ"ל לאסור השתלת לב מדין רציחה כפולה של התורם והמושתל כאחד.</span></div>
+<p>בעשר השנים האחרונות חל שינוי יסודי בנתונים העובדתיים והרפואיים הנוגעים להשתלות לב כדלקמן:</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">א'.</span><span class="list-content">הצלחת הניתוח אצל המושתל מגיעה לכ80% של "חיי עולם" (הוותרות בחיים לפחות שנה אחרי ההשתלה) וכ70% נשארים בחיים חמש שנים.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ב'.</span><span class="list-content">ניתן כיום לקבוע באופן אמין ובטוח שהפסקת הנשימה של הנפטר היא סופית ובלתי ניתנת לחזרה.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">ג'.</span><span class="list-content">הובאו לפנינו עדויות שאף הגר"מ פיינשטיין זצ"ל התיר בזמן האחרון ביצוע השתלת לב בארה"ב. וכן ידוע לנו על רבנים גדולים המיעצים לחולי לב לעבור השתלת לב.</span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">3.</span><span class="list-content">מאחר והשאלה נוגעת לפיקוח נפש ממש, חובה עלינו להכריע בשאלה זו באופן ברור בבחינת יקוב הדין את ההר.</span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">4.</span><span class="list-content"><strong>בהסתמך על יסודות הגמרא </strong><strong>ביומא</strong><strong> (פ"ה) ופסק החתם סופר חלק יורה דעה סימן שלח, נקבע </strong><strong>המות</strong><strong> על פי ההלכה בהפסקת הנשימה (וראה שו"ת אגרות משה חלק יורה דעה חלק ג' סימן </strong><strong>קלב</strong><strong>). </strong>לכן יש לוודא שהנשימה פסקה לחלוטין באופן שלא תחזור עוד. זאת ניתן לקבוע ע"י הוכחת הרס המוח כולו שהוא הוא המפעיל את הנשימה העצמית באדם.</span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">5.</span><span class="list-content">המקובל בעולם הרפואה שקביעה כנ"ל (בסעיף 4) דורשת 5 תנאים:</span></div>
+<div class="list-item ordered" style="margin-right: 60px"><span class="marker ordered-marker">ד'.</span><span class="list-content">ידיעה ברורה של סיבת הפגיעה.</span></div>
+<div class="list-item ordered" style="margin-right: 60px"><span class="marker ordered-marker">ה'.</span><span class="list-content">הפסקה מוחלטת של הנשימה הטבעית.</span></div>
+<div class="list-item ordered" style="margin-right: 60px"><span class="marker ordered-marker">ו'.</span><span class="list-content">הוכחות קליניות מפורטות שאכן גזע המוח הרוס.</span></div>
+<div class="list-item ordered" style="margin-right: 60px"><span class="marker ordered-marker">ז'.</span><span class="list-content">הוכחות אוביקטיביות על הרס גזע המוח באמצעות בדיקה מדעית כגון <span style="font-size: 0.85rem">BEAR</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 60px"><span class="marker ordered-marker">ח'.</span><span class="list-content">הוכחה שהפסקת הנשימה המוחלטת ואי פעילות גזע המוח נשארים בעינם למשך 12 שעות לפחות, <strong>תוך כדי טיפול מלא ומקובל.</strong></span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">6.</span><span class="list-content">לאחר שעיינו בהצעה לקביעת המוות כפי שהוצעה על ידי רופאי בית החולים הדסה בירושלים בתאריך ח' בתמוז תשמ"ה והוגשה לרה"ר בתאריך ה' בתשרי תשמ"ז, אנו מוצאים אותה כיכולה להיות מקובלת על פי ההלכה אם תתוסף לה בדיקה אוביקטיבית מדעית (<span style="font-size: 0.85rem">BEAR</span>) של גזע המוח.</span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">7.</span><span class="list-content">לאור האמור, הרבנות הראשית לישראל מוכנה להתיר השתלת לב (מנפגעי תאונה) במרכז הרפואי הדסה בירושלים בתנאים הבאים:</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">קיום כל התנאים לקביעת מותו של התורם כפי שאמור למעלה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">שיתוף נציג הרבנות הראשית לישראל כחבר מלא בצוות הקובע את מותו של התורם. נציג זה ימונה על ידי משרד הבריאות מתוך רשימה שתוגש למשרד הבריאות ע"י הרבנות הראשית, פעם בשנה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">תנתן מראש הסכמה בכתב של התורם או משפחתו למתן תרומת הלב. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">הקמת ועדת מעקב עליונה מטעם  משרד הבריאות בשיתוף הרבנות הראשית (<span style="font-size: 0.75rem">COMMITTEE REVIEW</span><span style="font-size: 0.75rem">  </span>) <span style="font-size: 0.75rem"> </span>לבדיקת כל מקרי השתלות הלב בישראל.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">משרד הבריאות יקבע בתקנות ארציות את כל הנהלים הנ"ל.</span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">8.</span><span class="list-content">עד לקבלת התנאים המפורטים בסעיף 7 אין עדיין שום היתר לבצוע השתלות לב בישראל. </span></div>
+<div class="list-item ordered" style="margin-right: 40px"><span class="marker ordered-marker">9.</span><span class="list-content">אם ינתן היתר על פי התנאים המפורטים בסעיף 7, אזי תוקם ועדת מעקב של הרבנות הראשית שתפקידה לוודא מילוי של תנאי ההיתר. </span></div>
+<p>נספחים: א. הקריטריונים לקביעת מוות מוחי לפי הצעת הדסה ירושלים.</p>
+<p>     ב. פרוטוקול לביצוע <span style="font-size: 0.75rem">BEAR</span>.</p>
+<p><u><strong>התייחסות הלכתית מעשית לנושא תרומת אברים ולנשיאת כרטיס תורם</strong></u></p>
+<p><u><strong>השתלת אברים  - הרב יעקב אריאל, הרב הראשי לרמת גן</strong></u></p>
+<p>לפי ההלכה, מצוה לתרום אברים חיוניים להשתלה, הן מאדם חי והן מאדם מת.</p>
+<p>כידוע, מצוות פיקוח נפש דוחה את כל התורה, אפילו שבת ויום כיפור וכדומה. מותר ואף מצוה, אפוא, לכאורה, להשתמש באבריהם של נפטרים כדי להציל חיים. אולם יש שלוש עברות חמורות שאינן נדחות מפני פיקוח נפש והן: עבודה זרה, גילוי עריות ושפיכות דמים.</p>
+<p>לענייננו, אסור לקטוע חיי אדם כדי להציל אדם אחר. חיים אינם נערכים במדד כמותי או איכותי. חיים הם ערך מוחלט. אסור להציל, למשל, צדיק במחיר חייו של רשע, בריא במחיר חייו של חולה, צעיר במחיר חייו של זקן וכדו'. לכל רגע של חיים ערך משלו. נטילת אברים מגופו של אדם, לצורך הצלת חייו של אחר מותרת, אפוא, רק לאחר שהוברר מעל לכל ספק שהוא מת מוות ודאי.</p>
+<p>המוות אינו רק הגדרה ביולוגית, אלא הגדרה אתית-משפטית. כי המוות הוא תהליך, הוא מתחיל עוד במה שנחשב בעינינו חיים. מאידך חלק מהחיים נמשך גם אחרי מה שמכונה אצלנו מוות. יש אפוא צורך לקבוע נקודה מוחלטת בתהליך המוות שממנה ואילך אין האדם נחשב עוד לחי. קביעה זו אינה רפואית אלא משפטית. עליה להתחשב בנתונים הרפואיים, אולם עליה להכריע במדויק באיזה רגע בתוך התהליך הארוך ייקבע המוות.</p>
+<p>הבעיה קיימת בעיקר כאשר פעילות מסוימת ממשיכה בגוף, האם יש להחשיב פעילות זו כחיים או לא? </p>
+<p>בתלמוד (חולין כ"א, א) מובאת דוגמא מאלפת: </p>
+<p>"הותזו ראשיהן – אף על פי שמפרכסין – טמאים, כזנב הלטאה שמפרכסת". </p>
+<p>כלומר, זנב הלטאה אמנם מפרכס, אך אלו אינם חיים, כי הזנב מנותק מהגוף. והוא הדין לגוף המנותק מהראש. כלומר, לב הפועם ללא ראש, אינו לב חי. השאלה היא מה דינו של מוות מוחי? </p>
+<p>לדעת הגר"ש ישראלי זצ"ל, הגר"א שפירא, והגר"מ אליהו יבדל"א; החיים מתמצים כעיקרון בנשימה, שנאמר: "כל אשר נשמת רוח חיים באפיו" (בראשית ז' כ"ב). ולכן בדורות הקודמים, כשלא היו מכשירי החייאה, נקבע המוות על פי הנשימה בלבד (יומא פ"ה, א, רמב"ם הל' שבת פ"ב הי"ט). אולם כאשר הנשימה היא מלאכותית וברור כשמש שאין נשימה עצמונית כל שהיא, ואין שום סיכוי שתהיה נשימה כזאת, כי פיקוד הנשימה במוח נהרס לחלוטין – נחשב האדם למת, כי אם פיקוד הנשימה לא קיים, ממילא אין כאן נשימה. משום כך כדי להתיר השתלת אברים יש לעמוד על כמה תנאים: </p>
+<p>א. הוכחות קליניות מפורטות שגזע המוח נהרס לחלוטין. </p>
+<p>ב. הוכחות אובייקטיביות על הרס גזע המוח, כגון בדיקת BEAR.</p>
+<p>ג. הוכחה שהנשימה העצמונית נפסקה לגמרי ולא חל כל שינוי במשך 12 שעות. </p>
+<p>ד. לרופאים הקובעים את המוות אין שום קשר ישיר או עקיף לרופאים המשתילים את האברים בחולה. </p>
+<p>ה. שיתוף נציג הרבנות הראשית בצוות הקובע את המוות. נציג זה יכול להיות רופא המכיר את ההלכה, שיקוליה ודרך חשיבתה. </p>
+<p>)החלטות הרה"ר, מא' מרחשון תשמ"ז, פורסמו ב"ברקאי" ד' עמ' 11). </p>
+<p>לכשיתמלאו התנאים האמורים, תתאפשר השתלת אברים על פי ההלכה, בעידודה ובתמיכתה. לצערנו, כרגע טרם נתמלאו כל התנאים ולכן נמנעת עזרתה של ההלכה במצוות פיקוח נפש החשובה כל כך. שיתוף פעולה בין הרופאים לבין הרבנים יכול להביא להצלת חיים ולהרמוניה בין רפואה לבין הלכה, ואולי לשמש דוגמא טובה לחיי חברה תקינים והרמוניים גם בתחומים אחרים. </p>
+<p>אך על אף שעברו שנים ארוכות מאז ההחלטה הנ"ל, בתי החולים ומשרד הבריאות לא עשו די כדי לממש אותה. (יתרה מזאת, בחוזר המנכ"ל מי"א באייר תשנ"ו, ניתנו הוראות ברורות באשר לקביעת המוות, תוך התעלמות מדרישות הרבנות: אין הוראה חד משמעית לבצע בדיקות מעבדתיות, כגון:BEAR , אלא במקרים שיש ספק באשר לבדיקות הקליניות. כמו כן קוצרה תקופת ההמתנה מ 6 שעות ל 2 שעות. ואין שום אזכור לנציג הרבנות בוועדה). </p>
+<p>הכדור נמצא אפוא בידי בתי החולים ומשרד הבריאות, ועליהם מוטלת האחריות הכבדה לכך שהשתלות רבות אינן מתבצעות מחוסר תורמים. </p>
+<p>ראיותיהם של המתירים לאדם לשאת כרטיס המתיר לקחת ממנו אברים להשתלה גם בזמן שבתי החולים אינם פועלים על פי הקריטריונים הללו, ידועות מכבר בעולם ההלכה, אך רובן דחויות. (הכוונה ל"כרטיס תורם" – כלומר, אדם שמעוניין לתרום את אבריו במקרה של מוות פתאומי, מצטייד בכרטיס שמעיד על הסכמתו לתרומה).</p>
+<p> אין להקיש ממקרה של מניעת הצלה, או גרם מיתה, להפסקה אקטיבית וישירה של חיי אדם. </p>
+<p>לדוגמא, המנחת חינוך (מצוה רצו ס"ק כח) מסתפק במקרה שגויים דורשים מסיעה של ישראל שימסרו להם אחד למיתה, ולא – יהרגו את כולם, שמותר למסור להם אדם המוגדר כ"טרפה" (חולה שאבר חיוני שלו נפגע ללא תקנה). שם מדובר במסירה לגויים, לא בהריגה בידיים. המנחת חינוך לא התיר לרצוח טרפה בידיים כדי להציל את היתר.</p>
+<p>וכן המקרה המפורסם בתלמוד (בבא מציעא סב, א) בעניין שניים שהלכו במדבר ורק לאחד יש קיתון של מים, ובו נפסקה ההלכה כר' עקיבא שחייך קודמין לחיי חברך. אף על פי כן כתבו הפוסקים (פתחי תשובה יו"ד סי' רנב ס"ק א; משפט כהן סי' קמד אות טו) שמותר לבעל הקיתון לוותר על שלו למען חברו. אך לא מדובר במעשה בידיים. אין היתר לאדם להתאבד בידיים כדי להציל את חברו. (רק במקרה של ספק, התירו הפוסקים לאדם להיכנס לחשש סכנה כדי להציל את חברו מסכנה ודאית: עי' סמ"ע חו"מ סי' תכו ס"ק ב; פתחי תשובה שם ס"ק ב; שו"ת ציץ אליעזר חלק ט סי' יז פרק ה).  </p>
+<p>וכן המקרה במסכת נדרים (כב, א), שבו היה עולא בסכנת חיים, שהרגו את חברו והוא נאלץ לומר לרוצח: פרע לו את בית השחיטה. כלומר, הרוג אותו לגמרי. אם לא היה אומר כן, היה הדבר עולה לו בחייו. גם שם הוא רק אמר לרוצח את מה שאמר, אך לא עשה שום מעשה בידיים. (אם כי התפארת-ישראל, סוף יומא, בועז ד"ה ונ"ל, מסתפק שמא מותר היה לעולא לפרוע את בית השחיטה של חברו כדי להציל את עצמו. אולם אין ספקו של התפארת ישראל, מוציא מידי ודאותם של רוב הפוסקים). </p>
+<p>נשארה רק מחלוקתם של הר"י פיק והנודע ביהודה (מהדורה תנינא חו"מ סי' נ"ט). המקרה שבו נחלקו לגבי עובר המסכן את אמו והוא טרפה. לדעת הר"י פיק עדיף להרוג את העובר ולהציל את האם, ולדעת הנודע ביהודה הדבר אסור. אולם מחלוקת זו לא הוכרעה. וגם לדעת הר"י פיק, המתיר, הקשר בין הריגת הטרפה להצלת המסוכן הוא ישיר, מה שאין כן בנידון דידן: יש חולה אנוש הזקוק לאבר חיוני, ויש גוסס שניתן להשתמש באבריו להצלת החולה. האיום על חיי החולה אינו ישיר, הקשר בין התורם לחולה נוצר בגלל ידיעתנו את הנתונים כיום, באמצעות מחשב המאתר את השניים, ואין לדמות את הדברים. (סיכום לכל הנ"ל ראה בנשמת אברהם, יו"ד סי' רנב ס"ק ב). </p>
+<p>אמנם גם המתירים לשאת כרטיס זה, מודים שאין בדבריהם היתר לכתחילה לרופאים הנוטלים את האברים, אלא רק "ריכוך" חומרת הרציחה. לדעתנו אין בכך פתרון לבעיה אלא אדרבה החרפתה. כי כרגע אין אמון בין המשפחות לבין הרופאים. רק קבלת תנאיה של הרבנות תגביר את מידת הסכמתן של המשפחות לנטילת אברי יקירם לשם השתלה בחולה הזקוק לכך.</p>
+<p>חלק מהרופאים מתנגד בעיקר להשתתפותו של נציג הרבנות בוועדה הקובעת את המוות (כאמור, נציג זה יכול להיות רופא המתמצא בהלכה). קשה להם לעכל את מה שנראה כ"השגחת כשרות" כביכול מטעם הרבנות. הם רואים בכך הטלת דופי וחוסר אמון, ולא היא. המטרה היא לשמור על קשר צמוד בין הפסיקה ההלכתית לבין הוצאתה לפועל. יש דינמיקה ברפואה. יש מצבים משתנים. גם ההוראות ההלכתיות צריכות להתיישם בהתאם. חייב להיות היזון חוזר בין העשייה היום יומית לבין הפסיקה הלכתית. נציג הרבנות בוועדה מונע את הנתק שעלול להיווצר בין ההלכה התאורטית לבין יישומה בחיי המעשה. לדוגמא, כיום התגלתה בדיקה לקביעת המוות מדויקת יותר מהBEAR, שאין בה צורך להזיז את החולה (דבר שיאפשר לפוסקים נוספים להסכים לקביעתה), מידע זה יש בו בכדי לשנות את הדרישה ההלכתית.</p>
+<p>אנו עוסקים בבעיה ציבורית קשה שפתרונה פשוט: על ידי מתן הנחיה נכונה לבתי החולים לפעול בתיאום עם הרבנות, ועל פי הנחיותיה יש לפעול כדי להציל חיים בישראל. </p>
+<p>מתוך עלון "מעייני הישועה" תנועה לתרבות ישראל. גליון קח – קט – קי.</p>
+<p>יש לציין שרוב רבני ישראל מצדדים בעמדת הרב יעקב אריאל. </p>
+<p><u><strong>הרב שלמה אבינר. רב הישוב בית אל וראש ישיבת עטרת כהנים בירושלים שבין החומות:</strong></u></p>
+<p>שאלה: האם מצוה היא לתרום אברים? האם ראוי למלא כרטיס תורם?</p>
+<p>תשובה: אכן, תרומת אברים כרוכה בבעיות הלכתיות קשות. הלא הן: מצות הקבורה של אותם אברים, כבוד המת, ניוול המת בחיתוך הבשר, ועוד.</p>
+<p>אולם השתלת אברים היא פיקוח נפש, כפשוטו. מצילים אדם ממות, או מאיכות חיים נוראה של יסורים וסבל כגון מי שיש לו כליה מלאכותית. פיקוח נפש דוחה אותם איסורים. לפעמים אדם מציל שבע נפשות: לאחד נתן לב, לשני כליה, לשלישי ריאה וכיוצא בזה – גדול הוא במותו מאשר בחייו. הבעייה הכבדה היא שמא התורם לא ממש מת, אלא הוא גוסס. אסור לרצוח אדם א' כדי להציל אדם ב', גם אם אדם א' גוסס ונראה חסר כל סיכוי.</p>
+<p>על כך יש כמה תשובות:</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">הרופאים אינם רוצחים, אלא אנשים טובים המוסרים את נפשם להציל את הזולת, והם לא יעשו כדבר הזה. הם אנשים מוסריים וישרים ולא יעברו על ההנחיות שהן גם הנחיות הרבנות הראשית לישראל וגם הנחיות של משרד הבריאות.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">גם אם יש רופא מושחת, ובשביל מוניטין ההצלחה הוא נכון לעשות כעוולה הזאת – הרי אנשים מושחתים יש בכל מקצוע, בכל פלג חברה ובכל מקום – הנה גם אותו רופא מושחת לא יעיז לקחת סיכון זה, כי אם זה יתגלה, הוא ישלם ביוקר, הוא וכל בית החולים, זה יהיה סוף הקריירה שלו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">אך אם בכל זאת יעיז אותו רופא לעשות דבר נגד ההלכה ונגד החוק, אין זו עבירה של התורם אלא של הרופא, שהרי התרומה אינה זקוקה לאותה עבירה. משל למה הדבר דומה? אם אדם תורם כסף לעניים ביום שישי כדי שיחולק עוד באותו יום, אבל המקבל נוסע ברכב ומחלק בשבת. היש עבירה לתורם? לא, לתורם יש מצוה ולמחלק יש עבירה. כך לענייננו, אם הרופא יעבור על ההנחיות, לתורם יש מצוה ולרופא  עבירה.</span></div>
+<p>זו באמת שערוריה, שטרם סודר על ידי מוסדות הרפואה פיקוח רבנים, או פיקוח רופאים מטעם רבנים. זה מעכב רבים מלתרום, הן דתיים והן חילוניים. יש הרבה יהודים שהנם חילוניים בחייהם, אבל במותם אינם רוצים לעשות דבר נגד הדת.</p>
+<p>אני מכיר אישית מקרים של אנשים שנהרגו בתאונה, ואבריהם הצילו אנשים רבים.</p>
+<p>זו מצוה גדולה לרכוש כרטיס תורם ולתרום את כל האברים, כולל קרנית עין. גם לי הדל יש כרטיס כזה. נקווה שבעתיד תהיה חקיקה מתאימה ויתרבה מספר התורמים. אך בינתיים גם במציאות העכשווית מצוה גדולה לתרום.</p>
+<p>כמובן, גם מי שלא מלא בחייו כרטיס תורם, יוכלו בני משפחתו לתרום אברים, כי היא מצוה גדולה. </p>
+<p>יש מי שחושש שמא יחסרו לו אותם אברים בתחיית המתים. ודאי יהיו לו, גם לחולים וגם לאלו שנפצעו במלחמה, יהיו לו אותם אברים לעילא ולעילא.</p>
+<p>גם מי שלא יזדמן לו לתרום ויחיה עד מאה ועשרים, ויש לו כרטיס כזה בכיס, הריהו צדיק גדול.</p>
+<p>מתוך "באהבה ובאמונה" עלון שבועי בהוצאת מכון מאיר, עלון מספר 284.</p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " חשוב לציין שיש פוסקים הסוברים שהפטירה נקבעת לפי הלב ולא לפי המוח, ולדעתם קיים איסור מוחלט להוציא איבר מאדם שמוגדר כמת מוות מוחי כל זמן שלבו פועם, כיון שאדם זה מוגדר כחי. לשיטתם אין אפשרות לבצע השתלת לב או כבד בשום מקרה. ראה סיכום הדעות ומקורות באנציקלופדיה הלכתית רפואית כרך ב, ערך השתלת אברים עמוד 224."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

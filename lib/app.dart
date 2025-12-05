@@ -5,6 +5,7 @@ import 'config/theme.dart';
 import 'config/constants.dart';
 import 'providers/favorites_provider.dart';
 import 'providers/reading_provider.dart';
+import 'providers/terms_provider.dart';
 import 'screens/main_screen.dart';
 
 /// Main application widget
@@ -20,6 +21,9 @@ class AvelutHalachaApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => ReadingProvider()..init(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => TermsProvider()..init(),
         ),
       ],
       child: MaterialApp(

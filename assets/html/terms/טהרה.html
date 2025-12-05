@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p><strong>טהרה</strong></p>
+<p>החברה קדישא דואגת לטהרה של הנפטר לפני הקבורה. הטהרה היא רחיצת הנפטר והלבשתו בתכריכים לפני הקבורה. גברים מטפלים בנפטר ונשים מטפלות בנפטרת. הטהרה נעשית מתוך כבוד לנפטר - כבוד לגוף ולנשמה ששכנה בגוף. </p>
+<p style="font-size: 0.85rem">טקס הטהרה מתקיים בבית הלוויות בחדר מיוחד המיועד לכך. המטהרים נוטלים את ידיהם ואומרים תפילה מיוחדת קודם הטהרה (מובאת בספר גשר החיים פרק ט, א, מספר מעבר יַבֹּק, ומקורה קדום מאוד עוד מסדר הרחיצה הגדולה המיוחסת להלל הזקן). תוך כדי הטהרה אומרים המטהרים פסוקים שונים הקשורים לרחיצה ולטהרה, למשל – "וְזָרַקְתִּי עֲלֵיכֶם מַיִם טְהוֹרִים וּטְהַרְתֶּם מִכֹּל טֻמְאוֹתֵיכֶם וּמִכָּל גִּלּוּלֵיכֶם אֲטַהֵר אֶתְכֶם" (יחזקאל לו, כה). הסיבה לאמירת הפסוקים היא כפולה – הן מצד תוכן הפסוקים הנוגע לטקס הטהרה, והן כדי למנוע מהמתעסקים לעסוק בדיבורים בטלים ובשיחות חולין, מתוך כבוד לנפטר. ע"ע באריכות בספר מעבר יַבֹּק מאמר שפתי רננות פרקים ד – ה - ו ובפרק יב, שם מפורטים המזמורים שיש לומר, עם הכוונות על פי הקבלה, וכן הכוונות ברחיצה ובהלבשה. בספר גשר החיים (פרק ט פיסקאות א – ב) מובאים הפסוקים שאומרים ברחיצה של כל אבר ואבר בגוף. </p>
+<p>הרחיצה מתבצעת כשהנפטר מושכב על גבו ופניו כלפי מעלה, מכוסה בסדין כדי לשמור על כבודו וצניעותו בזמן הרחיצה. הרחיצה כוללת שפשוף בסבון ובספוג, וגם שטיפה פנימית של הנפטר דרך פי הטבעת, עד שהמים יוצאים זכים ונקיים. לאחר מכן מנקים את הציפורניים של הנפטר בידיים וברגלים.</p>
+<p>עיקר הטהרה היא שפיכה של תשעה קבין מים (כעשרים ליטר) על הנפטר (כמפורט בגשר החיים פרק ט פיסקה ד).   </p>
+<p>יש הנוהגים לטבול נפטר גבר במקוה טהרה לאחר הרחיצה קודם ההלבשה בתכריכים.</p>
+<p>מדיחין אותו כדי להעביר זוהמתו, שלא יקוצו העם בטלטולו (כל בו, מובא בבית יוסף סימן שנב). </p>
+<p>הטעם שרוחצים המת, שלכאורה מה תועלת יש לו ברחיצה זו? שאפילו אם יבואו עליו כל מימות שבעולם אינם מוציאות אותו מטומאתו כי הוא אבי אבות הטומאה. והטעם מפני שאנחנו בני ישראל מצפים לתחיית המתים, ומחמת ביעתותא דמלאך המוות רואה האדם קרי. לכן רוחצים אותו מטומאה זו כדי שיהיה האדם טהור במעמדו בתחיית המתים (ספר מנחם אבלים אות ר' ערך רחיצה).</p>
+<p>וטעם לרחיצה זו הואיל ומלבושי התכריכים דוגמת מלבושי הכהנים, ויען שבכהנים כתוב "<span style="font-size: 0.85rem">וְרָחַץ בַּמַּיִם אֶת בְּשָׂרוֹ וּלְבֵשָׁם</span>", לזה נהגו גם כן לרחוץ את גוף המתים קודם הלבשתם. עוד טעם לרחיצה זאת, שכשם שרוחצים אותו בצאתו מרחם אמו, גם כן בצאתו ממהעולם הזה רוחצים אותו. וטעם למה שנהגו לנקותו מהצואה שבפי הטבעת ולפנים... כדי למרק אכילה מן המעיים להיות נקיים וטהורים כמלאכי השרת. וכן כתוב באבות דרבי נתן (פרק א): אמר רבי נתן, מפני מה נתעכב משה כל ששת ימים (לפני עלותו להר סיני) ולא שרה עליו הדיבור? בשביל שימרק מכל אכילה ושתייה שהיה במעיו, בשביל שיתקדש ויהא כמלאכי השרת... ולזה נהגו לנקות מעיים של כל אדם כדי שיהא נקי וזכאי לעולם הבא ויזכה לשמוע דיבור מהשכינה. וסותמים כל נקביו עליונים ותחתונים היות ונזכר בגמרא (יומא פה, סוכה מה, נידה ל) שבהיותו ברחם אמו פיו סתום וטבורו פתוח וכו', ובצאתו לעולם נפתח הסתום ונסתם הפתוח. לזה גם בצאתו מהעולם סותמים כל נקביו (הקונטרס היחיאלי בית עולמים פרק ד).</p>
+<p>לאחר הרחיצה מלבישים את הנפטר בתכריכים לבנים פשוטים, והמהדרים מקפידים על תכריכי פשתן. על פי הקבלה יש עניין גדול בלבישת בגדי פשתן בלבד ללא בד אחר, כדי להגן על הנפטר מכוחות הטומאה (מנחם אבלים אות ת' ערך תכריכים, בשם רבי משה קורדובירו. הקונטרס היחיאלי בית עולמים פרק ב). פשתן הוא מהצומח ומקביל לאדמה, בשונה למשל מבגדי צמר הבאים מהחי. כמו שיש באדמה יכולת לקבל מטענים חשמליים ולספוג אותם, כך יש לאדמה יכולת לקבל ולספוג מטענים רוחניים העלולים לפגוע במת, וזו גם אחת הסיבות לקבורה באדמה. מבחינה זו יש הקבלה בין בגדי הפשתן ובין האדמה, ולכן יש המהדרים לקבור בתכריכי פשתן. שיש בהם מעין הגנה נוספת על הנפטר.</p>
+<p>נהגו לעטוף נפטר גבר בטלית בזמן הלוויה. לא נהגו לקבור את הטלית. הדיון ההלכתי על עיטוף הנפטר בטלית כשרה או שיש לפסלה, מובא בטור ובשלחן ערוך יורה דעה סימן שנא, ולקמן בערך <strong>ציצית בתכריכי המת</strong>.</p>
+<p>אין לאדם להשתתף או להיות נוכח בטהרת אביו מפני כבוד אביו, וכן לא בטהרת חמיו או בעל אמו או בעל אחותו, אך מותר לאב להיות בטהרת בנו ולחותן בטהרת חתנו (גשר החיים פרק יב, ב, ד). יש לבצע טהרה גם למי שחולה במחלה מדבקת, תוך כדי נקיטת כל אמצעי הזהירות למניעת הדבקה למטהרים. הרוג אין מטהרים אלא נקבר בבגדיו. פירוט לגבי התכריכים וההלבשה ע"ע <strong>תכריכים</strong>. </p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

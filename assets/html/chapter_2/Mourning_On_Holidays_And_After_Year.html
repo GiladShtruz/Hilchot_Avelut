@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p><span style="font-size: 1.3rem"><strong>אבלות בחגים ובמועדי השנה</strong></span></p>
+<div class="sage-quote"><p><strong>חגים ומועדי השנה – </strong><u><strong>הפסקת</strong></u><strong> האבלות אם הספיקו לנהוג מנהגי אבלות קודם החג</strong></p>
+</div><p>פרק זה עוסק באבלים שקברו את מתם קודם לחג והספיקו לנהוג מקצת מדיני אבלות, אפילו זמן מועט וסמלי בלבד<span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span>.</p>
+<p style="font-size: 0.85rem">אמרו חז"ל <strong>"מעבירים את המת מלפני הכלה" </strong>(כתובות יז, א). חכמים רצו ללמד עיקרון ונתנו דוגמא כדי להמחיש זאת. כגון שבאה לוויה מצד אחד וכלה מצד שני, באותו הרחוב ממש, ובאותו זמן. אי אפשר שיעברו שניהם יחד, מפני שבלתי אפשרי לעמת באותו מקום ובאותו זמן רגשות קוטביים כאלו. שיאים של צער ויגון מחד עם מצהלות חתנים, גילה רינה דיצה וחדוה מאידך. אחד הצדדים מוכרח לפנות את מקומו ולהשאיר את הבמה לזולתו באופן בלעדי. יש קושי נפשי עצום לעשות זאת כיון שלכל אחד מהארועים יש משמעות רגשית עמוקה ביותר. ונשאלת השאלה: במצב כזה, מי צריך לפנות את מקומו? למי יש זכות קדימה?</p>
+<p>הכלל שקבעו חכמים הוא "מעבירים את המת מלפני הכלה". הלוויה עוברת לרחוב אחר כדי לאפשר את שמחתה המלאה של הכלה באופן מלא. </p>
+<p>מעבר להתייחסות הנקודתית למקרה המסוים דלעיל, חכמים גם באו לקבוע עיקרון כולל: צריך להגביר ולחזק את רגשות השמחה, גם כשיש רגשות צער ואבלות. החיים צריכים להימשך, ובשמחה.</p>
+<p>גם באבלות של כלל ישראל חכמים לימדונו שאדם סד את ביתו כדי שיהיה יפה ומקושט, ומשאיר אמה על אמה לא מסוידת כנגד הפתח זכר לחורבן. אותו העיקרון - ממשיכים ומתחתנים ובונים בתים יפים ומקשטים ומסיידים אותם. בתוך כל זה משאירים את הפינה של זכר לחורבן במקום בולט, כדי שלא נשכח. אבל הכלל הוא להמשיך בחיים מתוך בניין של שמחה.</p>
+<p>כבר הזכרנו לעיל בהקדמה להלכות אבלות בשבת, את ההבדל בין שבת לחגים לעניין אבלות. החגים הם ביטוי להתפרצות של שמחה – "<span style="font-size: 0.85rem"> וְשָׂמַחְתָּ בְּחַגֶּךָ... וְהָיִיתָ אַךְ שָׂמֵחַ</span> " - ולכן הם קוטעים גם את האבלות, ואם הפטירה והקבורה היו בחג עצמו, האבלות נדחית ומתחילה רק לאחר תום החג.</p>
+<p style="font-size: 0.85rem">מצות השמחה בחג דוחה את האבלות. הן מפני שההלכה מעדיפה להעצים ולחזק את השמחה על פני הצער במקרה של התנגשות ביניהם, כמו שביארנו לעיל. והן מפני שמצות השמחה בחג היא ציבורית וכוללת, וההלכה מעדיפה אותה על פני צער היחיד<span style="font-size: 0.75rem">. </span>על דרך הסוד הוסיפו שהטעם שהחג מבטל גזרת שבעה ושלושים, הוא כיון שהחג מבטל דין שמים מהנשמה ואינה חוזרת לדין אחר החג<span class="footnote-ref" onclick="showFootnote('2', '2', event)">2</span>.</p>
+<p><span style="font-size: 0.85rem"> </span><span style="font-size: 0.85rem"> </span></p>
+<p>הגדרת החגים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">"יום טוב" נאמר על המועדים הנזכרים בתורה, והם שלושת הרגלים: פסח שבועות וסוכות, וכן ראש השנה ויום הכיפורים שדינם כרגלים לעניין אבלות<span class="footnote-ref" onclick="showFootnote('3', '3', event)">3</span>. יש להבדיל בינם לבין חנוכה ופורים – חגים מדרבנן - שדינם שונה, ועליהם יפורט בנפרד.</span></div>
+<p>חג לעומת שבת</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">חג שונה משבת לעניין אבלות בכמה דברים:</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">החג מפסיק ומבטל אבלות שבעה, אם נהג אבלות קודם לחג. <span style="font-size: 0.75rem">ביאור הדברים: מי שמת לו מת קודם החג ונקבר בערב החג, והספיקו להתחיל ולנהוג אבלות אפילו זמן מועט, או לעשות איזו שהיא פעולה של אבלות כגון חליצת מנעל, הרי שהחג מפסיק ומסיים את השבעה.</span></span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">החג מפסיק ומבטל אבלות שלושים, אם כבר נסתיימו השבעה קודם לחג.</span></div>
+<div class="list-item bullet" style="margin-right: 0px"><span class="marker bullet-marker">•</span><span class="list-content">החג דוחה את האבלות לאחר החג, אם הפטירה היתה בחג או שלא הספיקו להתחיל לשבת שבעה קודם לחג. במקרה זה ימי החג לא נמנים למניין השבעה אבל נמנים לשלושים<span class="footnote-ref" onclick="showFootnote('4', '4', event)">4</span>. </span></div>
+<p>מה נחשב "נהג אבלות"</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">אם לא הספיק לנהוג אבלות קודם לחג, וכל שכן אם נפטר בחג - אין החג מפסיק האבלות, אלא נוהג בחג דברים שבצנעה<span class="footnote-ref" onclick="showFootnote('5', '5', event)">5</span>, ומתחיל למנות שבעה לאחר החג. ויפורט לקמן בפרק הבא. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">אפילו אם נהג האבל רק דברים שבצנעה, כגון ששמע שמועה קרובה בשבת ערב החג, שאז נוהג רק דברים שבצנעה, מבטל את השבעה<span class="footnote-ref" onclick="showFootnote('6', '6', event)">6</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">מי שלא היה יכול לנהוג אבלות מחמת חולשה או אונס, כגון חולה או יולדת, כיון שנודע להם על מיתת המת בטלה מהם אבלות שבעה<span class="footnote-ref" onclick="showFootnote('7', '7', event)">7</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">אשה שקיבלה עליה קדושת החג מבעוד יום ונודע לה שמת לה קרוב משפחה ונקבר, יכולה לשבת באבלות כמה רגעים ולהפקיע ממנה את שבעת ימי האבלות<span class="footnote-ref" onclick="showFootnote('8', '8', event)">8</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">מת לו מת בערב יום טוב ונתיירא שמא לא יספיק לקברו מבעוד יום, ומסרו לגויים שיוליכוהו לקבורה. כיון שהוציאוהו מן העיר ונתכסה מעיני הקרובים חלה עליו אבלות, ואם הוא שעה אחת כלומר זמן קצר קודם החג, ונהג בה אבלות; בטלה ממנו אבלות שבעה אף על פי שנקבר בחג<span class="footnote-ref" onclick="showFootnote('9', '9', event)">9</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">אם הוא בארץ ומת לו קרוב בחוץ לארץ, והקבורה תהיה בחוץ לארץ בערב יום טוב; אם קיבל עליו אבלות שעה אחת קודם יום טוב פטור מהשבעה, למרות שבחוץ לארץ לא קברו עדיין<span class="footnote-ref" onclick="showFootnote('10', '10', event)">10</span>. וראה עוד לקמן בפרק עיכוב האבלות.</span></div>
+<p>מתי מפסיקים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">כדי שהאבלים יוכלו להיכנס לחג, מפסיקים את מנהגי אבלות השבעה שעה קודם כניסת החג<span class="footnote-ref" onclick="showFootnote('11', '11', event)">11</span>. דהיינו: רחיצה מותרת גם במים חמים אחר תפילת מנחה סמוך לערב, וכן מפסיקים את שאר מנהגי האבלות<span class="footnote-ref" onclick="showFootnote('12', '12', event)">12</span>; ומעדות המזרח יש שנהגו להמתין עד חשכה אלא אם כן הוא בערב שבת שאז התירו לרחוץ סמוך לחשכה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">בערב פסח מותר הכל מחצות היום כיון שאז הוא כחג לכל דבר.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">בערב יום כיפור מותר לרחוץ ולטבול סמוך לערב גם קודם תפילת מנחה<span class="footnote-ref" onclick="showFootnote('13', '13', event)">13</span>, ומותר לו ללכת לבית הכנסת לתפילת מנחה<span class="footnote-ref" onclick="showFootnote('14', '14', event)">14</span>, וכן מותר לו לאכול סעודה מפסקת על כסא וספסל<span class="footnote-ref" onclick="showFootnote('15', '15', event)">15</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">אבל שאין מי שיבנה לו סוכה, מותר לו לבנותה בעצמו, וכן לגבי קניית ארבעת המינים<span class="footnote-ref" onclick="showFootnote('16', '16', event)">16</span>.</span></div>
+<p>חגים סמוכים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">אם באמצע השבעה חל חג ובתוך השלושים חל חג נוסף, החג הראשון מבטל גזרת שבעה והחג השני מבטל גזרת שלושים<span class="footnote-ref" onclick="showFootnote('17', '17', event)">17</span>. כמו שמפורט<span style="font-size: 0.75rem"> </span>לקמן מעמוד 180@. באבלות על שאר קרובים מסתיימת האבלות, על אב ואם נשארות ההגבלות של שנים עשר חודש.</span></div>
+<p style="font-size: 1.15rem">שבת בערב החג</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">מת לו מת בערב שבת ואותה שבת היא ערב יום טוב, יש מתירים לרחוץ בערב שבת סמוך לחשיכה לכבוד החג<span class="footnote-ref" onclick="showFootnote('18', '18', event)">18</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">באבלות על שאר קרובים, אם נתבטל ממנו דין שלושים ולא התגלח ערב החג, אסור לו להתגלח בחול המועד כיון שיכול היה להתגלח קודם החג. אבל אם חל שביעי שלו בשבת ערב החג, מותר להתגלח בחול המועד כיון שלא יכול היה להתגלח ערב החג<span class="footnote-ref" onclick="showFootnote('19', '19', event)">19</span>.</span></div>
+<p>כיבוס</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">כשחל רגל באמצע השבעה, מותר לכבס בצנעה בחול המועד <span style="font-size: 0.85rem">כיון שלא יכלו לכבס קודם המועד עקב האבלות</span><span class="footnote-ref" onclick="showFootnote('20', '20', event)">20</span><span style="font-size: 0.85rem">.</span></span></div>
+<p>הקדמת אזכרה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ז.</span><span class="list-content">הנוהגים לערוך אזכרה בליל השבעה, וימי השבעה התקצרו עקב החג; יקדימו את האזכרה ללילה שלפני סיום השבעה (אור לערב חג).</span></div>
+<p>סיום בכורות</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ח.</span><span class="list-content">בכור אבל בתוך השבעה לא יצא מביתו כדי להשתתף בסיום מסכת להיפטר מתענית בכורות, אלא יפדה התענית בצדקה<span class="footnote-ref" onclick="showFootnote('21', '21', event)">21</span>.</span></div>
+<p>נר נשמה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ט.</span><span class="list-content">אף על פי שהחג מבטל את השבעה, משאירים נר דולק לזכר הנפטר שבעה ימים מלאים<span class="footnote-ref" onclick="showFootnote('22', '22', event)">22</span>.</span></div>
+<div class="sage-quote"><p><strong>חגים ומועדי השנה – </strong><u><strong>דחיית</strong></u><strong> האבלות אם נפטר בחג או שלא הספיקו לנהוג מנהגי אבלות לפני החג</strong></p>
+</div><p>אם נפטר בחג, או שלא הספיקו לנהוג אבלות קודם לחג, מתחילים לנהוג מנהגי אבלות רק אחרי החג. </p>
+<p>נפטר ביום טוב</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content"><span style="font-size: 0.75rem">ככלל ההלכות מקבילות לנפטר בשבת. </span><span style="font-size: 0.75rem">כדלעיל</span><span style="font-size: 0.75rem"> עמוד </span><span style="font-size: 0.75rem">45</span><span style="font-size: 0.75rem">.</span></span></div>
+<p><strong>קבורה בחג</strong></p>
+<p>הלוויה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">ככלל לא קוברים ביום טוב עצמו<span class="footnote-ref" onclick="showFootnote('23', '23', event)">23</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">בחול המועד קוברים. קודם צאת ההלוויה מחליף האבל בגדיו לבגדי חול וקורע בהם כמבואר לקמן, ולאחר הלוויה מחליף שוב בגדיו לבגדי חג.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">אין מספידים בחול המועד<span class="footnote-ref" onclick="showFootnote('24', '24', event)">24</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">אין אומרים צידוק הדין ועדות המזרח נהגו לומר צידוק הדין<span class="footnote-ref" onclick="showFootnote('25', '25', event)">25</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">אחרי הלוויה עומדים ב"שורה" כרגיל, אלא שהאבל אינו חולץ מנעליו.</span></div>
+<p>קריעה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">אין קורעים ביום טוב אלא במוצאי יום טוב. יש קהילות שנוהגות שכל הקרובים קורעים בחול המועד, ומנהג ירושלים שרק אבלים על הוריהם קורעים, ושאר הקרובים קורעים רק לאחר החג<span class="footnote-ref" onclick="showFootnote('26', '26', event)">26</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">כל הקרובים מברכים ברכת "דיין האמת" בחול המועד. </span></div>
+<p>סעודת הבראה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">אין אוכלים סעודת הבראה ביום טוב<span class="footnote-ref" onclick="showFootnote('27', '27', event)">27</span>. לפי מנהג עדות המזרח עורכים סעודת הבראה במוצאי הרגל, כיון שאז מתחילה האבלות; ולפי מנהג האשכנזים אין עורכים סעודת הבראה כלל במוצאי הרגל כיון שנדחתה האבלות<span class="footnote-ref" onclick="showFootnote('28', '28', event)">28</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">בחול המועד אוכלים סעודת הבראה בישיבה על כסאות רגילים<span class="footnote-ref" onclick="showFootnote('29', '29', event)">29</span>, ואין אוכלים ביצים קשות כמו שנוהגים בדרך כלל, אלא רק מיני מזונות וכדומה.<em> </em>יש אומרים שמנהג ירושלים שרק אבלים על הורים אוכלים סעודת הבראה, אבל לא על שאר קרובים<span class="footnote-ref" onclick="showFootnote('30', '30', event)">30</span>. </span></div>
+<p>מנהגי אבלות הנוהגים בחג</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">נוהגים בחג אבלות בצנעה  - אין רוחצים לתענוג ונמנעים מחיי אישות. יש מי שהתיר בשעת הדחק, לאשה אבלה שחל ליל טבילתה בחול המועד, לטבול ולשמש לפני תחילת אבלותה<span class="footnote-ref" onclick="showFootnote('31', '31', event)">31</span>. מנהג בני תימן על פי הרמב"ם שאין נוהגים אבלות כלל בחול המועד, אפילו דברים שבצנעה, זולת הניחום בעמידה בשורה לאחר הקבורה<span class="footnote-ref" onclick="showFootnote('32', '32', event)">32</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">מעיקר הדין כהן אבל אינו נושא כפיו<span class="footnote-ref" onclick="showFootnote('33', '33', event)">33</span>. וכבר הוזכר לעיל עמוד 99@ שיש כהנים הנושאים כפיהם בשבת בתוך השבעה, ומנהג ירושלים שיש כהנים הנושאים כפיהם אפילו בימי החול בתוך השבעה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">יש להקל בתלמוד תורה<span class="footnote-ref" onclick="showFootnote('34', '34', event)">34</span> כיון שהחשיבו זאת כדבר שבצנעה למרות שיש פוסקים שהחמירו בכך. בליל הושענא רבה נהגו שגם האבלים לומדים, כדי שלא יראה כאבלות בפרהסיה<span class="footnote-ref" onclick="showFootnote('35', '35', event)">35</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">מותר להתרחץ לכבוד יום טוב אחרון ולהחליף לבנים<span class="footnote-ref" onclick="showFootnote('36', '36', event)">36</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">מלאכת "דבר האבד" המותרת במועד מותרת גם לאבל<span class="footnote-ref" onclick="showFootnote('37', '37', event)">37</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">לאחר שעברו שבעה ימים מהקבורה, אף על פי שעדיין לא נגמרה האבלות, מותר לעשות מלאכה על ידי אחרים בבתיהם אפילו אינו "דבר האבד". ולפי מנהג בני תימן נאסרים במלאכה כל שבעת ימי האבלות, כיון שלא נהגו אבלות כלל במועד<span class="footnote-ref" onclick="showFootnote('38', '38', event)">38</span>.</span></div>
+<p>ניחום אבלים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ז.</span><span class="list-content">אף על פי שאין יושבים שבעה בחול המועד, באים הקרובים והחברים לנחם את האבלים<span class="footnote-ref" onclick="showFootnote('39', '39', event)">39</span>.</span></div>
+<p>תפילה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ח.</span><span class="list-content">אומרים הלל בבית האבל אם מתפללים שם כיון שאין נוהג אבלות. גם האבל אומר הלל<span class="footnote-ref" onclick="showFootnote('40', '40', event)">40</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ט.</span><span class="list-content">האבל לא משנה מקומו בחג בבית כנסת, אפילו במקום שנהגו לשנות מקומם בשבת.</span></div>
+<p>נר נשמה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ'.</span><span class="list-content">מדליקים נר נשמה בחול המועד למרות שמתחילים אבלות רק לאחר המועד<span class="footnote-ref" onclick="showFootnote('41', '41', event)">41</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"א.</span><span class="list-content">ביום טוב עצמו אין להדליק נר נשמה אלא אם כן משתמש בו<span class="footnote-ref" onclick="showFootnote('42', '42', event)">42</span>. ההיתר להדליק אש ביום טוב הוא לצורך בישול או הנאה אחרת שיש לאדם. נר נשמה אינו לצורך הנאה לאדם, לכן ביום טוב אי אפשר להדליק נר נשמה, אלא אם כן יהנה ממנו גם באופן אחר. לכן מי ששכח להדליק בערב יום טוב, ידליק ביום טוב במקום שלומדים בו או שאוכלים בו כדי להוסיף אורה. ונכון להדליקו בבית הכנסת שמצוה להרבות שם אור<span class="footnote-ref" onclick="showFootnote('43', '43', event)">43</span>.</span></div>
+<p>לאחר החג</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ב.</span><span class="list-content">מי שמת לו מת בחג ומתחיל למנות שבעת ימי אבלות לאחר החג, מניח תפילין ביום הראשון לאבלות כיון שעיקר צערו על המת היה כבר בתוך המועד<span class="footnote-ref" onclick="showFootnote('44', '44', event)">44</span>, וכבר נהג אבלות בצנעה במועד, ויום הראשון לאבלות אינו היום המר של תחילת הצער<span class="footnote-ref" onclick="showFootnote('45', '45', event)">45</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ג.</span><span class="list-content">אם שביעי של פסח חל בערב שבת, והאבלים יושבים שבעה לאחר הפסח. השבת עולה למניין שבעה וקמים מהשבעה ביום שישי בבוקר<span class="footnote-ref" onclick="showFootnote('46', '46', event)">46</span>.</span></div>
+<p>יום טוב שני של גלויות</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ד.</span><span class="list-content">פשט המנהג שלא להתאבל ביום טוב שני של גלויות על שום מת, אפילו הוא יום מיתה וקבורה<span class="footnote-ref" onclick="showFootnote('47', '47', event)">47</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ה.</span><span class="list-content">יום טוב שני של גלויות נמנה למניין שבעה למרות שאין נוהגים בו אבלות.</span></div>
+<div class="sage-quote"><p><strong>חישוב ימי השלושים כשהחג הפסיק את השבעה</strong><strong> </strong></p>
+</div><p>עקרונות החישוב</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">אדם הקובר את מתו בחול המועד, ימי המועד נמנים למניין השלושים אף על פי שהחל לשבת שבעה רק לאחר המועד. והטעם כיון שנוהג במועד חלק ממנהגי אבלות כגון דברים שבצנעה, גיהוץ, תספורת, בגדים חדשים ושמחה<span class="footnote-ref" onclick="showFootnote('48', '48', event)">48</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">אם כבר סיימו האבלים את השבעה קודם החג, החג מבטל מהם גזרת שלושים. גם אם היום השביעי לאבלות היה בערב החג, כיון שמקצת היום ככולו – עולה לכאן ולכאן, נחשב המשך היום כיום שלושים והחג מבטל גזרת שלושים<span class="footnote-ref" onclick="showFootnote('49', '49', event)">49</span>. </span></div>
+<p>חישוב לגבי כל חג וחג</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">הזמן שיושבים בו לפני פסח נחשב לשבעה ימים אפילו ישבו זמן מועט ביותר. הטעם הפשוט הוא שפרק זמן זה הוא בעצם זמן השבעה, שהרי הרגל הפסיק את השבעה. יחד עם שבעת ימי הפסח הם ארבעה עשר יום למניין השלושים, ואחר הפסח צריך להשלים רק שישה עשר יום לתשלום השלושים, כלומר שמסיים את השלושים בז' באייר בבוקר שמקצת היום ככולו<span class="footnote-ref" onclick="showFootnote('50', '50', event)">50</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">גם בשבועות צריך להשלים אחר החג רק שישה עשר יום, כיון שהזמן שלפני חג השבועות נחשב לשבעה ימים וחג השבועות עצמו נחשב כשבעה ימים, ומסיים בכ"ב בסיון בבוקר.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">אם נהג אבלות אפילו זמן מועט לפני ראש השנה, צריך לנהוג אבלות שלושים רק עד יום כיפור, ויום כיפור מבטל אבלות שלושים<span class="footnote-ref" onclick="showFootnote('51', '51', event)">51</span>. גם אם קבר את מתו בג' בתשרי - צום גדליה - יום כיפור מבטל גזרת שלושים, שהיום השביעי עולה לכאן ולכאן.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">אם נהג אבלות זמן מועט לפני יום כיפור, נוהג אבלות שלושים עד חג הסוכות, וחג הסוכות מבטל אבלות שלושים. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">אם נהג אבלות זמן מועט לפני חג הסוכות, יחד עם ימי החג נחשב לארבעה עשר יום, ושמיני עצרת נחשב שבעה הרי עשרים ואחת, ואסרו חג עשרים ושתים. ומשלים עוד שמונה ימים, ומסיים בא' במרחשוון בבוקר.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">אם הקבורה היתה בחול המועד סוכות, שמיני עצרת לא מבטל את האבלות. לפי מנהג עדות המזרח שמיני עצרת נחשב ליום אחד מתוך השלושים, חלק מהפוסקים האשכנזים מקילים להחשיבו כשבעה ימים מתוך השלושים<span class="footnote-ref" onclick="showFootnote('52', '52', event)">52</span>.</span></div>
+<p>נסתיימו השבעה לפני החג</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">אם נסתיימו שבעת ימי האבלות קודם החג, אפילו נסתיימו בערב החג בבוקר, החג מבטל את כל הנהגות אבלות שלושים. לכן כל האבלים מותרים ברחיצה, בכיבוס, בגיהוץ ובנטילת ציפורניים<span class="footnote-ref" onclick="showFootnote('53', '53', event)">53</span>. במקרים אלו יכול אבל על שאר קרובים (לא על אב ואם) להסתפר ולהתגלח ולהתרחץ סמוך לערב אחר תפילת מנחה, וכשיש צורך גדול אפשר מחצות היום. בערב פסח  עדיף להסתפר ולהתגלח קודם חצות היום<span class="footnote-ref" onclick="showFootnote('54', '54', event)">54</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">באבלות על שאר קרובים, כאשר חל היום השביעי בערב שבת והחג חל ביום ראשון, התירו להסתפר ולהתגלח בערב שבת לכבוד החג שיחול ביום ראשון. במקרה זה אם לא הסתפר בערב שבת או בערב החג, אסור לו להסתפר בחול המועד כיון שיכול היה להסתפר לפני המועד, אבל מותר להסתפר אחרי החג כיון שבטל ממנו דין שלושים<span class="footnote-ref" onclick="showFootnote('55', '55', event)">55</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">אם חל היום השביעי לאבלות בשבת החלה בערב חג, אסור להסתפר בערב שבת. במקרה זה מותר לו להסתפר בחול המועד כיון שלא היה יכול היה להסתפר קודם החג<span class="footnote-ref" onclick="showFootnote('56', '56', event)">56</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">אבל על אביו ואמו אסור להסתפר ולהתגלח עד שיעברו שלושים יום מהקבורה, ולאחר שלושים יום צריך שיגערו בו חבריו שעליו להסתפר ולהתגלח, ואין החג מבטל ממנו איסור תספורת אפילו לאחר שלושים עד שיגערו בו<span class="footnote-ref" onclick="showFootnote('57', '57', event)">57</span>. יש מי שמקל גם לאבל על אב ואם לאחר שלושים להסתפר בערב החג, אפילו ללא גערה<span class="footnote-ref" onclick="showFootnote('58', '58', event)">58</span>.  ולעיל כתבנו שאם כבר שהה שיעור שראוי לגעור בו דהיינו ששערותיו ארוכות ונראה מנוול, יכול לגלח ולהסתפר אף על פי שלא גערו בו. ויש מי שכתב להקל בגילוח הזקן כשיש צורך גדול, לאבל על אביו ואמו אפילו בתוך שלושים, בערב יום טוב ולאחר שיגערו בו<span class="footnote-ref" onclick="showFootnote('59', '59', event)">59</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">אבל על אביו ואמו ששלמו שלושים יום לאבלותו בחול המועד וגערו בו חבריו, מותר לו להסתפר ולהתגלח בחול המועד<span class="footnote-ref" onclick="showFootnote('60', '60', event)">60</span>.</span></div>
+<div class="sage-quote"><p><strong>דיני האבל במועדי השנה</strong></p>
+</div><p>ראש השנה ויום הכיפורים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">אבל בתוך שבעה לא יוצא מביתו לאמירת סליחות ויאמר ביחידות או יאסוף מניין בביתו. חוץ מאשר בערב ראש השנה שמרבים בסליחות שאז מותר לצאת מביתו לבית הכנסת<span class="footnote-ref" onclick="showFootnote('61', '61', event)">61</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">אבל תוך שלושים או תוך שנים עשר חודש, לכתחילה אין ממנים אותו לבעל תוקע או לשליח ציבור בימים נוראים, אלא אם כן הוחזק לכך או שאין הגון כמותו לכך<span class="footnote-ref" onclick="showFootnote('62', '62', event)">62</span>. ומנהג בני תימן שהאבל יכול להתמנות לבעל תוקע או לשליח ציבור בשבתות ובימים טובים בזמן אבלות שנים עשר חודש<span class="footnote-ref" onclick="showFootnote('63', '63', event)">63</span>.</span></div>
+<p>סוכות ושמיני עצרת</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">האבל חייב בסוכה<span class="footnote-ref" onclick="showFootnote('64', '64', event)">64</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">לפי האשכנזים אבל על אב ואם תוך שנים עשר חודש (או תוך שלושים על שאר קרובים) לא מקיף בלולבו את הבימה בחול המועד<span class="footnote-ref" onclick="showFootnote('65', '65', event)">65</span>, והטעם כיון שכתוב "ושמחתם לפני ה' אלהיכם שבעת ימים" והוא בשעת ההקפה<span class="footnote-ref" onclick="showFootnote('66', '66', event)">66</span>. אבל יכול להקיף ביום טוב ובהושענא רבא. ומי שיקיף בכל יום יש לו על מה שיסמוך<span class="footnote-ref" onclick="showFootnote('67', '67', event)">67</span>. ויש מי שכתב שהאבל חייב להקיף עם הלולב כדרכו, ושאין לחלק בזה בין אשכנזים למנהג עדות המזרח<span class="footnote-ref" onclick="showFootnote('68', '68', event)">68</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">בשמחת בית השואבה יכול להשתתף באמירת שיר המעלות ולא בריקודים.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">האבל יכול להשתתף בלימוד ליל הושענא רבה כדרכו, אפילו אם נפטר קרובו בחג הסוכות<span class="footnote-ref" onclick="showFootnote('69', '69', event)">69</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">בשמחת תורה לפי עדות המזרח מותר לאבל לאחר שבעה ימים מהפטירה, להשתתף כרגיל בריקודים. לפי מנהג האשכנזים רשאי האבל להקיף עם ספר התורה, אבל אינו משתתף בריקודים<span class="footnote-ref" onclick="showFootnote('70', '70', event)">70</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">מותר לכבד את האבל בתוך שנים עשר חודש להיות חתן תורה או חתן בראשית, וכן מותר אם כבר הזמינוהו להיות חתן תורה או חתן בראשית, ונפטר לו קרוב ברגל כדי שלא ייראה כאבלות בפרהסיה ברגל<span class="footnote-ref" onclick="showFootnote('71', '71', event)">71</span>. ויש דעות שאם אירע לו אבל בחג, עדיף שילך לבית כנסת אחר וימנו חתן אחר תחתיו<span class="footnote-ref" onclick="showFootnote('72', '72', event)">72</span>.</span></div>
+<p>חנוכה ופורים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">חנוכה ופורים לא מפסיקים את האבלות. ימי החנוכה והפורים נמנים למניין אבלות השבעה. אך יש הבדל בין חנוכה ופורים כפי שיפורט לפנינו.</span></div>
+<p>חנוכה - ההלכות דלהלן מתייחסות לאבלות שבעה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">בחנוכה נוהגים כל דיני אבלות. האבל מברך "שהחיינו" בלילה הראשון בביתו, אבל לא בבית הכנסת כיון שברכה זו היא לצורך הציבור בלבד שהרי בביתו צריך לברך שוב. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">האבל יכול לשמש כשליח ציבור בחנוכה, אך לא ישמש כחזן באמירת הלל. אין אומרים הלל בבית האבל בחנוכה אך הציבור צריכים לאומרו אחר כך בביתם<span class="footnote-ref" onclick="showFootnote('73', '73', event)">73</span>. ויש אומרים שהציבור יאמרו בבית האבל חוץ מאשר האבל שאינו אומר<span class="footnote-ref" onclick="showFootnote('74', '74', event)">74</span>.</span></div>
+<p>פורים- ההלכות דלהלן מתייחסות לאבלות שבעה </p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">בשני ימי הפורים לא נוהגים אבלות בפרהסיה, אלא רק דברים שבצנעה – בין איש לאשתו ורחיצה<span class="footnote-ref" onclick="showFootnote('75', '75', event)">75</span>. ומנהג בני תימן שכל מנהגי אבלות נוהגים בפורים<span class="footnote-ref" onclick="showFootnote('76', '76', event)">76</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">האבלים חייבים לקיים את כל מצוות היום: קריאת המגילה, משלוח מנות, מתנות לאביונים וסעודת פורים.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">כל הקרובים קורעים בפורים, ואחר הלוויה מחליפים בגדים לבגדי חג כדי שלא להראות אבלות בפרהסיה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">אוכלים סעודת הבראה, אבל לא ביצים קשות כנהוג, אלא מיני מזונות וכדומה<span class="footnote-ref" onclick="showFootnote('77', '77', event)">77</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">מותר להחליף בגדים לבגדי חג, ומותר לנעול נעלי עור, אבל צריך למעט במיני שמחה שעושים. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ז.</span><span class="list-content">האבל חייב במשלוח מנות, ונהגו ששולח רק משלוח פשוט אחד לקיום המצוה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ח.</span><span class="list-content">על פי מנהגי האשכנזים אין שולחים לאבל משלוח מנות, אבל מותר לשלוח לאשתו ולילדיו. אם שלחו לו, יכול לשלוח חזרה<span class="footnote-ref" onclick="showFootnote('78', '78', event)">78</span>. יש שנהגו לשלוח לאבל לאחר שלושים, אפילו בתוך שנים עשר חודש על אביו ואמו<span class="footnote-ref" onclick="showFootnote('79', '79', event)">79</span>. עדות המזרח נהגו לשלוח מנות לאבל כרגיל<span class="footnote-ref" onclick="showFootnote('80', '80', event)">80</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ט.</span><span class="list-content">אם האבל הוא עני, ברור שמותר ואף מצוה לשלוח לו מתנות לאביונים בפורים.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ'.</span><span class="list-content">בליל פורים אם יכול האבל לסדר מניין בביתו לתפילה ולקריאת המגילה, יתפלל ויקרא המגילה בביתו, ואם אי אפשר מותר לו ללכת לבית הכנסת. ביום מותר ללכת לבית הכנסת לקריאת מגילה אף אם הוא יכול לסדר מניין בביתו. אבל ביום י"ד בירושלים וביום ט"ו בפרזים, אינו יוצא מביתו כדי להתפלל בבית הכנסת.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"א.</span><span class="list-content">מעיקר הדין האבל יכול לקרוא את המגילה בציבור כדי להוציאם ידי חובה, ובודאי שיש להתיר אם יש צורך בכך לציבור<span class="footnote-ref" onclick="showFootnote('81', '81', event)">81</span>, ואחר יברך הברכות משום ברכת שהחיינו; ויש מתירים לאבל לברך שהחיינו שהרי ברכה זו היא גם בשבילו, כי גם אם היה קורא לעצמו היה מברך שהחיינו<span class="footnote-ref" onclick="showFootnote('82', '82', event)">82</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ב.</span><span class="list-content">אף על פי שאין אבלות בפרסיה נוהגת בפורים, אפשר לבוא ולנחם את האבלים<span class="footnote-ref" onclick="showFootnote('83', '83', event)">83</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ג.</span><span class="list-content">דיני פורים המשולש בירושלים, מובאים כאן במקורות<span class="footnote-ref" onclick="showFootnote('84', '84', event)">84</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ד.</span><span class="list-content">אם חל פורים ביום השביעי לאבלות, עולים לקבר האבלים לבדם ולא מוסיפים אנשים למניין<span class="footnote-ref" onclick="showFootnote('85', '85', event)">85</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ה.</span><span class="list-content">נגן שהוא אבל בתוך שנים עשר חודש, מותר לנגן לכבוד פורים או בסעודת מצוה<span class="footnote-ref" onclick="showFootnote('86', '86', event)">86</span>.</span></div>
+<p>פסח</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ו.</span><span class="list-content">אין מברים את האבל בערב פסח מזמן איסור חמץ ואילך.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ז.</span><span class="list-content">אבל חייב בהסיבה, ומכל מקום יסב בשינוי קצת.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ח.</span><span class="list-content">בליל פסח אומר הלל כדרכו.</span></div>
+<p>יום העצמאות</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ט.</span><span class="list-content">ביום העצמאות נוהגים כל דיני האבלות<span class="footnote-ref" onclick="showFootnote('87', '87', event)">87</span>.</span></div>
+<p>שבועות</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל'.</span><span class="list-content"> בליל שבועות יכול לומר תיקון ליל שבועות אם רגיל לקרותו כל שנה.</span></div>
+<p>תשעה באב</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"א.</span><span class="list-content">בתשעה באב התירו לאבל לצאת לבית הכנסת ביום, ולאחר שלושה ימים גם בלילה. ולא צריך לשנות מקומו כיון שאז כולם אבלים<span class="footnote-ref" onclick="showFootnote('88', '88', event)">88</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ב.</span><span class="list-content">מעיקר הדין מותר לאבל לעלות למפטיר בתשעה באב בשחרית כיון שההפטרה בשחרית היא מדברים הרעים שבירמיהו, אך לא במנחה. אך למעשה עדיף שלא יעלה<span class="footnote-ref" onclick="showFootnote('89', '89', event)">89</span>.</span></div>
+<div class="sage-quote"><p><strong>האבל כשליח ציבור במועדים</strong></p>
+</div><div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">המנהג הוא שאין האבל נעשה שליח ציבור בשבת ויום טוב<span class="footnote-ref" onclick="showFootnote('90', '90', event)">90</span>, גם לא בראש השנה ויום כיפור, אפילו במנחה ומעריב, אפילו בפסוקי דזמרה<span class="footnote-ref" onclick="showFootnote('91', '91', event)">91</span>.  הטעם, כיון שמידת הדין מתוחה על האבל. ואם אין אחר כמותו, מותר<span class="footnote-ref" onclick="showFootnote('92', '92', event)">92</span>. ומנהג עדות המזרח שהאבל עולה כשליח ציבור גם בראש השנה וביום הכיפורים<span class="footnote-ref" onclick="showFootnote('93', '93', event)">93</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">אם האבל הוא שליח הציבור הקבוע, התירו לו לעבור לפני התיבה בשבת ויום טוב ובימים נוראים. אם אין אחר מוכשר כמוהו גם כן יכול לשמש כשליח ציבור. במקרים אלו התירו לו אפילו אם מת לו קרוב בתוך החג והאבלות נדחתה לאחר החג. אמנם יש שהקפידו לאפשר לאבל לשמש כחזן רק אם כבר פגע בו החג אחר השבעה וביטל את השלושים<span class="footnote-ref" onclick="showFootnote('94', '94', event)">94</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">דין חול המועד לעניין זה כדין יום טוב.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">בראש חודש, בחנוכה ובפורים<span class="footnote-ref" onclick="showFootnote('95', '95', event)">95</span>, נהגו האשכנזים שהאבל שליח ציבור במנחה ובמעריב במשך כל התפילה, ואילו בשחרית האבל שליח ציבור עד הלל, והלל ומוסף מתפלל אחר; ולפי מנהג עדות המזרח יכול להיות שליח ציבור גם בהלל<span class="footnote-ref" onclick="showFootnote('96', '96', event)">96</span>. יש שנמנעו בראש חודש גם בשחרית<span class="footnote-ref" onclick="showFootnote('97', '97', event)">97</span>; ויש שנמנעו לגמרי בימים אלו<span class="footnote-ref" onclick="showFootnote('98', '98', event)">98</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">לפי מנהג האשכנזים מותר לאבל לשמש כשליח ציבור בסליחות, אפילו בתוך השבעה. לפי מנהג עדות המזרח, בתוך השבעה לא ישמש כשליח ציבור בסליחות וגם לא בתפילה, אלא אם כן אין אחר הראוי כמותו<span class="footnote-ref" onclick="showFootnote('99', '99', event)">99</span>. ויש מי שכתב שבתוך השבעה גם לפי האשכנזים אין לאבל להיות שליח ציבור בסליחות, וכל שכן בערב ראש השנה, כיון שמידת הדין מתוחה עליו, ואין מתאים שהוא יהיה שליח הציבור<span class="footnote-ref" onclick="showFootnote('100', '100', event)">100</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">אבל לאחר השבעה יכול להיות שליח ציבור בסליחות<span class="footnote-ref" onclick="showFootnote('101', '101', event)">101</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">המנהג שהאבל עובר לפני התיבה בימים שאין אומרים תחנון<span class="footnote-ref" onclick="showFootnote('102', '102', event)">102</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">אבל שדרכו להיות שליח ציבור ביום השנה על אחד מקרוביו, והוא אחר השבעה לאבלות על קרוב אחר, ויום השנה חל בשבת יכול להיות שליח ציבור בשבת כיון שאין אבלות בפרהסיה בשבת אפילו חל היום השביעי בשבת<span class="footnote-ref" onclick="showFootnote('103', '103', event)">103</span>.</span></div>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " במסכת מועד קטן (יט, א – ב) ובאבל רבתי (פרק ז, א) מובאות דעות שונות כמה זמן יש לנהוג אבלות לפני הרגל כדי שתתבטל. להלכה נפסק כחכמים (באבל רבתי כתוב בית הלל) שאפילו נהגו זמן מועט אבלות, הרגל מפסיקה. טור ושלחן ערוך יורה דעה סימן שצט.", "2": " שו\"ת חתם סופר יורה דעה סימן שמ\"ח (מובא בפני ברוך סימן כז הערה א). צרור החיים עמוד 98.", "3": " שלחן ערוך יורה דעה סימן שצט, ו.", "4": " שלחן ערוך אורח חיים סימן תקמח, א. גשר החיים פרק כג, א, א - ב.", "5": " הערת הרב נבנצל שליט\"א – לדעת הרמב\"ם אינו נוהג בחג דברים שבצנעה.", "6": " שלחן ערוך יורה דעה סימן שצט, א. תב, י.", "7": " משנה ברורה סימן תקמח סעיף קטן נג.", "8": " ילקוט יוסף סימן מב, ג.", "9": " שלחן ערוך יורה דעה סימן שצט, יד.", "10": " נטעי גבריאל חלק א, פרק קלג, טו.", "11": " משנה ברורה תקמח, סעיף קטן מב. גשר החיים פרק כג, ג, א. צרור החיים פיסקה רכח. רל.", "12": " שלחן ערוך ורמ\"א, יורה דעה סימן שצט, ה. שפתי כהן שם סעיף קטן יד. גשר החיים פרק כג, ג, א. שמירת שבת כהלכתה חלק ב, פרק סה, מה. ", "13": " משנה ברורה סימן תרו, סעיף קטן כה.", "14": " דרכי משה יורה דעה סימן שפד, ג.", "15": " פתחי תשובה סימן שפז, א.", "16": " נטעי גבריאל חלק א, פרק קכב, ב.", "17": " אמנם בטור יורה דעה שצט הביא דעות שלא מקילים שתי קולות באבלות אחת, דהיינו שרגל אחד יבטל גזרת שבעה ורגל שני יבטל גזרת שלושים, אך להלכה נפסק להקל שתי פעמים באבלות אחת, וכך נוהגים למעשה – בית יוסף ושלחן ערוך שם. ", "18": " שפתי כהן שם סעיף קטן טז.", "19": " שלחן ערוך אורח חיים סימן תקמח, ח. גשר החיים פרק כג, ג, ד.", "20": " צרור החיים פיסקה רכח. ", "21": " ילקוט יוסף סימן מג, ד. הערת הרב נבנצל שליט\"א - ויש אומרים שיצום. ובחזון למועד (פרק יג, כט) כתב שמותר למסיים המסכת לבוא לבית האבל.", "22": " משנה ברורה סימן תקמח סעיף קטן ג. הערת הרב נבנצל שליט\"א – אבל לא ישאירוהו במקום שאוכלים.", "23": "שלחן ערוך אורח חיים סימן תקכו, א. אמנם מצד הדין אפשר לקברו על ידי גויים אבל מציאות זו נדירה כיום בארץ ישראל. בחוץ לארץ יש לברר את המציאות בכל מקום ומקום.", "24": " שלחן ערוך יורה דעה סימן תא, א. הערת הרב נבנצל שליט\"א – ועל חכם בפניו יש מתירים, כדלעיל.", "25": " שלחן ערוך ורמ\"א, יורה דעה סימן תא, ו. ועיין עוד לעיל בפרק על סדרי הלוויה והקבורה בפיסקה על צידוק הדין מעמוד 69 הלכה טו, @ ובהערה שם.", "26": " בגשר החיים (פרק ד, כד) מביא ארבע שיטות שונות במנהגי הקריעה בחול המועד. ולמעשה כתב שבמקום שאין מנהג יש לקרוע על כל הקרובים. (ע\"ע שלחן ערוך אורח חיים סימן תקמז, ו). ", "27": " שלחן ערוך יורה דעה סימן תא, ד.", "28": " שלחן ערוך ורמ\"א, יורה דעה סימן שעח, יא. גשר החיים פרק כ, ב, יא. ילקוט יוסף סימן יג, יג. צרור החיים פיסקה עג.", "29": " שלחן ערוך אורח חיים סימן תקמז, ח. יורה דעה סימן תא, ד. ", "30": " עיין באוצר המושגים ערך מנהג ירושלים.", "31": " ילקוט יוסף סימן יט, א; וסימן מב, ח, על פי דעת הרמב\"ם שאין אבלות נוהגת כלל ברגל, אפילו דברים שבצנעה. והתיר דווקא בשעת הדחק כגון שבעלה עלול להיכשל בהוצאת זרע לבטלה. וכן הדין גם אם הבעל באבלות.", "32": " באר לחי רואי סימן קמד בשם ספר שתילי זיתים ומהרי\"ץ, בית מועד ונפש כל חי. ", "33": " מגן אברהם סימן קכח, סעיף קטן סו.", "34": " גשר החיים פרק כג, א, ד. ילקוט יוסף סימן מ, ט.", "35": " צרור החיים פיסקה רכד. ילקוט יוסף שם י, בשם רבני ירושלים.", "36": " גליון מהרש\"א יורה דעה סימן שפט, א.", "37": " גשר החיים פרק כג, א, ד. אמנם בשמירת שבת כהלכתה (חלק ב, פרק סה, לח) התיר לאבל, רק אם אין אדם אחר שיוכל למכור במקומו. ", "38": " באר לחי רואי שם.", "39": " שלחן ערוך יורה דעה שצט, א. צרור החיים עמוד 100.", "40": " פני ברוך סימן כח, כ; בשם משמרת שלום.", "41": " גשר החיים פרק כ, א, ב.", "42": " שלחן ערוך אורח חיים סימן תקיד, ה. ביאור הלכה שם דיבור המתחיל \"נר של בטלה\".", "43": " ילקוט יוסף סימן מ, מה.", "44": " שם סימן מב, יז.", "45": " גשר החיים פרק יח, ד, יא.", "46": " ילקוט יוסף סימן מב, יח.", "47": " שלחן ערוך יורה דעה סימן שצט, יג; בשונה ממה שפסק באורח חיים סימן תקמח, ג. ילקוט יוסף סימן מב, כה. וראה טעם לכך באוצר המושגים ערך אבלות מהתורה או מדרבנן.", "48": " שלחן ערוך יורה דעה שצט, א.", "49": " שלחן ערוך שם, ג.", "50": " בשלחן ערוך (יורה דעה סימן שצט, ז) חישב לפי חוץ לארץ ששם נוהגים יום טוב שני של גלויות. אבל בארץ משלימים שישה עשר יום. גשר החיים פרק כג, ב, ז.", "51": " שלחן ערוך שם. גשר החיים שם. וראה לעיל הערה 624 @ בפיסקה 'חגים סמוכים'. ", "52": " שלחן ערוך יורה דעה סימן שצט, ב; ובשפתי כהן וטורי זהב שם. במשנה ברורה (סימן תקמח סעיף קטן ד) כתב ששמיני עצרת נחשב ליום אחד בלבד. בגשר החיים (פרק כג, ב, יב) כתב להקל רק בשעת הדחק להחשיבו כשבעה ימים. ילקוט יוסף סימן מב, יט.", "53": " ערוך השלחן יורה דעה סימן שצט, יג. וכל זה גם לדעת הרמ\"א שהחמיר ברחיצה לאחר שבעה (סימן שפא, א), ולדעת השלחן ערוך שם ממילא מותר ברחיצה לאחר שבעה.", "54": " שלחן ערוך ורמ\"א, יורה דעה סימן שצט, ג. משנה ברורה סימן תקמח סעיף קטן לא.", "55": " שלחן ערוך יורה דעה סימן שצט, ג. גשר החיים פרק כג, ב, ה.", "56": " שלחן ערוך שם.", "57": " שלחן ערוך אורח חיים סימן תקמח, ט. יורה דעה סימן שצט, ד.", "58": " צרור החיים פיסקה קפ.", "59": " ילקוט יוסף סימן מב, כב. וטעם לכך הביא ביביע אומר חלק א, יורה דעה סימן כה.", "60": " ילקוט יוסף סימן מב, כג.", "61": " שלחן ערוך אורח חיים סימן תקפא, א. ובצרור החיים (פיסקה קא) כתב שהאבל צריך לצאת מביתו לסליחות, ולא חילק.", "62": " גשר החיים פרק כג, ד, א – ב. ובילקוט יוסף (סימן מג, פורים, ג) כתב שמנהג עדות המזרח להקל בזה. ואסור שהאבל יתקע בשופר ואחר יברך שהחיינו, כיון שנראה כאבלות בפרהסיה.", "63": " שלחן ערוך המקוצר עיני יצחק, יורה דעה סימן שצ, ו.", "64": " שלחן ערוך אורח חיים סימן תרמ, ה.", "65": " הגהות הרמ\"א על שלחן ערוך אורח חיים תרס, ב.", "66": " משנה ברורה שם, סעיף קטן ט.", "67": " גשר החיים פרק כג, ג, ז.", "68": " צרור החיים פיסקה רלד, שלא כרמ\"א.", "69": " ילקוט יוסף סימן כב, כד, בשם רבני ירושלים.", "70": " גשר החיים פרק כג, ג, ז. צרור החיים פיסקה רלה.", "71": " ילקוט יוסף סימן כב, כג. שם לח, כז.", "72": " ראה בפני ברוך סימן כט, יא.", "73": " מגן אברהם על שלחן ערוך אורח חיים קלא, סעיף קטן י", "74": " משנה ברורה סימן תרפג ושערי תשובה שם. ובגשר החיים (פרק כ, ג, ז) הביא דעות שגם האבל יאמר לבדו את ההלל.", "75": " אמנם בשלחן ערוך (אורח חיים תרצו, ד) כתב שכל דברי אבלות נוהגים בפורים. אבל בחלק יורה דעה (סימן תא, ז) פסק שבפורים נוהגים רק דברים שבצנעה. כך פסק גם הרמ\"א בהגהותיו בחלק אורח חיים וכן פסק במשנה ברורה שם. כך גם פסק בגשר החיים פרק כג, ג, ט; ובצרור החיים סימן רלו.", "76": " כשיטת הרמב\"ם (הלכות אבל פרק יא, ג), באר לחי רואי סימן קנז ממהרי\"ץ ובית מועד ושם טוב. ", "77": " בילקוט יוסף (סימן מג, פורים, א) כתב שמנהג ירושלים להברות בפורים רק על אב ואם, כמו בחול המועד. ועיין לעיל הערה 379להשלים #@ שבספר גשר החיים (פרק כ, ב, י) כתב שאין מקור למנהג זה.", "78": " צרור החיים פיסקה רלז.", "79": " גשר החיים פרק כא, ז, י. על פי הרמ\"א ביורה דעה סוף סימן שפה, שבמקום שנהגו לשאול בשלום אבל בשבת שולחים מנות לאחר שלושים. הערת הרב נבנצל שליט\"א – ויש שלא נהגו כן.", "80": " ילקוט יוסף סימן כג, טז.", "81": " משנה ברורה תרצו, סעיף קטן יב.", "82": " משנה ברורה תרצב, סעיף קטן ב. פני ברוך סימן כט, כא ובהערה שם.", "83": " שהרי אפילו במועד התירו לנחמם, שלחן ערוך יורה דעה שצט, א.", "84": " ביום שישי, לדעת הסוברים שבכל שנה אין דיני אבלות נוהגים בפורים, כך הדין גם בשנה זו. ולגבי יום ראשון בירושלים, יש אומרים שדינו כפורים ממש ואין בו אבלות בפרהסיה (הגרש\"ז אויערבך). ויש אומרים שכל דיני אבלות נוהגים בו (הגרי\"ש אלישיב והגרב\"צ אבא שאול). ויש אומרים שנוהג דיני אבלות מלבד ישיבה על הקרקע (הגרח\"ז גרוסברג). ויש מי שכתב שנוהג אבלות במשך היום מלבד זמן הסעודה (הגר\"מ שטרנבוך). וראה בפירוט בספר מקראי קודש (הרב הררי) פרק טו, י, כו.", "85": " גשר החיים פרק כג, ג, ט.", "86": " ילקוט יוסף סימן מג, פורים, ח.", "87": " הרב משה מימון, מתוך \"הלכות יום העצמאות ויום ירושלים\" עמוד שמא. ", "88": " שלחן ערוך אורח חיים תקנט, ו; ומשנה ברורה שם. הערת הרב נבנצל שליט\"א – הישיבה על הארץ היא עצמה שינוי מקום. אבל במנחה, כשכבר אין יושבים על הארץ, נראה שהאבל צריך לשנות מקומו. ", "89": " ילקוט יוסף סימן כב, כ – כב.", "90": " הגהות הרמ\"א על שלחן ערוך יורה דעה סימן שעו, ד. שמירת שבת כהלכתה חלק ב, פרק סה, כז.", "91": " גשר החיים פרק כג, ד, א.", "92": " מגן אברהם על שלחן ערוך אורח חיים סימן תקפא, סעיף קטן ד. משנה ברורה שם סעיף קטן ז. שפתי כהן יורה דעה סימן שעו סעיף קטן יד.", "93": " ילקוט יוסף סימן כט, ה.", "94": " גשר החיים שם הלכה ג.", "95": " הערת הרב נבנצל שליט\"א – אדמו\"ר זללה\"ה (הגרש\"ז אויערבך זצ\"ל) נקט שאין האבל עובר לפני התיבה ביום הפורים של אותו מקום כלל.", "96": " צרור החיים פיסקה ריז.", "97": " משנה ברורה סימן תקפא סעיף קטן ז.", "98": " קונטרס מאמר קדישין מובא בביאור הלכה אורח חיים סימן קלב.", "99": " צרור החיים פיסקה קנז.", "100": " פני ברוך סימן כט, ב, בשם מטה אפרים. אמנם בהערה שם הביא את דעת הנודע ביהודה, שאין שום סמך למחות ביד האבל מלהיות שליח ציבור בעשרת ימי תשובה גם בתוך השבעה.", "101": " משנה ברורה סימן תקפא, סעיף קטן ז. ", "102": " קונטרס מאמר קדישין הנ\"ל.", "103": " גשר החיים פרק כג, ד, ח."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

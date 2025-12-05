@@ -99,7 +99,6 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
 
   Future<void> _loadHtmlContent() async {
     try {
-      print('assets/html/${widget.subChapter.htmlFileName}');
       var htmlContent = await rootBundle.loadString(
         'assets/html/${widget.subChapter.htmlFileName}',
       );

@@ -5,6 +5,7 @@ import '../models/models.dart';
 /// Expandable list item widget for displaying a chapter with sub-chapters
 class ChapterListItem extends StatefulWidget {
   final Chapter chapter;
+  final List<SubChapter>? filteredSubChapters;
   final Function(SubChapter) onSubChapterTap;
   final bool Function(String subChapterId) hasProgress;
   final bool initiallyExpanded;
@@ -12,6 +13,7 @@ class ChapterListItem extends StatefulWidget {
   const ChapterListItem({
     super.key,
     required this.chapter,
+    this.filteredSubChapters,
     required this.onSubChapterTap,
     required this.hasProgress,
     this.initiallyExpanded = false,
@@ -27,6 +29,9 @@ class _ChapterListItemState extends State<ChapterListItem>
   late AnimationController _animationController;
   late Animation<double> _iconRotation;
   late Animation<double> _expandAnimation;
+
+  List<SubChapter> get _subChapters =>
+      widget.filteredSubChapters ?? widget.chapter.subChapters;
 
   @override
   void initState() {
@@ -72,7 +77,7 @@ class _ChapterListItemState extends State<ChapterListItem>
   @override
   Widget build(BuildContext context) {
     // Check if any sub-chapter has progress
-    final hasAnyProgress = widget.chapter.subChapters
+    final hasAnyProgress = _subChapters
         .any((sub) => widget.hasProgress(sub.id));
 
     return Column(
@@ -140,7 +145,7 @@ class _ChapterListItemState extends State<ChapterListItem>
                         ],
                         const SizedBox(height: 4),
                         Text(
-                          '${widget.chapter.subChapters.length} נושאים',
+                          '${_subChapters.length} נושאים',
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: AppTheme.secondaryTextColor,
                             fontSize: 11,
@@ -166,7 +171,7 @@ class _ChapterListItemState extends State<ChapterListItem>
         SizeTransition(
           sizeFactor: _expandAnimation,
           child: Column(
-            children: widget.chapter.subChapters.map((subChapter) {
+            children: _subChapters.map((subChapter) {
               final hasProgress = widget.hasProgress(subChapter.id);
               return _buildSubChapterItem(subChapter, hasProgress);
             }).toList(),

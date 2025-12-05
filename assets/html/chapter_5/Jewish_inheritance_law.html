@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p>חלק חמישי – צוואות וירושות</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content"><strong>דיני ירושה על פי ההלכה היהודית</strong><strong> – </strong>הרב ישי בוכריס</span></div>
+<p style="font-size: 1.15rem">הגישה ההלכתית לעומת חוק הירושה</p>
+<p>חוק הירושה קובע מי הם היורשים על פי חוק המדינה אם לא נכתבה צוואה, אך אם אדם עורך צוואה המועילה על פי חוק, החוק מכיר בכך ומקיים את דבר הצוואה. על פי ההלכה אין אפשרות לערוך צוואה באותו אופן כפי שחוקי המדינה קובעים. ההלכה רואה את שליטתו של האדם רק בעודו חי, לאחר מיתתו הרכוש נעשה רכוש היורשים, וממילא אין לו יכולת לשלוט על ממונו לאחר מיתתו.</p>
+<p>יש אמנם יוצא מן הכלל והוא צוואת "שכיב מרע". כאשר אדם מוטל על ערש דווי, תיקנו חז"ל שיש לקבל את צוואתו, על אף שמצווה שיחולו הציוויים לאחר מותו. זאת כדי שהמצוֶה לא יחשוש מאי קיום צוואתו, ועובדה זו תשמש כזירוז למיתתו. אך אדם שאינו מוגדר כ"שכיב מרע" אינו יכול לצוות על נכסיו לאחר מותו כאמור לעיל.<span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span> </p>
+<p>יש דרך נוספת בהלכה לחלוקת רכוש על פי צוואה, הנקראת "מצוה לקיים דברי המת". כלומר, אם ציווה אדם על חלוקת נכסיו בדרך כל שהיא, יש מצוה לקיים את דבריו. אך דרך זו כרוכה בכמה תנאים הקשים לביצוע. התנאי העיקרי הוא שהנכסים שאותם הוא מעוניין לחלק, יושלשו ביד שליש בעודו בחייו. ישנו חיסרון נוסף לדעת רבים מן הפוסקים והוא שאין זכות משפטית <u>למקבל המתנה</u> אלא יש מצוה על <u>היורשים</u> לקיים דברי המת, ואם אינם חפצים בכך, יתכן שלא ניתן לכפות זאת עליהם.</p>
+<p><strong>לסיכום: החוק רואה במוריש בעלים על נכסיו אף לאחר מותו, ואילו ההלכה רואה במוריש בעלים על נכסיו עד מותו, אך מאז ואילך אין הוא יכול לצוות על העיזבון.</strong></p>
+<p>על אף האמור לעיל, יש דרך משפטית המועילה על פי ההלכה שבה יוכל לחלק את נכסיו בהתאם לרצונו, ונביא אותה לקמן. כמובן, יש המערערים על דרך זו משום שיש בזה מעין עקיפת רוח ההלכה, הקובעת חלוקה מסוימת ואילו המוריש הנ"ל גורם לחלוקה אחרת. יש שראו בכך מעשה הגובל באיסור, וכך נאמר בשולחן ערוך (חושן משפט רפב, א): </p>
+<div class="sage-quote"><p>כל הנותן נכסיו לאחרים והניח היורשים, אף על פי שאין היורשים נוהגים בו כשורה אין רוח חכמים נוחה הימנו, וזכו האחרים בכל מה שנתן להם. ומידת חסידות שלא להעיד בצוואה שמעבירין בה הירושה מהיורש, אפילו מבן שאינו נוהג כשורה, לאחיו חכם ונוהג כשורה. </p>
+</div><p>כדי להתגבר  על חיסרון זה יש המציעים להשאיר חלק מן העיזבון שיחולק על פי דיני הירושה לפי ההלכה.</p>
+<p style="font-size: 1.15rem">הצורך והתועלת בכתיבת צוואה כיום</p>
+<p>כיום אנו חיים במדינה שיש בה חוקי ירושה השונים מדיני הירושה על פי ההלכה, ולכן כדאי לכתוב צוואה אף למי שמעונין שהחלוקה תהא על פי ההלכה בלא שינוי כלל, משום שאם לא תיכתב צוואה, העיזבון יחולק על פי החוק ולא על פי ההלכה. אם מעוניינים בחלוקה השונה אפילו במקצת מזו של החוק ומזו של ההלכה, יש לכתוב זאת באופן ברור ומפורט בצוואה. צריך להקפיד שהצוואה תועיל על פי ההלכה וגם על פי החוק.</p>
+<p>מדין תורה הבנות לא יורשות. אך חכמים הקנו להן לעתים זכויות יתר מופלגות מאשר לבנים, (לדוגמא - הן מתפרנסות מהנכסים כל זמן שלא נישאו - כתובות קח, ב; הן מקבלות עישור נכסים לצורך נדוניה כדי שתוכלנה להינשא – שם, סח). ומנהג העולם, המצוטט גם בספרי פסיקה תורניים, הוא לתת גם לבנות חלק, פעמים רבות חלק זהה לחלק של בן. יש לכך גם הגדרה בספרי הפוסקים "שטר זכר", שמשמעותו היא שבת נוטלת כמו הבנים הזכרים, או שנוטלת חצי מהבנים – "שטר חצי זכר" (רמ"א אבן העזר סוף סימן קח, גשר החיים פרק א, ח, ב).</p>
+<p>יש תועלת מרובה בנתינת חלק מהנכסים גם לבנות, וראוי לעשות כן. ראשית מפני שזהו מנהג העולם, וחז"ל עצמם תיקנו תקנות רבות דווקא עבור הבנות. שנית, כדי למנוע ריב ומחלוקת בין יורשיו, למנוע מצב שבו חלק מהיורשים יתבעו ללכת על פי דין תורה, וחלק אחר יתבע לקיים את חלוקת העיזבון על פי חוקי המדינה העומדים בניגוד לדין תורה. </p>
+<p>גם אם לא השאיר המנוח צוואה, יהדרו הבנים להשתוות ולתת מחלקם לבנות מטעמים אלו, וכל שכן שיש לעשות כן ביחס לאשת המנוח (גשר החיים שם).</p>
+<p style="font-size: 1.15rem">עקרונות הצוואה על פי ההלכה</p>
+<p>כאמור לעיל, לאחר מות  המוריש אין הוא נחשב כבעלים על העיזבון, ועל כן אין הוא יכול לצוות עליו. כדי לפתור בעיה זו יש שתי אפשרויות של צוואה המועילות על פי ההלכה:</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">צוואה המבוססת על מתנת בריא - הקנאת הנכסים כמתנה בהיותו חי.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">צוואה המבוססת על התחייבות ממונית למוטב הרצוי.</span></div>
+<p style="font-size: 1.15rem">צוואה המבוססת על מתנת בריא, וחסרונותיה</p>
+<p>ברור שאדם יכול לתת מתנות מנכסיו כאוות נפשו כל עוד הוא חי, כיון שהוא הבעלים של נכסיו. אמנם משום שעיקרון הצוואה הינו כמתנה של אדם חי, ישנם חסרונות בשיטה זו, ויש כמה גורמים שצריכים להילקח בחשבון:</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">אם נותן המתנה הקנה את הנכס, כיצד יוכל הוא להשתמש בו עד סוף ימיו?</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">מתנה אפשר לתת רק מנכסים שברשותו של הנותן. נכסים שעתידים להיות של הנותן לאחר עריכת הצוואה לא תחול המתנה לגביהם.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">אין אפשרות לתת מתנה לאדם שנולד לאחר נתינת המתנה, ועל כן אם משעת עריכת הצוואה ועד למותו של המוריש נולדו לו ילדים נוספים הם לא יכללו בחלוקת הירושה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">ישנם קניינים המועילים לקרקעות ואינם מועילים להקנות מטלטלין, ויש להיפך, ויש שמועילים לקרקעות ולמטלטלין אך לא  לחובות כספיים ולפקדונות בנק. על כן צריך לתת את הדעת באשר לשאר הנכסים שלא מועיל להם הקניין.</span></div>
+<p style="font-size: 1.15rem">צוואה המבוססת על התחייבות ממונית, וחסרונותיה</p>
+<p style="font-size: 0.85rem">יש שיטה נוספת לכתיבת צוואה על פי ההלכה, והיא התחייבות ממונית על סך מסוים שאותו חפצים להעניק למוטב מסוים, אשר על פי ההלכה לא זכאי לקבל חלק מן הירושה. כך לדוגמא אם לראובן בת ושלושה בנים (שאין אף אחד מהם בכור, כיון שמדין תורה הבכור אמור לקבל פי שניים מאשר שאר האחים), וסך העיזבון שוויו  1000₪, והוא חפץ שבירושה יחלקו כל ילדיו בחלקים שווים, הרי שעליו להתחייב לבתו סכום של 250 ₪ ובכך יגרום שהחלוקה תהא שווה. </p>
+<p>החסרונות בשיטה זו:</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">כיון שאין המוריש יודע מה הוא סכום העיזבון לכשימות, לא ידע כמה עליו להתחייב. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">ע"פ שיטה זו יקבל המוטב את סכום כסף ההתחייבות, ולא חלק מהירושה ממש כמו שאר היורשים.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">אם ימכרו היורשים את כל הנכסים ולא יפרעו למוטב שמורישם התחייב כלפיו, כיצד ניתן לגבות את חוב מורישם?</span></div>
+<p>ישנם חסרונות נוספים , ויש דרכים לפתור חלק מן החסרונות, אך אין זה המקום להאריך בכך. בשתי השיטות המוצעות לעיל יש חסרונות. על כן נציע כאן נוסח של שטר צוואה שמועיל על פי ההלכה ועל פי החוק, ובא לפתור את רוב החסרונות. </p>
+<p><u><strong>נוסח צוואה</strong></u><u> </u><u><strong>לדוגמא</strong></u></p>
+<p>אני החתום מטה _______ בעל מס' תעודת זהות_______ כותב  צוואה זו בדעה צלולה ומרצוני הטוב כדי שתקוים לאחר אריכות ימי ושנותי (1).</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">אני מבטל בזאת כל צוואה ומסמך מחייב אחר שכתבתי או שהתחייבתי על פיו, ועורך צוואה זו (2).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">אני מקנה את כל רכושי מהיום ושעה אחת קודם מותי פרט לסכום השווה לארבעה דולרים לכל יורש האמור לרשת אותי על פי ההלכה, ולבכור סכום השווה לשמונה דולרים(3). למוטבים הבאים אני מקנה לפי החלוקה הבאה.</span></div>
+<p>לראובן נכס פלוני וסכום מסוים.</p>
+<p>לשמעון נכס פלוני וסכום מסוים.</p>
+<p>את שאר רכושי שלא הקניתי, יירשו יורשי על פי דין תורה.</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">את כל הרכוש הנ"ל אני מודה שהקניתי בקניין המועיל ביותר כל דבר לפי עניינו (4).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">אם יש דבר שהקניין אינו מועיל בו לא יגרע מתוקף שאר הדברים הנקנים (5).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">על רכוש שהקניין לא מועיל הנני מודה בהודאה גמורה שהתחייבתי בקניין גמור אגב סודר למוטבים הבאים לפלוני כך וכך אחוזים מהרכוש, לאלמוני כך וכך אחוזים מהרכוש (6).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">בכל ספק בפירוש צוואה זו יד המוטבים תהא על העליונה, וכן בכל ספק הלכתי ידונו לפי הפוסקים המקיימים צוואה זו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">התניתי עם המוטבים הנ"ל שאם אחזור בי מצוואה זו ע"י כתיבת צוואה אחרת או ע"י חזרה בכתב עם עדים כשרים מכל הצוואה או מחלקה תתבטל צוואה זו או חלקה כאמור.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">כל תנאי  שבצוואה זו נעשה כחומר כל תנאים  העשויים כתיקון חז"ל וכתנאי בני גד ובני ראובן (7).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">זכו בשטר זה עבור כל המוטבים בצוואה זו וקנו ממני בקניין המועיל על כל הנ"ל וכאילו נעשה בבי"ד חשוב.</span></div>
+<p>על זה באתי על החתום היום___________ , נאום____________ .</p>
+<p>   אנו החתומים מטה מאשרים בזה שהמצווה____________ בהיותו בדעה צלולה אמר לנו הוו עלי עדים על כל האמור בצוואה זו, ובפנינו חתם על כך, וזכינו עבור כל המוטבים לעיל, וקנינו ממנו בקניין המועיל על כל האמור לעיל.</p>
+<p>היום____________ </p>
+<p>נאום____________ עד</p>
+<p>נאום____________ עד.</p>
+<p>הסברים לנוסח הצוואה</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">(1)</span><span class="list-content">כל צוואה היא בעצם התחייבות ועל כן צריך שתיעשה בדעה צלולה, וכיון שהמוריש מצהיר שהוא בדעה צלולה והעדים חותמים על כך, הרי שיש העדאת עדים לא רק על הצוואה אלא גם על צלילות הדעת.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">(2)</span><span class="list-content">סעיף זה נועד כדי לא ליצור כפילויות בצוואה, מעשה העלול לפסול את שתי הצוואות.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">(3)</span><span class="list-content">יש הסוברים, שאסור להעביר נחלה מהאמורים לרשת, אף שהדבר נעשה בצוואה המועילה על פי ההלכה, וכדי להתגבר על כך משאיר המוריש סכום מסוים, שאותו היורשים יירשו לפי דין תורה. (בנוסח הצוואה הנ"ל, הסכום, הינו סכום השווה לארבעה דולרים לכל אחד מהבנים, וסכום השווה לשמונה דולרים לבכור).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">(4)</span><span class="list-content">כיון שהקניין לקניית קרקע שונה מהקניין הנצרך לקניית מטלטלין ומהקניין הנצרך לקניית חובות, בא סעיף זה לומר שהקניינים נעשו בדרך המועילה לכל עניין.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">(5)</span><span class="list-content">יש הסוברים שאם בשטר יש סעיף מסוים שנתבטל, הרי שבכך נפסל כל השטר. לשם כך נועד סעיף זה, שאומר שאף אם יתבטל חלק מן השטר לא יגרום הדבר לפסילת השטר כולו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">(6)</span><span class="list-content">כאמור יש עניינים שאין הקניין מועיל להם מחמת סיבות שונות, ומשום כך נקטנו סעיף זה, שמועיל מדין הודאת בעל דין, או שהוא בעצמו מהווה קניין מיוחד המועיל בהרבה מהמקומות, שקניינים אחרים אינם מועילים.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">(7)</span><span class="list-content">כל תנאי שאדם מתנה בקניינים צריך שיעשה לפי נוסח מסוים (לדוגמה צריך לכפול התנאי ועוד כללים שונים). סעיף זה בא להכליל את כל כללי התנאי בלא לפרט אותם.</span></div>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " אף בזה יש דעות הסוברות שכל אדם המצווה על נכסיו מוגדר כ\"מצווה מחמת מיתה\" ודומה דינו לצוואת \"שכיב מרע\", אך להלכה נקטו הפוסקים שלא כשיטות אלו ."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

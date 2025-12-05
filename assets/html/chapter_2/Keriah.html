@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="sage-quote"><p><strong>קריעה</strong></p>
+<p style="font-size: 0.75rem">וַיִּקְרַע יַעֲקֹב שִׂמְלֹתָיו </p>
+<p style="font-size: 0.75rem">וַיָּשֶׂם שַׂק בְּמָתְנָיו </p>
+<p style="font-size: 0.75rem">וַיִּתְאַבֵּל עַל בְּנוֹ יָמִים רַבִּים </p>
+</div><p>בראשית לז, לד</p>
+<p>קריעת הבגד היא סימן לצער ואבלות, כמו שלמדנו מיעקב אבינו שקרע שמלותיו בחשבו כי יוסף בנו מת. מלבד זאת מצאנו פעמים רבות בתנ"ך קריעת בגדים כסימן לאבלות – דוד על שאול ויהונתן; דוד על אבנר; דוד כשבאה השמועה שאבשלום הרג את כל בניו; אלישע על הסתלקות אליהו; איוב על בניו. יש דוגמאות רבות נוספות של קריעת בגדים כביטוי לצער ושמועות קשות – יהושע וכלב בפרשת המרגלים, יפתח על בתו. </p>
+<p style="font-size: 0.85rem">הקריעה מסמלת את הצער ואת הקריעה הנפשית שעוברים האבלים, עד כדי כך שהנביא היה צריך להוכיח את העם "וְקִרְעוּ לְבַבְכֶם וְאַל בִּגְדֵיכֶם" (יואל ב, יג). הקריעה משמשת כביטוי מעשי לרגשות העזים הפוקדים את האבלים בזמן הקשה והטעון שבין המיתה והקבורה. ביטוי מעשי זה של רגשות האבל עלול לעורר, להתסיס ולהעלות אל פני השטח את רגשות הצער ביתר שאת. לכן, גם בתוך זמן הלוויה, פרק הקריעה נחשב לזמן קשה במיוחד. מאידך דווקא הביטוי המעשי יכול לשמש מעין פורקן לרגשות הבאים בכך לידי ביטוי, ולא נשארים מודחקים פנימה. גם בין המפרשים היו שכתבו שהקריעה באה לעורר את הצער, ויש שכתבו להפך - שהקריעה באה להטריד את מחשבת האבל שתהיה על הפסד הבגד, ולהסיח דעתו במקצת מאסון קרובו<span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span>. אפשר לשלב בין הטעמים ולומר שהאבלים זקוקים להביע במעשה את צערם ואבלם, והביטוי הסמלי - המעשי הוא בקריעת הבגד. קריעת הבגד מעוררת את הצער מחד גיסא, אבל גם מאפשרת לאבלים לפרוק באופן סמלי את רגשות האבל והיגון מאידך גיסא.</p>
+<p>המקור לציווי על קריעת הבגד נלמד מהציווי שנאמר לאהרן ולבניו ביום חנוכת המשכן. באותו מעמד מתו שני בני אהרן נדב <span style="font-size: 0.85rem">ואביהוא. אהרן ובניו קיבלו, באופן יוצא מן הכלל, ציווי </span><span style="font-size: 0.85rem"><u>שלא</u></span><span style="font-size: 0.85rem"> לנהוג אבלות - "וּבִגְדֵיכֶם לֹא תִפְרֹמוּ" (ויקרא י, ו). מכאן למדו</span> חכמים שבמקרים רגילים האבלים מצווים לקרוע בגדיהם. (מועד קטן כד, א; הלכות אבל לרמב"ם, פרק ח, א. שלחן ערוך יורה דעה סימן שמ).</p>
+<p>חכמים החמירו מאוד בדין הקריעה, למרות שחיובה הוא רק מדרבנן (הרמב"ן בספר תורת האדם מעמוד סג ואילך, בית יוסף תחילת סימן שמ). </p>
+<p>מי קורע ועל מי קורעים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">א'.</span><span class="list-content">כל מי שמת לו אחד משבעת קרוביו - אב, אם, בעל או אשה, אח, אחות, בן, בת, חייב לקרוע עליו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ב'.</span><span class="list-content">נשים חייבות בקריעה כמו אנשים.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ג'.</span><span class="list-content">צריך לקרוע על רבו מובהק שלמד רוב חכמתו ממנו<span class="footnote-ref" onclick="showFootnote('2', '2', event)">2</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ד'.</span><span class="list-content">על תינוק בן פחות משלושים יום, אין קורעים ולא מברכים "דיין האמת" ולא מתאבלים עליו<span class="footnote-ref" onclick="showFootnote('3', '3', event)">3</span>. הטעם הוא כיון שתינוק נחשב לבר קיימא רק משעברו עליו שלושים יום. לפני כן אינו נחשב לבר קיימא ולכן אין קורעים ואין מתאבלים עליו.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ה'.</span><span class="list-content">על תינוק שנולד בעל מום או שהושם באינקובטור, מפורט לקמן בפרק ‎טז - על מי חלה האבלות@.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ו'.</span><span class="list-content">קטן שמת לו מת אחרים קורעים לו מפני עגמת נפש כלומר כדי להרבות בצער ובהספד, ולא מצד עצם החיוב, כיון שאין קטן נוהג אבלות כלל. קטן שגדל מפורט דינו לקמן, עמוד 230</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ז'.</span><span class="list-content">חולה שמת לו מת, אין מודיעים לו ואין קורעים לו כדי שלא תטרף דעתו עליו<span class="footnote-ref" onclick="showFootnote('4', '4', event)">4</span>. ועיין לעיל עמוד 30 @בפיסקה "מה אומרים לחולה על מחלתו".</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ח'.</span><span class="list-content">חולה שנודע לו שמת לו מת, אם דעתו צלולה אלא שאינו יכול לקרוע מחמת חוליו, פטור אחר כך מלקרוע, אלא אם כן הוא בתוך השבעה. אך אם לא היתה דעתו צלולה, חייב לקרוע כשיחזור לבריאותו בתוך שלושים, שאז היא שעת חימום וצער שלו<span class="footnote-ref" onclick="showFootnote('5', '5', event)">5</span>. ויש מי שפסק שבכל מקרה חייב לקרוע כשיחזור לבוריו<span class="footnote-ref" onclick="showFootnote('6', '6', event)">6</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט'.</span><span class="list-content">חתן וכלה אינם קורעים, אף על פי שמברכים ברכת דיין האמת. יפורט לקמן בפרק@.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י'.</span><span class="list-content">בן מאומץ יכול לקרוע על הוריו המאמצים, אך אינו חייב. אמנם יש שכתבו שיקרע בלי ברכה, אבל גם אם יברך, יש לו על מה שיסמוך, כיון שהברכה אינה על הקריעה אלא על הבשורה הרעה<span class="footnote-ref" onclick="showFootnote('7', '7', event)">7</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"א.</span><span class="list-content">יש מי שכתב שחובה על אדם לקרוע על אביו החורג שגידלו ותמך בו והחזיקו, כיון שכל קיומו הכלכלי והחינוכי בא ממנו<span class="footnote-ref" onclick="showFootnote('8', '8', event)">8</span>.</span></div>
+<p>מתי והיכן קורעים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ב.</span><span class="list-content">מצד עיקר הדין יש לקרוע בשעת יציאת נשמה או בשעת השמועה על הפטירה. אולם בדרך כלל נהגו לקרוע בתחילת הלוויה. עדות המזרח נהגו לקרוע לאחר הקבורה בבית העלמין או בבית האבל<span class="footnote-ref" onclick="showFootnote('9', '9', event)">9</span>. לגבי שבת ויום טוב יבואר לקמן.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ג.</span><span class="list-content">מצד הדין קורעים גם על שמועות רעות, ועל "ברכת" ה' (הכוונה לקללה), ועל ספר תורה שנשרף, ועל ראיית ערי יהודה וירושלים והמקדש שעומדים בחורבנם<span class="footnote-ref" onclick="showFootnote('10', '10', event)">10</span>. </span></div>
+<p>אופן הקריעה </p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ד.</span><span class="list-content">מותר להחליף לבגד פשוט לצורך הקריעה<span class="footnote-ref" onclick="showFootnote('11', '11', event)">11</span>. יש להביא בחשבון שבדרך כלל זה הבגד שעתידים ללכת בו במשך כל השבעה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ו.</span><span class="list-content">קורעים בעמידה. לומדים זאת מדוד המלך שלאחר ששמע שמתו בניו - "וַיָּקָם הַמֶּלֶךְ וַיִּקְרַע אֶת בְּגָדָיו" (שמואל ב', יג, לא); ובתלמוד ירושלמי למדו מאיוב שנאמר עליו "<span style="font-size: 0.85rem">וַיָּקָם</span><span style="font-size: 0.85rem"> אִיּוֹב וַיִּקְרַע אֶת מְעִלוֹ</span>" (איוב א, כ).  </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ט"ז.</span><span class="list-content">מי שקרע בישיבה חוזר וקורע באותו בגד בעמידה ללא ברכה. חולה או נכה שלא יכולים לעמוד, ישענו בזמן הקריעה, ואם אינם יכולים - קורעים בישיבה<span class="footnote-ref" onclick="showFootnote('12', '12', event)">12</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ז.</span><span class="list-content">קורעים מלפנים - בבית הצואר<span class="footnote-ref" onclick="showFootnote('13', '13', event)">13</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ח.</span><span class="list-content">האבל מברך - "<strong>ברוך אתה ה' אלוקינו מלך העולם דיין האמת</strong>",  וקורע בידו טפח (כ 8 – 10 ס"מ) לאורך הבגד כלפי מטה. מנהג בני תימן לקרוע לרוחב הבגד<span class="footnote-ref" onclick="showFootnote('14', '14', event)">14</span>. הסבר על הברכה מובא לעיל עמוד @.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">י"ט.</span><span class="list-content">נוהגים שאחר מתחיל וחותך בסכין או במספריים<span class="footnote-ref" onclick="showFootnote('15', '15', event)">15</span> מעט מבגד האבל. יש בכך עגמת נפש גדולה יותר כשאחר קורע כסותו והוא שותק. יש בכך גם משום קבלת דינו של הקב"ה, מעין צידוק הדין<span class="footnote-ref" onclick="showFootnote('16', '16', event)">16</span>. מנהג בני תימן שאין קורעים על ידי אחר, וכן לא מתחילים הקריעה על ידי אחר אלא האבל בעצמו<span class="footnote-ref" onclick="showFootnote('17', '17', event)">17</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ'.</span><span class="list-content">איש קורע לאיש, ואשה קורעת לאשה.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"א.</span><span class="list-content">אשה הקורעת, קורעת במקום ובאופן צנוע, ותסגור מיד את הקרע בסיכת ביטחון. <span style="font-size: 1.15rem">אם אין אפשרות לסגור את הקרע באופן צנוע, תדחה את הקריעה</span><span class="footnote-ref" onclick="showFootnote('18', '18', event)">18</span><span style="font-size: 1.15rem">.</span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ב.</span><span class="list-content"><span style="font-size: 1.15rem">הקורע בבגד שאול לא יצא</span><span class="footnote-ref" onclick="showFootnote('19', '19', event)">19</span><span style="font-size: 1.15rem">.</span></span></div>
+<p>פירוט על סוגי הבגדים שקורעים מובא בפיסקה הבאה. </p>
+<p>קריעה על אב ואם לעומת הקריעה על שאר קרובים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ג.</span><span class="list-content">על כל המתים קורע האבל מימין, על אביו ואמו קורע משמאל כנגד הלב; ואם טעה והחליף יצא ידי חובה<span class="footnote-ref" onclick="showFootnote('20', '20', event)">20</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ד.</span><span class="list-content">על כל המתים קורע בצנעה, על אביו ואמו קורע בחוץ בפני כל אדם<span class="footnote-ref" onclick="showFootnote('21', '21', event)">21</span>, ואשה תמיד קורעת בצנעה. ומנהג בני תימן לקרוע בשעת יציאת נשמה או בשעת שמועה אף שאין שם אדם<span class="footnote-ref" onclick="showFootnote('22', '22', event)">22</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ה.</span><span class="list-content">על כל המתים קורע ביד או בכלי, על אביו ואמו קורע דווקא ביד. אך חותכים בשפת הבגד בכלי, כדי לאפשר את המשך הקריעה ביד.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ו.</span><span class="list-content">על כל המתים קורע בגד אחד, על אביו ואמו קורע כל הבגדים שעליו עד שמגלה את לבו. אין קורעים ציצית וגם לא גופיה<span class="footnote-ref" onclick="showFootnote('23', '23', event)">23</span>, ולא פיג'מה או חלוק בית<span class="footnote-ref" onclick="showFootnote('24', '24', event)">24</span>. אין קורעים מעיל ולא סוודר<span class="footnote-ref" onclick="showFootnote('25', '25', event)">25</span>. לגבי חליפה יש מנהגים שונים: עדות המזרח לא קורעים<span class="footnote-ref" onclick="showFootnote('26', '26', event)">26</span>, ואילו לפי מנהג האשכנזים יש ספק, ולכן יש מי שכתב שמוטב לא ללבוש באותו זמן את החליפה <span class="footnote-ref" onclick="showFootnote('27', '27', event)">27</span>. העיקרון הוא שקורעים את הבגד שלובשים בדרך כלל<span class="footnote-ref" onclick="showFootnote('28', '28', event)">28</span>, ולא בגד עליון שלובשים מפני הגשם או הקור, או רק לאירועים מכובדים. לכן תלוי גם מה הוא המלבוש הרגיל לכל אדם. ולפי זה מי שהולך באופן קבוע עם חליפה או עם מעיל עליון  – קורע, וכך נהגו האשכנזים.</span></div>
+<p>קריעה על כמה קרובים</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ז.</span><span class="list-content">מי שמתו לו שני קרובים בבת אחת, או ששמע על מיתתם בבת אחת, קורע קריעה אחת על שניהם. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ח.</span><span class="list-content">אם קרע על קרוב אחד שנפטר, ובתוך השבעה על המת הראשון נודע לו על קרוב אחר שמת; קורע מחדש על המת השני. ואם נודע לו על הקרוב האחר שנפטר, לאחר סיום השבעה על הראשון, יכול להוסיף על הקרע הראשון אפילו מעט. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">כ"ט.</span><span class="list-content">על אב ואם תמיד קורע עד שמגלה לבו ואי אפשר להסתפק בתוספת על קרע קודם<span class="footnote-ref" onclick="showFootnote('29', '29', event)">29</span>.</span></div>
+<p>קריעה בטעות</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל'.</span><span class="list-content">אמרו לו בטעות שמת אביו וקרע עליו, ונתברר שמת בנו; או אם אמרו לו שמת אביו וקרע עליו, ונתברר שבאותו זמן היה חי, ונפטר רק לאחר מכן - צריך לקרוע שוב<span class="footnote-ref" onclick="showFootnote('30', '30', event)">30</span>.</span></div>
+<p>החלפת הבגד הקרוע</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"א.</span><span class="list-content">בשאר קרובים יכול במקום צורך להחליף במשך השבעה את הבגד הקרוע ואין צורך לקרוע מחדש.<span style="font-size: 0.75rem"> </span>על אב ואם צריך לקרוע גם בגד שמחליף במשך השבעה<span class="footnote-ref" onclick="showFootnote('31', '31', event)">31</span>.</span></div>
+<p>כיצד לנהוג בשבת ובחג</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ב.</span><span class="list-content">בשבת וביום טוב אין קורעים. מי שקרע בטעות בשבת, אף על פי שחילל שבת, יצא ידי חובת קריעה<span class="footnote-ref" onclick="showFootnote('32', '32', event)">32</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ג.</span><span class="list-content">בחול המועד יש מנהגים שונים, ובמקום שאין מנהג ברור יש לקרוע על כל הקרובים<span class="footnote-ref" onclick="showFootnote('33', '33', event)">33</span>. מנהג ירושלים לקרוע בחול המועד רק על אב ואם, ועל שאר קרובים יקרעו רק במוצאי החג כשמתחילים לנהוג אבלות<span class="footnote-ref" onclick="showFootnote('34', '34', event)">34</span>. כאשר הקריעה נידחת עד לאחר החג, מברכים ברכת דיין האמת מיד, אפילו בשבת וביום טוב, ואין ממתינים לתחילת האבלות. כיון שהברכה אינה על האבלות אלא על עצם השמועה<span class="footnote-ref" onclick="showFootnote('35', '35', event)">35</span>, לכן מברכים מיד אף על פי שהאבלות מתחילה לאחר החג.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ד.</span><span class="list-content">אחרי הקריעה בחול המועד יש להחליף את הבגד הקרוע כיון שאין אבלות במועד. ובמוצאי החג ילבש שוב את הבגד הקרוע כדי שלא יצטרך לקרוע בגד נוסף. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ה.</span><span class="list-content">בני ארץ ישראל שבאו לחוץ לארץ, אפילו דעתם לחזור, נוהגים ביום טוב כבני חוץ לארץ כיון שהקריעה בפרהסיה. בני חוץ לארץ שבאו לארץ ישראל ודעתם לחזור, נוהגים כבני חוץ לארץ לעניין קריעה ואבלות<span class="footnote-ref" onclick="showFootnote('36', '36', event)">36</span>.</span></div>
+<p>מי שלא קרע ולא ברך דיין האמת</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ו.</span><span class="list-content">אם לא קרע בזמנו יקרע בתוך השבעה, ואחר השבעה אינו קורע<span class="footnote-ref" onclick="showFootnote('37', '37', event)">37</span><span style="font-size: 0.85rem">.</span> ואם היה חולה או אנוס ולא היה יכול לקרוע, קורע כשיוכל אפילו אחר השבעה<span class="footnote-ref" onclick="showFootnote('38', '38', event)">38</span><span style="font-size: 0.85rem">. </span><span style="font-size: 0.75rem">אם שמע רק לאחר השבעה, עיין בדיני שמועה.</span></span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ז.</span><span class="list-content">על אביו ואמו קורע לעולם<span class="footnote-ref" onclick="showFootnote('39', '39', event)">39</span>. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ח.</span><span class="list-content">האשכנזים מברכים ברכת דיין האמת רק בתוך שלושת הימים הראשונים של השבעה<span class="footnote-ref" onclick="showFootnote('40', '40', event)">40</span>. לפי מנהג עדות המזרח מברכים רק ביום הראשון של השבעה. </span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">ל"ט.</span><span class="list-content">גם מי שמסרב לקרוע, יכול לברך ברכת דיין האמת<span class="footnote-ref" onclick="showFootnote('41', '41', event)">41</span>.</span></div>
+<p>איחוי הקרע</p>
+<div class="sage-quote"><p style="font-size: 0.85rem">עֵת לִקְרוֹעַ וְעֵת לִתְפּוֹר </p>
+</div><p>קהלת ג, ז</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ'.</span><span class="list-content">איחוי הקרע<strong> - </strong>על כל הקרובים מותר לחבר לאחר שבעה את מקום הקרע בסיכה, וכן מותר לתופרו בתפירה לא ישרה, ולאחר שלושים מותר לתופרו כרגיל. על הורים מותר לחברו על ידי סיכה או לתופרו בתפירה לא ישרה רק אחרי שלושים, ולתפור כרגיל אסור לעולם<span class="footnote-ref" onclick="showFootnote('42', '42', event)">42</span>.</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">מ"א.</span><span class="list-content">הדין של איחוי הקרע אינו מצוי כיום, כיון שבדרך כלל זורקים את הבגד הקרוע לאחר השבעה.</span></div>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " גשר החיים פרק ד, א.", "2": " שלחן ערוך יורה דעה סימן שמ, ז – ח.", "3": " שלחן ערוך יורה דעה סימן שעד, ח. הקריעה נוהגת רק במתים שראוי להתאבל עליהם – שם סימן שמ, א. וראה לקמן עמוד 128@ בהערה.", "4": " שלחן ערוך יורה דעה סימן שלז, א.", "5": " טורי זהב יורה דעה סימן שצו, א.", "6": " שפתי כהן שם.", "7": " לגבי מי שאינם קרובים ומבקשים לקרוע, כגון חתנים וכלות של הנפטר, הבעייה ההלכתית היא של \"בל תשחית\". אך כיון שלהלכה נפסק שקורעים על אדם כשר, אם הנפטר מתאים להגדרה זו, מבחינה הלכתית מותר להם לקרוע. (כך הורה לי הרב יעקב רוז'ה שליט\"א). הרב יעקב אריאל שליט\"א כתב שבקריעה על קרוב שאין מחויבים בקריעה עליו אין איסור בל תשחית, כיון שהיא נעשית מתוך צער עמוק אמיתי (בתוך \"דרכה של היהדות במוות ובאבלות\" עמוד 360).", "8": " הרב שלמה מן ההר. הובאו דבריו ביסודי הלכה עמוד קפז. לפי זה חובה גם על בן מאומץ לקרוע על הוריו.", "9": "בספר גשר החיים (פרק ד, ו) נתן כמה טעמים לדחיית הקריעה. א. כיון שאין כולם בקיאים בהלכות קריעה, דחו את הקריעה לזמן שנמצאים אנשי החברה קדישא שמדריכים את האבלים. ב. בדרך כלל אדם אחר מתחיל את הקריעה והאבל ממשיך, לכן ממתינים שיהיו בני אדם אחרים מלבד הקרובים כדי לסייע להם. ג. תחילת הלוויה היא זמן התגברות הצער ואז גם מתקבצים כל האבלים יחד, לכן הנהיגו שקודם הוצאת המת יקרעו כולם יחד.", "10": " מועד קטן כו, א. רמב\"ם הלכות אבל פרק תשיעי, ב. שלחן ערוך אורח חיים סימן תקסא ויורה דעה סימן שמ, לו - לח.", "11": " גשר החיים פרק ד, א. גליון מהרש\"א על שלחן ערוך יורה דעה סימן שמ, ט. אמנם בהר צבי  (סימן רסג) כתב שעל אביו ואמו לא יחליף אלא יקרע בבגד שלבוש בו, אך בחזון למועד (ו, ח) כתב שגם על אביו ואמו יכול להחליף. בצרור החיים (פיסקה לג) כתב שמעיקר הדין יש לקרוע את אותו בגד שלובש, אבל למעשה נהגו להקל בזה ולהחליף בגדים יקרים לבגדים פשוטים.", "12": " ילקוט יוסף סימן ט, ד. צרור החיים פיסקה סג. פני ברוך סימן א, ח. וראה גם שלחן ערוך אורח חיים סימן צד, ו; ומשנה ברורה סימן קמא סעיף קטן ד.", "13": " שלחן ערוך יורה דעה סימן שמ, ב. טעם לכך על פי הקבלה מובא בספר מעבר יַבֹּק מאמר שפתי רננות פרק ט.", "14": " שלחן ערוך המקוצר עיני יצחק, יורה דעה סימן קעז, ב. באר לחי רואי סימן כו בשם ספר נפש כל חי ורבני תימן. ", "15": " ברוב הספרים כתוב בסכין, אבל הרב מרדכי אליהו שליט\"א אמר לי שאין הבדל ואפשר גם במספריים. וכן בשלחן ערוך המקוצר עיני יצחק, יורה דעה סימן קעז, ו.", "16": " חידושים ובאורים יד אפרים, הלכות קריעה סעיף ב.", "17": " באר לחי רואי סימן טז.", "18": " צרור החיים פיסקה סא.", "19": " חזון למועד פרק ו, ז משפתי כהן יורה דעה סימן שמ, סעיף קטן נ.", "20": " חכמת אדם כלל קנב, ו. פני ברוך סימן א, יב.", "21": " שלחן ערוך יורה דעה סימן שמ, יג.", "22": " באר לחי רואי סימן כה.", "23": " רמב\"ם הלכות אבל פרק ח, ג. אמנם בספר צרור החיים (פיסקה סד) כתב לקרוע גם גופיה.", "24": " ילקוט יוסף סימן ט, יט. מועד לכל חי סימן יא, טו, בשם הגר\"ש פישר ויקרא דחיי.", "25": " ילקוט יוסף סימן ט, טז.", "26": " שלחן ערוך יורה דעה סימן שמ, י.", "27": " גשר החיים פרק ד, יד. ", "28": " טורי זהב יורה דעה סימן ש\"מ, סוף סעיף קטן ה.", "29": " שלחן ערוך יורה דעה סימן שמ, כא – כב.", "30": " שם, כד – כה. ואם תיקנו את ההודעה מיד תוך כדי דיבור, אין צריך לקרוע שוב. ", "31": " שם, יד.", "32": " שם, כח, ולא.", "33": " הגהות הרמ\"א על שלחן ערוך אורח חיים סימן תקמז, ו. יורה דעה סימן שמ, לא.", "34": " ילקוט יוסף סימן ט, כה. ואם מת ונקבר ביום טוב על ידי גויים, כיון שנדחתה הקריעה - שהרי אין קורעים ביום טוב - נדחית הקריעה עד למוצאי הרגל. משנה ברורה תקמז, סעיף קטן יא. גשר החיים פרק ד, כג, הערה 5. ", "35": " גשר החיים פרק ד, כו.", "36": " נטעי גבריאל חלק א, פרק סא, יא.", "37": " שלחן ערוך יורה דעה סימן שצו, א", "38": " שפתי כהן על שלחן ערוך שם, א", "39": " שלחן ערוך יורה דעה סימן שמ, יח; שצו, א.", "40": " גשר החיים פרק ד סוף הלכה כו על פי החיד\"א.", "41": " ילקוט יוסף סימן ט, יא.", "42": " שלחן ערוך יורה דעה סימן שמ, טו."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

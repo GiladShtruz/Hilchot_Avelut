@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p><strong>שבעת ימי אבלות ושבעת ימי המשתה</strong></p>
+<div class="sage-quote"><p>משה רבנו תיקן להם לישראל </p>
+<p>שבעת ימי אבלות ושבעת ימי המשתה.</p>
+<p>רמב"ם הלכות אבל פרק א, א</p>
+</div><p>יש הקבלות רבות בין שבעת ימי אבלות לשבעת ימי המשתה של חתן וכלה. בנוסף למניין הימים המקביל בשבעה, ישנה הקבלה גם במושגים של שלושים יום ושל שנה. יש שלושים יום באבלות, וגם לגבי נישואין, להבדיל, כלה מוגדרת ככלה במשך שלושים יום מנישואיה, ולכן למשל יכולה לרחוץ פניה ביום הכיפורים (משנה יומא עג, א). אבלות שנים עשר חודש על אב ואם מקבילה לשנת הנישואין הראשונה, שבה מצוּוֶה החתן לשמח את אשתו, ולכן אינו יוצא לצבא בתקופה זו (דברים כד, ה). הרמב"ם (הלכות ברכות פרק ה, ה) כותב שהיו מזכירים בזימון "שהשמחה במעונו" שלושים יום אחרי הנישואין, ואם היתה זו סעודה מחמת הנישואין, מזכירים "שהשמחה במעונו" עד שנים עשר חודש מהנישואין. </p>
+<p>חתן מיסב בראש וגם אבל מיסב בראש (מועד קטן כח, ב). חתן דומה למלך וחולקים לו כבוד מיוחד, גם לאבל חולקים כבוד – "הכל חייבים לעמוד מפני נשיא, חוץ מאבל וחולה" (רמב"ם הלכות אבל פרק יג, ה).</p>
+<p>מנהג ה<strong>הקפות</strong> בקבורה שמקיפים נפטר שבע פעמים לאחר הקבורה, מקביל למנהג שהכלה מקיפה את החתן שבע פעמים מתחת לחופה. </p>
+<p>מתחת לחופה שוברים כוס לזכר חורבן ירושלים. ויש מנהג של <strong>שבירת חרס </strong>בתחילת הלוויה. </p>
+<p>היה מנהג קדום המוזכר בגמרא (כתובות ח, ב) ונפסק להלכה (רמב"ם הלכות אבל פרק יג, ח) של <strong>עשר כוסות</strong> של יין שהיו משקים בבית האבל, ויש לכך סימוכין במקרא "<span style="font-size: 0.75rem">תְּנוּ שֵׁכָר לְאוֹבֵד וְיַיִן לְמָרֵי נָפֶשׁ</span>" (משלי לא ,ו), מנהג שמזכיר את בית משתה היין בשבעת ימי המשתה של חתן וכלה. </p>
+<p>הגמרא (שם ח, א – ב) משוה ברכת חתנים ל<strong>ברכת אבלים</strong>, ברכת חתנים בעשרה וברכת אבלים בעשרה. הרמב"ן (תורת האדם עמוד קנד, קנה) כותב שהיו מברכים ברכת אבלים כל שבעה אם היו פנים חדשות, כמו שמקובל לגבי שבע ברכות של חתן וכלה. </p>
+<p>המנהג בזמן המשנה והתלמוד היה לקבור בליווי <strong>מקוננות</strong> וכלי זמר (משנה כתובות ד, ד), כמו שיש כלי זמר בחופה, אך כמובן שהתכלית והמנגינות שונות ואף הפוכות.</p>
+<p>ההלכה כוללת ניחום אבלים וקבורת המת, עם המצוה לשמח חתן וכלה:</p>
+<p>מצות עשה של דבריהם לבקר חולים, ולנחם אבלים, ולהוציא המת, וללוות האורחים, ולהתעסק בכל צרכי הקבורה, לשאת על הכתף, ולילך לפניו לספוד ולחפור ולקבור, וכן לשמח הכלה והחתן ולסעדם בכל צרכיהם; ואלו הן גמילות חסדים שאין  להם שיעור. אף על פי שכל מצוות אלו מדבריהם, הרי הן בכלל <span style="font-size: 0.85rem">וְאָהַבְתָּ לְרֵעֲךָ כָּמוֹךָ</span> (ויקרא יט, יח). כל הדברים שאתה רוצה שיעשו אותם לך אחרים, עשה אתה אותן לאחיך בתורה ובמצוות (רמב"ם הלכות אבל פרק יד, א).</p>
+<p>לאחר שראינו את ההקבלות, ננסה לתת להן הסבר. כדי להסביר את ההקבלה בזמנים נתמקד במילה 'תהליך'. מדובר באירועים המשמעותיים ביותר בחייו של אדם, אירועים הגורמים שינויים להמשך החיים, לעתים השינויים המשמעותיים ביותר בחיים. אמנם בנישואין ישנה שמחה עצומה בהיפוך גמור מהצער העמוק של האבלות, אולם למרות הבדל תהומי זה, יש עיקרון משותף של תהליך הסתגלות הדרגתי למצב שנתחדש. כך ניתן להסביר את מושגי הזמן - שבעה, שלושים ושנה - כחלק מהסתגלות הדרגתית זו. </p>
+<p>לגבי הכבוד שמעניקים לחתן ולאבל: ההלכה היהודית מדריכה את החברה ואת הקהילה להתמקד וללוות את החתן והכלה וגם את האבלים. הכבוד המיוחד אמנם שונה בסיבותיו, אך יש הכרה למעמד המיוחד גם אצל החתן והכלה וגם אצל האבל, ובאופן סמלי בא הדבר לידי ביטוי בכך שמושיבים אותם בראש. אצל האבלים וגם אצל חתן וכלה עלול להתעורר חשש כתוצאה מהשינוי הגדול שעבר עליהם, לעיתים עד כדי פחד מהעתיד הבלתי ידוע. אצל האבלים עקב הזעזוע לאחר פטירת יקירם, ואפילו אצל החתן והכלה שעזבו את הבית המוכר והבטוח של אבא ואמא, ומקבלים עליהם את האחריות לבנות בית עצמאי. לכן יש מצוה לשמח חתן וכלה, ולהבדיל, לנחם אבלים. הכרה חברתית ברגשות האבל וברגשות החתן מלמדת על ההשתתפות ברגשותיהם, שהיא חיונית, תומכת ומעודדת. </p>
+<p>לגבי ההקפות: ההקפות מסמלות שמירה, ולכן מקיפים את הנפטר להגן עליו מכוחות הטומאה המתנכלים לו בזמן הרגיש של הקבורה. כך גם ההקפות בחופה, חז"ל אמרו שכל אדם שאין לו אשה שרוי בלא שמחה בלא ברכה בלא טובה בלא תורה בלא חומה ובלא שלום (יבמות סב, ב). הכלה מהווה שמירה לבעלה משגיאות החיים ומפיתוייהם. האבלות והנישואין הם מעברים בחיים בשלבים רגישים המצריכים שמירה. ההקפות מסמלות שמירה זו. ע"ע <strong>הקפות. מעבר יבק. </strong></p>
+<p>לגבי הברכות המיוחדות: הברכות באות להזכיר שם שמים, וללמד על קבלת תהליכי מעגל החיים וההשלמה עמהם, גם בשמחה וגם באבלות. "<span style="font-size: 0.85rem">כּוֹס יְשׁוּעוֹת אֶשָּׂא וּבְשֵׁם ה' אֶקְרָא</span>" (תהלים קטז, יג), מקביל ל"<span style="font-size: 0.85rem">צָרָה וְיָגוֹן אֶמְצָא וּבְשֵׁם ה' אֶקְרָא</span>" (שם ג – ד), תמיד קוראים בשם ה'. </p>
+<p>ע"ע <strong>הקפות. חייב אדם לברך על הרעה כשם שמברך על הטובה. עשר כוסות של בית האבל.</strong></p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

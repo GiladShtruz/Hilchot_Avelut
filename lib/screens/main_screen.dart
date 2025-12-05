@@ -3,6 +3,7 @@ import '../config/theme.dart';
 import 'home/home_screen.dart';
 import 'search/search_screen.dart';
 import 'favorites/favorites_screen.dart';
+import 'glossary/glossary_screen.dart';
 
 /// Main screen with bottom navigation bar
 class MainScreen extends StatefulWidget {
@@ -18,6 +19,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = const [
     HomeScreen(),
     SearchScreen(),
+    GlossaryScreen(),
     FavoritesScreen(),
   ];
 
@@ -42,6 +44,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           child: BottomNavigationBar(
             currentIndex: _currentIndex,
+            type: BottomNavigationBarType.fixed,
             onTap: (index) {
               setState(() {
                 _currentIndex = index;
@@ -57,6 +60,11 @@ class _MainScreenState extends State<MainScreen> {
                 icon: Icon(Icons.search_outlined),
                 activeIcon: Icon(Icons.search),
                 label: 'חיפוש',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.menu_book_outlined),
+                activeIcon: Icon(Icons.menu_book),
+                label: 'מושגים',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.bookmark_outline),

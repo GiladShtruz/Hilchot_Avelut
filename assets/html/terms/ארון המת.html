@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p><strong>ארון המת</strong></p>
+<p style="font-size: 0.85rem">קבורת המת בארון נהגה עוד מימים קדומים, ונזכרה בתורה אצל יוסף "וַיִּישֶׂם בָּאָרוֹן בְּמִצְרָיִם" (בראשית נ, כו). אף חכמי ישראל נקברו בארונות, כגון עקביא בן מהללאל (עדיות פ"ה, ו), רבי יהודה הנשיא (ירושלמי כלאים פ"ט ה"ג ) ועוד.</p>
+<p style="font-size: 0.85rem">אין להסתפק בקבורה בארון ולהניחו בלא קבורה בקרקע, כיון שהמצוה מן התורה היא לקבור את המת בעפר. לכן הנותן את מתו בארון ולא קברו בקרקע, עובר משום בל תלין את המת. אלא שאם נתנו בארון וקבר את הארון בקרקע אינו עובר עליו. מכל מקום טוב לקבור את המת בקרקע ממש, ואפילו בחוץ לארץ, כמו שנאמר "כִּי עָפָר אַתָּה וְאֶל עָפָר תָּשׁוּב" (בראשית ג, יט). לכן רבי יהודה הנשיא ציוה לנקב את ארונו (צוואת רבי בירושלמי כלאים פרק ט, ג; וירושלמי כתובות פרק יב, ג). כך גם פסק הרמב"ן להלכה (תורת האדם עמוד קיז), וכך גם נפסק להלכה בשלחן ערוך (יורה דעה סימן שסב, א). </p>
+<p>גם בפרקי דרבי אליעזר (פרק לד) משמע שיש עניין לקבור דווקא בארץ, וישנה משמעות לקשר בין הגוף והעפר – "רבי שמעון אומר: כל הגופות נוגעים בעפר הארץ עד שאינו משתייר מן הגוף אלא כמלוא תרווד רקב, והוא מתערב בעפר הארץ כשאור שהוא מתערב בעיסה - מיפה ומרבה ומעלה את כל הגוף בלא מום, כשאור שהוא מיפה ומרבה את העיסה". גם בזהר מובא יתרון הקבורה בקרקע ממש - "כמה טב לון בין לצדיקי בין לחייבי, למהוי גופא דילהון דבוק בארעא ולאתעכלא גו עפרא" (פרשת תרומה דף קנא).</p>
+<p>הקבורה בכוכים ובמערות שנהגה בזמן המשנה והתלמוד, היתה בארונות שניתנו בתוך הכוכים. הארונות היו מעץ, מאבן, ממתכת ומחרס. תחילה היו קוברים בחפירות עמוקות, ולאחר שהיה מתעכל הבשר היו מלקטים את העצמות וקוברים אותן בארון. בבבל היו קוברים בארון, אלא שהיו נותנים עפר על פניו ועל עיניו (תשובת רב נטרונאי גאון, מובאת בתורת האדם לרמב"ן, עמוד קטז). כיום יש לקבור בארונות של עץ (רמב"ם הלכות אבל פרק ד, ד, מצוטט גם בבית יוסף יורה דעה סימן שסב).</p>
+<p>היו מקומות שנהגו לקבור כהנים ובכורים בארון משום חשיבות, אך הפוסקים קראו תגר על מנהג זה, משום שעיקר מצות קבורה היא בקרקע ממש. (חכמת אדם כלל קנח, א). גם בספר הזהר (פרשת ויחי דף רנא) כתב שאין להניח שום אדם בארון, אלא רק צדיק כיוסף ששמר ברית קודש, אבל לשאר בני אדם יש לקברם בקרקע. (ע"ע הקונטרס היחיאלי, בית עולמים פרק ח).</p>
+<p>בגשר החיים (חלק ב פרק ז) האריך לבאר את ההבדל בין ארון למיטה. למרות האפשרות לנשיאה ולקבורה בארון, הדגיש את העדיפות לנשיאת המת במיטה וקבורה בקרקע, (זאת בעקבות דרישה שהיתה בזמנו לשאת את הנפטר בארון ולא בכליבה, עיין שם). הרב הוכיח שבכל הדורות הקודמים נהגו לישא את המת רק במיטה, והארון שמש רק לקבורה בתוך הקבר, או לנשיאת הנפטר למרחקים גדולים כמו למשל אצל יעקב אבינו או אצל יוסף. אבל נשיאת המת היתה במיטה. (עיקר עניינו של הרב היה למנוע מצב שבו יחזרו לקבור בארונות, וכתוצאה מכך ירצו לקשט יותר ויותר את הארונות, עד שיגיעו שוב למה שמתואר במסכת מועד קטן, שהיו העניים מתביישים. לעומת זאת בזמן שהכל נוהגים במיטה פשוטה – זהו כבודו של מת).</p>
+<p>גם בקונטרס היחיאלי (בית עולמים פרק ז) הוכיח שהיו מוציאים את המת במיטה ולא בארון, ובארון היו משתמשים רק להעביר את הנפטר ממקום למקום:</p>
+<p>המורם מכל האמור, שהיו מוציאים את מתיהם במטות ולא בארונות, ואפילו בחוץ לארץ... ובארץ ישראל לא היו משתמשים בארונות כלל, אם לא לעת הצורך שהוא להולכה מעיר לעיר, ועל פי רוב אחר עיכול הבשר. וקוברים בארץ ממש בכדי שיתעכל הבשר מהר ויתבטלו הצער והדינים מעליו. כנזכר בזהר הקדוש (פרשת משפטים) שכל זמן שהבשר קיים, מידת הדין נפרעת ממנו. </p>
+<p>ההכנסה לארון יכולה להחשב בתנאים מסוימים במניין זמן האבלות:</p>
+<p>אם נתנו את המת בארון ונתנוהו בחדר אחר ולא קברוהו לפי שהיתה העיר במצור, מונים לו מיד שבעה ושלושים לאבלות אף על פי שדעתם לקברו בבית הקברות אחר המצור. וסתימת הארון נחשבת לגביהם כקבורה וחלה עליהם אבלות מיד (שלחן ערוך יורה דעה סימן שעה, ד).</p>
+<p>כשמכניסים את המת לארון אומרים פסוקים מיוחדים: </p>
+<p>"<span style="font-size: 0.85rem">וְלֹא יָבֹאוּ לִרְאוֹת כְּבַלַּע אֶת הַקֹּדֶשׁ וָמֵתוּ</span>" (במדבר ד, כ). </p>
+<p>"<span style="font-size: 0.85rem">רָאִיתִי וְהִנֵּה מְנוֹרַת זָהָב כֻּלָּהּ וְגֻלָּהּ עַל רֹאשָׁהּ וְשִׁבְעָה נֵרֹתֶיהָ עָלֶיהָ שִׁבְעָה וְשִׁבְעָה מוּצָקוֹת לַנֵּרוֹת אֲשֶׁר עַל רֹאשָׁהּ</span>" (זכריה ד, ב). </p>
+<p>"<span style="font-size: 0.85rem">מִי אַתָּה הַר הַגָּדוֹל לִפְנֵי זְרֻבָּבֶל לְמִישֹׁר וְהוֹצִיא אֶת הָאֶבֶן הָרֹאשָׁה תְּשֻׁאוֹת חֵן חֵן לָהּ</span>" (שם פסוק ז). </p>
+<p style="font-size: 0.85rem">"וְעַתָּה יִגְדַּל נָא כֹּחַ אֲדֹנָי כַּאֲשֶׁר דִּבַּרְתָּ לֵאמֹר: ה' אֶרֶךְ אַפַּיִם וְרַב חֶסֶד נֹשֵׂא עָוֹן וָפָשַׁע וְנַקֵּה לֹא יְנַקֶּה פֹּקֵד עֲוֹן אָבוֹת עַל בָּנִים עַל שִׁלֵּשִׁים וְעַל רִבֵּעִים: סְלַח נָא לַעֲוֹן הָעָם הַזֶּה כְּגֹדֶל חַסְדֶּךָ וְכַאֲשֶׁר נָשָׂאתָה לָעָם הַזֶּה מִמִּצְרַיִם וְעַד הֵנָּה: וַיֹּאמֶר ה' סָלַחְתִּי כִּדְבָרֶךָ: וְאוּלָם חַי אָנִי וְיִמָּלֵא כְבוֹד ה' אֶת כָּל הָאָרֶץ" (במדבר יד, יז – כא).</p>
+<p>יש כוונות מיוחדות שיש לכוון בהן על פי הקבלה כשאומרים פסוקים אלו והן מובאות בספר מעבר יַבֹּק (מאמר שפתי רננות פרק יד) המשווה את הכנסת המת לארון לכניסת נח לתיבה.  </p>
+<p>כיום מקובל בארץ ישראל לקבור בקרקע ממש, חוץ מאשר הרבנות הצבאית שקוברת בארון. יש לנקב את הארון. המקור לכך – "תהא ארוני נקובה" אצל רבי יהודה הנשיא (ירושלמי כתובות פרק יב, ג). תשובה מפורטת לגבי קבורה צבאית בארון, מובאת בספר "משיב מלחמה" של הרב גורן (כרך ג שער ו). הרב גורן קובע שם שנהלי הקבורה הצבאיים יכולים להיות שונים מאשר הנהלים האזרחיים, ואין בזה משום שינוי מנהג המקום כיון שהצבא נחשב כקהילה נפרדת. בחוץ לארץ יש מדינות שבהם המנהג לקבור בארון. התייחסות לקבורה בארון, סוגי הארונות ומחיריהם, מובאת בספר "דרכה של היהדות במוות ובאבלות" בעמוד 38. </p>
+<p>כיום כשמעבירים מתים מחוץ לארץ לארץ ישראל, מוציאים אותם מן הארון וקוברים אותם בקרקע. ואם ירצו לשנות ולקבור עם הארון, יש בזה פגיעה בכבוד המתים, וגם הוא נגד המנהג המקובל בישראל. לכן אין לשנות (ילקוט יוסף סימן מה, א). </p>
+<p>לגבי שימוש בארון המת לאחר שהוציאו ממנו את המת. במקום שאין קוברים בארון, והעבירו את המת בארון מעיר לעיר, מכיון שהניחו את המת בארון על דעת לפנותו משם – לא נאסר. אבל אם הביאו את המת בארון מחוץ לארץ – מקום שנהגו לקבור בארון, ויש לשער שהניחוהו בארון על דעת לקברו בו, הרי הוקצה הארון למת ונאסר בהנאה. (גשר החיים פרק ח, יא – יב). גם לגבי טלית: בארץ ישראל לא נהגו לקבור בה את המת, ולכן אינה נאסרת בהנאה כיון שכיסו בה את המת רק לפי שעה. אבל אם נשלח המת מחוץ לארץ מעוטף בטלית ממקום שנהגו לקבור את המת בטליתו, הרי הקצו את הטלית למת ונאסרה בהנאה. למעשה כיון שאין רוצים לשנות מלבושי מת אחד משאר מתים ולקברו בטלית, קוברים את הטלית מעל אהל המת בתוך הקבר (גשר החיים פרק י פיסקה ה).</p>
+<p>ע"ע <strong>איסור הנאה מהמת. כליבה. קבורה.</strong></p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

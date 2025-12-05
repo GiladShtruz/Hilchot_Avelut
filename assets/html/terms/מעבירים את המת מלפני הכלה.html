@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<p><strong>מעבירים את המת מלפני הכלה</strong></p>
+<p style="font-size: 0.85rem">כלל הלכתי המובא בגמרא<strong> </strong>(כתובות יז, א), ונפסק גם להלכה (טור ושלחן ערוך יורה דעה סימן שס). חכמים רצו ללמד עיקרון ונתנו דוגמא כדי להמחיש זאת. כגון שבאה לוויה מצד אחד וכלה מצד שני, באותו הרחוב ממש, בו זמנית. אי אפשר שיעברו שניהם יחד באותו הרחוב, באותו זמן. בלתי אפשרי לעמת באותו מקום ובאותו זמן, רגשות קטביים כאלו. שיאים של צער ויגון מחד גיסא, עם מצהלות חתנים, גילה רינה דיצה וחדוה מאידך גיסא. גם מבחינה מעשית אין מקום לכל הקהל ולפמליות המלוות. אחד הצדדים מוכרח לפנות את מקומו, ולהשאיר את הבמה לזולתו באופן בלעדי. ישנו קושי נפשי עצום לעשות זאת כיון שלכל אחד מהארועים ישנה משמעות רגשית עמוקה ביותר. ונשאלת השאלה: במצב כזה, מי צריך לפנות את מקומו? למי יש זכות קדימה?</p>
+<p>הכלל שקבעו חכמים הוא "<strong>מעבירים את המת מלפני הכלה</strong>". הלוויה עוברת לרחוב אחר כדי לאפשר את שמחתה של הכלה באופן מלא. מעבר להתייחסות הנקודתית למקרה המסוים, חכמים גם באו לקבוע עיקרון כולל: צריך להגביר ולחזק את רגשות השמחה, גם כשיש רגשות צער ואבלות. החיים צריכים להמשך. צריך להמשיך, ובשמחה.</p>
+<p>גם באבלות של כלל ישראל חכמים לימדונו שאדם סד את ביתו כדי שיהיה יפה ומקושט, אך יש להשאיר אמה על אמה לא מסוידת כנגד הפתח זכר לחורבן. אותו העיקרון - ממשיכים, ומתחתנים, ובונים בתים יפים ומקשטים ומסיידים אותם. בתוך כל זה משאירים את הפינה של זכר לחורבן, במקום בולט כדי שלא נשכח. אבל הכלל הוא להמשיך בחיים מתוך בניין של שמחה.</p>
+<p>העיקרון ההלכתי מורכב וכפול, ונראה כסותר את עצמו: </p>
+<p>מי שהיה לפניו מת וכלה, מניח את הכלה ומתעסק עם המת. וכן הוא אומר "<span style="font-size: 0.85rem">לֵב חֲכָמִים בְּבֵית אֵבֶל וְלֵב כְּסִילִים בְּבֵית שִׂמְחָה</span>" (קהלת ז, ד) (רמב"ם הלכות אבל פרק יד, ח).</p>
+<p>ומאידך:</p>
+<p>מת וכלה שפגעו זה בזה בדרך, מעבירין את המת מלפני הכלה (רמב"ם שם). </p>
+<p>המקור להעדפת המת לקוח מברייתא במסכת שמחות: "בית האבל ובית המשתה, בית האבל קודם". ישנם כמה הסברים כיצד לשלב את שני המאמרים. לפי הרמב"ן יש להעדיף את הכלה בזמן החופה, ואת סעודת האבל על פני בית המשתה לאחר החופה (תורת האדם עמוד קט). ויש מי שכתב שכבוד הכלה קודם ולכן מקדימים אותה, שכבוד החי עדיף מכבוד המת. אבל כשיש צורך לעסוק באחת המצוות עדיף לעסוק בקבורת המת. ודווקא כשיש מי שיעסקו גם בהכנסת הכלה לחופה. אבל אם יש אפשרות לקיים רק אחת משתי המצוות, כבוד החיים קודם ויש להעדיף הכנסת כלה (לחם משנה על הרמב"ם שם; שלחן ערוך שם סימן שס; ילקוט יוסף סימן י, ח). כלומר, כבוד החיים קודם, ועקרונית יש להעדיף הכנסת כלה על פני לווית המת. אבל באופן פרטי יש לו לאדם להקדים ולעסוק במת. וכמו שכתוב במסכת שמחות (פרק יב): "אבל חסידים הראשונים היו מקדימים לבית האבל מלבית המשתה, שנאמר "<span style="font-size: 0.85rem">טוֹב לָלֶכֶת אֶל בֵּית אֵבֶל מִלֶּכֶת אֶל בֵּית מִשְׁתֶּה, בַּאֲשֶׁר הוּא סוֹף כָּל הָאָדָם וְהַחַי יִתֵּן אֶל לִבּוֹ</span>" (קהלת ז, ב).<span style="font-size: 0.85rem"> ע"ע </span><span style="font-size: 0.85rem"><strong>כבוד המת.</strong></span></p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דף הלכה</title>
+    <style>
+        :root { --primary: #1a365d; --accent: #c9a227; --bg: #faf8f5; --text: #1a1a1a; --success: #38a169; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'David Libre', 'Frank Ruhl Libre', Georgia, serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.8; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            font-size: 1rem; 
+        }
+        .chapter-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid var(--accent); }
+        .section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 25px 0 15px; }
+        .subsection-title { font-size: 1.2rem; font-weight: 700; color: #2c5282; margin: 20px 0 12px; }
+        .sub-subsection-title { font-size: 1.05rem; font-weight: 600; margin: 15px 0 10px; text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        p { margin: 12px 0; text-align: justify; }
+        strong { font-weight: 700; }
+        em { font-style: italic; }
+        u { text-decoration: underline; }
+
+        /* === סגנון מעודכן לציטוטים === */
+        .sage-quote {
+            background-color: #f0f4f8;
+            border-right: 4px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #2d3748;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .sage-quote p:first-child { margin-top: 0; }
+        .sage-quote p:last-child { margin-bottom: 0; }
+
+        .list-item { display: flex; align-items: flex-start; margin: 8px 0; padding-right: 5px; }
+        .marker { flex-shrink: 0; margin-left: 10px; font-weight: 600; }
+        .bullet-marker { color: var(--primary); font-size: 1.2em; line-height: 1.5; }
+        .ordered-marker { color: var(--primary); min-width: 25px; }
+        .checkbox-marker { color: var(--success); font-size: 1.3em; line-height: 1.4; }
+        .list-content { flex: 1; }
+
+        .footnote-ref { display: inline-flex; align-items: center; justify-content: center; background: var(--primary); color: white; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; font-size: 11px; font-weight: 600; cursor: pointer; margin: 0 2px; vertical-align: super; font-family: Arial, sans-serif; transition: all 0.2s; }
+        .footnote-ref:hover { background: var(--accent); color: var(--primary); transform: scale(1.1); }
+
+        /* Desktop Footnote Styles */
+        .footnote-popup { 
+            position: fixed; 
+            background: white; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            max-width: 400px; 
+            min-width: 280px; 
+            z-index: 1000; 
+            overflow: hidden; 
+            animation: popupIn 0.2s ease-out; 
+        }
+        @keyframes popupIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .footnote-popup-header { background: var(--primary); color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; }
+        .footnote-popup-header span { font-weight: 600; }
+        .footnote-popup-close { background: rgba(255,255,255,0.2); border: none; color: white; width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+        .footnote-popup-close:hover { background: rgba(255,255,255,0.3); }
+        .footnote-popup-content { padding: 15px; font-size: 14px; line-height: 1.7; max-height: 60vh; overflow-y: auto; }
+        .overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 999; }
+
+        /* === MOBILE RESPONSIVENESS === */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            .chapter-title { font-size: 1.5rem; }
+            .section-title { font-size: 1.3rem; margin-top: 20px; }
+
+            .sage-quote {
+                padding: 12px 15px;
+                margin: 15px 0;
+                font-size: 0.9em;
+            }
+
+            .footnote-popup {
+                top: auto !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 100%;
+                border-radius: 16px 16px 0 0;
+                box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+                transform: translateY(100%);
+                animation: slideUp 0.3s ease-out forwards;
+                display: flex;
+                flex-direction: column;
+            }
+            @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+            .footnote-popup-content {
+                padding: 20px;
+                font-size: 16px;
+                max-height: 50vh;
+            }
+            .list-item {
+                margin-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="sage-quote"><p><strong>התיאום עם החברה קדישא</strong></p>
+</div><p><u>מיקום הקבר ושעת הלוויה</u></p>
+<p>יש להתקשר אל אחת מחברות הקדישא ולתאם את <strong>מיקום הקבר</strong>. צריך לדעת שישנן חלקות שונות, לפי העדות השונות, לכהנים וכו'. אף על פי שהקבורה אינה כרוכה בתשלום, ישנן חלקות מיוחדות שצריך לשלם בעבורן, וישנם גם תעריפים שונים. יש לקבל מידע מדויק על סוג הקבר (רגיל, קומות, כוכים, זוגי), מחירו, ואפשרות הגישה אליו. כדאי לברר מראש את האפשרויות השונות והמחירים השונים כדי להימנע מאי הבנות.</p>
+<p>גם קביעת <strong>שעת הלוויה</strong> צריכה להיות בתיאום מדוקדק עם החברה קדישא. השיקול המרכזי בקביעת זמן הלוויה הוא <strong>כבוד הנפטר</strong>. מחד גיסא, כבודו הוא להשתדל לקברו סמוך ככל האפשר לזמן הפטירה; מאידך גיסא, כבודו הוא שרבים ילווהו בדרכו האחרונה, ובמיוחד בני משפחתו הקרובים. </p>
+<p>יש לקחת בחשבון זמן סביר להודעה על הפטירה והלוויה, להתארגנות ולהגעת המלווים. במיוחד יש להתחשב במשפחת הנפטר, לכן אם יש בן משפחה בדרגה קרובה בחוץ לארץ, לעתים ממתינים לו וקובעים את זמן הלוויה בהתאם לכך<span class="footnote-ref" onclick="showFootnote('1', '1', event)">1</span>.</p>
+<p>עיקרון הלכתי שמשתדלים להקפיד עליו במיוחד בירושלים הוא <strong>שלא להלין את המת</strong>, כלומר שלא יעבור עליו לילה ללא קבורה<span class="footnote-ref" onclick="showFootnote('2', '2', event)">2</span>. לעתים קשה לקיים עיקרון זה, במיוחד אם הפטירה היתה בשעות אחר הצהרים או הערב, בכל אופן יש משפחות וחברות קדישא המעדיפות להקפיד על עיקרון זה גם אז. </p>
+<p>בקביעת שעת הלוויה יש להביא בחשבון שאם הקבורה תהיה לפני השקיעה, זה נחשב ליום שלם מבחינת השבעה<span class="footnote-ref" onclick="showFootnote('3', '3', event)">3</span>. זו סיבה נוספת להקדים את הלוויה כך שתסתיים לפני השקיעה ולא לאחריה<span class="footnote-ref" onclick="showFootnote('4', '4', event)">4</span>. </p>
+<p>יש לזכור שגם החברה קדישא צריכה זמן להכנות ללוויה ולקבורה. טהרת הנפטר לוקחת זמן, וכן חפירת הקבר, והסעת הנפטר. בערים הגדולות יש כמה קבורות בו ביום. כדי שגם החברה קדישא תוכל להתארגן בהתאם, אין להחליט ולפרסם שעת קבורה ללא תיאום עם החברה קדישא.</p>
+<p><strong>רשימה ארצית של כל חברות קדישא מובאת בסוף הספר</strong></p>
+<p><u>תשלום עבור קבורה</u></p>
+<p>ככלל משולמים דמי הקבורה על ידי הביטוח הלאומי.</p>
+<p>על פי הוראות המוסד לביטוח לאומי, הקבורה בישראל במקרים הבאים היא ללא תשלום<span class="footnote-ref" onclick="showFootnote('5', '5', event)">5</span>:</p>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">1.</span><span class="list-content">תושב ישראל שנפטר בישראל, ונקבר במקום מגוריו.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">2.</span><span class="list-content">תושב ישראל שנפטר בחוץ לארץ, ונקבר במקום מגוריו בישראל.</span></div>
+<p>מימון הוצאות יום הקבורה מועבר לחברה קדישא על ידי המוסד לביטוח לאומי.</p>
+<p>על פי החוק יכולה חברה קדישא לגבות תשלום במקרים הבאים:</p>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">1.</span><span class="list-content">רכישת חלקת קבורה מחיים (על פי התעריפים הקבועים בחוק. יש לציין שהתעריף שונה ממקום למקום).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">2.</span><span class="list-content">קבורה בחלקה חריגה (חלקה שאושרה מראש על ידי המוסד לביטוח לאומי כחריגה).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">3.</span><span class="list-content">קבורה בבית עלמין סגור (בית עלמין שהוכרז כסגור בשל מיעוט חלקות לקבורה).</span></div>
+<div class="list-item ordered" style="margin-right: 0px"><span class="marker ordered-marker">4.</span><span class="list-content">תושב ישראל שנפטר, ומשפחתו מעוניינת לקברו שלא במקום מגוריו. </span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">5.</span><span class="list-content">יהודי תושב חוץ לארץ שנקבר בארץ.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">6.</span><span class="list-content">סטייה ממסלול הנסיעה הרגיל.</span></div>
+<div class="list-item ordered" style="margin-right: 20px"><span class="marker ordered-marker">7.</span><span class="list-content">תכריכים מהודרים.</span></div>
+<p>הביטוח הלאומי מכסה רק הסדרי קבורה סטנדרטיים: קבורה בתכריכים מקובלים, ומסלול קצר בין בית הלוויות לחלקת הקבר. אך הסדרי קבורה מיוחדים, וכן מצבה, מודעות אבל והסעות – כל אלו מוטלים על משפחת הנפטר. הסעת הנפטר על ידי חברה קדישא ביום הפטירה תהיה בדרך כלל ללא תשלום; אולם הסעה לאחר שעות העבודה המקובלות, הסעה חריגה או על ידי אמבולנס פרטי, תיעשה בדרך כלל בתשלום.</p>
+<p><u>נפטר בחוץ לארץ</u></p>
+<p>אם מדובר באזרח ישראלי שחל עליו חוק ביטוח לאומי, זכאי הנפטר לקבורה ללא תשלום בעיר מגוריו, על פי הרשום בתעודת הזהות שלו. האחריות על הטסת הארון ארצה היא על משפחת הנפטר, וכן הבאתו משדה התעופה עד לבית הלויות במקום שייקבר. <span style="font-size: 0.75rem">ביטוח נסיעות לחוץ לארץ כולל על פי רוב הוצאות אלו של העברה לארץ, אך יש לברר כל מקרה לגופו. </span></p>
+<p style="font-size: 0.85rem">בארצות הברית ניתן לפנות לבית לוויות יהודי ( "CHAPLE ") ושם יטפלו בדרך כלל בטהרת הנפטר ובהלבשתו, בהסעה ובתיאום עם הקונסוליה. <span style="font-size: 0.75rem">החוק הבינלאומי ברוב המקומות מחייב את רחיצת הנפטר בהעברה מארץ לארץ, כך שברוב המקרים תתבצע הטהרה כבר בחוץ לארץ, ומוטב כך. </span>באירופה יש לפנות לקונסוליה לסידור העניינים המנהליים, ולקהילה היהודית הקרובה לטיפול בנפטר עצמו. </p>
+<p><span style="font-size: 0.85rem">במקרה של אדם שאינו זכאי לקבורה במסגרת חוק ביטוח לאומי (אינו אזרח ישראלי או מי שירד מהארץ). נציג המשפחה צריך לרכוש תחילה אחוזת קבר בארץ, לקבל את אישור החברה קדישא על כך, ולהציג אישור זה בפני הגופים המטפלים בנפטר בחוץ לארץ, כדי לאפשר את התהליך של הבאת הנפטר ארצה.</span></p>
+<p><u>תייר שנפטר  בארץ</u></p>
+<p>תייר יהודי שאין לו אזרחות ישראלית ונפטר בארץ, זכאי להיקבר בעיר בה נפטר. מבחינה הלכתית הוא יכול להיות מוגדר לצורך העניין כמת מצוה<span class="footnote-ref" onclick="showFootnote('6', '6', event)">6</span>, ובעניין זה מקבל הביטוח הלאומי את עמדת ההלכה, ומממן את קבורתו.</p>
+<p>מענק פטירה</p>
+<p>במקרים שהנפטר קיבל אחת מהגמלאות הבאות: זקנה, שאירים, נכות כללית, הבטחת הכנסה, נפגעי עבודה, ישולם מענק חד פעמי למי שהיה בן זוגו בשעת פטירתו, ובאין בן זוג - לילדו (כפי שמוגדר בחוק הביטוח הלאומי). תביעה למענק פטירה יש להגיש בסניף הביטוח הלאומי הקרוב למקום המגורים</p>
+<div id="footnotePopupContainer"></div>
+<script>
+const footnotes = {"1": " הערת הרב נבנצל שליט\"א – אדמו\"ר זללה\"ה (הגרש\"ז אויערבך זצ\"ל), לא נטה לדחות קבורה ליום אחר עקב כך.", "2": " המינוח ההלכתי הלנת המת מבואר באוצר המושגים", "3": " המינוח ההלכתי מקצת היום ככולו מבואר באוצר המושגים.", "4": " הערת הרב נבנצל שליט\"א – די בכך שסתימת הגולל וחליצת הנעליים היו לפני השקיעה.", "5": "האמור בפרק זה הינו לפי מידת הידיעה של מחבר הספר נכון ליום כתיבתו. בכל מקרה יש לפנות למוסד לביטוח הלאומי לצורך בדיקת הזכויות באופן מחייב. הפניה למוסד לביטוח לאומי הינה באמצעות אתר האינטרנט של המוסד לביטוח לאומי או בסניף הקרוב למקום מגוריכם או במשרד הראשי: שד' וייצמן 13 ירושלים", "6": " הערת הרב נבנצל שליט\"א – אם אין לו קרובים ואין מי שמוכן לטפל בו. לאור קיומן של חברות קדישא, אין כמעט מת מצוה מבחינה הלכתית."};
+
+function showFootnote(id, label, event) {
+    event.stopPropagation();
+    closeFootnotePopup();
+
+    const content = footnotes[id];
+    if (!content) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.onclick = closeFootnotePopup;
+
+    const popup = document.createElement('div');
+    popup.className = 'footnote-popup';
+    popup.innerHTML = `
+        <div class="footnote-popup-header">
+            <span>הערה ${label}</span>
+            <button class="footnote-popup-close" onclick="closeFootnotePopup()">×</button>
+        </div>
+        <div class="footnote-popup-content">${content}</div>
+    `;
+
+    document.getElementById('footnotePopupContainer').appendChild(overlay);
+    document.getElementById('footnotePopupContainer').appendChild(popup);
+
+    if (window.innerWidth > 768) {
+        const rect = event.target.getBoundingClientRect();
+        popup.style.top = Math.min(rect.bottom + 10, window.innerHeight - 200) + 'px';
+        popup.style.right = Math.max(10, window.innerWidth - rect.right - 100) + 'px';
+
+        setTimeout(() => {
+            const popupRect = popup.getBoundingClientRect();
+            if (popupRect.left < 10) {
+                popup.style.right = 'auto';
+                popup.style.left = '10px';
+            }
+            if (popupRect.bottom > window.innerHeight - 10) {
+                popup.style.top = (rect.top - popupRect.height - 10) + 'px';
+            }
+        }, 0);
+    }
+}
+
+function closeFootnotePopup() {
+    document.getElementById('footnotePopupContainer').innerHTML = '';
+}
+</script>
+</body>
+</html>
