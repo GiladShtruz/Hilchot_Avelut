@@ -6,6 +6,8 @@ import '../../models/models.dart';
 import '../../providers/reading_provider.dart';
 import '../../widgets/chapter_list_item.dart';
 import '../reader/reader_screen.dart';
+import '../pdf/pdf_reader_screen.dart';
+import '../about/about_screen.dart';
 
 /// Home screen displaying the list of chapters
 class HomeScreen extends StatefulWidget {
@@ -54,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return items;
   }
 
+
   @override
   Widget build(BuildContext context) {
     final filteredItems = _getFilteredItems();
@@ -61,13 +64,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          // App Bar
+          // App Bar with menu
           SliverAppBar(
             expandedHeight: 140,
-            floating: false,
+            floating: true,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              title: const Text('הלכות אבלות', style: TextStyle(color: Colors.white)),
+              title: const Text(
+                'הלכות אבלות',
+                style: TextStyle(color: Colors.white),
+              ),
               centerTitle: true,
               background: Container(
                 decoration: const BoxDecoration(
@@ -82,6 +88,51 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+            actions: [
+              // הנה החלק החדש שמחליף את ה-IconButton הישן
+              PopupMenuButton<int>(
+                icon: const Icon(Icons.more_vert, color: Colors.white), // צבע לבן כדי שיראו על הגרדינט
+                tooltip: 'תפריט',
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                onSelected: (value) {
+                  if (value == 1) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const PdfReaderScreen()),
+                    );
+                  } else if (value == 2) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AboutScreen()),
+                    );
+                  }
+                },
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    value: 1,
+                    child: Row(
+                      children: [
+                        Icon(Icons.picture_as_pdf, color: AppTheme.primaryColor),
+                        SizedBox(width: 10),
+                        Text('פתח קובץ ספר'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 2,
+                    child: Row(
+                      children: [
+                        Icon(Icons.info_outline, color: AppTheme.primaryColor),
+                        SizedBox(width: 10),
+                        Text('אודות'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
           // Resume reading banner (only when not searching)
           if (!_isSearching)
@@ -93,13 +144,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 final savedPosition = readingProvider.savedPosition!;
                 final subChapter =
-                    ChaptersData.getSubChapterById(savedPosition.chapterId);
+                ChaptersData.getSubChapterById(savedPosition.chapterId);
                 if (subChapter == null) {
                   return const SliverToBoxAdapter(child: SizedBox.shrink());
                 }
 
                 final parentChapter =
-                    ChaptersData.getParentChapter(savedPosition.chapterId);
+                ChaptersData.getParentChapter(savedPosition.chapterId);
 
                 return SliverToBoxAdapter(
                   child: _buildResumeCard(
@@ -120,37 +171,37 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: _isSearching
                         ? TextField(
-                            controller: _searchController,
-                            autofocus: true,
-                            textDirection: TextDirection.rtl,
-                            decoration: InputDecoration(
-                              hintText: 'חפש בתוכן העניינים...',
-                              isDense: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 8,
-                              ),
-                              suffixIcon: IconButton(
-                                icon: const Icon(Icons.close, size: 20),
-                                onPressed: () {
-                                  setState(() {
-                                    _isSearching = false;
-                                    _searchQuery = '';
-                                    _searchController.clear();
-                                  });
-                                },
-                              ),
-                            ),
-                            onChanged: (value) {
-                              setState(() {
-                                _searchQuery = value;
-                              });
-                            },
-                          )
+                      controller: _searchController,
+                      autofocus: true,
+                      textDirection: TextDirection.rtl,
+                      decoration: InputDecoration(
+                        hintText: 'חפש בתוכן העניינים...',
+                        isDense: true,
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.close, size: 20),
+                          onPressed: () {
+                            setState(() {
+                              _isSearching = false;
+                              _searchQuery = '';
+                              _searchController.clear();
+                            });
+                          },
+                        ),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          _searchQuery = value;
+                        });
+                      },
+                    )
                         : Text(
-                            'תוכן הספר',
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
+                      'תוכן הספר',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
                   ),
                   if (!_isSearching)
                     IconButton(
@@ -177,8 +228,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   'נמצאו ${filteredItems.length} פרקים',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppTheme.secondaryTextColor,
-                      ),
+                    color: AppTheme.secondaryTextColor,
+                  ),
                 ),
               ),
             ),
@@ -212,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
           if (filteredItems.isNotEmpty)
             SliverList(
               delegate: SliverChildBuilderDelegate(
-                (context, index) {
+                    (context, index) {
                   final item = filteredItems[index];
                   return Consumer<ReadingProvider>(
                     builder: (context, readingProvider, child) {
@@ -243,11 +294,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildResumeCard(
-    BuildContext context,
-    SubChapter subChapter,
-    Chapter? parentChapter,
-    double scrollPosition,
-  ) {
+      BuildContext context,
+      SubChapter subChapter,
+      Chapter? parentChapter,
+      double scrollPosition,
+      ) {
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       decoration: BoxDecoration(
@@ -341,10 +392,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _openSubChapter(
-    BuildContext context,
-    SubChapter subChapter, {
-    double? scrollPosition,
-  }) {
+      BuildContext context,
+      SubChapter subChapter, {
+        double? scrollPosition,
+      }) {
     final readingProvider = context.read<ReadingProvider>();
 
     final savedPosition =

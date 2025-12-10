@@ -15,14 +15,18 @@
 
 ---
 
-## ✨ תכונות
+## 📖 אודות הפרויקט
 
-- 📚 **תוכן עניינים** - ניווט קל בין פרקי הספר
-- 🔍 **חיפוש מהיר** - חיפוש טקסט בכל תוכן הספר עם הדגשת תוצאות
-- ⭐ **מועדפים** - שמירת סימניות עם מיקום מדויק (scroll position)
-- 💾 **שמירת מצב** - האפליקציה זוכרת את המיקום האחרון בכל פרק
-- 🎨 **עיצוב RTL** - תמיכה מלאה בעברית וכיוון מימין לשמאל
-- 📱 **תצוגה נוחה** - הצגת HTML עם עיצוב מותאם לקריאה
+אפליקציית Flutter המציגה את תוכן הספר "הלכות אבלות". האפליקציה מספקת ממשק קריאה נוח, עם תכונות שמטרתן לשפר את חווית המשתמש.
+
+### ✨ תכונות עיקריות
+
+- **ניווט קל**: תוכן עניינים מובנה למעבר מהיר בין פרקים.
+- **חיפוש מתקדם**: חיפוש טקסט מלא בכל הספר עם הדגשת תוצאות.
+- **מועדפים**: אפשרות לשמור סימניות במיקום גלילה מדויק בתוך פרק.
+- **שמירת התקדמות**: האפליקציה זוכרת אוטומטית את המיקום האחרון בכל פרק.
+- **תמיכה מלאה בעברית**: עיצוב RTL מותאם לשפה העברית.
+- **קריאה נוחה**: הצגת התוכן בפורמט HTML עם עיצוב נקי וקריא.
 
 ---
 
@@ -41,44 +45,6 @@
 
 ---
 
-## 🏗️ ארכיטקטורה
-
-הפרויקט בנוי לפי עקרונות Clean Architecture:
-
-```
-lib/
-├── main.dart                     # Entry point
-├── app.dart                      # App configuration
-├── config/
-│   ├── constants.dart            # App constants
-│   └── theme.dart                # Theme & styling
-├── data/
-│   └── chapters_data.dart        # Static chapters data
-├── models/
-│   ├── chapter.dart              # Chapter model
-│   ├── favorite.dart             # Favorite bookmark model
-│   └── reading_position.dart     # Reading position model
-├── services/
-│   ├── storage_service.dart      # Hive local storage
-│   └── search_service.dart       # Search functionality
-├── providers/
-│   ├── favorites_provider.dart   # Favorites state management
-│   └── reading_provider.dart     # Reading state management
-├── screens/
-│   ├── main_screen.dart          # Main screen with navigation
-│   ├── home/                     # Home screen
-│   ├── search/                   # Search screen
-│   ├── favorites/                # Favorites screen
-│   └── reader/                   # HTML reader screen
-└── widgets/
-    ├── common/                   # Shared widgets
-    ├── chapter_list_item.dart
-    ├── favorite_list_item.dart
-    └── search_result_item.dart
-```
-
----
-
 ## 🛠️ טכנולוגיות
 
 | טכנולוגיה | שימוש |
@@ -90,158 +56,67 @@ lib/
 
 ---
 
-## 🚀 התקנה
+## 🚀 הורדה והפעלה
 
-### דרישות מקדימות
-
-- Flutter SDK 3.0+
-- Dart SDK 3.0+
-- Android Studio / VS Code
-- Android SDK (לאנדרואיד)
-- Xcode (ל-iOS)
-
-### שלבי התקנה
-
-1. **Clone the repository**
+1. **שכפול המאגר**
 ```bash
 git clone https://github.com/yourusername/evelut_halacha.git
 cd evelut_halacha
 ```
 
-2. **Install dependencies**
+2. **התקנת תלויות**
 ```bash
 flutter pub get
 ```
 
-3. **Run the app**
+3. **הרצת האפליקציה**
 ```bash
 flutter run
 ```
-
-### Build for production
-
-```bash
-# Android APK
-flutter build apk --release
-
-# Android App Bundle
-flutter build appbundle --release
-
-# iOS
-flutter build ios --release
-```
-
----
-
-## 📄 הוספת תוכן חדש
-
-### הוספת פרק חדש
-
-1. **הוסף קובץ HTML** לתיקייה `assets/html/`:
-```
-assets/html/chapter_2.html
-```
-
-2. **עדכן את `pubspec.yaml`** (אם צריך):
-```yaml
-flutter:
-  assets:
-    - assets/html/
-```
-
-3. **עדכן את `lib/data/chapters_data.dart`**:
-```dart
-static const List<Chapter> chapters = [
-  Chapter(
-    id: 'chapter_1',
-    title: 'פרק א - הלכות גסיסה ופטירה',
-    htmlFileName: 'chapter_1.html',
-    description: 'דיני הגוסס, רגע המיתה, והטיפול הראשוני בנפטר',
-    order: 1,
-  ),
-  // הוסף פרק חדש:
-  Chapter(
-    id: 'chapter_2',
-    title: 'פרק ב - ...',
-    htmlFileName: 'chapter_2.html',
-    description: '...',
-    order: 2,
-  ),
-];
-```
-
-### מבנה HTML מומלץ
-
-```html
-<!DOCTYPE html>
-<html lang="he" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>כותרת הפרק</title>
-    <style>
-        /* הסגנונות שלך */
-    </style>
-</head>
-<body>
-    <h1 class="chapter-title">כותרת הפרק</h1>
-    <!-- תוכן הפרק -->
-</body>
-</html>
-```
-
----
-
-## ⚙️ קונפיגורציה
-
-### שינוי שם האפליקציה
-
-עדכן ב-`lib/config/constants.dart`:
-```dart
-static const String appName = 'שם האפליקציה';
-```
-
-### שינוי צבעים
-
-עדכן ב-`lib/config/theme.dart`:
-```dart
-static const Color primaryColor = Color(0xFF1A365D);
-static const Color accentColor = Color(0xFFC9A227);
-```
-
----
-
-## 📱 תמיכה בפלטפורמות
-
-| פלטפורמה | סטטוס |
-|----------|--------|
-| Android | ✅ נתמך |
-| iOS | ✅ נתמך |
 
 ---
 
 ## 🤝 תרומה לפרויקט
 
-תרומות מתקבלות בברכה! 
+תרומות יתקבלו בברכה. ניתן לתרום על ידי פתיחת Pull Request עם שיפורים או תיקונים.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+### הוספת תוכן
+
+1.  **הוסף קובץ HTML** חדש לתיקייה `assets/html/`.
+2.  **עדכן את רשימת הפרקים** בקובץ `lib/data/chapters_data.dart`:
+
+```dart
+static const List<Chapter> chapters = [
+  // ... פרקים קיימים
+  Chapter(
+    id: 'new_chapter_id',
+    title: 'כותרת הפרק החדש',
+    htmlFileName: 'new_chapter.html',
+    description: 'תיאור קצר של הפרק',
+    order: 3, // מספר סידורי
+  ),
+];
+```
+
+### ארכיטקטורת הפרויקט
+
+הפרויקט מאורגן לפי עקרונות Clean Architecture על מנת להפריד בין שכבות הלוגיקה, המידע והתצוגה.
+
+```
+lib/
+├── main.dart
+├── app.dart
+├── config/
+├── data/
+├── models/
+├── services/
+├── providers/
+├── screens/
+└── widgets/
+```
 
 ---
 
 ## 📝 רישיון
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-
-
-<div align="center">
-
-**⭐ אם הפרויקט עזר לך, אשמח לכוכב! ⭐**
-
-</div>
