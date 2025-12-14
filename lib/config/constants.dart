@@ -14,6 +14,12 @@ class AppConstants {
   // Settings Keys
   static const String lastChapterKey = 'last_chapter';
   static const String lastScrollPositionKey = 'last_scroll_position';
+  static const String fontSizeKey = 'font_size';
+
+  // Font Size Settings
+  static const double minFontSize = 12.0;
+  static const double maxFontSize = 24.0;
+  static const double defaultFontSize = 16.0;
 
   // Assets Paths
   static const String htmlAssetsPath = 'assets/html/';

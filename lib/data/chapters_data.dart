@@ -316,13 +316,31 @@ class ChaptersData {
     ),
 
     // ========================================
+    // חלק שישי - מושגים
+    // ========================================
+    Chapter(
+      id: 'chapter_6',
+      title: 'חלק שישי - מושגים',
+      description: 'מילון מונחים והסברים',
+      order: 6,
+      subChapters: [
+        SubChapter(
+          id: 'chapter_6_glossary',
+          title: 'מושגים',
+          htmlFileName: 'glossary_redirect', // Special marker for glossary redirect
+          order: 1,
+        ),
+      ],
+    ),
+
+    // ========================================
     // חלק שביעי - פרקי תפילה, אזכרה ולימוד
     // ========================================
     Chapter(
       id: 'chapter_7',
       title: 'חלק שביעי - פרקי תפילה, אזכרה ולימוד',
       description: 'תפילות, קדיש, משניות, נוסחי אזכרה',
-      order: 6,
+      order: 7,
       subChapters: [
         SubChapter(
           id: 'chapter_7_prayer_sick',
@@ -388,7 +406,7 @@ class ChaptersData {
       id: 'chapter_8',
       title: 'חלק שמיני - פרקי מידע',
       description: 'רשימות חברות קדישא, לשכות בריאות, תמיכה נפשית',
-      order: 7,
+      order: 8,
       subChapters: [
         SubChapter(
           id: 'chapter_8_burial_societies',
@@ -418,7 +436,7 @@ class ChaptersData {
       id: 'chapter_9',
       title: 'חלק תשיעי - מקורות ומפתח',
       description: 'מקורות לספר וספרות עזר',
-      order: 8,
+      order: 9,
       subChapters: [
         SubChapter(
           id: 'chapter_9_sources',

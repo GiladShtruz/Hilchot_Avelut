@@ -3,9 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../config/theme.dart';
+import '../../config/constants.dart';
 import '../../models/models.dart';
 import '../../providers/favorites_provider.dart';
 import '../../providers/reading_provider.dart';
+import '../../providers/settings_provider.dart';
 
 /// Reader screen for displaying HTML content
 class ReaderScreen extends StatefulWidget {
@@ -29,9 +31,11 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
   bool _isLoading = true;
   double _currentScrollPosition = 0;
   bool _hasScrolledToInitial = false;
-  
+  double _currentFontSize = AppConstants.defaultFontSize;
+
   // Save reference to provider to use in dispose
   late ReadingProvider _readingProvider;
+  late SettingsProvider _settingsProvider;
 
   @override
   void initState() {
@@ -45,6 +49,8 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
   void didChangeDependencies() {
     super.didChangeDependencies();
     _readingProvider = context.read<ReadingProvider>();
+    _settingsProvider = context.read<SettingsProvider>();
+    _currentFontSize = _settingsProvider.fontSize;
   }
 
   @override
@@ -123,7 +129,14 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
     const bottomPadding = '''
     <div style="height: 120px;"></div>
     ''';
-    
+
+    final fontSizeStyle = '''
+    <style>
+      body { font-size: ${_currentFontSize}px !important; }
+      p, div, span, li, td, th { font-size: inherit !important; }
+    </style>
+    ''';
+
     final scripts = '''
     <script>
       let scrollTimeout;
@@ -141,6 +154,10 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
         window.scrollTo({ top: position, behavior: 'instant' });
       }
 
+      function setFontSize(size) {
+        document.body.style.fontSize = size + 'px';
+      }
+
       function highlightText(query) {
         if (!query) return;
         const escapedQuery = query.replace(/[.*+?^&{}()|[\\]\\\\]/g, '\\\\&');
@@ -148,7 +165,7 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
         const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
         const textNodes = [];
         while (walker.nextNode()) textNodes.push(walker.currentNode);
-        
+
         textNodes.forEach(node => {
           if (regex.test(node.textContent)) {
             const span = document.createElement('span');
@@ -163,21 +180,155 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
     </script>
     ''';
 
+    if (html.contains('</head>')) {
+      html = html.replaceFirst('</head>', '$fontSizeStyle</head>');
+    } else if (html.contains('<body')) {
+      html = html.replaceFirst('<body', '$fontSizeStyle<body');
+    }
+
     if (html.contains('</body>')) {
       return html.replaceFirst('</body>', '$bottomPadding$scripts</body>');
     }
     return '$html$bottomPadding$scripts';
   }
 
+  void _changeFontSize(double delta) async {
+    final newSize = (_currentFontSize + delta).clamp(
+      AppConstants.minFontSize,
+      AppConstants.maxFontSize,
+    );
+    if (newSize != _currentFontSize) {
+      _currentFontSize = newSize;
+      await _settingsProvider.setFontSize(newSize);
+      await _webViewController.runJavaScript('setFontSize($newSize)');
+      // Force a rebuild to update the dialog
+      setState(() {});
+    }
+  }
+
+  void _showFontSizeDialog() {
+    final initialFontSize = _currentFontSize;
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setModalState) => SafeArea(
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'גודל כתב',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: _currentFontSize > AppConstants.minFontSize
+                          ? () {
+                              _changeFontSize(-1);
+                              setModalState(() {});
+                            }
+                          : null,
+                      icon: const Icon(Icons.text_decrease),
+                      iconSize: 32,
+                    ),
+                    const SizedBox(width: 20),
+                    Text(
+                      '${_currentFontSize.toInt()}',
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    IconButton(
+                      onPressed: _currentFontSize < AppConstants.maxFontSize
+                          ? () {
+                              _changeFontSize(1);
+                              setModalState(() {});
+                            }
+                          : null,
+                      icon: const Icon(Icons.text_increase),
+                      iconSize: 32,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Slider(
+                  value: _currentFontSize,
+                  min: AppConstants.minFontSize,
+                  max: AppConstants.maxFontSize,
+                  divisions: (AppConstants.maxFontSize - AppConstants.minFontSize).toInt(),
+                  label: _currentFontSize.toInt().toString(),
+                  onChanged: (value) {
+                    final newSize = value.roundToDouble();
+                    if (newSize != _currentFontSize) {
+                      _changeFontSize(newSize - _currentFontSize);
+                      setModalState(() {});
+                    }
+                  },
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        _changeFontSize(AppConstants.defaultFontSize - _currentFontSize);
+                        setModalState(() {});
+                      },
+                      child: const Text('איפוס לברירת מחדל'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        // Reload the HTML if font size changed
+                        if (_currentFontSize != initialFontSize) {
+                          await _reloadHtmlWithNewFontSize();
+                        }
+                      },
+                      child: const Text('אישור'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _reloadHtmlWithNewFontSize() async {
+    setState(() => _isLoading = true);
+    // Mark that we need to restore scroll position after reload
+    _hasScrolledToInitial = false;
+    await _loadHtmlContent();
+  }
+
   void _onPageLoaded() async {
     setState(() => _isLoading = false);
 
-    if (!_hasScrolledToInitial && widget.initialScrollPosition > 0) {
+    // Restore scroll position (either initial or current)
+    if (!_hasScrolledToInitial) {
       _hasScrolledToInitial = true;
-      await Future.delayed(const Duration(milliseconds: 100));
-      await _webViewController.runJavaScript(
-        'scrollToPosition(${widget.initialScrollPosition})',
-      );
+      final scrollPosition = _currentScrollPosition > 0
+          ? _currentScrollPosition
+          : widget.initialScrollPosition;
+
+      if (scrollPosition > 0) {
+        await Future.delayed(const Duration(milliseconds: 100));
+        await _webViewController.runJavaScript(
+          'scrollToPosition($scrollPosition)',
+        );
+      }
     }
 
     if (widget.searchQuery != null && widget.searchQuery!.isNotEmpty) {
@@ -206,7 +357,7 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
       appBar: AppBar(
         title: Text(
           widget.subChapter.title,
-          style: const TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 18),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -216,6 +367,23 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
           },
         ),
         actions: [
+          // Scroll to top button
+          IconButton(
+            icon: const Icon(Icons.keyboard_arrow_up),
+            tooltip: 'חזרה לראש הדף',
+            onPressed: () {
+              _webViewController.runJavaScript(
+                'window.scrollTo({top: 0, behavior: "smooth"})',
+              );
+            },
+          ),
+          // Font size button
+          IconButton(
+            icon: const Icon(Icons.text_fields),
+            tooltip: 'גודל כתב',
+            onPressed: _showFontSizeDialog,
+          ),
+          // Bookmark button
           IconButton(
             icon: const Icon(Icons.bookmark_add_outlined),
             tooltip: 'הוסף למועדפים',
@@ -238,27 +406,6 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
               ),
           ],
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-      floatingActionButton: _buildFab(),
-    );
-  }
-
-  Widget? _buildFab() {
-    if (_isLoading) return null;
-
-    return FloatingActionButton.small(
-      heroTag: 'scrollTop',
-      backgroundColor: Colors.white,
-      elevation: 4,
-      onPressed: () {
-        _webViewController.runJavaScript(
-          'window.scrollTo({top: 0, behavior: "smooth"})',
-        );
-      },
-      child: const Icon(
-        Icons.keyboard_arrow_up,
-        color: AppTheme.primaryColor,
       ),
     );
   }

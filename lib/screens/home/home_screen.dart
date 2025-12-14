@@ -8,6 +8,7 @@ import '../../widgets/chapter_list_item.dart';
 import '../reader/reader_screen.dart';
 import '../pdf/pdf_reader_screen.dart';
 import '../about/about_screen.dart';
+import '../main_screen.dart';
 
 /// Home screen displaying the list of chapters
 class HomeScreen extends StatefulWidget {
@@ -396,6 +397,16 @@ class _HomeScreenState extends State<HomeScreen> {
       SubChapter subChapter, {
         double? scrollPosition,
       }) {
+    // Special handling for glossary redirect (chapter 6)
+    if (subChapter.htmlFileName == 'glossary_redirect') {
+      // Navigate to glossary tab
+      final mainScreenState = context.findAncestorStateOfType<MainScreenState>();
+      if (mainScreenState != null) {
+        mainScreenState.navigateToTab(2); // Glossary tab index
+      }
+      return;
+    }
+
     final readingProvider = context.read<ReadingProvider>();
 
     final savedPosition =

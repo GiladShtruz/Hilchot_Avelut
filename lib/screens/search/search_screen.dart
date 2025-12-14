@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../config/theme.dart';
 import '../../providers/reading_provider.dart';
+import '../../providers/terms_provider.dart';
 import '../../services/search_service.dart';
 import '../../widgets/common/empty_state.dart';
 import '../../widgets/common/loading_indicator.dart';
 import '../../widgets/search_result_item.dart';
 import '../reader/reader_screen.dart';
+import '../glossary/term_reader_screen.dart';
 
 /// Search screen for searching through all content
 class SearchScreen extends StatefulWidget {
@@ -20,7 +22,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   final SearchService _searchService = SearchService.instance;
-  
+
   List<SearchResult> _results = [];
   bool _isLoading = false;
   bool _hasSearched = false;
@@ -35,7 +37,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void _onSearchChanged(String query) {
     _debounceTimer?.cancel();
-    
+
     if (query.trim().isEmpty) {
       setState(() {
         _results = [];
@@ -183,17 +185,36 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _openResult(SearchResult result) {
-    final readingProvider = context.read<ReadingProvider>();
-    readingProvider.openSubChapter(result.subChapter);
+    // Handle term results
+    if (result.type == SearchResultType.term && result.term != null) {
+      final termsProvider = context.read<TermsProvider>();
+      termsProvider.accessTerm(result.term!);
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ReaderScreen(
-          subChapter: result.subChapter,
-          searchQuery: _searchController.text,
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TermReaderScreen(term: result.term!),
         ),
-      ),
-    );
+      );
+      return;
+    }
+
+    // Handle chapter/content results
+    if (result.subChapter != null) {
+      final readingProvider = context.read<ReadingProvider>();
+      readingProvider.openSubChapter(result.subChapter!);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ReaderScreen(
+            subChapter: result.subChapter!,
+            searchQuery: result.type == SearchResultType.content
+                ? _searchController.text
+                : null,
+          ),
+        ),
+      );
+    }
   }
 }

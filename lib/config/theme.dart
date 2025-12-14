@@ -36,7 +36,7 @@ class AppTheme {
         centerTitle: true,
         titleTextStyle: TextStyle(
           fontFamily: 'David',
-          fontSize: 20,
+          fontSize: 22,
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
@@ -50,9 +50,11 @@ class AppTheme {
         selectedLabelStyle: TextStyle(
           fontFamily: 'David',
           fontWeight: FontWeight.w600,
+          fontSize: 14,
         ),
         unselectedLabelStyle: TextStyle(
           fontFamily: 'David',
+          fontSize: 14,
         ),
       ),
       cardTheme: CardThemeData(
@@ -84,42 +86,42 @@ class AppTheme {
       ),
       textTheme: const TextTheme(
         headlineLarge: TextStyle(
-          fontSize: 28,
+          fontSize: 30,
           fontWeight: FontWeight.bold,
           color: textColor,
         ),
         headlineMedium: TextStyle(
-          fontSize: 24,
+          fontSize: 26,
           fontWeight: FontWeight.bold,
           color: textColor,
         ),
         headlineSmall: TextStyle(
-          fontSize: 20,
+          fontSize: 22,
           fontWeight: FontWeight.bold,
           color: textColor,
         ),
         titleLarge: TextStyle(
-          fontSize: 18,
+          fontSize: 20,
           fontWeight: FontWeight.w600,
           color: textColor,
         ),
         titleMedium: TextStyle(
-          fontSize: 16,
+          fontSize: 18,
           fontWeight: FontWeight.w600,
           color: textColor,
         ),
         bodyLarge: TextStyle(
-          fontSize: 16,
+          fontSize: 18,
           color: textColor,
           height: 1.6,
         ),
         bodyMedium: TextStyle(
-          fontSize: 14,
+          fontSize: 16,
           color: textColor,
           height: 1.5,
         ),
         bodySmall: TextStyle(
-          fontSize: 12,
+          fontSize: 14,
           color: secondaryTextColor,
         ),
       ),

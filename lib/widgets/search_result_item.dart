@@ -15,6 +15,39 @@ class SearchResultItem extends StatelessWidget {
     required this.onTap,
   });
 
+  IconData _getIcon() {
+    switch (result.type) {
+      case SearchResultType.term:
+        return Icons.menu_book;
+      case SearchResultType.chapter:
+        return Icons.folder_outlined;
+      case SearchResultType.content:
+        return Icons.article;
+    }
+  }
+
+  String _getTypeLabel() {
+    switch (result.type) {
+      case SearchResultType.term:
+        return 'מושג';
+      case SearchResultType.chapter:
+        return 'פרק';
+      case SearchResultType.content:
+        return 'תוכן';
+    }
+  }
+
+  Color _getTypeColor() {
+    switch (result.type) {
+      case SearchResultType.term:
+        return Colors.purple;
+      case SearchResultType.chapter:
+        return Colors.orange;
+      case SearchResultType.content:
+        return AppTheme.primaryColor;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -27,20 +60,41 @@ class SearchResultItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Sub-chapter title
+              // Type badge and title
               Row(
                 children: [
-                  const Icon(
-                    Icons.article,
-                    size: 18,
-                    color: AppTheme.primaryColor,
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: _getTypeColor().withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          _getIcon(),
+                          size: 14,
+                          color: _getTypeColor(),
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          _getTypeLabel(),
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: _getTypeColor(),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      result.subChapter.title,
+                      result.title,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            color: AppTheme.primaryColor,
+                            color: _getTypeColor(),
                           ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -59,6 +113,7 @@ class SearchResultItem extends StatelessWidget {
   }
 
   Widget _buildHighlightedText(BuildContext context) {
+    // All types now show highlighting
     return RichText(
       text: TextSpan(
         style: Theme.of(context).textTheme.bodyMedium,
