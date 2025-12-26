@@ -128,84 +128,108 @@ class _TermReaderScreenState extends State<TermReaderScreen> {
   }
 
   void _showFontSizeDialog() {
+    final initialFontSize = _currentFontSize;
     showModalBottomSheet(
       context: context,
       builder: (context) => StatefulBuilder(
-        builder: (context, setModalState) => Container(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'גודל כתב',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+        builder: (context, setModalState) => SafeArea(
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'גודל כתב',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: _currentFontSize > AppConstants.minFontSize
-                        ? () {
-                            _changeFontSize(-1);
-                            setModalState(() {});
-                          }
-                        : null,
-                    icon: const Icon(Icons.text_decrease),
-                    iconSize: 32,
-                  ),
-                  const SizedBox(width: 20),
-                  Text(
-                    '${_currentFontSize.toInt()}',
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: _currentFontSize > AppConstants.minFontSize
+                          ? () {
+                              _changeFontSize(-1);
+                              setModalState(() {});
+                            }
+                          : null,
+                      icon: const Icon(Icons.text_decrease),
+                      iconSize: 32,
                     ),
-                  ),
-                  const SizedBox(width: 20),
-                  IconButton(
-                    onPressed: _currentFontSize < AppConstants.maxFontSize
-                        ? () {
-                            _changeFontSize(1);
-                            setModalState(() {});
-                          }
-                        : null,
-                    icon: const Icon(Icons.text_increase),
-                    iconSize: 32,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Slider(
-                value: _currentFontSize,
-                min: AppConstants.minFontSize,
-                max: AppConstants.maxFontSize,
-                divisions: (AppConstants.maxFontSize - AppConstants.minFontSize).toInt(),
-                label: _currentFontSize.toInt().toString(),
-                onChanged: (value) {
-                  final newSize = value.roundToDouble();
-                  if (newSize != _currentFontSize) {
-                    _changeFontSize(newSize - _currentFontSize);
-                    setModalState(() {});
-                  }
-                },
-              ),
-              TextButton(
-                onPressed: () {
-                  _changeFontSize(AppConstants.defaultFontSize - _currentFontSize);
-                  setModalState(() {});
-                },
-                child: const Text('איפוס לברירת מחדל'),
-              ),
-              const SizedBox(height: 10),
-            ],
+                    const SizedBox(width: 20),
+                    Text(
+                      '${_currentFontSize.toInt()}',
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    IconButton(
+                      onPressed: _currentFontSize < AppConstants.maxFontSize
+                          ? () {
+                              _changeFontSize(1);
+                              setModalState(() {});
+                            }
+                          : null,
+                      icon: const Icon(Icons.text_increase),
+                      iconSize: 32,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Slider(
+                  value: _currentFontSize,
+                  min: AppConstants.minFontSize,
+                  max: AppConstants.maxFontSize,
+                  divisions: (AppConstants.maxFontSize - AppConstants.minFontSize).toInt(),
+                  label: _currentFontSize.toInt().toString(),
+                  onChanged: (value) {
+                    final newSize = value.roundToDouble();
+                    if (newSize != _currentFontSize) {
+                      _changeFontSize(newSize - _currentFontSize);
+                      setModalState(() {});
+                    }
+                  },
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        _changeFontSize(AppConstants.defaultFontSize - _currentFontSize);
+                        setModalState(() {});
+                      },
+                      child: const Text('איפוס לברירת מחדל'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        // Reload the HTML if font size changed
+                        if (_currentFontSize != initialFontSize) {
+                          await _reloadHtmlWithNewFontSize();
+                        }
+                      },
+                      child: const Text('אישור'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _reloadHtmlWithNewFontSize() async {
+    setState(() => _isLoading = true);
+    await _loadHtmlContent();
   }
 
   @override

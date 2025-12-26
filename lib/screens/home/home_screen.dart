@@ -328,19 +328,6 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(20),
             child: Row(
               children: [
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(
-                    Icons.play_arrow,
-                    color: Colors.white,
-                    size: 28,
-                  ),
-                ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(
@@ -380,7 +367,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const Icon(
-                  Icons.arrow_back_ios,
+                  Icons.arrow_forward_ios,
                   color: Colors.white70,
                   size: 18,
                 ),

@@ -232,7 +232,7 @@ class _TermListItem extends StatelessWidget {
                 ),
               ),
               const Icon(
-                Icons.arrow_back_ios,
+                Icons.arrow_forward_ios,
                 size: 16,
                 color: AppTheme.secondaryTextColor,
               ),

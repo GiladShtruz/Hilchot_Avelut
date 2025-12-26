@@ -8,6 +8,7 @@ import 'providers/reading_provider.dart';
 import 'providers/terms_provider.dart';
 import 'providers/settings_provider.dart';
 import 'screens/main_screen.dart';
+import 'screens/splash/splash_screen.dart';
 
 /// Main application widget
 class AvelutHalachaApp extends StatelessWidget {
@@ -50,7 +51,7 @@ class AvelutHalachaApp extends StatelessWidget {
             child: child!,
           );
         },
-        home: const MainScreen(),
+        home: const SplashScreen(child: MainScreen()),
       ),
     );
   }

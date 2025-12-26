@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../config/theme.dart';
+import 'privacy_policy_screen.dart';
 
 /// About screen with app information and contact details
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
 
-  static const String _developerEmail = 'gilad@example.com'; // Replace with actual email
-  static const String _davidEmail = 'david@example.com'; // Replace with actual email
+  static const String _developerEmail = 'giladsh22@gmail.com'; // Replace with actual email
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +15,13 @@ class AboutScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('אודות'),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_forward),
+          icon: const Icon(Icons.arrow_back_sharp),
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -57,16 +58,10 @@ class AboutScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             
-            // Version
-            Text(
-              'גרסה 1.0.0',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppTheme.secondaryTextColor,
-              ),
-            ),
+
             const SizedBox(height: 32),
             
-            // Welcome text
+            // About text
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -83,37 +78,38 @@ class AboutScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    'שלום לכולם,',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    'המהדורה הדיגיטלית של הספר, בוצעה הודות להסכמתו האדיבה של המחבר הרב גבריאל גולדמן הי"ו יזכה להמשיך להרבות תורה בישראל ונעשתה לתועלת הרבים.',
+                    style: Theme.of(context).textTheme.bodyLarge,
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 16),
                   Text(
-                    'מוזמנים לצפות באפליקציית הלכות אבלות.',
+                    'המהדורה מוקדשת לעילוי נשמת מלך יצחק קליצנר בן צבי יעקב ורעייתו שיינע טעלזע בת יצחק ע"ה',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'ולזכרם של הגיבורים סרן הרב אברהם יוסף בן אריה לייב גולדברג הי"ד ורס"ל הרב עמיחי ישראל בן הרב שלמה יוסף ויצן הי"ד',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'ולע"נ הרב אלישע בן שלמה וישליצקי',
                     style: Theme.of(context).textTheme.bodyLarge,
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),
                   const Divider(),
                   const SizedBox(height: 20),
-                  
+
                   // Developer info
                   _buildInfoRow(
                     context,
                     icon: Icons.code,
                     label: 'פיתוח האפליקציה',
                     value: 'גילעד שטרוזמן',
-                  ),
-                  const SizedBox(height: 16),
-                  
-                  // Content author info
-                  _buildInfoRow(
-                    context,
-                    icon: Icons.edit,
-                    label: 'כתיבת התוכן',
-                    value: 'דוד',
                   ),
                 ],
               ),
@@ -138,24 +134,33 @@ class AboutScreen extends StatelessWidget {
               subject: 'פנייה מאפליקציית הלכות אבלות',
             ),
             const SizedBox(height: 12),
-            _buildContactButton(
-              context,
-              icon: Icons.email_outlined,
-              label: 'שלח מייל לדוד',
-              email: _davidEmail,
-              subject: 'פנייה מאפליקציית הלכות אבלות',
-            ),
             
-            const SizedBox(height: 40),
-            
-            // Copyright
-            Text(
-              '© ${DateTime.now().year} כל הזכויות שמורות',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppTheme.secondaryTextColor,
+            // Privacy Policy button
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PrivacyPolicyScreen(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.privacy_tip_outlined),
+                label: const Text('Privacy Policy'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
               ),
             ),
+
+            const SizedBox(height: 40),
           ],
+        ),
         ),
       ),
     );
@@ -230,36 +235,17 @@ class AboutScreen extends StatelessWidget {
   }
 
   Future<void> _sendEmail(BuildContext context, String email, String subject) async {
-    final Uri emailUri = Uri(
-      scheme: 'mailto',
-      path: email,
-      queryParameters: {
-        'subject': subject,
-      },
-    );
+    final encodedSubject = Uri.encodeComponent(subject);
+    final Uri emailUri = Uri.parse('mailto:$email?subject=$encodedSubject');
 
     try {
-      if (await canLaunchUrl(emailUri)) {
-        await launchUrl(emailUri);
-      } else {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('לא ניתן לפתוח אפליקציית מייל. כתובת: $email'),
-              action: SnackBarAction(
-                label: 'העתק',
-                onPressed: () {
-                  // Copy email to clipboard would go here
-                },
-              ),
-            ),
-          );
-        }
-      }
+      await launchUrl(emailUri);
     } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('שגיאה בפתיחת אפליקציית המייל')),
+          SnackBar(
+            content: Text('לא ניתן לפתוח אפליקציית מייל. כתובת: $email'),
+          ),
         );
       }
     }

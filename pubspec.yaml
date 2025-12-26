@@ -61,6 +61,9 @@ flutter:
     - assets/html/chapter_9/
     - assets/html/terms/
     - assets/pdf/book.pdf
+    - assets/book.png
+    - assets/book_full.png
+    - assets/privacyPolicy.html
 
   fonts:
     - family: David
@@ -74,11 +77,9 @@ flutter_native_splash:
   android: true
   ios: true
   color: "#ffffff"
-  image: "assets/logo12.png"
-  #branding: "assets/branding_logo.png"
+  image: "assets/book.png"
 
   android_12:
     color: "#ffffff"
-    image: "assets/logo12.png"
-  #  branding: "assets/branding_logo.png"
+    image: "assets/book.png"
 

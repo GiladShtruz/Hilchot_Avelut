@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../config/theme.dart';
 import '../../config/constants.dart';
 import '../../models/models.dart';
@@ -86,7 +87,20 @@ class _ReaderScreenState extends State<ReaderScreen> with WidgetsBindingObserver
         NavigationDelegate(
           onPageFinished: (_) => _onPageLoaded(),
           onNavigationRequest: (request) {
-            if (request.url.startsWith('http')) {
+            final url = request.url;
+            if (url.startsWith('http://') || url.startsWith('https://')) {
+              // Open external links in browser
+              launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+              return NavigationDecision.prevent;
+            }
+            if (url.startsWith('tel:')) {
+              // Open phone links
+              launchUrl(Uri.parse(url));
+              return NavigationDecision.prevent;
+            }
+            if (url.startsWith('mailto:')) {
+              // Open email links
+              launchUrl(Uri.parse(url));
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
