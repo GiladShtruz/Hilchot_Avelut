@@ -78,19 +78,41 @@ class AboutScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    'המהדורה הדיגיטלית של הספר, בוצעה הודות להסכמתו האדיבה של המחבר הרב גבריאל גולדמן הי"ו יזכה להמשיך להרבות תורה בישראל ונעשתה לתועלת הרבים.',
+                    'המהדורה הדיגיטלית של הספר, בוצעה לתועלת הרבים,\nהודות להסכמתו האדיבה של המחבר הרב גבריאל גולדמן הי"ו יזכה להמשיך להרבות תורה בישראל.',
                     style: Theme.of(context).textTheme.bodyLarge,
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 20),
                   Text(
-                    'המהדורה מוקדשת לעילוי נשמת מלך יצחק קליצנר בן צבי יעקב ורעייתו שיינע טעלזע בת יצחק ע"ה',
+                    'המהדורה מוקדשת לעילוי נשמות',
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'מלך יצחק קליצנר בן צבי יעקב\nורעייתו שיינע טעלזע בת יצחק ע"ה',
                     style: Theme.of(context).textTheme.bodyLarge,
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 20),
                   Text(
-                    'ולזכרם של הגיבורים סרן הרב אברהם יוסף בן אריה לייב גולדברג הי"ד ורס"ל הרב עמיחי ישראל בן הרב שלמה יוסף ויצן הי"ד',
+                    'ולזכרם של הגיבורים',
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'סרן אברהם יוסף הי"ד בן אריה לייב גולדברג',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'רס"ל עמיחי ישראל הי"ד בן הרב שלמה יוסף ויצן',
                     style: Theme.of(context).textTheme.bodyLarge,
                     textAlign: TextAlign.center,
                   ),
