@@ -1,4 +1,4 @@
-package com.example.hilchot_avelut
+package com.gilad.hilchot_avelut
 
 import io.flutter.embedding.android.FlutterActivity
 
